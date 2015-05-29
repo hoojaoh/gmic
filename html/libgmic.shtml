@@ -9,7 +9,7 @@
 
       <p><b>libgmic</b> is a small, portable, thread-safe, multi-threaded, C++, image processing library that forms the foundation of the <b><font color="#000066">G'MIC</font></b> framework.
         It is used by all available <b><font color="#000066">G'MIC</font></b> interfaces.
-        It is built upon the <a href="http://cimg.sourceforge.net">CImg Library</a>, a lower-level C++ template image processing library which actually implements
+        It is built upon the <a href="http://cimg.eu">CImg Library</a>, a lower-level C++ template image processing library which actually implements
         the core algorithms that <b><font color="#000066">G'MIC</font></b> uses (a.k.a the <i>native commands</i>).
         Despite its small size (approx. <i>6 MB</i> ), <b>libgmic</b> provides even more image processing operators
         than <i>CImg</i>, as well as a simpler <i>API</i>,
@@ -250,7 +250,7 @@ Setting image names is generally useless, except if one of the commands you invo
 
         <br/><br/></li>
 
-        <li>If by chance, you are already a user of the <a href="http://cimg.sourceforge.net">CImg Library</a>,
+        <li>If by chance, you are already a user of the <a href="http://cimg.eu">CImg Library</a>,
           you might be happy to learn that the two main <b>libgmic</b> classes
           <tt style="font-family:monospace;">gmic_image&lt;float&gt;</tt> and
           <tt style="font-family:monospace;">gmic_list&lt;float&gt;</tt> are actually the same as the <i>CImg</i> classes
