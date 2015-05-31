@@ -6,7 +6,5 @@ cd $HOME/work/src/CImg
 git pull
 cd $HOME/work/src/gmic
 git pull
-cd $HOME/work/src/gmic-minimal
-git pull
 cd $HOME/work/src/gmic-community
 git pull

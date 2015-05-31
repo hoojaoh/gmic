@@ -10,10 +10,21 @@ git push
 cd $HOME/work/src/gmic
 git commit -uno -am "$COM"
 git push
+cd $HOME/work/src/gmic-community
+git commit -uno -am "$COM"
+git push
+
+cd $HOME/work/src/gmic
 cp -rf COPYING README src zart $HOME/work/src/gmic-minimal
+cp -rf COPYING README src zart $HOME/work/src/gmic-minimal-mirror
+rsync -r * $HOME/work/src/gmic-mirror
+
 cd $HOME/work/src/gmic-minimal
 git commit -uno -am "$COM"
 git push
-cd $HOME/work/src/gmic-community
+cd $HOME/work/src/gmic-minimal-mirror
+git commit -uno -am "$COM"
+git push
+cd $HOME/work/src/gmic-mirror
 git commit -uno -am "$COM"
 git push
