@@ -23,7 +23,7 @@
       To be able to use <b>libgmic</b> in your own code, you need:
       <ul>
         <li>
-          The header file <tt style="font-family:monospace;"><a href="https://github.com/dtschump/gmic-full/blob/master/src/gmic.h">gmic.h</a></tt>
+          The header file <tt style="font-family:monospace;"><a href="https://forge.greyc.fr/projects/gmic/repository/revisions/master/entry/src/gmic.h">gmic.h</a></tt>
           which contains the declarations of the classes and methods allowing to use the <b>libgmic</b>library.
           This file needs to be included by your source code.
         </li>
@@ -312,7 +312,7 @@ Setting image names is generally useless, except if one of the commands you invo
 
       <p>
         In the <b><font color="#000066">G'MIC</font></b> sources, you will a sample file
-        <tt style="font-family:monospace;"><a href="https://github.com/dtschump/gmic-full/blob/master/src/gmic_use_lib.cpp">gmic_use_lib.cpp</a></tt> which contains all
+        <tt style="font-family:monospace;"><a href="https://forge.greyc.fr/projects/gmic/repository/revisions/master/entry/src/gmic_use_lib.cpp">gmic_use_lib.cpp</a></tt> which contains all
         the stuffs we've summarized in this page. Check it out and compile it to have another example on how the <b>libgmic</b> can do for you.
       </p>
 

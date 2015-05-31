@@ -77,7 +77,7 @@
               <tr>
                 <td><a href="http://gmic.eu/files/latest/gmic.tar.gz"><img alt="" src="img/download_sources.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
                 <td><a href="http://gmic.eu/files/latest/gmic.tar.gz"><font size="3">Download latest G'MIC sources.</font></a><br/>
-                  (tar.gz file, alternative: <a href="https://github.com/dtschump/gmic-minimal">git repository</a>)<br/><br/></td>
+                  (tar.gz file, alternative: <a href="https://forge.greyc.fr/projects/gmic-minimal/repository">git repository</a>)<br/><br/></td>
               </tr>
             </table>
 
@@ -125,10 +125,10 @@
       </pre>
       Then, get the <b><font color="#000066">G'MIC</font></b> sources from the <i>git</i> repository:
       <pre style="font-family:monospace;">
-        $ git clone <a href="https://github.com/dtschump/gmic-minimal">https://github.com/dtschump/gmic-minimal.git</a> gmic-src
+        $ git clone <a href="https://github.com/dtschump/gmic-minimal">https://forge.greyc.fr/git/gmic-minimal</a> gmic-src
       </pre>
-      If you need more than the sources (i.e. the additional resources and web pages), use the <i>git</i> repository named <tt style="font-family:monospace;">full</tt>
-      instead of <tt style="font-family:monospace;">minimal</tt>.
+      If you need more than the sources (i.e. the additional resources and web pages), use the <i>git</i> repository named <tt style="font-family:monospace;">gmic</tt>
+      instead of <tt style="font-family:monospace;">gmic-minimal</tt>.
       Alternatively, you may also prefer to get the sources from <a href="http://gmic.eu/files/">the last released stable <i>.tar.gz</i> file</a>
       instead of the current development version.<br/><br/>
       You are now ready to compile the following <b><font color="#000066">G'MIC</font></b> interfaces:
@@ -162,7 +162,7 @@
 
       Also, please remember that the source code in the <i>git</i> repository
       is constantly under development and may be a bit unstable, so always test the latest stable archive before complaining
-      (and of course, please <a href="https://github.com/dtschump/gmic-full/issues">report bugs</a> if you encounter any).
+      (and of course, please <a href="https://forge.greyc.fr/projects/gmic/issues/new">report bugs</a> if you encounter any).
 
   </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div>
 
