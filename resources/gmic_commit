@@ -11,6 +11,7 @@ cd $HOME/work/src/gmic
 git commit -uno -am "$COM"
 git push
 cd $HOME/work/src/gmic-community
+git pull
 git commit -uno -am "$COM"
 git push
 
