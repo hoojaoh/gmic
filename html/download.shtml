@@ -75,8 +75,8 @@
                   (dmg file, alternative: <a href="http://gmic.eu/files/macosx/">dmg for previous versions</a>)<br/><br/></td>
               </tr>
               <tr>
-                <td><a href="http://gmic.eu/files/latest/gmic.tar.gz"><img alt="" src="img/download_sources.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
-                <td><a href="http://gmic.eu/files/latest/gmic.tar.gz"><font size="3">Download latest G'MIC sources.</font></a><br/>
+                <td><a href="http://gmic.eu/files/latest/gmic_source.tar.gz"><img alt="" src="img/download_sources.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
+                <td><a href="http://gmic.eu/files/latest/gmic_source.tar.gz"><font size="3">Download latest G'MIC source.</font></a><br/>
                   (tar.gz file, alternative: <a href="https://forge.greyc.fr/projects/gmic-minimal/repository">git repository</a>)<br/><br/></td>
               </tr>
             </table>
