@@ -70,9 +70,9 @@
                   (zip file, <b>beware: without display capabilities!</b>)<br/><br/></td>
               </tr>
               <tr>
-                <td><a href="http://gmic.eu/files/latest/Macgmic_macosx_64-Yosemite.dmg"><img alt="" src="img/download_macosx.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
-                <td><a href="http://gmic.eu/files/latest/Macgmic_macosx_64-Yosemite.dmg"><font size="3">Download G'MIC for MacOSX 10.6-10.10 (64bits).</font></a><br/>
-                  (dmg file, alternative: <a href="http://gmic.eu/files/macosx/">dmg for previous versions</a>)<br/><br/></td>
+                <td><a href="http://karo03.bplaced.de/gmic/git/Macgmic_macosx_64-Yosemite.dmg"><img alt="" src="img/download_macosx.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
+                <td><a href="http://karo03.bplaced.de/gmic/git/Macgmic_macosx_64-Yosemite.dmg"><font size="3">Download G'MIC for MacOSX 10.6-10.10 (64bits).</font></a><br/>
+                  (dmg file, alternative: <a href="http://karo03.bplaced.de/gmic/release/">dmg for previous versions</a>)<br/><br/></td>
               </tr>
               <tr>
                 <td><a href="http://gmic.eu/files/latest/gmic_source.tar.gz"><img alt="" src="img/download_sources.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
