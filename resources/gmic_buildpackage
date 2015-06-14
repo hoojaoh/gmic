@@ -247,9 +247,9 @@ rm -f img/gmic_def*.jpg image.jpg
 ln -s img/tiger.jpg image.jpg
 \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar -document_gmic images,img/
 if [ "$1" == "final" ]; then
-    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _gmic_version=$VERSION _gmic_prerelease= -__help html >& reference.shtml;
+    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _version=$VERSION _prerelease= -__help html >& reference.shtml;
 else
-    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _gmic_version=$VERSION _gmic_prerelease=`date +%m%d%y` -__help html >& reference.shtml;
+    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _version=$VERSION _prerelease=`date +%m%d%y` -__help html >& reference.shtml;
 fi
 rm -f image.jpg
 \gmic ../src/gmic_def.gmic -update_gallery_html
@@ -260,9 +260,9 @@ cd ..
 echo " - Create PDF reference handbook."
 cd html
 if [ "$1" == "final" ]; then
-    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _gmic_version=$VERSION _gmic_prerelease= -__help latex >& reference.tex;
+    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _version=$VERSION _prerelease= -__help latex >& reference.tex;
 else
-    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _gmic_version=$VERSION _gmic_prerelease=`date +%m%d%y` -__help latex >& reference.tex;
+    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _version=$VERSION _prerelease=`date +%m%d%y` -__help latex >& reference.tex;
 fi
 pdflatex reference.tex
 makeindex reference
