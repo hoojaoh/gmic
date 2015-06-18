@@ -275,7 +275,7 @@ cd ..
 #-----------------
 echo " - Upload G'MIC web page."
 cd html
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "mirror -RL . /www/gmic/ ; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "mirror -RL . /www/gmic/ ; quit"
 rm -f gmic_def.gmic gmic_def.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
 cd ..
 
@@ -355,7 +355,7 @@ cp -f ${TARFILE}.gz ${HOME}/work/src/
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/source/ ${HOME}/work/src/${TARFILE}.gz; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${HOME}/work/src/${TARFILE}.gz -o gmic_source.tar.gz; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${HOME}/work/src/${TARFILE}.gz -o gmic_source.tar.gz; quit"
 
 # Create debian packages for debian/ubuntu 64 bits.
 #--------------------------------------------------
@@ -371,7 +371,7 @@ tar zxvf deb_${TARFILE}.gz &&
 find gmic-${VERSION}${SUFFIX} -exec touch {} \; &&
 cd $DIR &&
 dpkg-buildpackage -d -j3 -rfakeroot;
-mv ../gmic_${VERSION}_amd64.deb ../$PAK;
+mv ../gmic_${VERSION}_amd64.deb ../$PAK &&
 cp -f ../$PAK $HOME/work/src/ &&
 echo ELARA_DONE
 
@@ -388,7 +388,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_win32.zip; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_win32.zip; quit"
 
 FILE=gmic_${VERSION}${SUFFIX}_win64.zip
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -396,7 +396,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_win64.zip; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_win64.zip; quit"
 
 # Windows: GIMP plug-in.
 FILE=gmic_gimp_${VERSION}${SUFFIX}_win32.zip
@@ -405,7 +405,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_win32.zip; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_win32.zip; quit"
 
 FILE=gmic_gimp_${VERSION}${SUFFIX}_win64.zip
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -413,7 +413,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_win64.zip; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_win64.zip; quit"
 
 FILE=gmic_gimp_${VERSION}${SUFFIX}_win32.exe
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -421,7 +421,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_win32.exe; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_win32.exe; quit"
 
 FILE=gmic_gimp_${VERSION}${SUFFIX}_win64.exe
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -429,7 +429,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_win64.exe; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_win64.exe; quit"
 
 # Linux: Static packages.
 FILE=gmic_static_${VERSION}${SUFFIX}_linux32.zip
@@ -438,7 +438,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_static_linux32.zip; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_static_linux32.zip; quit"
 
 FILE=gmic_static_${VERSION}${SUFFIX}_linux64.zip
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -446,7 +446,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_static_linux64.zip; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_static_linux64.zip; quit"
 
 # Linux: Full packages.
 FILE=gmic_${VERSION}${SUFFIX}_debian_wheezy_i386.deb
@@ -455,7 +455,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit";
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_debian_wheezy_i386.deb; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_debian_wheezy_i386.deb; quit"
 
 FILE=gmic_${VERSION}${SUFFIX}_debian_wheezy_amd64.deb
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -463,7 +463,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit"
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_debian_wheezy_amd64.deb; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_debian_wheezy_amd64.deb; quit"
 
 FILE=gmic_${VERSION}${SUFFIX}_debian_jessie_i386.deb
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -471,7 +471,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit"
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_debian_jessie_i386.deb; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_debian_jessie_i386.deb; quit"
 
 FILE=gmic_${VERSION}${SUFFIX}_debian_jessie_amd64.deb
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -479,7 +479,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit"
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_debian_jessie_amd64.deb; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_debian_jessie_amd64.deb; quit"
 
 FILE=gmic_${VERSION}${SUFFIX}_ubuntu_trusty_i386.deb
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -487,7 +487,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit"
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_ubuntu_trusty_i386.deb; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_ubuntu_trusty_i386.deb; quit"
 
 FILE=gmic_${VERSION}${SUFFIX}_ubuntu_trusty_amd64.deb
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -495,7 +495,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit"
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_ubuntu_trusty_amd64.deb; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_ubuntu_trusty_amd64.deb; quit"
 
 FILE=gmic_${VERSION}${SUFFIX}_ubuntu_vivid_amd64.deb
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -503,7 +503,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit"
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_ubuntu_vivid_amd64.deb; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_ubuntu_vivid_amd64.deb; quit"
 
 # Linux: GIMP plug-in.
 FILE=gmic_gimp_${VERSION}${SUFFIX}_linux32.zip
@@ -512,7 +512,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit"
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_linux32.zip; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_linux32.zip; quit"
 
 FILE=gmic_gimp_${VERSION}${SUFFIX}_linux64.zip
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -520,7 +520,7 @@ sleep 10
 if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/linux/ ${FILE}; quit"
 fi
-# lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_linux64.zip; quit"
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_linux64.zip; quit"
 
 #
 # End of file.

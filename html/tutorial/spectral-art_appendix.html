@@ -62,40 +62,40 @@ rsz={$1}
 impla={2*pi*$2/255.0}
 all={$3}
 iszed=1
-ccc={@{0,s}}
+ccc={{0,s}}
 badccc="Selected images have different number of channels. Have you accidently included alpha channels in some (but not all) images?"
--repeat @#
-  -if {round(@{$&gt;,a})!=0||round(@{$&gt;,M}-@{$&gt;,m})!=0}
+-repeat $!
+  -if {round({$&gt;,a})!=0||round({$&gt;,M}-{$&gt;,m})!=0}
     iszed=0
     -break
   -endif
 -done
 -if $iszed # Case 0: All images black. Generate random values
-   -repeat @#
+   -repeat $!
       -local[$&lt;]
-         -if {$ccc!=@{$&lt;,s}}
+         -if {$ccc!={$&lt;,s}}
             -error $badccc
          -endif
          -input [-1]
          -append[-2,-1] c
-         -input {2*$rsz+1},{2*$rsz+1},1,{@{-1,s}},(2*u-1)*(@{-1,w}*@{-1,h})
-         -image[-2] [-1],{(@{-2,w}-@{-1,w})/2},{(@{-2,h}-@{-1,h})/2},0,0,1
+         -input {2*$rsz+1},{2*$rsz+1},1,{{s}},(2*u-1)*({w}*{h})
+         -image[-2] [-1],{({-2,w}-{w})/2},{({-2,h}-{h})/2},0,0,1
          -remove[-1]
       -endlocal
    -done
 -else # Case 1: Coefficients in polar format have been set in at least one selected image.
    -if {$impla&lt;0} # Case 1.1: $impla not set (still negative guardian value). Images must be &lt;radius&gt;, &lt;angle&gt; image pairs.
-      -if {@#%2!=0}
+      -if {$!%2!=0}
          -error "Selected images contain data, but selection count is odd. Cannot determine angles for some coefficients. Consider setting an implied angle or providing an even number of images."
       -endif
-      -repeat {@#/2}
+      -repeat {$!/2}
          -local[{2*$&lt;},{2*$&lt;+1}]
-            -if {{$ccc!=@{$&lt;,s}}||{$ccc!=@{{$&lt;+1},s}}}
+            -if {{$ccc!={$&lt;,s}}||{$ccc!={{$&lt;+1},s}}}
                -error $badccc
             -endif
             -split[-2,-1] c
-            -repeat {@#/2}
-                -local[{$&gt;},{@#/2+$&gt;}]
+            -repeat {$!/2}
+                -local[{$&gt;},{$!/2+$&gt;}]
                    -div[0,1] 255
                    -mul[1] {2*pi}
                    -polar2complex[0,1]
@@ -105,15 +105,15 @@ badccc="Selected images have different number of channels. Have you accidently i
          -endlocal
       -done
    -else # Case 1.2: Odd numbered selection permitted when $impla is not negative. Furnishes constant angle field.
-      -repeat @#
+      -repeat $!
          -local[$&lt;]
-            -if {$ccc!=@{$&lt;,s}}
+            -if {$ccc!={$&lt;,s}}
                -error $badccc
             -endif
             -input [0]
             -split[-2,-1] c
-            -repeat {@#/2}
-               -local[{$&gt;},{@#/2+$&gt;}]
+            -repeat {$!/2}
+               -local[{$&gt;},{$!/2+$&gt;}]
                   -div[0,1] 255
                   -mul[0] {cos($impla)} 
                   -mul[1] {sin($impla)}
@@ -124,7 +124,7 @@ badccc="Selected images have different number of channels. Have you accidently i
       -done
    -endif
 -endif
--repeat @#
+-repeat $!
    -local[$&lt;]
       -shift[-1] -50%,-50%,0,0,2
       -split[-1] c,2
