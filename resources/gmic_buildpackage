@@ -59,14 +59,16 @@ if [ "$OSTYPE" == "msys" ]; then
     RELEASE2=`echo $RELEASE0 | head -c2 | tail -c1` &&
     RELEASE3=`echo $RELEASE0 | head -c3 | tail -c1` &&
     RELEASE4=`echo $RELEASE0 | head -c4 | tail -c1` &&
-
     VERSION=$RELEASE1.$RELEASE2.$RELEASE3.$RELEASE4 &&
+
     if [ "$1" == "final" ]; then
         SUFFIX="";
         sed "s/PRERELEASE_CFLAGS = /NO_PRERELEASE_CFLAGS = /" Makefile > /tmp/Makefile
         mv /tmp/Makefile Makefile
     else SUFFIX=_pre;
     fi &&
+    sed "s/rm -rf CImg.h gmic_def.h /rm -rf /" Makefile > /tmp/Makefile &&
+    mv /tmp/Makefile Makefile &&
     cd .. &&
 
     if [ -f is_64bits ]; then
@@ -287,7 +289,7 @@ mkdir $DIR
 cp -Lrf COPYING README $DIR
 mkdir $DIR/src
 cd src
-cp -Lrf CImg.h gmic.cpp gmic.h gmic_def.h gmic_def.gmic gmic_gimp.cpp gmic_in_script.scm gmic_use_lib.cpp Makefile $DIR/src
+cp -Lrf CImg.h gmic.cpp gmic.h gmic_def.h gmic_def.gmic gmic_gimp.cpp gmic_in_script.scm gmic_use_lib.cpp $DIR/src
 touch $DIR/src/gmic_def.h
 \gmic cimgz:http://gmic.eu/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/src/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
 \gmic cimgz:http://gmic.eu/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/src/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
@@ -324,6 +326,8 @@ fi
 sed s\/_gmic_versio3\/$RELEASE1.$RELEASE2.$RELEASE3\/g Makefile > /tmp/Makefile
 mv /tmp/Makefile Makefile
 sed s\/_gmic_versio1\/$RELEASE1\/g Makefile > /tmp/Makefile
+mv /tmp/Makefile Makefile
+sed "s/rm -rf CImg.h gmic_def.h /rm -rf /" Makefile > /tmp/Makefile
 mv /tmp/Makefile Makefile
 make clean
 rm -f gmic_buildpackage
