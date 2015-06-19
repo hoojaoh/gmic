@@ -6272,9 +6272,9 @@ rotate_tileable : -check ${2=8}>=0
   -elif {$angle>=90} -rotate 90 angle={$angle-90}
   -endif
   (0,1;1,8;1,7;1,6;1,5;1,4;1,5;1,3;2,5;1,2;2,5;3,5;2,3;3,4;4,5;1,1;5,4;7,5;3,2;8,5;9,5;2,1;3,1;4,1;5,1;6,1;7,1;8,1) # List of known fractions.
-  -s[-1] x,2 --/[-2,-1] -atan[-1] -*[-1] {180/pi}         # Compute corresponding angles.
+  -s[-1] x,2 --/[-2,-1] -atan[-1] -*[-1] {180/pi}   # Compute corresponding angles.
   ($angle) -index[-1] [-2] -rm[-2]
-  p={-3,[{^}]} q={-2,{^}} -rm[-3--1]                  # Find nearest fraction p/q to atan(angle).
+  p={-3,[{^}]} q={-2,[{^}]} -rm[-3--1]              # Find nearest fraction p/q to atan(angle).
   -if {!$p||!$q} -return -endif
 
   -repeat $! -l[$>]
@@ -6286,6 +6286,8 @@ rotate_tileable : -check ${2=8}>=0
     gcd=${-gcd" "{h*$p},{w*$q}}
     qh={w*$q/$gcd}
     nh={round($qh*h/cos($theta))}
+
+    -d
 
     # Rotate and make tileable (may result in very large images!).
     -if {!$2" || "($nw<$2*w" && "$nh<$2*h)}
