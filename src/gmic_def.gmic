@@ -6287,8 +6287,6 @@ rotate_tileable : -check ${2=8}>=0
     qh={w*$q/$gcd}
     nh={round($qh*h/cos($theta))}
 
-    -d
-
     # Rotate and make tileable (may result in very large images!).
     -if {!$2" || "($nw<$2*w" && "$nh<$2*h)}
       -r {1.5*$nw},{1.5*$nh},1,100%,0,2
