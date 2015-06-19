@@ -67,8 +67,8 @@ if [ "$OSTYPE" == "msys" ]; then
         mv /tmp/Makefile Makefile
     else SUFFIX=_pre;
     fi &&
-    sed "s/rm -rf CImg.h gmic_def.h /rm -rf /" Makefile > /tmp/Makefile &&
-    mv /tmp/Makefile Makefile &&
+    sed "s/rm -rf CImg.h gmic_def.h /rm -rf /" Makefile > /tmp/Makefile
+    mv /tmp/Makefile Makefile
     cd .. &&
 
     if [ -f is_64bits ]; then
@@ -289,7 +289,7 @@ mkdir $DIR
 cp -Lrf COPYING README $DIR
 mkdir $DIR/src
 cd src
-cp -Lrf CImg.h gmic.cpp gmic.h gmic_def.h gmic_def.gmic gmic_gimp.cpp gmic_in_script.scm gmic_use_lib.cpp $DIR/src
+cp -Lrf Makefile CImg.h gmic.cpp gmic.h gmic_def.h gmic_def.gmic gmic_gimp.cpp gmic_in_script.scm gmic_use_lib.cpp $DIR/src
 touch $DIR/src/gmic_def.h
 \gmic cimgz:http://gmic.eu/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/src/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
 \gmic cimgz:http://gmic.eu/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/src/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
