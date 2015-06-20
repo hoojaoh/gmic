@@ -6608,13 +6608,14 @@ gmic& gmic::_run(const CImgList<char>& commands_line, unsigned int& position,
           if (!std::strcmp("-files",item)) {
             gmic_substitute_args();
             unsigned int mode = 2;
-            if ((*argument=='0' || *argument=='1' || *argument=='2') &&
+            if ((*argument>='0' && *argument<='5') &&
                 argument[1]==',' && argument[2]) {
               mode = (unsigned int)(*argument - '0');
               argument+=2;
             }
+            const unsigned int _mode = mode%3;
             print(images,0,"Get list of %s in directory '%s'.",
-                  mode==0?"files":mode==1?"folders":"files and folders",
+                  _mode==0?"files":_mode==1?"folders":"files and folders",
                   argument);
             try {
               CImgList<char> files = cimg::files(argument,mode);
