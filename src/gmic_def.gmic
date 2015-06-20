@@ -14057,8 +14057,9 @@ filename : -skip "${1=default}"
 
 #@gmic files : _mode,directory_path : (+)
 #@gmic : Return the list of files and/or folders in specified directory.
-#@gmic : 'mode' can be { 0=files only | 1=folders only | 2=files + folders | 3=files only (short) | 4=folders only (short) | 5=files + folders (short) }.
+#@gmic : 'mode' can be { 0=files only (full) | 1=folders only (full) | 2=files + folders (full) | 3=files only (short) | 4=folders only (short) | 5=files + folders (short) }.
 #@gmic : If 'mode>=3' the output files are returned as short paths (relative to the specified 'directory_path').
+#@gmic : Default value: 'mode=2'.
 
 #@gmic fitratio_wh : min_width,min_height,ratio_wh
 #@gmic : Return a 2d size 'width,height' which is bigger than 'min_width,min_height' and has the specified w/h ratio.
