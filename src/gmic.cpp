@@ -6604,6 +6604,37 @@ gmic& gmic::_run(const CImgList<char>& commands_line, unsigned int& position,
             is_released = false; ++position; continue;
           }
 
+          // List of directory files.
+          if (!std::strcmp("-files",item)) {
+            gmic_substitute_args();
+            unsigned int mode = 2;
+            if ((*argument=='0' || *argument=='1' || *argument=='2') &&
+                argument[1]==',' && argument[2]) {
+              mode = (unsigned int)(*argument - '0');
+              argument+=2;
+            }
+            print(images,0,"Get list of %s in directory '%s'.",
+                  mode==0?"files":mode==1?"folders":"files and folders",
+                  argument);
+            try {
+              CImgList<char> files = cimg::files(argument,mode);
+              cimglist_for(files,l) {
+                strreplace_bw(files[l]);
+                files[l].back() = ',';
+              }
+              if (files) {
+                files.back().back() = 0;
+                (files>'x').move_to(status);
+              } else status.assign();
+            } catch (...) {
+              status.assign();
+              error(images,0,0,
+                    "Command '-files': Unable to open directory '%s'.",
+                    argument);
+            }
+            ++position; continue;
+          }
+
           // Set 3d focale.
           if (!std::strcmp("-focale3d",item)) {
             gmic_substitute_args();
@@ -13213,7 +13244,7 @@ gmic& gmic::_run(const CImgList<char>& commands_line, unsigned int& position,
                     "deriche","dijkstra","displacement","display","display3d",
                     "endif","else","elif","endlocal","endl","echo","exec","error","endian","exp",
                     "eq","ellipse","equalize","erode","elevation3d","eigen","eikonal",
-                    "fill","flood","focale3d","fft",
+                    "fill","flood","files","focale3d","fft",
                     "ge","gt","gradient","graph","guided",
                     "histogram","hsi2rgb","hsl2rgb","hsv2rgb","hessian",
                     "input","if","image","index","invert","isoline3d","isosurface3d","inpaint",
