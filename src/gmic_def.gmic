@@ -13841,6 +13841,14 @@ alert : -skip "${1=[G"{`39`}"MIC Alert]},${2=This is an alert box.},${3=OK}"
 arg :
   -v - $=arg -u ${arg{1+($1)}} -v +
 
+#@gmic arg2var : variable_name,argument_1,...,argument_N
+#@gmic : For each i in [1..N], set 'variable_name$i=argument_i'.
+#@gmic : The variable name should be global to make this command useful (i.e. starts by an underscore).
+arg2var :
+  $=arg
+  -u {$#-1}
+  -repeat ${} $1{1+$>}=${arg{2+$>}} -done
+
 #@gmic at : _x,_y,_z
 #@gmic : Return a specified vector-valued point (x,y,z) from the latest of the selected images.
 at : -skip ${1=0},${2=0},${3=0}
