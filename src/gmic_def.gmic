@@ -14065,8 +14065,9 @@ filename : -skip "${1=default}"
 
 #@gmic files : _mode,directory_path : (+)
 #@gmic : Return the list of files and/or folders in specified directory.
-#@gmic : 'mode' can be { 0=files only (short) | 1=folders only (short) | 2=files + folders (short) | 3=files only (full) | 4=folders only (full) | 5=files + folders (full) }.
-#@gmic : If 'mode>=3' the output files are returned as short paths (relative to the specified 'directory_path').
+#@gmic : 'mode' can be { 0=files only | 1=folders only | 2=files + folders }.
+#@gmic : Add '3' to 'mode' to return full paths instead of relative paths.
+#@gmic : Add '6' to 'mode' to enable pattern matching in specified 'directory_path'.
 #@gmic : Default value: 'mode=5'.
 
 #@gmic fitratio_wh : min_width,min_height,ratio_wh
@@ -14201,30 +14202,6 @@ hex2img8 :
 #@gmic : Return 1 if all of the selected image are 3d objects, 0 otherwise.
 is_3d :
   -v - -u 1 -l -check3d 1 -onfail -u 0 -endl -v +
-
-#@gmic is_file_match : matching_pattern,filename
-#@gmic : Return 1 if the specified filename match the pattern, 0 otherwise.
-#@gmic : 'pattern' can be { * | *.ext | substring }.
-#@gmic : '*' matches everything, '*.ext' matches only filename having extension 'ext', and
-#@gmic : 'substring' matches only filenames containing the given substring.
-is_file_match :
-  -v -
-  -if {"$1"'=='*} -u 1
-  -else
-    ({'"$1"'})
-    -if {i[0]=={'*'}" && "i[1]=={'.'}}
-      -z[-1] 2,100% ext={t} -rm[-1]
-      0 -nm[-1] "${^1}" extf={x} -rm[-1]
-      -u {$ext'=='$extf}
-    -else
-      -rm[-1] ({'"${^1}"'})
-      -replace_str[-1] "$1",{`255`}
-      res={iM==255}
-      -rm[-1]
-      -u $res
-    -endif
-  -endif
-  -v +
 
 #@gmic is_image_arg : string
 #@gmic : Return 1 if specified string looks like '[ind]'.
