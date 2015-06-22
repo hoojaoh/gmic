@@ -79,6 +79,10 @@
                 <td><a href="http://gmic.eu/files/latest/gmic_source.tar.gz"><font size="3">Download latest G'MIC source.</font></a><br/>
                   (tar.gz file, alternative: <a href="https://forge.greyc.fr/projects/gmic-minimal/repository">git repository</a>)<br/><br/></td>
               </tr>
+              <tr>
+                <td><a href="http://gmic.eu/files/"><img alt="" src="img/download_browse.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
+                <td><a href="http://gmic.eu/files"><font size="3">Browse all files.</font></a><br/>
+              </tr>
             </table>
 
           </td>
