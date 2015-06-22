@@ -13480,6 +13480,11 @@ void gmic_segfault_sigaction(int signal, siginfo_t *si, void *arg) {
 // Start main procedure.
 //-----------------------
 #ifdef gmic_main
+
+#if cimg_OS==2
+int _CRT_glob = 0; // Disable globbing for msys.
+#endif
+
 int main(int argc, char **argv) {
 
   // Set default output messages stream.
