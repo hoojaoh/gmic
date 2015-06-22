@@ -18957,11 +18957,10 @@ gimp_gmicky_preview :
 #@gimp : - <b>12/07/2013</b> : version <i>1.5.8.0</i>.\n
 #@gimp : - <b>05/14/2014</b> : version <i>1.5.9.0</i>.\n
 #@gimp : - <b>08/20/2014</b> : version <i>1.6.0.0</i>.\n
-#@gimp : - <span foreground="purple"><b>05/23/2015</b> : version <i>1.6.3.1</i> (Current stable).</span>\n
-#@gimp : - <b>06/17/2015</b> : version <i>1.6.5.0</i> (Current pre-release).\n
+#@gimp : - <span foreground="purple"><b>06/22/2015</b> : version <i>1.6.5.0</i> (Current stable).</span>\n
 #@gimp : "}
 #@gimp : sep = separator()
-#@gimp : link = link("View latest changelog","https://www.flickr.com/groups/gmic/discuss/72157652079823575/")
+#@gimp : link = link("View latest changelog","https://www.flickr.com/groups/gmic/discuss/72157653514140862/")
 
 #@gimp User satisfaction survey : gimp_survey, gimp_survey_preview
 #@gimp : note = note{"<small>Please help us by taking a few seconds to share your feelings about the G'MIC project. Thank you for giving us the opportunity to serve you better!</small>"}
