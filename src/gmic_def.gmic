@@ -14063,11 +14063,11 @@ filename : -skip "${1=default}"
   -endif
   -v +
 
-#@gmic files : _mode,directory_path : (+)
-#@gmic : Return the list of files and/or folders in specified directory.
+#@gmic files : _mode,path : (+)
+#@gmic : Return the list of files and/or subfolders from specified path.
+#@gmic : 'path' can be eventually a matching pattern.
 #@gmic : 'mode' can be { 0=files only | 1=folders only | 2=files + folders }.
 #@gmic : Add '3' to 'mode' to return full paths instead of relative paths.
-#@gmic : Add '6' to 'mode' to enable pattern matching in specified 'directory_path'.
 #@gmic : Default value: 'mode=5'.
 
 #@gmic fitratio_wh : min_width,min_height,ratio_wh
