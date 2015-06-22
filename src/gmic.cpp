@@ -6617,22 +6617,15 @@ gmic& gmic::_run(const CImgList<char>& commands_line, unsigned int& position,
             print(images,0,"Get list of %s from location '%s'.",
                   _mode==0?"files":_mode==1?"folders":"files and folders",
                   argument);
-            try {
-              CImgList<char> files = cimg::files(argument,_mode,mode>=3,true);
-              cimglist_for(files,l) {
-                strreplace_bw(files[l]);
-                files[l].back() = ',';
-              }
-              if (files) {
-                files.back().back() = 0;
-                (files>'x').move_to(status);
-              } else status.assign();
-            } catch (...) {
-              status.assign();
-              error(images,0,0,
-                    "Command '-files': Unable to open directory '%s'.",
-                    argument);
+            CImgList<char> files = cimg::files(argument,true,_mode,mode>=3);
+            cimglist_for(files,l) {
+              strreplace_bw(files[l]);
+              files[l].back() = ',';
             }
+            if (files) {
+              files.back().back() = 0;
+              (files>'x').move_to(status);
+            } else status.assign();
             ++position; continue;
           }
 

@@ -13268,27 +13268,23 @@ apply_camera : -skip "${1=},${4=}" -check "${2=0}>=0 && ${3=0}>=0"
     -rm[-1]
   -while {{*}" && "!{*,ESC}" && "!{*,Q}} -camera $2,0 -endl -v +
 
-#@gmic apply_files : "command",list_of_filenames,_output_prefix,_output_extension,_view_window={ 0 | 1 }
+#@gmic apply_files : "command","filename_pattern",_output_prefix,_output_extension,_view_window={ 0 | 1 }
 #@gmic : Apply specified command on all specified image files, by reading them one by one,
 #@gmic : and save result by appending 'output_prefix' to each original filename.
-#@gmic : 'list_of_filenames' must be the list of filenames, separated by space.
-#@gmic : Thus, a specified filename cannot contain a spaces.
 #@gmic : If 'output_extension' is set, the output files are written using the specified extension instead of keeping
 #@gmic : the original one.
 #@gmic : Default value: 'output_prefix=gmic_', 'output_extension=""' and 'view_window=0'.
 apply_files : -skip "${3=gmic_}","${4=}",${5=0}
   -v -
-  ({'"$2"'}) -autocrop[-1] 32 -replace[-1] 32,{','} files=${-u\ {t}}
-  -if {w>128} -z[-1] 0,127 s_files={t}... -else s_files=$files -endif
-  -rm[-1]
-  -m "_apply_files : $""=_file _nb_files=$""#" -_apply_files $files -uncommand _apply_files
+  files=${"-files \"$2\""} -arg2var _file,$files nb_files=${}
+  ({'$files'}) -if {w>128} -z[-1] 0,127 s_files={t}... -else s_files=$files -endif -rm[-1]
   -m "_apply_files : $1"
   -v + -e[^-1] "Apply command '$1' on files '"$s_files"' and save result with prefix '$3'.\n" -v -
-  -repeat $_nb_files -l[]
+  -repeat $nb_files -l[]
     file=${_file{$>+1}}
     _file=${-basename\ $file}
     -if {narg("$4")} 0 -nm[-1] $_file output_file="$3"{b}."$4" -rm[-1] -else output_file="$3"$_file -endif
-    -v + -e[] "\r - Image "{1+$>}/$_nb_files" ["$_file"] -> ["$output_file"]                    " -v -
+    -v + -e[] "\r - Image "{1+$>}/$nb_files" ["$_file"] -> ["$output_file"]                    " -v -
     $file -_apply_files
     -o $output_file
     -if $5 -w[-1] ${-fitscreen\ {w},{h},{d}},1,0,-1,-1,$_file -endif
@@ -13349,21 +13345,18 @@ average_video : -check "isint(${2=0}) && $2>=0 && isint(${3=-1}) && ($3>=0 || $3
     -/ $N -c 0,255
   -endl -v +
 
-#@gmic files2video : list_of_filenames,_output_filename,_fps>0,_codec
-#@gmic : 'list_of_filenames' must be the list of input image filenames, separated by space.
-#@gmic : Thus, a specified filename cannot contain a spaces.
+#@gmic files2video : "filename_pattern",_output_filename,_fps>0,_codec
+#@gmic : Convert several files into a single video file.
 #@gmic : Default values: 'output_filename=output.avi', 'fps=25' and 'codec=mp4v'.
 files2video : -check "isint(${3=25}) && $3>0" -skip "${2=output.avi}",${4=mp4v}
   -v -
-  ({'"$1"'}) -autocrop[-1] 32 -replace[-1] 32,{','} files=${-u\ {t}}
-  -if {w>128} -z[-1] 0,127 s_files={t}... -else s_files=$files -endif
-  -rm[-1]
-  -m "_files2video : $""=_file _nb_files=$""#" -_files2video $files -uncommand _files2video
+  files=${"-files \"$1\""} -arg2var _file,$files nb_files=${}
+  ({'$files'}) -if {w>128} -z[-1] 0,127 s_files={t}... -else s_files=$files -endif -rm[-1]
   -v + -e[^-1] "Convert image files '"$s_files"' into frames of output video '$2', with $3 fps and $4 codec.\n" -v -
-  -repeat $_nb_files -l[]
+  -repeat $nb_files -l[]
     file=${_file{$>+1}}
     _file=${-basename\ $file}
-    -v + -e[] "\r - Image "{1+$>}/$_nb_files" ["$_file"] -> [$2]                    " -v -
+    -v + -e[] "\r - Image "{1+$>}/$nb_files" ["$_file"] -> [$2]                    " -v -
     -i $file -o "$2",$3,$4,1
     -rm
   -onfail -v + -e[] "\n - Error occured on input file '"$file"'.\n" -v -
