@@ -291,8 +291,6 @@ mkdir $DIR/src
 cd src
 cp -Lrf Makefile CImg.h gmic.cpp gmic.h gmic_def.h gmic_def.gmic gmic_gimp.cpp gmic_in_script.scm gmic_use_lib.cpp $DIR/src
 touch $DIR/src/gmic_def.h
-\gmic cimgz:http://gmic.eu/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/resources/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
-\gmic cimgz:http://gmic.eu/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/resources/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
 cd ..
 mkdir $DIR/man
 cd man
@@ -300,6 +298,8 @@ cp -Lrf gmic.1.gz $DIR/man
 cd ..
 mkdir $DIR/resources
 cd resources
+\gmic cimgz:http://gmic.eu/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/resources/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
+\gmic cimgz:http://gmic.eu/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/resources/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
 cp -Lrf gmic_bashcompletion.sh $DIR/resources
 cp -Lrf debian $DIR
 cd ..
