@@ -10099,7 +10099,8 @@ label_points3d : -check ${1=13}>0 -skip ${2=0.8}
 #@gmic : $ 300,300 -rand -1,1 -blur 40 -sign -normalize 0,255 -lathe3d ,
 lathe3d : -check "${1=128}>0 && ${2=0.5%}>=0 && ${3=361}>=0"
   -e[^-1] "Generate lathed 3d object from XY-profile$?, with resolution $1, smoothness $2 and maximum angle $3 deg."
-  -v - tmax={($3-180)*pi/180} -norm -n 0,1 -autocrop 0 -repeat $! -l[$>]
+  -v - tmax={($3-180)*pi/180} -norm -n 0,1 -autocrop 0
+  -repeat $! -l[$>]
     wr={max(1,w2=2*w;if(w2>h,min($1,w2),min($1,h)*w2/h))}
     hr={max(1,w2=2*w;if(w2>h,min($1,w2)*h/w2,min($1,h)))}
     rmax={sqrt(($wr)^2+($hr)^2)/2}
