@@ -15419,7 +15419,7 @@ _x_colorize :
   -k[0,img,points]
   N={points,w} status=
   -if $N
-    status=@points
+    status={points,^}
     [img] -__x_colorize[-1] $1
     -pointcloud[points] -1,$w,$h
     --compose_channels[points] max -!=[-1] 0 -distance[-1] 1 -*[-1] 0.02 -+[-1] 1 -pow[-1] -1 -+[potential,-1]
@@ -17465,7 +17465,7 @@ x_segment : -check "${1=1024}==0 || $1>=128"
     -k[img,points]
     N={points,w} status=
     -if $N
-      status=@points
+      status={points,^}
       [img] -_x_segment[-1] -pointcloud[points] -1,$w,$h
       zfact={{img,max(w,h)}/{potential,max(w,h)}} -dilate[points] {int(3*$zfact)}
       -watershed[points] [potential],1 --[points] 1 -k[img,points]
