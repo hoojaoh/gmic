@@ -499,9 +499,11 @@ _help_usage :
 \n  - '"$c"{`value1,...,valueN`}"$n"' (backquotes) is substituted by the "${g}"string whose ascii sequence
 \n    corresponds to the list of values"$n" specified between the backquotes.
 \n    For instance, item '"$c"{`102,111,111`}"$n"' is substituted by '"${c}"foo"$n"'.
-\n  - '"$c"{string1'=='string2}"$n"' and '"$c"{string1'!='string2}"$n"' are substituted by "${c}"0"$n" or "${c}"1"$n",
-\n     whether the two strings beside the operator "${g}"are the same or not"$n" (test is case-sensitive).
-\n     For instance, both items '"$c"{foo'=='foo}"$n"' and '"$c"{foo'!='FOO}"$n"' are substituted by '"${c}"1"$n"'.
+\n  - '"$c"{string1'=='string2}"$n"' is substituted by "${c}"0"$n" or "${c}"1"$n", whether the two specified strings "${g}"coincide
+\n      or not"$n" (test is case-sensitive).
+\n  - '"$c"{string1'!='string2}"$n"' is substituted by "${c}"0"$n" or "${c}"a non-null integer"$n", whether the two strings
+\n     beside the operator "${g}"are the same or not"$n" (test is case-sensitive). For instance,
+\n     item '"$c"{foo'!='foo}"$n"' is substituted by '"${c}"0"$n"' and '"$c"{foo'!='FOO}"$n"' by '"${c}"32"$n"'.
 \n  - '"$c"{image,feature}"$n"' is substituted by a specific feature of the image "$c"[image]"$n".
 \n     '"${g}"image"$n"' can be either an image number or an image name. It can be also eluded.
 \n     In which case, the last image '"$c"[-1]"$n"' of the list is considered for the requested feature.
