@@ -13279,7 +13279,7 @@ animate : -skip ${1=30},${2=0},${3=""},${4=10},${5=1},"${6=}"
 apply_camera : -skip "${1=},${4=}" -check "${2=0}>=0 && ${3=0}>=0"
   -e[^-1] "Apply command '$1' on camera stream \#$2, with $3 frames skip and output filename '$4'." -v -
   -l[] i=0 -do
-    -camera $2,1,$3 $1 -w[-1] -1,-1,"(Camera \#$2, "{w}x{h}")"
+    -camera $2,1,$3 $1 -w[-1] -1,-1,"(Camera ""#$2, "{w}x{h}")"
     -if {narg("$4")} -o[-1] ${-filename\ "$4",$i} i={$i+1} -endif
     -if {*,S} -o[-1] gmic_camera.png -endif
     -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,D}} -w[] {{*,w}*1.5},{{*,h}*1.5} -wait -1 -endif # Increase window size.
