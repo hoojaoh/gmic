@@ -14289,7 +14289,7 @@ _max_whds :
 #@gmic med
 #@gmic : Return the median value of the last selected image.
 med :
-  -v - --sort[-1] -u {w*h*d*s/2} -rm[-1] -v +
+  -v - --sort[-1] -u {i[whds/2]} -rm[-1] -v +
 
 #@gmic color_med
 #@gmic : Return the median color value of the last selected image.
@@ -18978,6 +18978,7 @@ gimp_gmicky_preview :
 #@gimp : - <b>05/14/2014</b> : version <i>1.5.9.0</i>.\n
 #@gimp : - <b>08/20/2014</b> : version <i>1.6.0.0</i>.\n
 #@gimp : - <span foreground="purple"><b>06/22/2015</b> : version <i>1.6.5.0</i> (Current stable).</span>\n
+#@gimp : - <b>06/25/2014</b> : version <i>1.6.5.1</i> (Current pre-release).\n
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : link = link("View latest changelog","https://www.flickr.com/groups/gmic/discuss/72157653514140862/")
