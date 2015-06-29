@@ -20684,7 +20684,7 @@ gimp_pencilbw_preview :
 #@gimp : Opacity = float(0.5,0,1)
 #@gimp : Color = color(144,79,21)
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
-#@gimp : sep = separator(), note = note("<small>Authors: <i>Jamac4k</i> and <i>David Tschumperl&#233;</i>.      Latest update: <i>12/11/2012</i>.</small>")
+#@gimp : sep = separator(), note = note("<small>Authors: <i>Jamac4k</i> and <i>David Tschumperl&#233;</i>.      Latest update: <i>06/29/2015</i>.</small>")
 gimp_pencil_portraitbw :
   -repeat $! -l[$>] -split_opacity -l[0]
     --b 2%
@@ -20719,7 +20719,7 @@ gimp_pencil_portraitbw_preview :
 #@gimp : Curved stroke = bool(1)
 #@gimp : Color model = choice("Black on white","White on black","Black on transparent white","White on transparent black","Color on white")
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
-#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>06/29/2015</i>.</small>")
 gimp_sketchbw :
   -if {$15==4} -repeat $! -l[$>] --sketchbw ${1-14} -blend hardlight -endl -done -return -endif
   -sketchbw ${1-14}
