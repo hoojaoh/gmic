@@ -26379,12 +26379,18 @@ gimp_equation_plot :
 #@gimp : Color 2 (up/right corner) = color(255,0,0,255)
 #@gimp : Color 3 (bottom/left corner) = color(0,255,0,255)
 #@gimp : Color 4 (bottom/right corner) = color(0,0,255,255)
+#@gimp : sep = separator(), Channel(s) = choice(1,"sRGB","Linear RGB","Lab")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
 gimp_corner_gradient :
-  -repeat $!
-    ({w},{h}) -rm[-2]
-    ($1,$5;$9,$13^$2,$6;$10,$14^$3,$7;$11,$15^$4,$8;$12,$16) -r[-1] {-2,^},1,4,3 -rm[-2]
-  -mv[-1] 0 -done
+  -repeat $! -l[$>]
+    wh={w},{h} -rm
+    ($1,$5;$9,$13^$2,$6;$10,$14^$3,$7;$11,$15)
+    -if {$17==1} -srgb2rgb -elif {$17==2} -srgb2rgb -rgb2lab -endif
+    -r[-1] $wh,1,3,3
+    -if {$17==1} -rgb2srgb -elif {$17==2} -lab2rgb -rgb2srgb -endif
+    ($4,$8;$12,$16) -r[-1] $wh,1,1,3
+    -a c
+  -endl -done
 
 #@gimp Gradient [custom shape] : gimp_custom_gradient, gimp_custom_gradient_preview(1)
 #@gimp : note = note("<small><b>Shape selection:</b></small>")
@@ -26508,7 +26514,7 @@ _gimp_custom_gradient1 :
 #@gimp : sep = separator()
 #@gimp : Preview gradient = bool(1)
 #@gimp : Save gradient as = _text("")
-#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>10/09/2013</i>.</small>")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>06/29/2015</i>.</small>")
 gimp_line_gradient : -skip "${10=}"
   -_gimp_line_gradient $*
   -if {narg("$10")}
@@ -26552,15 +26558,18 @@ _gimp_line_gradient :
 #@gimp : Angle = float(45,0,360)
 #@gimp : Fade start = float(0,0,100)
 #@gimp : Fade end = float(100,0,100)
+#@gimp : sep = separator(), Channel(s) = choice(1,"sRGB","Linear RGB","Lab")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
 gimp_linear_gradient :
-  -repeat $!
-    ({w},{h}) -rm[-2]
+  -repeat $! -l[$>]
+    wh={w},{h} -rm
     ($1^$2^$3^$4) ($5^$6^$7^$8)
     -if $9 -rv[-2,-1] -endif
-    -r[-2,-1] {-3,^} -rm[-3]
+    -r $wh
+    --sh 0,2 -if {$13==1} -srgb2rgb[-2,-1] -elif {$13==2} -srgb2rgb[-2,-1] -rgb2lab[-2,-1] -endif -rm[-2,-1]
     -fade_linear $10,$11,$12
-  -mv[-1] 0 -done
+    --sh 0,2 -if {$13==1} -rgb2srgb[-1] -elif {$13==2} -lab2rgb[-1] -rgb2srgb[-1] -endif -rm[-1]
+  -endl -done
 
 #@gimp Gradient [radial] : gimp_radial_gradient, gimp_radial_gradient
 #@gimp : Starting color = color(0,0,0,255)
@@ -26570,15 +26579,18 @@ gimp_linear_gradient :
 #@gimp : Fade end = float(100,0,100)
 #@gimp : X-center = float(50,0,100)
 #@gimp : Y-center = float(50,0,100)
-#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
+#@gimp : sep = separator(), Channel(s) = choice(1,"sRGB","Linear RGB","Lab")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>06/29/2015</i>.</small>")
 gimp_radial_gradient :
-  -repeat $!
-    ({w},{h}) -rm[-2]
+  -repeat $! -l[$>]
+    wh={w},{h} -rm
     ($1^$2^$3^$4) ($5^$6^$7^$8)
     -if $9 -rv[-2,-1] -endif
-    -r[-2,-1] {-3,^} -rm[-3]
+    -r $wh
+    --sh 0,2 -if {$14==1} -srgb2rgb[-2,-1] -elif {$14==2} -srgb2rgb[-2,-1] -rgb2lab[-2,-1] -endif -rm[-2,-1]
     100%,100% -=[-1] 1,$12%,$13% -distance[-1] 1 -_fade $10,$11
-  -mv[-1] 0 -done
+    --sh 0,2 -if {$14==1} -rgb2srgb[-1] -elif {$14==2} -lab2rgb[-1] -rgb2srgb[-1] -endif -rm[-1]
+  -endl -done
 
 #@gimp Heart : gimp_heart, gimp_heart_preview
 #@gimp : Size = float(75,0,100)
