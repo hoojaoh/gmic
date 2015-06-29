@@ -22999,21 +22999,6 @@ gimp_8bits :
 gimp_8bits_preview :
   -gimp_split_preview "-gimp_8bits $*",$-1
 
-#@gimp Random shade stripes : gimp_shade_stripes, gimp_shade_stripes_preview(1)
-#@gimp : Frequency = float(30,1,100)
-#@gimp : Orientation = choice(1,"Horizontal","Vertical")
-#@gimp : Darkness = float(0.8,0,3)
-#@gimp : Lightness = float(1.3,0,3)
-#@gimp : sep = separator(), Channel(s) = choice("All","RGBA [all]","RGB [all]","RGB [red]","RGB [green]","RGB [blue]","RGBA [alpha]","Linear RGB [all]","Linear RGB [red]","Linear RGB [green]","Linear RGB [blue]","YCbCr [luminance]","YCbCr [blue-red chrominances]","YCbCr [blue chrominance]","YCbCr [red chrominance]","YCbCr [green chrominance]","Lab [lightness]","Lab [ab-chrominances]","Lab [a-chrominance]","Lab [b-chrominance]","Lch [ch-chrominances]","Lch [c-chrominance]","Lch [h-chrominance]","HSV [hue]","HSV [saturation]","HSV [value]","HSI [intensity]","HSL [lightness]","CMYK [cyan]","CMYK [magenta]","CMYK [yellow]","CMYK [key]")
-#@gimp : Value action = choice("None","Cut","Normalize")
-#@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
-#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
-gimp_shade_stripes :
-  -ac "-shade_stripes $1,$2,$3,$4",$5,$6
-
-gimp_shade_stripes_preview :
-  -gimp_split_preview "-gimp_shade_stripes $*",$-1
-
 #@gimp Rain &amp; snow : gimp_rain, gimp_rain_preview(0)
 #@gimp : Angle = float(65,-180,180)
 #@gimp : Speed = float(10,0,50)
@@ -23031,13 +23016,28 @@ gimp_rain :
       --ge 40% -blend shapeaverage0
       -blur_linear $2,$4,$1
       -max -n 0,255 -apply_gamma $5
-      -nm name($nm),mode(screen),opacity($6)
+      -nm name($nm),mode(screen),opacity({$6*100})
     -endl
     -rv
   -endl -done
 
 gimp_rain_preview :
   -gimp_split_preview "-repeat $! -l[$>] -gimp_rain $* -rv -blend screen,$6 -endl -done",$-1
+
+#@gimp Random shade stripes : gimp_shade_stripes, gimp_shade_stripes_preview(1)
+#@gimp : Frequency = float(30,1,100)
+#@gimp : Orientation = choice(1,"Horizontal","Vertical")
+#@gimp : Darkness = float(0.8,0,3)
+#@gimp : Lightness = float(1.3,0,3)
+#@gimp : sep = separator(), Channel(s) = choice("All","RGBA [all]","RGB [all]","RGB [red]","RGB [green]","RGB [blue]","RGBA [alpha]","Linear RGB [all]","Linear RGB [red]","Linear RGB [green]","Linear RGB [blue]","YCbCr [luminance]","YCbCr [blue-red chrominances]","YCbCr [blue chrominance]","YCbCr [red chrominance]","YCbCr [green chrominance]","Lab [lightness]","Lab [ab-chrominances]","Lab [a-chrominance]","Lab [b-chrominance]","Lch [ch-chrominances]","Lch [c-chrominance]","Lch [h-chrominance]","HSV [hue]","HSV [saturation]","HSV [value]","HSI [intensity]","HSL [lightness]","CMYK [cyan]","CMYK [magenta]","CMYK [yellow]","CMYK [key]")
+#@gimp : Value action = choice("None","Cut","Normalize")
+#@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
+gimp_shade_stripes :
+  -ac "-shade_stripes $1,$2,$3,$4",$5,$6
+
+gimp_shade_stripes_preview :
+  -gimp_split_preview "-gimp_shade_stripes $*",$-1
 
 #@gimp Scanlines : gimp_scanlines, gimp_scanlines_preview(0)
 #@gimp : Amplitude = float(60,0,255)
@@ -27945,6 +27945,7 @@ gmicol_rotate :
 #@gmicol clone("Noise [spread]")
 #@gmicol clone("Old-movie stripes")
 #@gmicol clone("Oldschool 8bits")
+#@gmicol clone("Rain &amp; snow")
 #@gmicol clone("Random shade stripes")
 #@gmicol clone("Scanlines")
 #@gmicol clone("Tilt shift")
