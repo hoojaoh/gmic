@@ -23014,6 +23014,31 @@ gimp_shade_stripes :
 gimp_shade_stripes_preview :
   -gimp_split_preview "-gimp_shade_stripes $*",$-1
 
+#@gimp Rain &amp; snow : gimp_rain, gimp_rain_preview(0)
+#@gimp : Angle = float(65,-180,180)
+#@gimp : Speed = float(10,0,50)
+#@gimp : Density (%) = float(50,0,100)
+#@gimp : Radius = float(0.1,0,3)
+#@gimp : Gamma = float(1,0,2)
+#@gimp : Opacity = float(1,0,1)
+#@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>06/29/2015</i>.</small>")
+gimp_rain :
+  -repeat $! -l[$<] nm=${-gimp_layer_name}
+    100%,100% -l[-1]
+      -noise 300 -c 0,255 -b 1,0
+      -c {100-$3}%,100%
+      --ge 40% -blend shapeaverage0
+      -blur_linear $2,$4,$1
+      -max -n 0,255 -apply_gamma $5
+      -nm name($nm),mode(screen),opacity($6)
+    -endl
+    -rv
+  -endl -done
+
+gimp_rain_preview :
+  -gimp_split_preview "-repeat $! -l[$>] -gimp_rain $* -rv -blend screen,$6 -endl -done",$-1
+
 #@gimp Scanlines : gimp_scanlines, gimp_scanlines_preview(0)
 #@gimp : Amplitude = float(60,0,255)
 #@gimp : Bandwidth = float(2,1,300)
