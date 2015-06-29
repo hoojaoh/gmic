@@ -24323,13 +24323,29 @@ _gimp_revert_layers :
   -repeat {int($!/2)} -rv[{2*$>},{2*$>+1}] -done
 
 #@gimp Blend [average all] : gimp_blend_average_all, gimp_blend_average_all
-#@gimp : note = note{"<small><b>Note:</b>
+#@gimp : Colorspace = choice(0,"sRGB","Linear RGB","Lab")
+#@gimp : sep = separator(), note = note{"<small><b>Note:</b>
 #@gimp : This filter takes multiple layers as input and average them. Set the <i>Input layers</i> option to handle multiple input layers.
 #@gimp : </small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>08/11/2013</i>.</small>")
 gimp_blend_average_all :
-  -if $!
-    N=$! -r ${-max_wh},1,100%,0,0,0.5,0.5 -+ -/ $N
+  -if $! -to_rgba
+    N=$! -r ${-max_wh},1,100%,0,0,0.5,0.5
+    -_gb_fwd $1
+    -+ -/ $N
+    -_gb_bwd $1
+  -endif
+
+_gb_fwd :
+  -to_color
+  -if {$1==1} -repeat $! -l[$>] -sh 0,2 -srgb2rgb[-1] -rm[-1] -endl -done
+  -elif {$1==2} -repeat $! -l[$>] -sh 0,2 -srgb2rgb[-1] -rgb2lab[-1] -rm[-1] -endl -done
+  -endif
+
+_gb_bwd :
+  -to_color
+  -if {$1==1} -repeat $! -l[$>] -sh 0,2 -rgb2srgb[-1] -rm[-1] -endl -done
+  -elif {$1==2} -repeat $! -l[$>] -sh 0,2 -lab2rgb[-1] -rgb2srgb[-1] -rm[-1] -endl -done
   -endif
 
 #@gimp Blend [edges] : gimp_blend_edges, gimp_blend_edges(0)
@@ -24350,7 +24366,7 @@ gimp_blend_edges :
 #@gimp : Sharpness = float(5,1,20)
 #@gimp : Sharpest = bool(0)
 #@gimp : Revert layers = bool(0)
-#@gimp : Color space = choice("RGB","HSV","Lab")
+#@gimp : Colorspace = choice("sRGB","Linear RGB","Lab")
 #@gimp : note = note{\n<small>
 #@gimp : The parameters below are used in most presets.
 #@gimp : </small>}
@@ -24368,9 +24384,7 @@ gimp_blend_edges :
 gimp_blend_fade :
   -if {$!==1} -return -endif
   -to_colormode 4
-  -if {$7==1} -repeat $! -sh[$>] 0,2 -rgb2hsv[-1] -rm[-1] -done
-  -elif {$7==2} -repeat $! -sh[$>] 0,2 -srgb2rgb[-1] -rgb2lab[-1] -rm[-1] -done
-  -endif
+  -_gb_fwd $7
   -if {$1==0} [0],[0],1,1,"$11"
   -else -_gimp_blend_fade$1 $8,$9,$10 -r[-1] [0],[0],1,1,3
   -endif
@@ -24382,9 +24396,7 @@ gimp_blend_fade :
   -else -roundify[-1] $4
   -endif
   -blend_fade[^-1] [-1] -rm[-1]
-  -if {$7==1} -repeat $! -sh[$>] 0,2 -hsv2rgb[-1] -rm[-1] -done
-  -elif {$7==2} -repeat $! -sh[$>] 0,2 -lab2rgb[-1] -rgb2srgb[-1] -rm[-1] -done
-  -endif
+  -_gb_bwd $7
   -c 0,255
 
 _gimp_blend_fade1 : [0],[0],1,1,"a=$1*pi/2; x*cos(a) + y*sin(a)"
@@ -24392,11 +24404,46 @@ _gimp_blend_fade2 : [0],[0],1,1,0 -=[-1] 1,{($1+1)*50}%,{($2+1)*50}% -distance[-
 _gimp_blend_fade3 : [0],[0],1,1,0 -=[-1] 1,{($1+1)*50}%,{($2+1)*50}% -distance[-1] 1 -*[-1] {0.01+$3/2} -cos[-1]
 _gimp_blend_fade4 : [0],[0],1,1,"((x-w*($1+0.5))*(y-h*($2+0.5)))%(0.2*w*h*(1.001+$3))"
 
-#@gimp Blend [median] : blend_median, blend_median(0)
+#@gimp Blend [median] : gimp_blend_median, gimp_blend_median(0)
+#@gimp : Colorspace = choice(0,"sRGB","Linear RGB","Lab")
 #@gimp : sep = separator(), note = note{"<small><b>Note:</b>
 #@gimp : This filter needs at least two layers to work properly. Set the <i>Input layers</i> option to handle multiple input layers.
 #@gimp : </small>"}
 #@gimp : sep = separator(), note = note("<small>Authors: <i>David Tschumperl&#233;</i> and <i>Iain Fergusson</i>.      Latest update: <i>12/16/2014</i>.</small>")
+gimp_blend_median :
+  -_gb_fwd $1
+  -blend_median
+  -_gb_bwd $1
+
+#@gimp Blend [seamless] : gimp_blend_seamless, gimp_blend_seamless_preview(1)
+#@gimp : Mixed mode = bool(0)
+#@gimp : Inner fading = float(0,0,100)
+#@gimp : Outer fading = float(25,0,100)
+#@gimp : Colorspace = choice(0,"sRGB","Linear RGB","Lab")
+#@gimp : sep = separator()
+#@gimp : Output as separate layers = _bool(0)
+#@gimp : sep = separator(), note = note{"<small><b>Note:</b>
+#@gimp : This filter needs at least two layers to work properly. Set the <i>Input layers</i> option to handle multiple input layers.
+#@gimp : </small>"}
+#@gimp : sep = separator(), link = link("Click here for a detailed description of this filter.","http://gimpchat.com/viewtopic.php?f=28&t=10204")
+#@gimp : link = link("+ Video tutorial 1","http://www.youtube.com/watch?v=Nu-S1HmOCgE")
+#@gimp : link = link("+ Video tutorial 2","http://www.youtube.com/watch?v=zsHgQY6025I")
+#@gimp : link = link("+ Video tutorial 3","http://www.youtube.com/watch?v=2e6FikWMkaQ")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>05/04/2014</i>.</small>")
+gimp_blend_seamless :
+  -rv
+  -_gb_fwd $4
+  -to_a[^0] -r[^0] [0],[0],1,100%,0
+  -repeat $! pos=${"-_gimp_merge_layers["$>"] pos,0,0"} -shift[$>] ${-u\ $pos},0,0 -done
+  -if $5 # Output as separate layers
+    --blend_seamless $1,$2%,$3%
+    -k[0,-1] -rv -sub_alpha[0] [1],1
+  -else -blend_seamless $1,$2%,$3% # Output as a single layer.
+  -endif
+  -_gb_bwd $4
+
+gimp_blend_seamless_preview :
+  -gimp_blend_seamless ${1-4},0
 
 #@gimp Blend [standard] : gimp_blend, gimp_blend_preview
 #@gimp : Mode = choice{"Add","Alpha","And","Average","Blue","Burn","Darken","Difference",
@@ -24429,33 +24476,6 @@ gimp_blend :
 gimp_blend_preview :
   -gimp_blend $*
   -if $5 -append_tiles , -endif
-
-#@gimp Blend [seamless] : gimp_blend_seamless, gimp_blend_seamless_preview(1)
-#@gimp : Mixed mode = bool(0)
-#@gimp : Inner fading = float(0,0,100)
-#@gimp : Outer fading = float(25,0,100)
-#@gimp : sep = separator()
-#@gimp : Output as separate layers = _bool(0)
-#@gimp : sep = separator(), note = note{"<small><b>Note:</b>
-#@gimp : This filter needs at least two layers to work properly. Set the <i>Input layers</i> option to handle multiple input layers.
-#@gimp : </small>"}
-#@gimp : sep = separator(), link = link("Click here for a detailed description of this filter.","http://gimpchat.com/viewtopic.php?f=28&t=10204")
-#@gimp : link = link("+ Video tutorial 1","http://www.youtube.com/watch?v=Nu-S1HmOCgE")
-#@gimp : link = link("+ Video tutorial 2","http://www.youtube.com/watch?v=zsHgQY6025I")
-#@gimp : link = link("+ Video tutorial 3","http://www.youtube.com/watch?v=2e6FikWMkaQ")
-#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>05/04/2014</i>.</small>")
-gimp_blend_seamless :
-  -rv -to_a[^0]
-  -r[^0] [0],[0],1,100%,0
-  -repeat $! pos=${"-_gimp_merge_layers["$>"] pos,0,0"} -shift[$>] ${-u\ $pos},0,0 -done
-  -if $4 # Output as separate layers
-    --blend_seamless $1,$2%,$3%
-    -k[0,-1] -rv -sub_alpha[0] [1],1
-  -else -blend_seamless $1,$2%,$3% # Output as a single layer.
-  -endif
-
-gimp_blend_seamless_preview :
-  -gimp_blend_seamless ${1-3},0
 
 #@gimp Colors to layers : gimp_split_colors, gimp_split_colors_preview(1)
 #@gimp : Color tolerance = float(50,0,256)
@@ -26379,17 +26399,15 @@ gimp_equation_plot :
 #@gimp : Color 2 (up/right corner) = color(255,0,0,255)
 #@gimp : Color 3 (bottom/left corner) = color(0,255,0,255)
 #@gimp : Color 4 (bottom/right corner) = color(0,0,255,255)
-#@gimp : sep = separator(), Channel(s) = choice(1,"sRGB","Linear RGB","Lab")
+#@gimp : sep = separator(), Colorspace = choice(1,"sRGB","Linear RGB","Lab")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
 gimp_corner_gradient :
   -repeat $! -l[$>]
     wh={w},{h} -rm
-    ($1,$5;$9,$13^$2,$6;$10,$14^$3,$7;$11,$15)
-    -if {$17==1} -srgb2rgb -elif {$17==2} -srgb2rgb -rgb2lab -endif
-    -r[-1] $wh,1,3,3
-    -if {$17==1} -rgb2srgb -elif {$17==2} -lab2rgb -rgb2srgb -endif
-    ($4,$8;$12,$16) -r[-1] $wh,1,1,3
-    -a c
+    ($1,$5;$9,$13^$2,$6;$10,$14^$3,$7;$11,$15^$4,$8;$12,$16)
+    -_gb_fwd $17
+    -r[-1] $wh,1,100%,3
+    -_gb_bwd $17
   -endl -done
 
 #@gimp Gradient [custom shape] : gimp_custom_gradient, gimp_custom_gradient_preview(1)
@@ -26558,7 +26576,7 @@ _gimp_line_gradient :
 #@gimp : Angle = float(45,0,360)
 #@gimp : Fade start = float(0,0,100)
 #@gimp : Fade end = float(100,0,100)
-#@gimp : sep = separator(), Channel(s) = choice(1,"sRGB","Linear RGB","Lab")
+#@gimp : sep = separator(), Colorspace = choice(0,"sRGB","Linear RGB","Lab")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
 gimp_linear_gradient :
   -repeat $! -l[$>]
@@ -26566,9 +26584,9 @@ gimp_linear_gradient :
     ($1^$2^$3^$4) ($5^$6^$7^$8)
     -if $9 -rv[-2,-1] -endif
     -r $wh
-    --sh 0,2 -if {$13==1} -srgb2rgb[-2,-1] -elif {$13==2} -srgb2rgb[-2,-1] -rgb2lab[-2,-1] -endif -rm[-2,-1]
+    -_gb_fwd $13
     -fade_linear $10,$11,$12
-    --sh 0,2 -if {$13==1} -rgb2srgb[-1] -elif {$13==2} -lab2rgb[-1] -rgb2srgb[-1] -endif -rm[-1]
+    -_gb_bwd $13
   -endl -done
 
 #@gimp Gradient [radial] : gimp_radial_gradient, gimp_radial_gradient
@@ -26579,7 +26597,7 @@ gimp_linear_gradient :
 #@gimp : Fade end = float(100,0,100)
 #@gimp : X-center = float(50,0,100)
 #@gimp : Y-center = float(50,0,100)
-#@gimp : sep = separator(), Channel(s) = choice(1,"sRGB","Linear RGB","Lab")
+#@gimp : sep = separator(), Colorspace = choice(0,"sRGB","Linear RGB","Lab")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>06/29/2015</i>.</small>")
 gimp_radial_gradient :
   -repeat $! -l[$>]
@@ -26587,9 +26605,9 @@ gimp_radial_gradient :
     ($1^$2^$3^$4) ($5^$6^$7^$8)
     -if $9 -rv[-2,-1] -endif
     -r $wh
-    --sh 0,2 -if {$14==1} -srgb2rgb[-2,-1] -elif {$14==2} -srgb2rgb[-2,-1] -rgb2lab[-2,-1] -endif -rm[-2,-1]
+    -_gb_fwd $14
     100%,100% -=[-1] 1,$12%,$13% -distance[-1] 1 -_fade $10,$11
-    --sh 0,2 -if {$14==1} -rgb2srgb[-1] -elif {$14==2} -lab2rgb[-1] -rgb2srgb[-1] -endif -rm[-1]
+    -_gb_bwd $14
   -endl -done
 
 #@gimp Heart : gimp_heart, gimp_heart_preview
