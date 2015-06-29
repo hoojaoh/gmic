@@ -12283,58 +12283,51 @@ sketchbw :
   -skip ${2=45},${6=0.03},${13=0},${14=1}
   -e[^-1] "Apply B&W sketch effect on image$?."
   -v - -diffusiontensors $9,$10,$11,$12
-  w=1 h=1 -i[0] 1 -m3d 0
-
-  -repeat {$!-1}
+  -m3d 0
+  -repeat $! -l[$>]
     -/[-1] {max(iM,im)} -s[-1] c       # Normalize and split tensor coefficients.
     100%,100%,1,1,255 -nm[-1] {-4,n}   # Create rendering B&W image.
+    {$8*w*h/($1*sqrt($4))}             # Create set of random coordinates.
+    --rand[-1] 0,{{-2,h}-1} -rand[-2] 0,{{-3,w}-1} -a[-2,-1] y -mv[-1] 0
+    -if {0,w>=$_cpus} -s[0] x,$_cpus -endif
+    com=-skip -repeat {$!-4} com=$com,"-_sketchbw$14[] ${1--1},"$> -done # String used to parallelize.
+    -repeat $1
+      alpha={($2+$>*$3/$1)*pi/180}
+      --*[-4] {cos($alpha)} --*[-4] {sin($alpha)} -+[-2,-1]
+      --*[-4] {cos($alpha)} --*[-4] {sin($alpha)} -+[-2,-1]
+      -a[-2,-1] c
+      -if $13 -orientation[-1] -endif
+      -if $14 -channels[-1] 0,2 -endif  # Curved strokes -> 3d vector field.
+      -parallel $com
+      -rm[-1]
+    -done
+    -k[-1]
+  -endl -done -v +
 
-    -if {$w!=w||$h!=h}               # Create set of random coordinates, if necessary.
-      -rm[0] {$8*w*h/($1*sqrt($4))}
-      --rand[-1] 0,{{-2,h}-1} -rand[-2] 0,{{-3,w}-1} -a[-2,-1] y -mv[-1] 0
-      w={w} h={h}
+_sketchbw1 : # Curved lines.
+  -pass[^]
+  -repeat {$-1,w}
+    xy={$-1,i($>,0)},{$-1,i($>,1)}
+    -if {{-5,i($xy)}+{-3,i($xy)}<$5} opac=$6 -else opac={$7*$6} -endif
+    -if $opac
+      --streamline3d[-1] $xy,0,$4,0.8,0,0,1 -col3d[-1] 0 -j3d[-3] [-1],0,0,0,$opac,1,0,0 -rm[-1]
+      --streamline3d[-1] $xy,0,$4,0.8,0,1,1 -col3d[-1] 0 -j3d[-3] [-1],0,0,0,$opac,1,0,0 -rm[-1]
     -endif
+  -done
+  -rm
 
-    -if $14 # Render sketch with curved strokes
-      -repeat $1
-        alpha={($2+$>*$3/$1)*pi/180}
-        --*[-4] {cos($alpha)} --*[-4] {sin($alpha)} -+[-2,-1]
-        --*[-4] {cos($alpha)} --*[-4] {sin($alpha)} -+[-2,-1]
-        -a[-2,-1] c -channels[-1] 0,2
-        -if $13 -orientation[-1] -endif
-        -repeat {0,w}
-          xy={0,i($>,0)},{0,i($>,1)}
-          -if {{-5,i($xy)}+{-3,i($xy)}<$5} opac=$6 -else opac={$7*$6} -endif
-          -if $opac
-            --streamline3d[-1] $xy,0,$4,0.8,0,0,1 -col3d[-1] 0 -j3d[-3] [-1],0,0,0,$opac,1,0,0 -rm[-1]
-            --streamline3d[-1] $xy,0,$4,0.8,0,1,1 -col3d[-1] 0 -j3d[-3] [-1],0,0,0,$opac,1,0,0 -rm[-1]
-          -endif
-        -done
-        -rm[-1]
-      -done
-
-    -else # Render sketch with straight strokes
-      -repeat $1
-        alpha={($2+$>*$3/$1)*pi/180}
-        --*[-4] {cos($alpha)} --*[-4] {sin($alpha)} -+[-2,-1]
-        --*[-4] {cos($alpha)} --*[-4] {sin($alpha)} -+[-2,-1]
-        -a[-2,-1] c
-        -if $13 -orientation[-1] -endif
-        -repeat {0,w}
-          x={0,i($>,0)} y={0,i($>,1)}
-          -if {{-5,i($x,$y)}+{-3,i($x,$y)}<$5} opac=$6 -else opac={$7*$6} -endif
-          -if $opac
-            -line[-2] {$x-$4*i($x,$y,0,0)},{$y-$4*i($x,$y,0,1)},\
-                      {$x+$4*i($x,$y,0,0)},{$y+$4*i($x,$y,0,1)},\
-                      {3*$opac},0
-          -endif
-        -done
-        -rm[-1]
-      -done
-
+_sketchbw0 : # Straight lines.
+  -pass[^]
+  -repeat {$-1,w}
+    x={$-1,i($>,0)} y={$-1,i($>,1)}
+    -if {{-5,i($x,$y)}+{-3,i($x,$y)}<$5} opac=$6 -else opac={$7*$6} -endif
+    -if $opac
+      -line[-2] {$x-$4*i($x,$y,0,0)},{$y-$4*i($x,$y,0,1)},\
+                {$x+$4*i($x,$y,0,0)},{$y+$4*i($x,$y,0,1)},\
+                {3*$opac},0
     -endif
-    -rm[-4--2]
-  -mv[-1] 1 -done -rm[0] -v +
+  -done
+  -rm
 
 #@gmic sponge : _size>0
 #@gmic : Apply sponge effect on selected images.
