@@ -26797,6 +26797,40 @@ gimp_mandelbrot_preview :
   -line 0,50%,100%,50%,0.5,255
   -line 50%,0,50%,100%,0.5,255
 
+#@gimp Neon lightning : gimp_neon_lightning, gimp_neon_lightning(1)
+#@gimp : X0 = float(50,0,100)
+#@gimp : Y0 = float(50,0,100)
+#@gimp : R0 = float(0,0,100)
+#@gimp : X1 = float(50,0,100)
+#@gimp : Y1 = float(50,0,100)
+#@gimp : R1 = float(100,0,100)
+#@gimp : sep = separator()
+#@gimp : Density = int(50,1,512)
+#@gimp : Glow = float(0.7,0,5)
+#@gimp : Thickness = float(0.8,0,1)
+#@gimp : sep = separator()
+#@gimp : Tint = color(130,80,50)
+#@gimp : Opacity = float(1,0,1)
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>06/30/2015</i>.</small>")
+gimp_neon_lightning :
+  -repeat $! -l[$>]
+    100%,100%,1,4 -rm[0]
+    -repeat $7
+      x0={max(0,min(w,$1+?(-$3,$3)))} y0={max(0,min(h,$2+?(-$3,$3)))}
+      x1={max(0,min(w,$4+?(-$6,$6)))} y1={max(0,min(h,$4+?(-$6,$6)))}
+      u0={?(0,100)} v0={?(0,100)} u1={?(0,100)} v1={?(0,100)}
+      -spline $x0%,$y0%,$u0%,$v0%,$x1%,$y1%,$u1%,$v1%,256,1,${-RGB},1
+    -done
+    -s c,-3
+    -b[0] 3%
+    --b[-1] $8% -pow[-1] {max(0.01,1-sqrt($9))} -max[-2,-1] -n[-1] 0,255
+    [-1] -blend[0,1] value
+    -smooth 5,0,1,0.5,2,10,0
+    -balance_gamma[0] ${10-12}
+    -/[-1] 255 -pow[-1] {1-$13} -*[-1] 255
+    -a c -c 0,255
+  -endl -done
+
 #@gimp Quick copyright : gimp_quick_copyright, gimp_quick_copyright(0)
 #@gimp : Text = text{"\251 G'MIC"}
 #@gimp : Size = int(27,13,128)
