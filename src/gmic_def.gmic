@@ -27983,7 +27983,17 @@ gmicol_rotate :
 #@gmicol clone("Noise [spread]")
 #@gmicol clone("Old-movie stripes")
 #@gmicol clone("Oldschool 8bits")
-#@gmicol clone("Rain &amp; snow")
+
+#@gmicol Rain &amp; snow : gimp_rain_preview, gimp_rain_preview(0)
+#@gmicol : Angle = float(65,-180,180)
+#@gmicol : Speed = float(10,0,50)
+#@gmicol : Density (%) = float(50,0,100)
+#@gmicol : Radius = float(0.1,0,3)
+#@gmicol : Gamma = float(1,0,2)
+#@gmicol : Opacity = float(1,0,1)
+#@gmicol : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
+#@gmicol : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>06/29/2015</i>.</small>")
+
 #@gmicol clone("Random shade stripes")
 #@gmicol clone("Scanlines")
 #@gmicol clone("Tilt shift")
