@@ -6011,7 +6011,7 @@ expand_z : -check "$1>=0 && ${2=1}>=0 && $2<=2"
 #@gmic : A block 'a' can be an image indice (treated periodically) or a nested layout expression 'Hb:c','Vb:c','Rb' or 'Mb' itself.
 #@gmic : For example, layout code 'H0:V1:2' creates an image where image [0] is on the left, and images [1] and [2] vertically packed on the right.
 #@gmic : Default values: 'layout_code=X', 'montage_mode=2', output_mode='0' and 'processing_command=""'.
-#@gmic : $ image.jpg -testimage2d 512 --plasma[0] -cupid 256 -normalize 0,255 -frame 3,3,0 -frame 10,10,255 -to_rgb --montage A --montage[^-1] H1:V0:VH2:1H0:3
+#@gmic : $ image.jpg -testimage2d 512 --plasma[0] -shape_cupid 256 -normalize 0,255 -frame 3,3,0 -frame 10,10,255 -to_rgb --montage A --montage[^-1] H1:V0:VH2:1H0:3
 montage : -check "isval(${2=2}) && $2>=0 && $2<=3" -skip "${1=X}",${3=0},"${4=}"
   -v -
   -if {$2<=1} -v + -e[0--3] "Create aligned montage from image$?, with layout code '$1' and centering $2."
@@ -10543,7 +10543,7 @@ size3d :
 #@gmic : Build 3d skeletal structure object from 2d binary shapes located in selected images.
 #@gmic : 'metric' can be { 0=chebyshev | 1=manhattan | 2=euclidean }.
 #@gmic : Default values: 'metric=2', 'bones_type=3', 'skeleton_opacity=1' and 'frame_opacity=0.1'.
-#@gmic : $ -cupid 480 --skeleton3d ,
+#@gmic : $ -shape_cupid 480 --skeleton3d ,
 skeleton3d : -check "isint(${1=2}) && $1>=0 && $1<=2 && isint(${2=3}) && $2>=0 && $2<=3" -skip ${3=1},${4=0.1},${5=1}
   -e[^-1] "Build 3d skeletal structure object from image$?, with "${-arg\ 1+$1,chebyshev,manhattan,euclidean}" metric, "\
           ${-arg\ 1+$2,squares,diamonds,circles,auto}" bones, skeleton opacity $3 and frame opacity $4 ."
@@ -26444,7 +26444,7 @@ gimp_circle_art :
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/13/2013</i>.</small>")
 gimp_cupid :
   -if {$!>0} siz={min(${-min_w},${-min_h})} -else siz=512 -endif
-  -cupid $siz -to_rgba[-1]
+  -shape_cupid $siz -to_rgba[-1]
   -replace_color[-1] 0,0,0,0,0,255,$2,$3,$4,0
   -replace_color[-1] 0,0,1,1,1,255,$2,$3,$4,$5
   -frame[-1] {2.5*$1}%,{2.5*$1}%,$2,$3,$4,0 -b[-1] $1%
