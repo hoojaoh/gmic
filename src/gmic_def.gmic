@@ -688,7 +688,7 @@ _help_usage :
 \n  - A command file is a simple "${g}"ascii text file"$n", where each line starts either by
 \n     '"${c}"command_name: command_definition"$n"' or '"${c}"command_definition (continuation)"$n"'.
 \n  - At startup, "${-GMIC}" automatically includes user's command file "$g"$HOME/.gmic"$n" (on Unix) or
-\n     "$g"%APPDATA%/gmic"$n" (on Windows), and runs command '"${c}"-start"$n"' if defined.
+\n     "$g"%APPDATA%/gmic"$n" (on Windows), and runs command '"${c}"-cli_start"$n"' if defined.
 \n  - Custom command names must use characters [a-zA-Z0-9_] and cannot start with a number.
 \n  - Any '"$c" \# comment"$n"' expression found in a custom commands file is "${g}"discarded"$n" by the "${-GMIC}"
 \n     parser, wherever it is located in a line.
@@ -1092,49 +1092,6 @@ v : # Allow 'gmic --v' to get the version number.
 #@gmic : Imported commands are available directly after the '-command' invocation.
 #@gmic : Default value: 'add_debug_info=1'.
 #@gmic : $ image.jpg -command "foo : -mirror y -deform $""1" --foo[0] 5 --foo[0] 15
-
-#@gmic cupid : _size>0
-#@gmic : Input cupid binary mask with specified size.
-#@gmic : $ -cupid ,
-cupid : -check "${1=480}>=1"
-  -e[^-1] "Input $1x$1 cupid binary mask." -v -
-  -l[]
-  (480,480,1,1,1)
-  ({'"                                                                                                   -WHX         /ZL[         1\\N]         2k         2l         4m         4m         4m         4m      "\
-     "   4m         4m         4m         3l         3k         2k         1i         0i         /g         .g         -e         +c         )a         (`         &^         $\\         !Y          NW       "\
-     "   LU          IQ                                                                                                                                                                                       "\
-     "                                :R>Z         9ZD^      8T  *^G`      :X@Q  ?`Ib      ;ZCS  AcMe      ;[FTAQ \"{      ;\\GTBS $}      ;\\JVBS $}      ;]LWBT %}      ;hBV (~P      ;gBXNT 0~P      ;hC^ 0~P "\
-     "     GQEhC^ 0~P      KZKpK_ 0~P      M~TM_ 0~P      ~h 0~P     !~i 0~P     \"~j 0~P     \#~k 0~     \#~m 1~     $~n 0}     %~o 0|     %~q 1|     &~r 0{     \47~t 1z     (~w 1y     *~z 2x     +~| 2w     +~~"\
-     " 2v     ,~~P 1t     ,~~\\ <t     -~~_ =r     -~~` <p     .~~d =n     /~~f =m     0~~i =l     0~~i <j     0~~j ;h     0~~j 9f     /~~a /d     /~~a -b   4U  ~~` *_   3V !~~_ (\\   2X \"~~^ &Z   1Z $~~^ %X "\
-     "  0[ %~~^ \#U   /\\ &~~^     ,] \47~~^     ,^ (~~_     -_ )~~_     -` *~~_     -a +~~`     -a ,~~`     -c .~~a     -c /~~a     -d 0~~a     ,e 2~~b     -f 3~~b     ,f 4~~b     +f 5~~b     +h 8~~c     *i ;~"\
-     "~d     *k =~~d     )l @~~e     )o D~~f     (p F~~f     \47q I~~g     &r K~~g     %t N~~g     %w\"~~g     $x$~~g     .UJz\47~~f     .YL|*~~f KP    3ZL~-~~f LR    5~b1~~f MS    5~e4~~f MR    4~g5~~d MS    4~"\
-     "i8~~e MS    3~j:~~e MS    3~k;~~d LS    3~l<~~d LS    2~l=~~c KS    1~l>~~c LU    2~m?~~b KU    0~k?~~b KV    0~k@~~b KX    2~l@~~` KZ    2~k@~~` K[    1~j@~~_ LTKU   2U&~i?~~] LSHU   4X\47~i@~~] MTGT  "\
-     " 5[\47~g@~~\\ MTET   6\\\47~f?~~[ MSCT   7]&~e@~~Z MTCU   8_1VL~dA~~Z MTAU   9a5~pA~~Z NU@T   9c7~pA~~Y MT>U   :d:~qB~~Y LS=V   ;f<~rC~~Y MT<V   <h>~rC~~Y NT:V   <i@~rC~~Y U9V   =j@~qC~~Y T8W   =kB~qC~~Z\"T6"\
-     "V   <nD~oB~~Y\"T5V   =qF~oA~~X$T3U   <sH~n=~~T%T1U   ;vK~l:~~R\47T/U   <~~h9~~Q(U.U   <~~g8~~P(T-V   <~~g8~~P*T+U   ;~~f8~~P+U*U   ;~~e7~~+T(T   ;~~e6~|+T\47U   :~~d7~|+T&U   :~~c7~|,T%V   ;~~c6~{,S\#U   9~"\
-     "~b7~z-U\#V   9~~a7~z-T!U   7~~_7~y-U T   5~~^8~y.U NU   ?RH~~]8~x-T LU   BXK~~\\9~y.U LU   C~~k:~y/U JU   E~~l;~y.T IU   E~~l<~y.U HU   F~~m>~z/U GU   F~~m>~y.T FV   G~~m?~y.T DU   G~~m@~y.U DU   G~~n@~"\
-     "w-T BU   G~~m@UH~i-T AU   F~~m*~^-U AU   E~~l*~]-U ?U   E~~l*~Z+T >U   C~~l,~Y+U >U   B~~t5~X+U =V   A~~v9~W+U ;U   @~~w;~W+U ;U   >~~y@~W+U :U   <~~zC~W+T 9V   ;~~zF~W+U 9V   8~~yH~W,U 7U   5~~xL~X+U"\
-     " 7U   3~~~~S,U 6U   ?~~~~^,U 5U   @~~~~^+U 5V   B~~~~QIV+U 4V   C~~~~Q MU 3V   C~~~~P LT 2V   C~~~~ LU 2V   C~~~~ MU 1V   C~~~} MU 0V   B~~~| MT /V   A~~~{ NU /V   @~~~y NU /W   >~~~w NU /V   :~~~t U "\
-     ".V   8~~~r!U -V   4~~~o\"U -V   .~~~j$U -W   1~~~r*V -V   3~~~y/V ,V   4~~~|1U ,W   5~~~~3V ,W   6~~~~R6V +V   5~~~~T8U +W   4~~~~U:T *W   4~~~~Z@U +W   3~~~~]DU +W   1~~~~^FT *W   0~~~~^HT *W   -~~~~^"\
-     "KT *X   +~~~~^NU +X   \"~~~~\\ +X   !~~~~\\ ,X    ~~~~[ +W    ~~~~\\ ,W    N~~~~\\ -W    N~~~~] .X    N~~~~] /X    M~~~~] 0Y    L~~~~] 1X    J~~~~\\ 2X    G~~~~[ 4X    @~~~~V 6Y    >~~~~U 7X    >~~~~X :X   "\
-     " >~~~~Z <Y    >~~~~] @Z    >~~~~t)Z    >~~~~{0[    =~~~~}4\\    =~~~~~Q9^    ;~~~~~R>a    4~~~~~Fd    4~~~~~n    5~~~~~o*S   1~~~~~q-X   4~~~~~y6Z   5~~~~~~UB]   7~~~~~~[J`   6~~~~~~p   /~~~~~hEu   /~~"\
-     "~~~f=o   0~~~~~f2d   /~~~~~e1c   /~~~~~e0a   ,~~~~~c/^   \#~~~~~\\.\\   !~~~~~[-Y    N~~~~~Z*T    K~~~~~Z    !~~~~~Z     ~~~~~X     K~~~~~T     C~~~~{     B~~~~y     @~~~~x     >~~~~v     =~~~~v     ;~~~"\
-     "~s     3~~~~l     1~~~~[M\\     0~~kKX:vGZ     .~~hHT4oDZ     ,TK`L~xGR\47_?Y     !]I~vGQ 5Y      ZG~vFP 4Y      NWF~vFP 4Y      =~wGQ 5Y      =~wGQ 5Y      =~wGQ 4X      >~xFP 4X      ?~zGQ 5X      @~{G"\
-     "Q 5Y      D~~GQ 4X      F~~QGR 5X      G~~RFQ 5X      H~~SFQ 4X      J~~TFR 5X      K~~UEQ 4W      L~~VEQ 4X      N~~WEQ 4X      ~~XER 4W      ~~XDQ 4X     \"~~YDQ 4X     \#~~ZDQ 3W     $~~[DR 4X     %~"\
-     "~[DR 4X     &~~\\CQ 4X     &~~\\CQ 4X     &~~\\CQ 4X     \47~~]CR 5X     \47~~]BQ 5X     \47~~\\AQ 5X     \47~~\\AQ 5X     (~~]AR 6X     (~~]@Q 6X     (~~]@Q 7Y     )~~]?Q 7X    LV 2~~]?R 8X   !] 5~~]>Q 8X   \#a 7~"\
-     "~]>Q 9Y   %d 8~~\\=R :X   &g 9~~\\=R :X   )k :~~\\<Q ;Y   7y :~~\\<Q ;X   8| ;~~[;R <X   9} ;~~[;R =Y   :~ ;~~[;R =X   :~Q <~~Z9Q >Y   ;~R <~~Z9R ?X   :~R <~~Y8R @Y   ;~S <~~X6Q @X   :~S <~~X6Q AY   ;~T ="\
-     "~~X5R BX   :~T >~~X4R CX   9~U B~~Z2Q CX   9~U F~~]1Q DX   8~V I~~_1Q EX   7~X L~~^/R GY   7~d*~~_/R HY   5~f/~~a.Q HX   4~h2~~a-Q IX   1TJ~_7~~c-R KY   $~^;~~e-R LY   \"~^=~~f,Q MY    ~_@~~h-Q NY    K"\
-     "~]B~~i-R!Y    H~[C~~k.R\"Y    B~WE~~l-Q\#Y    =~TG~~m-R%Y    ;~TH~~n.R\47Z    9~TJ~~p/R(Z    7~TL~~q.Q)Z    5~~~x.R,[    3~~~x/R-[    1~~~w/R.Z    /~~~w.Q0[    -~~~v.Q2\\    +~~~v/R4[    (~~~u/R6[    &~~~u"\
-     ".Q8\\    $~~~t.Q9\\    \"~~~s.Q;\\     N~~~s/R>]     L~~~r.Q@]     I~~~q.QB^     G~~~p.QC]     D~~~p.QF\\     @~~~o.QH\\     =~~~n.RK\\     :~~~m.b     8~~~l.`     5~~~k.]     1~~~j.Y     +~~~h.W     (~~~g.U"\
-     "     &~~~g.T     \#~~~e.S     !~~VJ~X.S      N~~RF~V.R      L~~PD~U.R      J~{A~U/Q      G~w>~T      \#~s;~S      !~m6~R       N~i3~Q       J~a.~P       G~Z)~       E~ M}       Ds C|       Cf 6{       A"\
-     "a 2z       @] .z       ?Y +y       <S (y         C| 1R       :~R BVHX       ?~T CYKZ       A~U D[N]       C~V El       E~W El       G~X Dl       H~Y En       J~Z En       J~Y Dn       L~[ Dn       L~Z"\
-     " Cm       L~Z Al       M~Z @l       M~Z @l       N~Z ?k       M~Y =j       N~Y <i       M~X :h       N~W 8g       M~V 6e       M~V 4c       M~U 1a       L~T 0a       M~T ._       M~T ,]       M~S )[  "\
-     "     N~S %W       L~Q \"U       N~S  S       ~S         L~T         K~T         L~T         K~S         J~S         J~Q         G~P         G~         E|         Cz         Ax         ?v         =t    "\
-     "     ;r         9p         7p         6n         5n         4n         5n         4m         3l         2k         1j         0i         .g         -f         -f         ,e         ,e         ,f      "\
-     "   -f         ,e         ,f         -g         .g         .h         .g         .h         -f         -f         +c         \47`         \#Y                                                               "\
-     "                                            2"'})
-  --[-1] {47+32} -a x -y -uncompress_rle -r $1,$1,1,1,5 -if {$1>480} -b[-1] 0.2% -endif ->= 40%
-  -nm "[Cupid binary mask]"
-  -endl -v +
 
 #@gmic cursor : _mode = { 0=hide | 1=show } : (+)
 #@gmic : Show or hide mouse cursor for selected instant display windows.
@@ -2340,19 +2297,6 @@ gmicky_wilber :
   -e[^-1] "Load image of the G\47MIC mascot 'Gmicky' together with GIMP mascot 'Wilber'."
   -v - -i http://gmic.eu/img/gmicky_wilber_large.cimgz -nm[-1] [gmicky_wilber] -v +
 
-#@gmic heart : _width>0,_height>0
-#@gmic : Input heart binary mask with specified size.
-#@gmic : $ -heart ,
-heart : -check "${1=512}>=1 && ${2=$1}>=1"
-  -e[^-1] "Input $1x$2 heart binary mask."
-  -v - -l[]
-    2048,1,1,1,'t=2*pi*x/w;16*sin(t)^3'
-    2048,1,1,1,'t=2*pi*x/w;13*cos(t)-5*cos(2*t)-2*cos(3*t)-cos(4*t)'
-    -a c -display_parametric $1,$2,1,0,0,0
-    -flood 50%,50%,0,0,0,1,0 -==[-1] 0
-    -nm "[Heart binary mask]"
-  -endl -v +
-
 #@gmic i : eq. to '-input'. : (+)
 
 #@gmic input : [type:]filename : [type:]http://URL : [selection]x_nb_copies>0 : { width>0[%] | [image_w] },{ _height>0[%] | [image_h] },{ _depth>0[%] | [image_d] },{ _spectrum>0[%] | [image_s] },_{ value1,_value2,.. | 'formula' } : (value1{,|;|/|^}value2{,|;|/|^}..) : 0 : (+)
@@ -2582,6 +2526,118 @@ roddy :
 #@gmic : If 'store_names' is set to '1', serialization uses the .gmz format to store data in memory (otherwise the .cimg[z] format).
 #@gmic : Default values: 'datatype=float', 'is_compressed=1' and 'store_names=1'.
 #@gmic : $ image.jpg --serialize uchar --unserialize[-1]
+
+#@gmic shape_heart : _size>0
+#@gmic : Input a 2d heart binary shape with specified size.
+#@gmic : $ -shape_heart ,
+shape_heart : -check "${1=512}>=1"
+  -e[^-1] "Input a $1x$1 heart binary shape."
+  -v - -l[]
+    2048,1,1,1,'t=2*pi*x/w;16*sin(t)^3'
+    2048,1,1,1,'t=2*pi*x/w;13*cos(t)-5*cos(2*t)-2*cos(3*t)-cos(4*t)'
+    -a c -display_parametric $1,$1,1,0,0,0
+    -flood 50%,50%,0,0,0,1,0 -==[-1] 0
+    -nm "[2d heart shape]"
+  -endl -v +
+
+#@gmic shape_circle : _size>0
+#@gmic : Input a 2d circle binary shape with specified size.
+#@gmic : Default value: 'size=512'.
+#@gmic : $ -shape_circle ,
+shape_circle : -check "${1=512}>=1"
+  -e[^-1] "Input a $1x$1 circle binary shape."
+  -v -
+  ir={round($1)}
+  -if {!$ir} 1,1
+  -elif {$ir<2} $ir,$ir,1,1,1
+  -else
+    {int($ir/2)+($ir%2)},{int($ir/2)+($ir%2)} -=[-1] 1,100%,100%
+    -distance[-1] 1 -<=[-1] {(i+0.4)/sqrt(2)}
+    --mirror[-1] x
+    -if {$ir>1&&($ir%2)} -r[-1] {w-1},100%,1,1,0,0,1 -endif
+    -a[-2,-1] x --mirror[-1] y
+    -if {$ir>1&&($ir%2)} -r[-1] 100%,{h-1},1,1,0,0,0,1 -endif
+    -a[-2,-1] y
+  -endif
+  -nm[-1] "[2d circle shape]"
+  -v +
+
+#@gmic shape_cupid : _size>0
+#@gmic : Input a 2d cupid binary shape with specified size.
+#@gmic : Default value: 'size=512'.
+#@gmic : $ -shape_cupid ,
+shape_cupid : -check "${1=512}>=1"
+  -e[^-1] "Input a $1x$1 cupid binary shape." -v -
+  -l[]
+  (480,480,1,1,1)
+  ({'"                                                                                                   -WHX         /ZL[         1\\N]         2k         2l         4m         4m         4m         4m      "\
+     "   4m         4m         4m         3l         3k         2k         1i         0i         /g         .g         -e         +c         )a         (`         &^         $\\         !Y          NW       "\
+     "   LU          IQ                                                                                                                                                                                       "\
+     "                                :R>Z         9ZD^      8T  *^G`      :X@Q  ?`Ib      ;ZCS  AcMe      ;[FTAQ \"{      ;\\GTBS $}      ;\\JVBS $}      ;]LWBT %}      ;hBV (~P      ;gBXNT 0~P      ;hC^ 0~P "\
+     "     GQEhC^ 0~P      KZKpK_ 0~P      M~TM_ 0~P      ~h 0~P     !~i 0~P     \"~j 0~P     \#~k 0~     \#~m 1~     $~n 0}     %~o 0|     %~q 1|     &~r 0{     \47~t 1z     (~w 1y     *~z 2x     +~| 2w     +~~"\
+     " 2v     ,~~P 1t     ,~~\\ <t     -~~_ =r     -~~` <p     .~~d =n     /~~f =m     0~~i =l     0~~i <j     0~~j ;h     0~~j 9f     /~~a /d     /~~a -b   4U  ~~` *_   3V !~~_ (\\   2X \"~~^ &Z   1Z $~~^ %X "\
+     "  0[ %~~^ \#U   /\\ &~~^     ,] \47~~^     ,^ (~~_     -_ )~~_     -` *~~_     -a +~~`     -a ,~~`     -c .~~a     -c /~~a     -d 0~~a     ,e 2~~b     -f 3~~b     ,f 4~~b     +f 5~~b     +h 8~~c     *i ;~"\
+     "~d     *k =~~d     )l @~~e     )o D~~f     (p F~~f     \47q I~~g     &r K~~g     %t N~~g     %w\"~~g     $x$~~g     .UJz\47~~f     .YL|*~~f KP    3ZL~-~~f LR    5~b1~~f MS    5~e4~~f MR    4~g5~~d MS    4~"\
+     "i8~~e MS    3~j:~~e MS    3~k;~~d LS    3~l<~~d LS    2~l=~~c KS    1~l>~~c LU    2~m?~~b KU    0~k?~~b KV    0~k@~~b KX    2~l@~~` KZ    2~k@~~` K[    1~j@~~_ LTKU   2U&~i?~~] LSHU   4X\47~i@~~] MTGT  "\
+     " 5[\47~g@~~\\ MTET   6\\\47~f?~~[ MSCT   7]&~e@~~Z MTCU   8_1VL~dA~~Z MTAU   9a5~pA~~Z NU@T   9c7~pA~~Y MT>U   :d:~qB~~Y LS=V   ;f<~rC~~Y MT<V   <h>~rC~~Y NT:V   <i@~rC~~Y U9V   =j@~qC~~Y T8W   =kB~qC~~Z\"T6"\
+     "V   <nD~oB~~Y\"T5V   =qF~oA~~X$T3U   <sH~n=~~T%T1U   ;vK~l:~~R\47T/U   <~~h9~~Q(U.U   <~~g8~~P(T-V   <~~g8~~P*T+U   ;~~f8~~P+U*U   ;~~e7~~+T(T   ;~~e6~|+T\47U   :~~d7~|+T&U   :~~c7~|,T%V   ;~~c6~{,S\#U   9~"\
+     "~b7~z-U\#V   9~~a7~z-T!U   7~~_7~y-U T   5~~^8~y.U NU   ?RH~~]8~x-T LU   BXK~~\\9~y.U LU   C~~k:~y/U JU   E~~l;~y.T IU   E~~l<~y.U HU   F~~m>~z/U GU   F~~m>~y.T FV   G~~m?~y.T DU   G~~m@~y.U DU   G~~n@~"\
+     "w-T BU   G~~m@UH~i-T AU   F~~m*~^-U AU   E~~l*~]-U ?U   E~~l*~Z+T >U   C~~l,~Y+U >U   B~~t5~X+U =V   A~~v9~W+U ;U   @~~w;~W+U ;U   >~~y@~W+U :U   <~~zC~W+T 9V   ;~~zF~W+U 9V   8~~yH~W,U 7U   5~~xL~X+U"\
+     " 7U   3~~~~S,U 6U   ?~~~~^,U 5U   @~~~~^+U 5V   B~~~~QIV+U 4V   C~~~~Q MU 3V   C~~~~P LT 2V   C~~~~ LU 2V   C~~~~ MU 1V   C~~~} MU 0V   B~~~| MT /V   A~~~{ NU /V   @~~~y NU /W   >~~~w NU /V   :~~~t U "\
+     ".V   8~~~r!U -V   4~~~o\"U -V   .~~~j$U -W   1~~~r*V -V   3~~~y/V ,V   4~~~|1U ,W   5~~~~3V ,W   6~~~~R6V +V   5~~~~T8U +W   4~~~~U:T *W   4~~~~Z@U +W   3~~~~]DU +W   1~~~~^FT *W   0~~~~^HT *W   -~~~~^"\
+     "KT *X   +~~~~^NU +X   \"~~~~\\ +X   !~~~~\\ ,X    ~~~~[ +W    ~~~~\\ ,W    N~~~~\\ -W    N~~~~] .X    N~~~~] /X    M~~~~] 0Y    L~~~~] 1X    J~~~~\\ 2X    G~~~~[ 4X    @~~~~V 6Y    >~~~~U 7X    >~~~~X :X   "\
+     " >~~~~Z <Y    >~~~~] @Z    >~~~~t)Z    >~~~~{0[    =~~~~}4\\    =~~~~~Q9^    ;~~~~~R>a    4~~~~~Fd    4~~~~~n    5~~~~~o*S   1~~~~~q-X   4~~~~~y6Z   5~~~~~~UB]   7~~~~~~[J`   6~~~~~~p   /~~~~~hEu   /~~"\
+     "~~~f=o   0~~~~~f2d   /~~~~~e1c   /~~~~~e0a   ,~~~~~c/^   \#~~~~~\\.\\   !~~~~~[-Y    N~~~~~Z*T    K~~~~~Z    !~~~~~Z     ~~~~~X     K~~~~~T     C~~~~{     B~~~~y     @~~~~x     >~~~~v     =~~~~v     ;~~~"\
+     "~s     3~~~~l     1~~~~[M\\     0~~kKX:vGZ     .~~hHT4oDZ     ,TK`L~xGR\47_?Y     !]I~vGQ 5Y      ZG~vFP 4Y      NWF~vFP 4Y      =~wGQ 5Y      =~wGQ 5Y      =~wGQ 4X      >~xFP 4X      ?~zGQ 5X      @~{G"\
+     "Q 5Y      D~~GQ 4X      F~~QGR 5X      G~~RFQ 5X      H~~SFQ 4X      J~~TFR 5X      K~~UEQ 4W      L~~VEQ 4X      N~~WEQ 4X      ~~XER 4W      ~~XDQ 4X     \"~~YDQ 4X     \#~~ZDQ 3W     $~~[DR 4X     %~"\
+     "~[DR 4X     &~~\\CQ 4X     &~~\\CQ 4X     &~~\\CQ 4X     \47~~]CR 5X     \47~~]BQ 5X     \47~~\\AQ 5X     \47~~\\AQ 5X     (~~]AR 6X     (~~]@Q 6X     (~~]@Q 7Y     )~~]?Q 7X    LV 2~~]?R 8X   !] 5~~]>Q 8X   \#a 7~"\
+     "~]>Q 9Y   %d 8~~\\=R :X   &g 9~~\\=R :X   )k :~~\\<Q ;Y   7y :~~\\<Q ;X   8| ;~~[;R <X   9} ;~~[;R =Y   :~ ;~~[;R =X   :~Q <~~Z9Q >Y   ;~R <~~Z9R ?X   :~R <~~Y8R @Y   ;~S <~~X6Q @X   :~S <~~X6Q AY   ;~T ="\
+     "~~X5R BX   :~T >~~X4R CX   9~U B~~Z2Q CX   9~U F~~]1Q DX   8~V I~~_1Q EX   7~X L~~^/R GY   7~d*~~_/R HY   5~f/~~a.Q HX   4~h2~~a-Q IX   1TJ~_7~~c-R KY   $~^;~~e-R LY   \"~^=~~f,Q MY    ~_@~~h-Q NY    K"\
+     "~]B~~i-R!Y    H~[C~~k.R\"Y    B~WE~~l-Q\#Y    =~TG~~m-R%Y    ;~TH~~n.R\47Z    9~TJ~~p/R(Z    7~TL~~q.Q)Z    5~~~x.R,[    3~~~x/R-[    1~~~w/R.Z    /~~~w.Q0[    -~~~v.Q2\\    +~~~v/R4[    (~~~u/R6[    &~~~u"\
+     ".Q8\\    $~~~t.Q9\\    \"~~~s.Q;\\     N~~~s/R>]     L~~~r.Q@]     I~~~q.QB^     G~~~p.QC]     D~~~p.QF\\     @~~~o.QH\\     =~~~n.RK\\     :~~~m.b     8~~~l.`     5~~~k.]     1~~~j.Y     +~~~h.W     (~~~g.U"\
+     "     &~~~g.T     \#~~~e.S     !~~VJ~X.S      N~~RF~V.R      L~~PD~U.R      J~{A~U/Q      G~w>~T      \#~s;~S      !~m6~R       N~i3~Q       J~a.~P       G~Z)~       E~ M}       Ds C|       Cf 6{       A"\
+     "a 2z       @] .z       ?Y +y       <S (y         C| 1R       :~R BVHX       ?~T CYKZ       A~U D[N]       C~V El       E~W El       G~X Dl       H~Y En       J~Z En       J~Y Dn       L~[ Dn       L~Z"\
+     " Cm       L~Z Al       M~Z @l       M~Z @l       N~Z ?k       M~Y =j       N~Y <i       M~X :h       N~W 8g       M~V 6e       M~V 4c       M~U 1a       L~T 0a       M~T ._       M~T ,]       M~S )[  "\
+     "     N~S %W       L~Q \"U       N~S  S       ~S         L~T         K~T         L~T         K~S         J~S         J~Q         G~P         G~         E|         Cz         Ax         ?v         =t    "\
+     "     ;r         9p         7p         6n         5n         4n         5n         4m         3l         2k         1j         0i         .g         -f         -f         ,e         ,e         ,f      "\
+     "   -f         ,e         ,f         -g         .g         .h         .g         .h         -f         -f         +c         \47`         \#Y                                                               "\
+     "                                            2"'})
+  --[-1] {47+32} -a x -y -uncompress_rle -r $1,$1,1,1,5 -if {$1>480} -b[-1] 0.2% -endif ->= 40%
+  -nm "[2d cupid shape]"
+  -endl -v +
+
+#@gmic shape_diamond : _size>0
+#@gmic : Input a 2d diamond binary shape with specified size.
+#@gmic : Default value: 'size=512'.
+#@gmic : $ -shape_diamond ,
+shape_diamond : -check "${1=512}>=1"
+  -e[^-1] "Input a $1x$1 diamond binary shape."
+  -v -
+  ir={round($1)}
+  -if {$ir<2} $ir,$ir,1,1,1
+  -else
+    {int($ir/2)+($ir%2)},{int($ir/2)+($ir%2)} -=[-1] 1,100%,100%
+    -distance[-1] 1,1 -<=[-1] {i/2}
+    --mirror[-1] x
+    -if {$ir>1&&($ir%2)} -r[-1] {w-1},100%,1,1,0,0,1 -endif
+    -a[-2,-1] x --mirror[-1] y
+    -if {$ir>1&&($ir%2)} -r[-1] 100%,{h-1},1,1,0,0,0,1 -endif
+    -a[-2,-1] y
+  -endif
+  -nm[-1] "[2d diamond shape]"
+  -v +
+
+#@gmic shape_star : _size>0,_nb_branches>0,0<=_thickness<=1
+#@gmic : Input a 2d star binary shape with specified size.
+#@gmic : Default values: 'size=512', 'nb_branches=5' and 'thickness=0.38'.
+#@gmic : $ -shape_star ,
+shape_star : -check "${1=512}>=1 && ${2=5}>0 && ${3=0.5}>=0 && $3<=1"
+  -e[^-1] "Input a $1x$1 star binary shape, with $2 branches and thickness $3."
+  -v - -l[]
+    -star3d $2,$3 -col3d 1 -c3d -n3d -*3d $1,$1
+    $1,$1 -j3d[-1] [-2],50%,50%,0,1,2 -rm[-2]
+    -nm "[2d star shape]"
+  -endl -v +
 
 #@gmic sh : eq. to '-shared'. : (+)
 
@@ -6951,7 +7007,7 @@ denoise_haar : -check "${1=1.4}>=0 && isint(${2=0}) && $2>=0 && isint(${3=10}) &
 dilate_circ : -check $1>=0 -skip ${2=1},${3=0}
   -e[^-1] "Apply circular dilation of image$? by size $1, boundary $2 and is_normalized $3."
   -if {$1<2} -return -endif
-  -v - -_dt_circle[] $1 -dilate[^-1] [-1],$2,$3 -rm[-1] -v +
+  -v - -shape_circle $1 -dilate[^-1] [-1],$2,$3 -rm[-1] -v +
 
 #@gmic dilate_oct : _size>=0,_boundary,_is_normalized={ 0 | 1 }
 #@gmic : Apply octagonal dilation of selected image by specified size.
@@ -6986,33 +7042,6 @@ _jf_circle :
     t={$t1+($t2-$t1)*$k}
     -ir[-1] 0,$t
   -else -ir[-1] 0,{$1/2-0.25}
-  -endif
-
-_dt_circle :
-  ir={round($1)}
-  -if {!$ir} 1,1
-  -elif {$ir<2} $ir,$ir,1,1,1
-  -else
-    {int($ir/2)+($ir%2)},{int($ir/2)+($ir%2)} -=[-1] 1,100%,100%
-    -distance[-1] 1 -<=[-1] {(i+0.4)/sqrt(2)}
-    --mirror[-1] x
-    -if {$ir>1&&($ir%2)} -r[-1] {w-1},100%,1,1,0,0,1 -endif
-    -a[-2,-1] x --mirror[-1] y
-    -if {$ir>1&&($ir%2)} -r[-1] 100%,{h-1},1,1,0,0,0,1 -endif
-    -a[-2,-1] y
-  -endif
-
-_dt_diamond :
-  ir={round($1)}
-  -if {$ir<2} $ir,$ir,1,1,1
-  -else
-    {int($ir/2)+($ir%2)},{int($ir/2)+($ir%2)} -=[-1] 1,100%,100%
-    -distance[-1] 1,1 -<=[-1] {i/2}
-    --mirror[-1] x
-    -if {$ir>1&&($ir%2)} -r[-1] {w-1},100%,1,1,0,0,1 -endif
-    -a[-2,-1] x --mirror[-1] y
-    -if {$ir>1&&($ir%2)} -r[-1] 100%,{h-1},1,1,0,0,0,1 -endif
-    -a[-2,-1] y
   -endif
 
 #@gmic dilate_threshold : size_x>=1,size_y>=1,size_z>=1,_threshold>=0,_boundary
@@ -7096,7 +7125,7 @@ edges : -skip ${1=15%}
 erode_circ : -check $1>=0 -skip ${2=1},${3=0}
   -e[^-1] "Apply circular erosion of image$? by size $1, boundary $2 and is_normalized $3."
   -if {$1<2} -return -endif
-  -v - -_dt_circle[] $1 -erode[^-1] [-1],$2,$3 -rm[-1] -v +
+  -v - -shape_circle $1 -erode[^-1] [-1],$2,$3 -rm[-1] -v +
 
 #@gmic erode_oct : _size>=0,_boundary,_is_normalized={ 0 | 1 }
 #@gmic : Apply octagonal erosion of selected images by specified size.
@@ -12261,18 +12290,6 @@ stained_glass : -check "${1=40%}>=0 && ${2=0.2}>=0" -skip ${3=0}
     -distance[-1] 1 -watershed[-2] [-1] -+[-2] $im
     -n[-1] 0,1  -^[-1] $2 -*
   -endl -done -v +
-
-#@gmic star : _width>0,_height>0,_nb_branches>0,0<=_thickness<=1
-#@gmic : Input star binary mask with specified size.
-#@gmic : Default values: 'width=height=512', 'nb_branches=5' and 'thickness=0.38'.
-#@gmic : $ -star ,
-star : -check "${1=512}>=1 && ${2=$1}>=1 && ${3=5}>0 && ${4=0.5}>=0 && $4<=1"
-  -e[^-1] "Input $1x$2 star binary mask, with $3 branches and thickness $4."
-  -v - -l[]
-    -star3d $3,$4 -col3d 1 -c3d -n3d -*3d $1,$2
-    $1,$2 -j3d[-1] [-2],50%,50%,0,1,2 -rm[-2]
-    -nm "[Heart binary mask]"
-  -endl -v +
 
 #@gmic stars : _density[%]>=0,_depth>=0,_size>0,_nb_branches>=1,0<=_thickness<=1,_smoothness[%]>=0,_R,_G,_B,_opacity
 #@gmic : Add random stars to selected images.
@@ -20162,10 +20179,10 @@ _gimp_shapeism1 : # Triangle
   -polygon 3,50%,0,0,100%,100%,100%,1,1 -skip $*
 
 _gimp_shapeism2 : # Circle
-  -_dt_circle {w} -rm[-2] -skip $*
+  -shape_circle {w} -rm[-2] -skip $*
 
 _gimp_shapeism3 : # Diamond
-  -_dt_diamond {w} -rm[-2] -skip $*
+  -shape_diamond {w} -rm[-2] -skip $*
 
 _gimp_shapeism4 : # Hexagon
   -star3d 3,1 -*3d[-1] {0,min(w,h)/2} -j3d[0] [-1],50%,50%,0,1,2,0 -k[0] -skip $*
@@ -25199,7 +25216,7 @@ _gimp_shapes :
   -if $10 -r 50%,50%,1,1,2 -endif
 
 _gimp_shapes0 :
-  -_dt_circle[] $1
+  -shape_circle $1
 
 _gimp_shapes1 :
   $1,$1,1,1,1
@@ -25220,10 +25237,10 @@ _gimp_shapes6 :
   -ball $1,200 -n 0,1
 
 _gimp_shapes7 :
-  -heart 65 -r $1,$1,1,1,2 ->= 50%
+  -shape_heart 65 -r $1,$1,1,1,2 ->= 50%
 
 _gimp_shapes8 :
-  -star $1,$1
+  -shape_star $1
 
 _gimp_shapes9 :
   -arrow3d 0,0,0,1,0,0,15%,40%,30% -col3d 1 -*3d $1 -c3d
@@ -26702,7 +26719,7 @@ gimp_radial_gradient :
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/13/2013</i>.</small>")
 gimp_heart :
   -if {$!>0} wh=${-max_wh} w={$1%*min(512,arg(1,$wh))} h={$1%*min(512,arg(2,$wh))} -else w={$1%*512} h={$1%*512} -endif
-  -heart {max(1,$w)},{max(1,$h)} -to_rgba[-1]
+  -shape_heart {min($w,$h)} -to_rgba[-1]
   -replace_color[-1] 0,0,1,1,1,255,$3,$4,$5,$6
   -replace_color[-1] 0,0,0,0,0,255,$3,$4,$5,0
   -b[-1] $2% -mv[-1] 0
