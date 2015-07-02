@@ -2637,6 +2637,25 @@ shape_diamond : -check "${1=512}>=0"
   -nm[-1] "[2d diamond shape]"
   -v +
 
+#@gmic shape_polygon : _size>=0,_nb_vertices>=3,_angle
+#@gmic : Input a 2d polygonal binary shape with specified geometry.
+#@gmic : Default value: 'size=512', 'nb_vertices=5' and 'angle=0'.
+#@gmic : $ -repeat 5 -shape_polygon 256,{3+$>} -done
+shape_polygon : -check "${1=512}>=0 && isint(${2=5}) && $2>=3" -skip ${3=0}
+  -e[^-1] "Input a $1x$1 polygon binary shape, with $2 vertices and angle $3 deg."
+  -v -
+  ir={round($1)}
+  -if {!$ir} 0
+  -else -l[]
+      (0;{2*pi}) -+ {($3-90)*pi/180} -r[-1] 1,{$2+1},1,1,3 -rows[-1] 0,{h-2}
+      ir2={round($ir/2)}
+      --sin[-1] -cos[-2] -a x -* {$ir2-1} -+ $ir2
+      $ir,$ir -polygon[-1] $2,{-2,^},1,1 -rm[-2]
+    -endl
+  -endif
+  -nm "[2d $2-polygon shape]"
+  -v +
+
 #@gmic shape_star : _size>=0,_nb_branches>0,0<=_thickness<=1
 #@gmic : Input a 2d star binary shape with specified size.
 #@gmic : Default values: 'size=512', 'nb_branches=5' and 'thickness=0.38'.
@@ -18858,8 +18877,8 @@ _gimp_manage_filter_sources :
 
 #@gimp Friends Hall of Fame : _none_, gimp_friends
 #@gimp : note = note{"\n<span foreground="purple" underline="single">Donators :</span>"}
-#@gimp : note = note{" <b>-</b> We've already received <b>36</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
-#@gimp :               You could be the <b>36th</b> donator :)"}
+#@gimp : note = note{" <b>-</b> We've already received <b>37</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
+#@gimp :               You could be the <b>38th</b> donator :)"}
 #@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help us making <b>G'MIC</b> more visible
 #@gimp :              (cover expenses for open-source events, for instance). Also, it will motivate
 #@gimp :              us to design more new image filters and effects. Feel free to donate
@@ -18870,42 +18889,43 @@ _gimp_manage_filter_sources :
 #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
-#@gimp : link = link(0,"[1] Valentine Boyce","")
-#@gimp : link = link(0,"[2] George Harnett","")
-#@gimp : link = link(0,"[3] Darius Manka","")
-#@gimp : link = link(0,"[4] Chris Knox","")
-#@gimp : link = link(0,"[5] Thomas Tapping","http://tomtappingphotoblog.blogspot.fr/")
-#@gimp : link = link(0,"[6] Phillip R Ziesemer","")
-#@gimp : link = link(0,"[7] Jean Francois","")
-#@gimp : link = link(0,"[8] Franz Ziereis","")
-#@gimp : link = link(0,"[9] Alessandro Renzi","")
-#@gimp : link = link(0,"[10] Tsuda Koshi","")
-#@gimp : link = link(0,"[11] Boxrec Ltd","http://www.boxrec.com")
-#@gimp : link = link(0,"[12] Wolfgang Schweizer","http://www.wolfgangschweizer.com/")
-#@gimp : link = link(0,"[13] Ramon Miranda","http://www.ramonmiranda.com/")
-#@gimp : link = link(0,"[14] Volker Bradley","")
-#@gimp : link = link(0,"[15] Marco Zara","http://plus.google.com/+MarcoZara")
-#@gimp : link = link(0,"[16] Marco Tedaldi","http://plus.google.com/+MarcoTedaldi")
-#@gimp : link = link(0,"[17] Rodney Lee","http://cybertographer.com")
-#@gimp : link = link(0,"[18] Konstantinos Blatzonis","")
-#@gimp : link = link(0,"[19] Simon Chanson","")
-#@gimp : link = link(0,"[20] Herbert Malle","")
-#@gimp : link = link(0,"[21] Matthias Zepper","http://www.matthias-zepper.de/")
-#@gimp : link = link(0,"[22] Christian Mariucci","")
-#@gimp : link = link(0,"[23] M. R.","")
-#@gimp : link = link(0,"[24] Mark Link","")
-#@gimp : link = link(0,"[25] Rolf Steinort","http://blog.meetthegimp.org/")
-#@gimp : link = link(0,"[26] Pat David","http://blog.patdavid.net/")
-#@gimp : link = link(0,"[27] Daniel Tauro","https://plus.google.com/112357088505488756823/posts")
-#@gimp : link = link(0,"[28] Ben Langhinrichs","http://geniisoft.com/")
-#@gimp : link = link(0,"[29] Paolo Pedaletti","http://www.openlabs.it/")
-#@gimp : link = link(0,"[30] Ricardo Corin","http://blog.photomontager.com")
-#@gimp : link = link(0,"[31] James Prichard","https://plus.google.com/115953666279509959258")
-#@gimp : link = link(0,"[32] Matt Jones","https://plus.google.com/116658221461047313647")
-#@gimp : link = link(0,"[33] Eddy Vervest","http://www.flickr.com/people/twekkel/")
-#@gimp : link = link(0,"[34] Steven Shupe","http://www.flickr.com/photos/ssshupe/")
-#@gimp : link = link(0,"[35] Flavio Casadei Della Chiesa","http://www.flaviocdc.net/wiki/")
-#@gimp : link = link(0,"[36] Lyle Kroll","http://www.artwanted.com/artist.cfm?artid=10918")
+#@gimp : link = link(0,"[1] Thomas Elfstrom","")
+#@gimp : link = link(0,"[2] Valentine Boyce","")
+#@gimp : link = link(0,"[3] George Harnett","")
+#@gimp : link = link(0,"[4] Darius Manka","")
+#@gimp : link = link(0,"[5] Chris Knox","")
+#@gimp : link = link(0,"[6] Thomas Tapping","http://tomtappingphotoblog.blogspot.fr/")
+#@gimp : link = link(0,"[7] Phillip R Ziesemer","")
+#@gimp : link = link(0,"[8] Jean Francois","")
+#@gimp : link = link(0,"[9] Franz Ziereis","")
+#@gimp : link = link(0,"[10] Alessandro Renzi","")
+#@gimp : link = link(0,"[11] Tsuda Koshi","")
+#@gimp : link = link(0,"[12] Boxrec Ltd","http://www.boxrec.com")
+#@gimp : link = link(0,"[13] Wolfgang Schweizer","http://www.wolfgangschweizer.com/")
+#@gimp : link = link(0,"[14] Ramon Miranda","http://www.ramonmiranda.com/")
+#@gimp : link = link(0,"[15] Volker Bradley","")
+#@gimp : link = link(0,"[16] Marco Zara","http://plus.google.com/+MarcoZara")
+#@gimp : link = link(0,"[17] Marco Tedaldi","http://plus.google.com/+MarcoTedaldi")
+#@gimp : link = link(0,"[18] Rodney Lee","http://cybertographer.com")
+#@gimp : link = link(0,"[19] Konstantinos Blatzonis","")
+#@gimp : link = link(0,"[20] Simon Chanson","")
+#@gimp : link = link(0,"[21] Herbert Malle","")
+#@gimp : link = link(0,"[22] Matthias Zepper","http://www.matthias-zepper.de/")
+#@gimp : link = link(0,"[23] Christian Mariucci","")
+#@gimp : link = link(0,"[24] M. R.","")
+#@gimp : link = link(0,"[25] Mark Link","")
+#@gimp : link = link(0,"[26] Rolf Steinort","http://blog.meetthegimp.org/")
+#@gimp : link = link(0,"[27] Pat David","http://blog.patdavid.net/")
+#@gimp : link = link(0,"[28] Daniel Tauro","https://plus.google.com/112357088505488756823/posts")
+#@gimp : link = link(0,"[29] Ben Langhinrichs","http://geniisoft.com/")
+#@gimp : link = link(0,"[30] Paolo Pedaletti","http://www.openlabs.it/")
+#@gimp : link = link(0,"[31] Ricardo Corin","http://blog.photomontager.com")
+#@gimp : link = link(0,"[32] James Prichard","https://plus.google.com/115953666279509959258")
+#@gimp : link = link(0,"[33] Matt Jones","https://plus.google.com/116658221461047313647")
+#@gimp : link = link(0,"[34] Eddy Vervest","http://www.flickr.com/people/twekkel/")
+#@gimp : link = link(0,"[35] Steven Shupe","http://www.flickr.com/photos/ssshupe/")
+#@gimp : link = link(0,"[36] Flavio Casadei Della Chiesa","http://www.flaviocdc.net/wiki/")
+#@gimp : link = link(0,"[37] Lyle Kroll","http://www.artwanted.com/artist.cfm?artid=10918")
 #@gimp : sep = separator()
 #@gimp : note = note{"\n<span foreground="purple" underline="single">Postcard senders :</span>"}
 #@gimp : note = note{" <b>-</b> We've received <b>25</b> postcards from <b>G'MIC</b> enthusiasts so far.
@@ -19808,18 +19828,19 @@ gimp_isolate_tiles :
 
 #@gimp Bokeh : gimp_bokeh, gimp_bokeh_preview(1)
 #@gimp : Number of scales = int(3,1,10)
+#@gimp : Shape = choice(8,"Triangle","Square","Diamond","Pentagon","Hexagon","Octogon","Decagon","Star","Circular")
 #@gimp : sep = separator(), note = note{"<small><b>Starting parameters:</b></small>"}
 #@gimp : Density = int(60,1,256)
 #@gimp : Radius (%) = float(8,0,50)
 #@gimp : Outline (%) = float(4,0,100)
-#@gimp : Shade = float(0.3,0,1)
+#@gimp : Inner shade = float(0.3,0,1)
 #@gimp : Smoothness = float(0.2,0,8)
 #@gimp : Opacity = float(0.8,0,1)
 #@gimp : sep = separator(), note = note{"<small><b>Ending parameters:</b></small>"}
 #@gimp : Density = int(15,1,256)
 #@gimp : Radius (%) = float(20,0,50)
 #@gimp : Outline (%) = float(20,0,100)
-#@gimp : Shade = float(1,0,1)
+#@gimp : Inner shade = float(1,0,1)
 #@gimp : Smoothness = float(2,0,8)
 #@gimp : Opacity = float(0.4,0,1)
 #@gimp : sep = separator()
@@ -19827,17 +19848,28 @@ gimp_isolate_tiles :
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/02/2015</i>.</small>")
 gimp_bokeh :
+  _shape=$2
   -repeat $! -l[$<] nm=${-gimp_layer_name}
     100%,100%,1,3
-    (${2-7};${8-13}) -r[-1] 100%,$1,1,1,3
+    (${3-8};${9-14}) -if {$1>2} -r[-1] 100%,$1,1,1,3 -endif
     -repeat $1
       --rows[-1] $> -_gimp_bokeh[-3] {^} -rm[-1]
     -done
     -rm[-1]
-    -round[-1] -balance_gamma[-1] ${14-16}
+    -round[-1] -balance_gamma[-1] ${15-17}
     -nm[-1] name($nm),opacity(100),mode(screen)
     -rv
   -endl -done
+
+_gimp_bokeh0 : -shape_star $1,3        # Triangle.
+_gimp_bokeh1 : $1,$1,1,1,1             # Square.
+_gimp_bokeh2 : -shape_diamond $1       # Diamond.
+_gimp_bokeh3 : -shape_polygon $1,5,45  # Pentagon.
+_gimp_bokeh4 : -shape_polygon $1,6,45  # Hexagon.
+_gimp_bokeh5 : -shape_polygon $1,8,45  # Octogon.
+_gimp_bokeh6 : -shape_polygon $1,10,45 # Decagon.
+_gimp_bokeh7 : -shape_star $1,5        # Star.
+_gimp_bokeh8 : -shape_circle $1        # Circle.
 
 gimp_bokeh_preview :
   -gimp_split_preview "-gimp_bokeh $* -gimp_merge_layers",$-1,0,1
@@ -19849,8 +19881,8 @@ _gimp_bokeh :
   radius2={r=$radius1-($radius1*$3%);r+1-(r%2)}
 
   -random3d $1 -*3d[-1] {-2,w},{-2,h},0
-  -shape_circle $radius1
-  -if {$radius2>=1} -shape_circle $radius2 -r[-1] [-2],0,0,0.5,0.5 -*[-1] {max(0,min(1,1-$4))} --[-2,-1] -endif
+  -_gimp_bokeh$_shape $radius1
+  -if {$radius2>=1} -_gimp_bokeh$_shape $radius2 -r[-1] [-2],0,0,0.5,0.5 -*[-1] {max(0,min(1,1-$4))} --[-2,-1] -endif
 
   sigma={-3,$5%*w}
   -r[-1] {w+5*$sigma},{h+5*$sigma},1,1,0,0,0.5,0.5
