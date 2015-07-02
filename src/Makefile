@@ -185,14 +185,8 @@ CURL_LIBS = -lcurl
 # Flags to enable native support of webcams, using the OpenCV library.
 # This requires the presence of the OpenCV include and library files.
 # (package 'libcv3-2-dev' on Debian).
-ifeq ($(OS),Darwin)
-OPENCV_CFLAGS = -Dcimg_use_opencv -I$(USR)/$(INCLUDE) -I$(USR)/$(INCLUDE)/opencv
-OPENCV_LIBS = `pkg-config opencv --libs`   #-> Use this for OpenCV 2.2.0 !
-else
-OPENCV_CFLAGS = -Dcimg_use_opencv -I$(USR)/$(INCLUDE) -I$(USR)/$(INCLUDE)/opencv
-# OPENCV_LIBS = -lcv -lhighgui
-OPENCV_LIBS = -lopencv_core -lopencv_highgui   #-> Use this for OpenCV >= 2.2.0 !
-endif
+OPENCV_CFLAGS = -Dcimg_use_opencv  `pkg-config opencv --cflags`
+OPENCV_LIBS = `pkg-config opencv --libs`
 
 # Flags to enable native support of most classical image file formats, using the GraphicsMagick++ library.
 # This requires the presence of the GraphicsMagick++ include and library files.
