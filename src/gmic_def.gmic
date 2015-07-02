@@ -2527,28 +2527,33 @@ roddy :
 #@gmic : Default values: 'datatype=float', 'is_compressed=1' and 'store_names=1'.
 #@gmic : $ image.jpg --serialize uchar --unserialize[-1]
 
-#@gmic shape_heart : _size>0
+#@gmic shape_heart : _size>=0
 #@gmic : Input a 2d heart binary shape with specified size.
 #@gmic : $ -shape_heart ,
-shape_heart : -check "${1=512}>=1"
+shape_heart : -check "${1=512}>=0"
   -e[^-1] "Input a $1x$1 heart binary shape."
-  -v - -l[]
-    2048,1,1,1,'t=2*pi*x/w;16*sin(t)^3'
-    2048,1,1,1,'t=2*pi*x/w;13*cos(t)-5*cos(2*t)-2*cos(3*t)-cos(4*t)'
-    -a c -display_parametric $1,$1,1,0,0,0
-    -flood 50%,50%,0,0,0,1,0 -==[-1] 0
-    -nm "[2d heart shape]"
-  -endl -v +
+  -v -
+  ir={round($1)}
+  -if {!$ir} 0
+  -else -l[]
+      2048,1,1,1,'t=2*pi*x/w;16*sin(t)^3'
+      2048,1,1,1,'t=2*pi*x/w;13*cos(t)-5*cos(2*t)-2*cos(3*t)-cos(4*t)'
+      -a c -display_parametric $ir,$ir,1,0,0,0
+      -flood 50%,50%,0,0,0,1,0 -==[-1] 0
+    -endl
+  -endif
+  -nm "[2d heart shape]"
+  -v +
 
-#@gmic shape_circle : _size>0
+#@gmic shape_circle : _size>=0
 #@gmic : Input a 2d circle binary shape with specified size.
 #@gmic : Default value: 'size=512'.
 #@gmic : $ -shape_circle ,
-shape_circle : -check "${1=512}>=1"
+shape_circle : -check "${1=512}>=0"
   -e[^-1] "Input a $1x$1 circle binary shape."
   -v -
   ir={round($1)}
-  -if {!$ir} 1,1
+  -if {!$ir} 0
   -elif {$ir<2} $ir,$ir,1,1,1
   -else
     {int($ir/2)+($ir%2)},{int($ir/2)+($ir%2)} -=[-1] 1,100%,100%
@@ -2562,59 +2567,64 @@ shape_circle : -check "${1=512}>=1"
   -nm[-1] "[2d circle shape]"
   -v +
 
-#@gmic shape_cupid : _size>0
+#@gmic shape_cupid : _size>=0
 #@gmic : Input a 2d cupid binary shape with specified size.
 #@gmic : Default value: 'size=512'.
 #@gmic : $ -shape_cupid ,
-shape_cupid : -check "${1=512}>=1"
+shape_cupid : -check "${1=512}>=0"
   -e[^-1] "Input a $1x$1 cupid binary shape." -v -
-  -l[]
-  (480,480,1,1,1)
-  ({'"                                                                                                   -WHX         /ZL[         1\\N]         2k         2l         4m         4m         4m         4m      "\
-     "   4m         4m         4m         3l         3k         2k         1i         0i         /g         .g         -e         +c         )a         (`         &^         $\\         !Y          NW       "\
-     "   LU          IQ                                                                                                                                                                                       "\
-     "                                :R>Z         9ZD^      8T  *^G`      :X@Q  ?`Ib      ;ZCS  AcMe      ;[FTAQ \"{      ;\\GTBS $}      ;\\JVBS $}      ;]LWBT %}      ;hBV (~P      ;gBXNT 0~P      ;hC^ 0~P "\
-     "     GQEhC^ 0~P      KZKpK_ 0~P      M~TM_ 0~P      ~h 0~P     !~i 0~P     \"~j 0~P     \#~k 0~     \#~m 1~     $~n 0}     %~o 0|     %~q 1|     &~r 0{     \47~t 1z     (~w 1y     *~z 2x     +~| 2w     +~~"\
-     " 2v     ,~~P 1t     ,~~\\ <t     -~~_ =r     -~~` <p     .~~d =n     /~~f =m     0~~i =l     0~~i <j     0~~j ;h     0~~j 9f     /~~a /d     /~~a -b   4U  ~~` *_   3V !~~_ (\\   2X \"~~^ &Z   1Z $~~^ %X "\
-     "  0[ %~~^ \#U   /\\ &~~^     ,] \47~~^     ,^ (~~_     -_ )~~_     -` *~~_     -a +~~`     -a ,~~`     -c .~~a     -c /~~a     -d 0~~a     ,e 2~~b     -f 3~~b     ,f 4~~b     +f 5~~b     +h 8~~c     *i ;~"\
-     "~d     *k =~~d     )l @~~e     )o D~~f     (p F~~f     \47q I~~g     &r K~~g     %t N~~g     %w\"~~g     $x$~~g     .UJz\47~~f     .YL|*~~f KP    3ZL~-~~f LR    5~b1~~f MS    5~e4~~f MR    4~g5~~d MS    4~"\
-     "i8~~e MS    3~j:~~e MS    3~k;~~d LS    3~l<~~d LS    2~l=~~c KS    1~l>~~c LU    2~m?~~b KU    0~k?~~b KV    0~k@~~b KX    2~l@~~` KZ    2~k@~~` K[    1~j@~~_ LTKU   2U&~i?~~] LSHU   4X\47~i@~~] MTGT  "\
-     " 5[\47~g@~~\\ MTET   6\\\47~f?~~[ MSCT   7]&~e@~~Z MTCU   8_1VL~dA~~Z MTAU   9a5~pA~~Z NU@T   9c7~pA~~Y MT>U   :d:~qB~~Y LS=V   ;f<~rC~~Y MT<V   <h>~rC~~Y NT:V   <i@~rC~~Y U9V   =j@~qC~~Y T8W   =kB~qC~~Z\"T6"\
-     "V   <nD~oB~~Y\"T5V   =qF~oA~~X$T3U   <sH~n=~~T%T1U   ;vK~l:~~R\47T/U   <~~h9~~Q(U.U   <~~g8~~P(T-V   <~~g8~~P*T+U   ;~~f8~~P+U*U   ;~~e7~~+T(T   ;~~e6~|+T\47U   :~~d7~|+T&U   :~~c7~|,T%V   ;~~c6~{,S\#U   9~"\
-     "~b7~z-U\#V   9~~a7~z-T!U   7~~_7~y-U T   5~~^8~y.U NU   ?RH~~]8~x-T LU   BXK~~\\9~y.U LU   C~~k:~y/U JU   E~~l;~y.T IU   E~~l<~y.U HU   F~~m>~z/U GU   F~~m>~y.T FV   G~~m?~y.T DU   G~~m@~y.U DU   G~~n@~"\
-     "w-T BU   G~~m@UH~i-T AU   F~~m*~^-U AU   E~~l*~]-U ?U   E~~l*~Z+T >U   C~~l,~Y+U >U   B~~t5~X+U =V   A~~v9~W+U ;U   @~~w;~W+U ;U   >~~y@~W+U :U   <~~zC~W+T 9V   ;~~zF~W+U 9V   8~~yH~W,U 7U   5~~xL~X+U"\
-     " 7U   3~~~~S,U 6U   ?~~~~^,U 5U   @~~~~^+U 5V   B~~~~QIV+U 4V   C~~~~Q MU 3V   C~~~~P LT 2V   C~~~~ LU 2V   C~~~~ MU 1V   C~~~} MU 0V   B~~~| MT /V   A~~~{ NU /V   @~~~y NU /W   >~~~w NU /V   :~~~t U "\
-     ".V   8~~~r!U -V   4~~~o\"U -V   .~~~j$U -W   1~~~r*V -V   3~~~y/V ,V   4~~~|1U ,W   5~~~~3V ,W   6~~~~R6V +V   5~~~~T8U +W   4~~~~U:T *W   4~~~~Z@U +W   3~~~~]DU +W   1~~~~^FT *W   0~~~~^HT *W   -~~~~^"\
-     "KT *X   +~~~~^NU +X   \"~~~~\\ +X   !~~~~\\ ,X    ~~~~[ +W    ~~~~\\ ,W    N~~~~\\ -W    N~~~~] .X    N~~~~] /X    M~~~~] 0Y    L~~~~] 1X    J~~~~\\ 2X    G~~~~[ 4X    @~~~~V 6Y    >~~~~U 7X    >~~~~X :X   "\
-     " >~~~~Z <Y    >~~~~] @Z    >~~~~t)Z    >~~~~{0[    =~~~~}4\\    =~~~~~Q9^    ;~~~~~R>a    4~~~~~Fd    4~~~~~n    5~~~~~o*S   1~~~~~q-X   4~~~~~y6Z   5~~~~~~UB]   7~~~~~~[J`   6~~~~~~p   /~~~~~hEu   /~~"\
-     "~~~f=o   0~~~~~f2d   /~~~~~e1c   /~~~~~e0a   ,~~~~~c/^   \#~~~~~\\.\\   !~~~~~[-Y    N~~~~~Z*T    K~~~~~Z    !~~~~~Z     ~~~~~X     K~~~~~T     C~~~~{     B~~~~y     @~~~~x     >~~~~v     =~~~~v     ;~~~"\
-     "~s     3~~~~l     1~~~~[M\\     0~~kKX:vGZ     .~~hHT4oDZ     ,TK`L~xGR\47_?Y     !]I~vGQ 5Y      ZG~vFP 4Y      NWF~vFP 4Y      =~wGQ 5Y      =~wGQ 5Y      =~wGQ 4X      >~xFP 4X      ?~zGQ 5X      @~{G"\
-     "Q 5Y      D~~GQ 4X      F~~QGR 5X      G~~RFQ 5X      H~~SFQ 4X      J~~TFR 5X      K~~UEQ 4W      L~~VEQ 4X      N~~WEQ 4X      ~~XER 4W      ~~XDQ 4X     \"~~YDQ 4X     \#~~ZDQ 3W     $~~[DR 4X     %~"\
-     "~[DR 4X     &~~\\CQ 4X     &~~\\CQ 4X     &~~\\CQ 4X     \47~~]CR 5X     \47~~]BQ 5X     \47~~\\AQ 5X     \47~~\\AQ 5X     (~~]AR 6X     (~~]@Q 6X     (~~]@Q 7Y     )~~]?Q 7X    LV 2~~]?R 8X   !] 5~~]>Q 8X   \#a 7~"\
-     "~]>Q 9Y   %d 8~~\\=R :X   &g 9~~\\=R :X   )k :~~\\<Q ;Y   7y :~~\\<Q ;X   8| ;~~[;R <X   9} ;~~[;R =Y   :~ ;~~[;R =X   :~Q <~~Z9Q >Y   ;~R <~~Z9R ?X   :~R <~~Y8R @Y   ;~S <~~X6Q @X   :~S <~~X6Q AY   ;~T ="\
-     "~~X5R BX   :~T >~~X4R CX   9~U B~~Z2Q CX   9~U F~~]1Q DX   8~V I~~_1Q EX   7~X L~~^/R GY   7~d*~~_/R HY   5~f/~~a.Q HX   4~h2~~a-Q IX   1TJ~_7~~c-R KY   $~^;~~e-R LY   \"~^=~~f,Q MY    ~_@~~h-Q NY    K"\
-     "~]B~~i-R!Y    H~[C~~k.R\"Y    B~WE~~l-Q\#Y    =~TG~~m-R%Y    ;~TH~~n.R\47Z    9~TJ~~p/R(Z    7~TL~~q.Q)Z    5~~~x.R,[    3~~~x/R-[    1~~~w/R.Z    /~~~w.Q0[    -~~~v.Q2\\    +~~~v/R4[    (~~~u/R6[    &~~~u"\
-     ".Q8\\    $~~~t.Q9\\    \"~~~s.Q;\\     N~~~s/R>]     L~~~r.Q@]     I~~~q.QB^     G~~~p.QC]     D~~~p.QF\\     @~~~o.QH\\     =~~~n.RK\\     :~~~m.b     8~~~l.`     5~~~k.]     1~~~j.Y     +~~~h.W     (~~~g.U"\
-     "     &~~~g.T     \#~~~e.S     !~~VJ~X.S      N~~RF~V.R      L~~PD~U.R      J~{A~U/Q      G~w>~T      \#~s;~S      !~m6~R       N~i3~Q       J~a.~P       G~Z)~       E~ M}       Ds C|       Cf 6{       A"\
-     "a 2z       @] .z       ?Y +y       <S (y         C| 1R       :~R BVHX       ?~T CYKZ       A~U D[N]       C~V El       E~W El       G~X Dl       H~Y En       J~Z En       J~Y Dn       L~[ Dn       L~Z"\
-     " Cm       L~Z Al       M~Z @l       M~Z @l       N~Z ?k       M~Y =j       N~Y <i       M~X :h       N~W 8g       M~V 6e       M~V 4c       M~U 1a       L~T 0a       M~T ._       M~T ,]       M~S )[  "\
-     "     N~S %W       L~Q \"U       N~S  S       ~S         L~T         K~T         L~T         K~S         J~S         J~Q         G~P         G~         E|         Cz         Ax         ?v         =t    "\
-     "     ;r         9p         7p         6n         5n         4n         5n         4m         3l         2k         1j         0i         .g         -f         -f         ,e         ,e         ,f      "\
-     "   -f         ,e         ,f         -g         .g         .h         .g         .h         -f         -f         +c         \47`         \#Y                                                               "\
-     "                                            2"'})
-  --[-1] {47+32} -a x -y -uncompress_rle -r $1,$1,1,1,5 -if {$1>480} -b[-1] 0.2% -endif ->= 40%
+  ir={round($1)}
+  -if {!$ir} 0
+  -else -l[]
+      (480,480,1,1,1)
+      ({'"                                                                                                   -WHX         /ZL[         1\\N]         2k         2l         4m         4m         4m         4m      "\
+         "   4m         4m         4m         3l         3k         2k         1i         0i         /g         .g         -e         +c         )a         (`         &^         $\\         !Y          NW       "\
+         "   LU          IQ                                                                                                                                                                                       "\
+         "                                :R>Z         9ZD^      8T  *^G`      :X@Q  ?`Ib      ;ZCS  AcMe      ;[FTAQ \"{      ;\\GTBS $}      ;\\JVBS $}      ;]LWBT %}      ;hBV (~P      ;gBXNT 0~P      ;hC^ 0~P "\
+         "     GQEhC^ 0~P      KZKpK_ 0~P      M~TM_ 0~P      ~h 0~P     !~i 0~P     \"~j 0~P     \#~k 0~     \#~m 1~     $~n 0}     %~o 0|     %~q 1|     &~r 0{     \47~t 1z     (~w 1y     *~z 2x     +~| 2w     +~~"\
+         " 2v     ,~~P 1t     ,~~\\ <t     -~~_ =r     -~~` <p     .~~d =n     /~~f =m     0~~i =l     0~~i <j     0~~j ;h     0~~j 9f     /~~a /d     /~~a -b   4U  ~~` *_   3V !~~_ (\\   2X \"~~^ &Z   1Z $~~^ %X "\
+         "  0[ %~~^ \#U   /\\ &~~^     ,] \47~~^     ,^ (~~_     -_ )~~_     -` *~~_     -a +~~`     -a ,~~`     -c .~~a     -c /~~a     -d 0~~a     ,e 2~~b     -f 3~~b     ,f 4~~b     +f 5~~b     +h 8~~c     *i ;~"\
+         "~d     *k =~~d     )l @~~e     )o D~~f     (p F~~f     \47q I~~g     &r K~~g     %t N~~g     %w\"~~g     $x$~~g     .UJz\47~~f     .YL|*~~f KP    3ZL~-~~f LR    5~b1~~f MS    5~e4~~f MR    4~g5~~d MS    4~"\
+         "i8~~e MS    3~j:~~e MS    3~k;~~d LS    3~l<~~d LS    2~l=~~c KS    1~l>~~c LU    2~m?~~b KU    0~k?~~b KV    0~k@~~b KX    2~l@~~` KZ    2~k@~~` K[    1~j@~~_ LTKU   2U&~i?~~] LSHU   4X\47~i@~~] MTGT  "\
+         " 5[\47~g@~~\\ MTET   6\\\47~f?~~[ MSCT   7]&~e@~~Z MTCU   8_1VL~dA~~Z MTAU   9a5~pA~~Z NU@T   9c7~pA~~Y MT>U   :d:~qB~~Y LS=V   ;f<~rC~~Y MT<V   <h>~rC~~Y NT:V   <i@~rC~~Y U9V   =j@~qC~~Y T8W   =kB~qC~~Z\"T6"\
+         "V   <nD~oB~~Y\"T5V   =qF~oA~~X$T3U   <sH~n=~~T%T1U   ;vK~l:~~R\47T/U   <~~h9~~Q(U.U   <~~g8~~P(T-V   <~~g8~~P*T+U   ;~~f8~~P+U*U   ;~~e7~~+T(T   ;~~e6~|+T\47U   :~~d7~|+T&U   :~~c7~|,T%V   ;~~c6~{,S\#U   9~"\
+         "~b7~z-U\#V   9~~a7~z-T!U   7~~_7~y-U T   5~~^8~y.U NU   ?RH~~]8~x-T LU   BXK~~\\9~y.U LU   C~~k:~y/U JU   E~~l;~y.T IU   E~~l<~y.U HU   F~~m>~z/U GU   F~~m>~y.T FV   G~~m?~y.T DU   G~~m@~y.U DU   G~~n@~"\
+         "w-T BU   G~~m@UH~i-T AU   F~~m*~^-U AU   E~~l*~]-U ?U   E~~l*~Z+T >U   C~~l,~Y+U >U   B~~t5~X+U =V   A~~v9~W+U ;U   @~~w;~W+U ;U   >~~y@~W+U :U   <~~zC~W+T 9V   ;~~zF~W+U 9V   8~~yH~W,U 7U   5~~xL~X+U"\
+         " 7U   3~~~~S,U 6U   ?~~~~^,U 5U   @~~~~^+U 5V   B~~~~QIV+U 4V   C~~~~Q MU 3V   C~~~~P LT 2V   C~~~~ LU 2V   C~~~~ MU 1V   C~~~} MU 0V   B~~~| MT /V   A~~~{ NU /V   @~~~y NU /W   >~~~w NU /V   :~~~t U "\
+         ".V   8~~~r!U -V   4~~~o\"U -V   .~~~j$U -W   1~~~r*V -V   3~~~y/V ,V   4~~~|1U ,W   5~~~~3V ,W   6~~~~R6V +V   5~~~~T8U +W   4~~~~U:T *W   4~~~~Z@U +W   3~~~~]DU +W   1~~~~^FT *W   0~~~~^HT *W   -~~~~^"\
+         "KT *X   +~~~~^NU +X   \"~~~~\\ +X   !~~~~\\ ,X    ~~~~[ +W    ~~~~\\ ,W    N~~~~\\ -W    N~~~~] .X    N~~~~] /X    M~~~~] 0Y    L~~~~] 1X    J~~~~\\ 2X    G~~~~[ 4X    @~~~~V 6Y    >~~~~U 7X    >~~~~X :X   "\
+         " >~~~~Z <Y    >~~~~] @Z    >~~~~t)Z    >~~~~{0[    =~~~~}4\\    =~~~~~Q9^    ;~~~~~R>a    4~~~~~Fd    4~~~~~n    5~~~~~o*S   1~~~~~q-X   4~~~~~y6Z   5~~~~~~UB]   7~~~~~~[J`   6~~~~~~p   /~~~~~hEu   /~~"\
+         "~~~f=o   0~~~~~f2d   /~~~~~e1c   /~~~~~e0a   ,~~~~~c/^   \#~~~~~\\.\\   !~~~~~[-Y    N~~~~~Z*T    K~~~~~Z    !~~~~~Z     ~~~~~X     K~~~~~T     C~~~~{     B~~~~y     @~~~~x     >~~~~v     =~~~~v     ;~~~"\
+         "~s     3~~~~l     1~~~~[M\\     0~~kKX:vGZ     .~~hHT4oDZ     ,TK`L~xGR\47_?Y     !]I~vGQ 5Y      ZG~vFP 4Y      NWF~vFP 4Y      =~wGQ 5Y      =~wGQ 5Y      =~wGQ 4X      >~xFP 4X      ?~zGQ 5X      @~{G"\
+         "Q 5Y      D~~GQ 4X      F~~QGR 5X      G~~RFQ 5X      H~~SFQ 4X      J~~TFR 5X      K~~UEQ 4W      L~~VEQ 4X      N~~WEQ 4X      ~~XER 4W      ~~XDQ 4X     \"~~YDQ 4X     \#~~ZDQ 3W     $~~[DR 4X     %~"\
+         "~[DR 4X     &~~\\CQ 4X     &~~\\CQ 4X     &~~\\CQ 4X     \47~~]CR 5X     \47~~]BQ 5X     \47~~\\AQ 5X     \47~~\\AQ 5X     (~~]AR 6X     (~~]@Q 6X     (~~]@Q 7Y     )~~]?Q 7X    LV 2~~]?R 8X   !] 5~~]>Q 8X   \#a 7~"\
+         "~]>Q 9Y   %d 8~~\\=R :X   &g 9~~\\=R :X   )k :~~\\<Q ;Y   7y :~~\\<Q ;X   8| ;~~[;R <X   9} ;~~[;R =Y   :~ ;~~[;R =X   :~Q <~~Z9Q >Y   ;~R <~~Z9R ?X   :~R <~~Y8R @Y   ;~S <~~X6Q @X   :~S <~~X6Q AY   ;~T ="\
+         "~~X5R BX   :~T >~~X4R CX   9~U B~~Z2Q CX   9~U F~~]1Q DX   8~V I~~_1Q EX   7~X L~~^/R GY   7~d*~~_/R HY   5~f/~~a.Q HX   4~h2~~a-Q IX   1TJ~_7~~c-R KY   $~^;~~e-R LY   \"~^=~~f,Q MY    ~_@~~h-Q NY    K"\
+         "~]B~~i-R!Y    H~[C~~k.R\"Y    B~WE~~l-Q\#Y    =~TG~~m-R%Y    ;~TH~~n.R\47Z    9~TJ~~p/R(Z    7~TL~~q.Q)Z    5~~~x.R,[    3~~~x/R-[    1~~~w/R.Z    /~~~w.Q0[    -~~~v.Q2\\    +~~~v/R4[    (~~~u/R6[    &~~~u"\
+         ".Q8\\    $~~~t.Q9\\    \"~~~s.Q;\\     N~~~s/R>]     L~~~r.Q@]     I~~~q.QB^     G~~~p.QC]     D~~~p.QF\\     @~~~o.QH\\     =~~~n.RK\\     :~~~m.b     8~~~l.`     5~~~k.]     1~~~j.Y     +~~~h.W     (~~~g.U"\
+         "     &~~~g.T     \#~~~e.S     !~~VJ~X.S      N~~RF~V.R      L~~PD~U.R      J~{A~U/Q      G~w>~T      \#~s;~S      !~m6~R       N~i3~Q       J~a.~P       G~Z)~       E~ M}       Ds C|       Cf 6{       A"\
+         "a 2z       @] .z       ?Y +y       <S (y         C| 1R       :~R BVHX       ?~T CYKZ       A~U D[N]       C~V El       E~W El       G~X Dl       H~Y En       J~Z En       J~Y Dn       L~[ Dn       L~Z"\
+         " Cm       L~Z Al       M~Z @l       M~Z @l       N~Z ?k       M~Y =j       N~Y <i       M~X :h       N~W 8g       M~V 6e       M~V 4c       M~U 1a       L~T 0a       M~T ._       M~T ,]       M~S )[  "\
+         "     N~S %W       L~Q \"U       N~S  S       ~S         L~T         K~T         L~T         K~S         J~S         J~Q         G~P         G~         E|         Cz         Ax         ?v         =t    "\
+         "     ;r         9p         7p         6n         5n         4n         5n         4m         3l         2k         1j         0i         .g         -f         -f         ,e         ,e         ,f      "\
+         "   -f         ,e         ,f         -g         .g         .h         .g         .h         -f         -f         +c         \47`         \#Y                                                               "\
+         "                                            2"'})
+      --[-1] {47+32} -a x -y -uncompress_rle -r $ir,$ir,1,1,5 -if {$ir>480} -b[-1] 0.2% -endif ->= 40%
+    -endl
+  -endif
   -nm "[2d cupid shape]"
-  -endl -v +
+  -v +
 
-#@gmic shape_diamond : _size>0
+#@gmic shape_diamond : _size>=0
 #@gmic : Input a 2d diamond binary shape with specified size.
 #@gmic : Default value: 'size=512'.
 #@gmic : $ -shape_diamond ,
-shape_diamond : -check "${1=512}>=1"
+shape_diamond : -check "${1=512}>=0"
   -e[^-1] "Input a $1x$1 diamond binary shape."
   -v -
   ir={round($1)}
-  -if {$ir<2} $ir,$ir,1,1,1
+  -if {!$ir} 0
+  -elif {$ir<2} $ir,$ir,1,1,1
   -else
     {int($ir/2)+($ir%2)},{int($ir/2)+($ir%2)} -=[-1] 1,100%,100%
     -distance[-1] 1,1 -<=[-1] {i/2}
@@ -2627,17 +2637,22 @@ shape_diamond : -check "${1=512}>=1"
   -nm[-1] "[2d diamond shape]"
   -v +
 
-#@gmic shape_star : _size>0,_nb_branches>0,0<=_thickness<=1
+#@gmic shape_star : _size>=0,_nb_branches>0,0<=_thickness<=1
 #@gmic : Input a 2d star binary shape with specified size.
 #@gmic : Default values: 'size=512', 'nb_branches=5' and 'thickness=0.38'.
 #@gmic : $ -shape_star ,
-shape_star : -check "${1=512}>=1 && ${2=5}>0 && ${3=0.5}>=0 && $3<=1"
+shape_star : -check "${1=512}>=0 && ${2=5}>0 && ${3=0.5}>=0 && $3<=1"
   -e[^-1] "Input a $1x$1 star binary shape, with $2 branches and thickness $3."
-  -v - -l[]
-    -star3d $2,$3 -col3d 1 -c3d -n3d -*3d $1,$1
-    $1,$1 -j3d[-1] [-2],50%,50%,0,1,2 -rm[-2]
-    -nm "[2d star shape]"
-  -endl -v +
+  -v -
+  ir={round($1)}
+  -if {!$ir} 0
+  -else -l[]
+      -star3d $2,$3 -col3d 1 -c3d -n3d -*3d $1,$1
+      $1,$1 -j3d[-1] [-2],50%,50%,0,1,2 -rm[-2]
+    -endl
+  -endif
+  -nm "[2d star shape]"
+  -v +
 
 #@gmic sh : eq. to '-shared'. : (+)
 
@@ -6732,28 +6747,6 @@ blur_z : -skip ${2=1}
   -e[^-1] "Blur image$? along the z-axis, with sigma $1 and "${-arg\ 1+!$2,neumann,dirichlet}" boundary conditions."
   -v - -deriche $1,0,z,$2 -v +
 
-#@gmic bokeh : _amplitude>=0,_smoothness>=0,0<=_density<=100,_bokeh_size>0,0<=_bokeh_outline_size<=100,_bokeh_outline_amplitude>=0,_bokeh_smoothness>=0
-#@gmic : Create a Bokeh effect from selected images.
-#@gmic : Default values: 'amplitude=200', 'smoothness=2', 'density=0.2', 'bokeh_size=24', 'bokeh_outline_size=10', 'bokeh_outline_amplitude=1' and 'bokeh_smoothness=0.1'.
-#@gmic : $ image.jpg --bokeh ,
-bokeh : -check "${1=200}>=0 && ${2=2}>=0 && ${3=0.2}>=0 && $3<=100 && ${4=24}>0 && ${5=10}>=0 && $5<=100 && ${6=2}>=0 && ${7=1}>=0 && ${8=0.1}>=0"
-  -e[^-1] "Apply bokeh effect to image$?, with amplitude $1, smoothness $2, density $3%, bokeh size $4, bokeh outline size $5 "\
-          "bokeh outline amplitude $6 and bokeh smoothness $7."
-  -v -
-
-  # Create bokeh kernel.
-  256,256 -=[-1] 1,50%,50% -distance[-1] 1
-  --<[-1] 70% -ir[-2] 70%,{70-$5*70/100}% -*[-2] $6 -+[-2,-1] -r[-1] $4,$4,1,1,2
-  -expand_xy[-1] {3*$7},0 -b[-1] $7,0 -->[-1] 0.1 -*[-2,-1] -autocrop[-1]
-  -normalize_sum[-1]
-
-  # Apply bokeh effect.
-  -repeat {$!-1} -l[$>,-1]
-    --remove_pixels[0] {100-$3}% -convolve[-1] [-2],0 -n[-1] 0,$1
-    -b[0] $2 -+[0,-1] -c[0] 0,255
-  -endl -done -rm[-1]
-  -v +
-
 #@gmic boxfilter : size>=0[%],_order,_boundary : axes,size>=0[%],_order,_boundary : (+)
 #@gmic : Blur selected images by a box filter of specified size (recursive implementation).
 #@gmic : 'order' can be { 0=smooth | 1=1st-derivative | 2=2nd-derivative }.
@@ -10724,7 +10717,9 @@ sprites3d : -check ${-is_image_arg\ $1} -skip ${2=0}
   -e[^-1] "Convert image$? as 3d sprites clouds, using sprite $1 ("${"-arg {1+!$2},with,without"}" alpha-channel)."
   -v - -repeat $!
     -if {!{$>,i(0,7)}} -continue -endif # Do nothing if 3d object is empty.
-    -pass$1 0 -l[$>,-1]
+    -pass$1 0
+    -if {!w} -empty3d -rv[$>,-1] -nm[$>] {n} -rm[-1] -continue -endif
+    -l[$>,-1]
     -s3d[0] N={1,[0]} -=[1] $N,0,1
     -rm[3-5] -i[3] (1,0;1,{$N-1}) -r[3] 2,$N,1,1,3 -round[3]
     -if $2 # With alpha-channel.
@@ -19800,20 +19795,67 @@ gimp_isolate_tiles :
 #@gimp _<b>Artistic</b>
 #----------------------
 
-#@gimp Bokeh : bokeh, gimp_bokeh_preview(0)
-#@gimp : note = note("<b><small>Global parameters:</small></b>")
-#@gimp : Amplitude = float(250,0,600)
-#@gimp : Smoothness = float(2,0,20)
-#@gimp : Density = float(0.5,0,5)
-#@gimp : sep = separator(), note = note("<b><small>Bokeh shape:</small></b>")
-#@gimp : Size = int(24,1,64)
-#@gimp : Outline size (%) = float(10,0,100)
-#@gimp : Outline amplitude = float(2,0,10)
-#@gimp : Smoothness = float(0.7,0,5)
+#@gimp Bokeh : gimp_bokeh, gimp_bokeh_preview(1)
+#@gimp : Number of scales = int(3,1,10)
+#@gimp : sep = separator(), note = note{"<small><b>Starting parameters:</b></small>"}
+#@gimp : Density = int(60,1,256)
+#@gimp : Radius (%) = float(8,0,50)
+#@gimp : Outline (%) = float(4,0,100)
+#@gimp : Shade = float(0.3,0,1)
+#@gimp : Smoothness = float(0.2,0,8)
+#@gimp : Opacity = float(0.8,0,1)
+#@gimp : sep = separator(), note = note{"<small><b>Ending parameters:</b></small>"}
+#@gimp : Density = int(15,1,256)
+#@gimp : Radius (%) = float(20,0,50)
+#@gimp : Outline (%) = float(20,0,100)
+#@gimp : Shade = float(1,0,1)
+#@gimp : Smoothness = float(2,0,8)
+#@gimp : Opacity = float(0.4,0,1)
+#@gimp : sep = separator()
+#@gimp : Tint = color(140,60,40)
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
-#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>04/24/2013</i>.</small>")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/02/2015</i>.</small>")
+gimp_bokeh :
+  -repeat $! -l[$<] nm=${-gimp_layer_name}
+    100%,100%,1,3
+    (${2-7};${8-13}) -r[-1] 100%,$1,1,1,3
+    -repeat $1
+      --rows[-1] $> -_gimp_bokeh[-3] {^} -rm[-1]
+    -done
+    -rm[-1]
+    -round[-1] -balance_gamma[-1] ${14-16}
+    -nm[-1] name($nm),opacity(100),mode(screen)
+    -rv
+  -endl -done
+
 gimp_bokeh_preview :
-  -gimp_split_preview "-bokeh $*",$-1
+  -repeat $! -l[$>]
+    -if {$-1==1" || "$-1==3" || "$-1==5} -r 100%,200%,1,100%,0,2
+    -elif {$-1==2" || "$-1==4" || "$-1==6} -r 200%,100%,1,100%,0,2
+    -endif
+    -gimp_split_preview "-gimp_bokeh $* -gimp_merge_layers",$-1
+    -if {$-1==1" || "$-1==3" || "$-1==5} -repeat $! -l[$>] -s y,4 -k[0,3] -a y -endl -done
+    -elif {$-1==2" || "$-1==4" || "$-1==6} -repeat $! -l[$>] -s x,4 -k[0,3] -a x -endl -done
+    -endif
+  -endl -done
+
+# [internal] Draw one step of bokeh with specified geometry on last image.
+# $1=density, $2=size(in %), $3=outline(in %), $4=shade (in [0,1]), $5=smoothness (in %), $6=opacity (in [0,1]).
+_gimp_bokeh :
+  radius1={r=max(w,h)*$2%;r+1-(r%2)}
+  radius2={r=$radius1-($radius1*$3%);r+1-(r%2)}
+
+  -random3d $1 -*3d[-1] {-2,w},{-2,h},0
+  -shape_circle $radius1
+  -if {$radius2>=1} -shape_circle $radius2 -r[-1] [-2],0,0,0.5,0.5 -*[-1] {max(0,min(1,1-$4))} --[-2,-1] -endif
+
+  sigma={-3,$5%*w}
+  -r[-1] {w+5*$sigma},{h+5*$sigma},1,1,0,0,0.5,0.5
+  -b[-1] $sigma,0 -n[-1] 0,255
+
+  -sprites3d[1] [2],1 -rm[2]
+  -l[-1] -s3d -rand[-2] 0,255 -a y -endl
+  -j3d[0] [1],0,0,0,$6,1,0,0 -rm[1]
 
 #@gimp Cartoon : cartoon, gimp_cartoon_preview(0)
 #@gimp : Smoothness = float(3,0,10)
