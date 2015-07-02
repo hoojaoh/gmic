@@ -18443,12 +18443,13 @@ _gimp_merge_layers :
 # Generate a splitted preview, with arguments "command",_split_type,_timeout.
 # 'split_type' can be { 0=no split | 1=forw. horiz. | 2=forw. vert. | 3=back. horiz. | 4=back. vert. | 5=dupl. horiz. | 6=dupl. vert. }
 # 'timeout' can be { 0=no timeout | >0=with specified timeout (in seconds) }.
+# 'compute_entire_image' can be { 0=no | 1=yes }.
 _before :
   0 -t[-1] "Before",1,-1,13,1,1 -r[-1] {w+4},{h+4},1,1,0,0,0.5,0.5
 _after :
   0 -t[-1] "After",1,-1,13,1,1 -r[-1] {w+4},{h+4},1,1,0,0,0.5,0.5
 
-gimp_split_preview : -skip ${3=0}
+gimp_split_preview : -skip ${3=0},${4=0}
   -if $3
     -m "gsp : w={w} h={h} s={s} -l -apply_timeout \"$1\",$3 -onfail -gimp_timeout_preview -endl -if {!$!} $w,$h,1,4 -drgba -to_colormode $s -endif -k[0] -if {s>4} -channels 0,3 -endif"
   -else
@@ -18457,18 +18458,22 @@ gimp_split_preview : -skip ${3=0}
   -repeat $! -l[$>]
     -if {$2==0} -gsp[-1] -mv[-1] 0 -continue -endif  # No split.
     -if {!($2%2)} # Vertical split.
+      -if $4 -r[-1] 200%,100%,100%,100%,0,2 -endif
       -s[-1] x,2
       -if {$2==2} -gsp[-1] -to_colormode[-2,-1] 0 -_before -_after    # Forward vertical.
       -elif {$2==4} -gsp[-2] -to_colormode[-2,-1] 0 -_after -_before  # Backward vertical.
       -else -rm[-1] --gsp[-1] -to_colormode[-2,-1] 0 -_before -_after # Duplicate vertical.
       -endif
+      -if $4 hw={-4,int(w/2)} -z[-4] 0,{$hw-1} -z[-3] $hw,100% -endif
       -line[-3] 0,0,0,{-3,h},1,0,0,0,255 -a[-4,-3] x
     -else # Horizontal split.
+      -if $4 -r[-1] 100%,200%,100%,100%,0,2 -endif
       -s[-1] y,2
       -if {$2==1} -gsp[-1] -to_colormode[-2,-1] {max({-2,s},s)} -_before -_after   # Forward horizontal.
       -elif {$2==3} -gsp[-2] -to_colormode[-2,-1] {max({-2,s},s)} -_after -_before # Backward horizontal.
-      -else -rm[-1] --gsp[-1] -to_colormode[-2,-1] 0 -_before -_after               # Duplicate horizontal.
+      -else -rm[-1] --gsp[-1] -to_colormode[-2,-1] 0 -_before -_after              # Duplicate horizontal.
       -endif
+      -if $4 hh={-4,int(h/2)} -rows[-4] 0,{$hh-1} -rows[-3] $hh,100% -endif
       -line[-3] 0,0,{-3,w},0,1,0,0,0,255 -a[-4,-3] y
     -endif
     --dilate[-2,-1] 5 -*[-4,-3] 255 -to_colormode[-4,-3] {-5,s} # If splited, display "before/after" text.
@@ -19829,15 +19834,7 @@ gimp_bokeh :
   -endl -done
 
 gimp_bokeh_preview :
-  -repeat $! -l[$>]
-    -if {$-1==1" || "$-1==3" || "$-1==5} -r 100%,200%,1,100%,0,2
-    -elif {$-1==2" || "$-1==4" || "$-1==6} -r 200%,100%,1,100%,0,2
-    -endif
-    -gimp_split_preview "-gimp_bokeh $* -gimp_merge_layers",$-1
-    -if {$-1==1" || "$-1==3" || "$-1==5} -repeat $! -l[$>] -s y,4 -k[0,3] -a y -endl -done
-    -elif {$-1==2" || "$-1==4" || "$-1==6} -repeat $! -l[$>] -s x,4 -k[0,3] -a x -endl -done
-    -endif
-  -endl -done
+  -gimp_split_preview "-gimp_bokeh $* -gimp_merge_layers -d",$-1,0,1
 
 # [internal] Draw one step of bokeh with specified geometry on last image.
 # $1=density, $2=size(in %), $3=outline(in %), $4=shade (in [0,1]), $5=smoothness (in %), $6=opacity (in [0,1]).
@@ -24921,13 +24918,7 @@ gimp_light_leaks :
   -rm[0]
 
 gimp_light_leaks_preview :
-  -if {$-1==1" || "$-1==3" || "$-1==5} -r 100%,200%,1,100%,0,2
-  -elif {$-1==2" || "$-1==4" || "$-1==6} -r 200%,100%,1,100%,0,2
-  -endif
-  -gimp_split_preview "-gimp_light_leaks ${1--3},0",$-1
-  -if {$-1==1" || "$-1==3" || "$-1==5} -repeat $! -l[$>] -s y,4 -k[0,3] -a y -endl -done
-  -elif {$-1==2" || "$-1==4" || "$-1==6} -repeat $! -l[$>] -s x,4 -k[0,3] -a x -endl -done
-  -endif
+  -gimp_split_preview "-gimp_light_leaks ${1--3},0",$-1,0,1
 
 #@gimp Light patch : gimp_light_patch, gimp_light_patch(0)
 #@gimp : Density = int(5,2,30)
