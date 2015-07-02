@@ -27830,7 +27830,29 @@ gmicol_logo_en :
 #@gmicol _<b>Artistic</b>
 #------------------------
 
-#@gmicol clone("Bokeh")
+#@gmicol Bokeh : gmicol_bokeh, gimp_bokeh_preview(1)
+#@gmicol : Number of scales = int(3,1,10)
+#@gmicol : sep = separator(), note = note{"<small><b>Starting parameters:</b></small>"}
+#@gmicol : Density = int(60,1,256)
+#@gmicol : Radius (%) = float(8,0,50)
+#@gmicol : Outline (%) = float(4,0,100)
+#@gmicol : Shade = float(0.3,0,1)
+#@gmicol : Smoothness = float(0.2,0,8)
+#@gmicol : Opacity = float(0.8,0,1)
+#@gmicol : sep = separator(), note = note{"<small><b>Ending parameters:</b></small>"}
+#@gmicol : Density = int(15,1,256)
+#@gmicol : Radius (%) = float(20,0,50)
+#@gmicol : Outline (%) = float(20,0,100)
+#@gmicol : Shade = float(1,0,1)
+#@gmicol : Smoothness = float(2,0,8)
+#@gmicol : Opacity = float(0.4,0,1)
+#@gmicol : sep = separator()
+#@gmicol : Tint = color(140,60,40)
+#@gmicol : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
+#@gmicol : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/02/2015</i>.</small>")
+gmicol_bokeh :
+  -repeat $! -l[$>] -gimp_bokeh $* -gimp_merge_layers -endl -done
+
 #@gmicol clone("Cartoon")
 #@gmicol clone("Circle abstraction")
 #@gmicol clone("Cubism")
