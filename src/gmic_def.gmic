@@ -18464,7 +18464,10 @@ gimp_split_preview : -skip ${3=0},${4=0}
       -elif {$2==4} -gsp[-2] -to_colormode[-2,-1] 0 -_after -_before  # Backward vertical.
       -else -rm[-1] --gsp[-1] -to_colormode[-2,-1] 0 -_before -_after # Duplicate vertical.
       -endif
-      -if $4 hw={-4,int(w/2)} -z[-4] 0,{$hw-1} -z[-3] $hw,100% -endif
+      -if $4
+        hw={-4,int(w/2)} -z[-4] 0,{$hw-1}
+        -if {$2==6} -z[-3] 0,{$hw-1} -else -z[-3] $hw,100% -endif
+      -endif
       -line[-3] 0,0,0,{-3,h},1,0,0,0,255 -a[-4,-3] x
     -else # Horizontal split.
       -if $4 -r[-1] 100%,200%,100%,100%,0,2 -endif
@@ -18473,7 +18476,10 @@ gimp_split_preview : -skip ${3=0},${4=0}
       -elif {$2==3} -gsp[-2] -to_colormode[-2,-1] {max({-2,s},s)} -_after -_before # Backward horizontal.
       -else -rm[-1] --gsp[-1] -to_colormode[-2,-1] 0 -_before -_after              # Duplicate horizontal.
       -endif
-      -if $4 hh={-4,int(h/2)} -rows[-4] 0,{$hh-1} -rows[-3] $hh,100% -endif
+      -if $4
+        hh={-4,int(h/2)} -rows[-4] 0,{$hh-1}
+        -if {$2==5} -rows[-3] 0,{$hh-1} -else -rows[-3] $hh,100% -endif
+      -endif
       -line[-3] 0,0,{-3,w},0,1,0,0,0,255 -a[-4,-3] y
     -endif
     --dilate[-2,-1] 5 -*[-4,-3] 255 -to_colormode[-4,-3] {-5,s} # If splited, display "before/after" text.
