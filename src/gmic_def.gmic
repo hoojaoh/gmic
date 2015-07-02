@@ -19017,7 +19017,7 @@ gimp_gmicky_preview :
 #@gimp : - <b>05/14/2014</b> : version <i>1.5.9.0</i>.\n
 #@gimp : - <b>08/20/2014</b> : version <i>1.6.0.0</i>.\n
 #@gimp : - <span foreground="purple"><b>06/22/2015</b> : version <i>1.6.5.0</i> (Current stable).</span>\n
-#@gimp : - <b>06/25/2014</b> : version <i>1.6.5.1</i> (Current pre-release).\n
+#@gimp : - <b>07/02/2015</b> : version <i>1.6.5.1</i> (Current pre-release).\n
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : link = link("View latest changelog","https://www.flickr.com/groups/gmic/discuss/72157653514140862/")
@@ -19834,7 +19834,7 @@ gimp_bokeh :
   -endl -done
 
 gimp_bokeh_preview :
-  -gimp_split_preview "-gimp_bokeh $* -gimp_merge_layers -d",$-1,0,1
+  -gimp_split_preview "-gimp_bokeh $* -gimp_merge_layers",$-1,0,1
 
 # [internal] Draw one step of bokeh with specified geometry on last image.
 # $1=density, $2=size(in %), $3=outline(in %), $4=shade (in [0,1]), $5=smoothness (in %), $6=opacity (in [0,1]).
