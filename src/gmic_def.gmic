@@ -18675,7 +18675,7 @@ gimp_logo_en :
 #@gimp_fr : note = note{"
 #@gimp_fr : <span foreground="purple">( <b>G</b>REYC's <b>M</b>agic for <b>I</b>mage <b>C</b>omputing )</span>\n\nvous est propos&#233; par"}
 #@gimp_fr : note = link("David Tschumperl\303\251","http://tschumperle.users.greyc.fr/")
-#@gimp_fr : note = link{"( Equipe IMAGE / Laboratoire GREYC - CNRS UMR 6072 )","http://www.greyc.fr/node/36"}
+#@gimp_fr : note = link{"( Equipe IMAGE / Laboratoire GREYC - CNRS UMR 6072 )","http://www.greyc.fr/image"}
 #@gimp_fr : note = note{"
 #@gimp_fr : Ce greffon est bas&#233; sur nos biblioth&#232;ques libres <b>G'MIC</b> et <b>CImg</b> (C++ Template Image Processing Library),
 #@gimp_fr : disponibles aux adresses :"}
