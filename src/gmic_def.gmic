@@ -19830,34 +19830,32 @@ gimp_isolate_tiles :
 #@gimp : Number of scales = int(3,1,10)
 #@gimp : Shape = choice(8,"Triangle","Square","Diamond","Pentagon","Hexagon","Octogon","Decagon","Star","Circular")
 #@gimp : sep = separator(), note = note{"<small><b>Starting parameters:</b></small>"}
-#@gimp : Density = int(60,1,256)
+#@gimp : Density = int(30,1,256)
 #@gimp : Radius (%) = float(8,0,50)
 #@gimp : Outline (%) = float(4,0,100)
 #@gimp : Inner shade = float(0.3,0,1)
 #@gimp : Smoothness = float(0.2,0,8)
-#@gimp : Opacity = float(0.8,0,1)
+#@gimp : Color = color(210,210,80,160)
+#@gimp : Color dispersion = float(0.7,0,1)
 #@gimp : sep = separator(), note = note{"<small><b>Ending parameters:</b></small>"}
-#@gimp : Density = int(15,1,256)
+#@gimp : Density = int(30,1,256)
 #@gimp : Radius (%) = float(20,0,50)
 #@gimp : Outline (%) = float(20,0,100)
 #@gimp : Inner shade = float(1,0,1)
 #@gimp : Smoothness = float(2,0,8)
-#@gimp : Opacity = float(0.4,0,1)
-#@gimp : sep = separator()
-#@gimp : Tint = color(140,60,40)
+#@gimp : Color = color(170,130,20,110)
+#@gimp : Color dispersion = float(0.15,0,1)
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/02/2015</i>.</small>")
 gimp_bokeh :
   _shape=$2
   -repeat $! -l[$<] nm=${-gimp_layer_name}
     100%,100%,1,3
-    (${3-8};${9-14}) -if {$1>2} -r[-1] 100%,$1,1,1,3 -endif
+    (${3-12};${13-22}) -if {$1>2} -r[-1] 100%,$1,1,1,3 -endif
     -repeat $1
       --rows[-1] $> -_gimp_bokeh[-3] {^} -rm[-1]
     -done
-    -rm[-1]
-    -round[-1] -balance_gamma[-1] ${15-17}
-    -nm[-1] name($nm),opacity(100),mode(screen)
+    -rm[-1] -nm[-1] name($nm),opacity(100),mode(screen)
     -rv
   -endl -done
 
@@ -19875,7 +19873,8 @@ gimp_bokeh_preview :
   -gimp_split_preview "-gimp_bokeh $* -gimp_merge_layers",$-1,0,1
 
 # [internal] Draw one step of bokeh with specified geometry on last image.
-# $1=density, $2=size(in %), $3=outline(in %), $4=shade (in [0,1]), $5=smoothness (in %), $6=opacity (in [0,1]).
+# $1=density, $2=size(in %), $3=outline(in %), $4=shade (in [0,1]), $5=smoothness (in %),
+# $6,$7,$8,$9=RGBA (in [0,255]), $10 = color dispersion (in [0,1])
 _gimp_bokeh :
   radius1={r=max(w,h)*$2%;r+1-(r%2)}
   radius2={r=$radius1-($radius1*$3%);r+1-(r%2)}
@@ -19889,8 +19888,15 @@ _gimp_bokeh :
   -b[-1] $sigma,0 -n[-1] 0,255
 
   -sprites3d[1] [2],1 -rm[2]
-  -l[-1] -s3d -rand[-2] 0,255 -a y -endl
-  -j3d[0] [1],0,0,0,$6,1,0,0 -rm[1]
+  -l[-1]
+    -s3d -r[-2] 3,{-2,h/3},1,1,-1 -s[-2] x
+    d={$10*255}
+    -rand[-4] {$6-$d},{$6+$d}
+    -rand[-3] {$7-$d},{$7+$d}
+    -rand[-2] {$8-$d},{$8+$d}
+    -a[-4--2] x -c[-2] 0,255 -y -a y
+  -endl
+  -j3d[0] [1],0,0,0,{$9/255},1,0,0 -rm[1]
 
 #@gimp Cartoon : cartoon, gimp_cartoon_preview(0)
 #@gimp : Smoothness = float(3,0,10)
@@ -26961,17 +26967,22 @@ gimp_mandelbrot_preview :
 #@gimp : Glow = float(0.7,0,5)
 #@gimp : Thickness = float(3,0,20)
 #@gimp : sep = separator()
-#@gimp : Tint = color(130,80,50)
-#@gimp : Opacity = float(1,0,1)
+#@gimp : Color = color(130,80,50)
+#@gimp : Color dispersion = float(0.25,0,1)
+#@gimp : Transparency = float(0,0,1)
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>06/30/2015</i>.</small>")
 gimp_neon_lightning :
+  d={$13*255}
   -repeat $! -l[$>]
     100%,100%,1,4 -rm[0]
     -repeat $7
       x0={max(0,min(w,$1+?(-$3,$3)))} y0={max(0,min(h,$2+?(-$3,$3)))}
       x1={max(0,min(w,$4+?(-$6,$6)))} y1={max(0,min(h,$5+?(-$6,$6)))}
       u0={?(0,100)} v0={?(0,100)} u1={?(0,100)} v1={?(0,100)}
-      -spline $x0%,$y0%,$u0%,$v0%,$x1%,$y1%,$u1%,$v1%,256,1,${-RGB},1
+      R={max(0,min(255,?($10-$d,$10+$d)))}
+      G={max(0,min(255,?($11-$d,$11+$d)))}
+      B={max(0,min(255,?($12-$d,$12+$d)))}
+      -spline $x0%,$y0%,$u0%,$v0%,$x1%,$y1%,$u1%,$v1%,256,1,$R,$G,$B,1
     -done
     -s c,-3
     -b[0] 3%
@@ -26979,8 +26990,7 @@ gimp_neon_lightning :
     --b[-1] $8%,1 -n[-1] 0,1 -sqrt[-1] -n[-2,-1] 0,255 -max[-2,-1]
     [-1] -blend[0,1] value
     -smooth 5,0,1,0.5,2,10,0
-    -balance_gamma[0] ${10-12}
-    -/[-1] 255 -pow[-1] {1-$13} -*[-1] 255
+    -/[-1] 255 -pow[-1] $14 -*[-1] 255
     -a c -c 0,255
   -endl -done
 
@@ -27861,22 +27871,23 @@ gmicol_logo_en :
 
 #@gmicol Bokeh : gmicol_bokeh, gimp_bokeh_preview(1)
 #@gmicol : Number of scales = int(3,1,10)
+#@gmicol : Shape = choice(8,"Triangle","Square","Diamond","Pentagon","Hexagon","Octogon","Decagon","Star","Circular")
 #@gmicol : sep = separator(), note = note{"<small><b>Starting parameters:</b></small>"}
-#@gmicol : Density = int(60,1,256)
+#@gmicol : Density = int(30,1,256)
 #@gmicol : Radius (%) = float(8,0,50)
 #@gmicol : Outline (%) = float(4,0,100)
-#@gmicol : Shade = float(0.3,0,1)
+#@gmicol : Inner shade = float(0.3,0,1)
 #@gmicol : Smoothness = float(0.2,0,8)
-#@gmicol : Opacity = float(0.8,0,1)
+#@gmicol : Color = color(210,210,80,160)
+#@gmicol : Color dispersion = float(0.7,0,1)
 #@gmicol : sep = separator(), note = note{"<small><b>Ending parameters:</b></small>"}
-#@gmicol : Density = int(15,1,256)
+#@gmicol : Density = int(30,1,256)
 #@gmicol : Radius (%) = float(20,0,50)
 #@gmicol : Outline (%) = float(20,0,100)
-#@gmicol : Shade = float(1,0,1)
+#@gmicol : Inner shade = float(1,0,1)
 #@gmicol : Smoothness = float(2,0,8)
-#@gmicol : Opacity = float(0.4,0,1)
-#@gmicol : sep = separator()
-#@gmicol : Tint = color(140,60,40)
+#@gmicol : Color = color(170,130,20,110)
+#@gmicol : Color dispersion = float(0.15,0,1)
 #@gmicol : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
 #@gmicol : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/02/2015</i>.</small>")
 gmicol_bokeh :
