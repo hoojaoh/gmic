@@ -9412,8 +9412,8 @@ apply_camera3d : -skip ${4=0},${5=0},${6=0},${7=0},${8=-1},${9=0}
   ({$4-$1}^{$5-$2}^{$6-$3})  # f.
   ($7^$8^$9)                 # up.
   -orientation[-2,-1]        # f/|f| and up/|up|.
-  -_cross3d {-2,^},{^}        # s = f x up
-  -_cross3d {^},{-3,^}          # u = s x f
+  -_cross3d {-2,^},{^}       # s = f x up
+  -_cross3d {^},{-3,^}       # u = s x f
   -rm[-3] -y[-3--1] x -mv[-2,-1] -3
   -a[-3--1] y -z[-1] 0,3  # Rotation matrix R.
   --3d[^-1] $1,$2,$3 -pose3d[^-1] {^} -rm[-1] --3d 0,0,800
@@ -23032,6 +23032,41 @@ gimp_blur_radial_preview :
     -line $2%,0,$2%,100%,0.5,0xF0F0F0F0,255 -line $2%,0,$2%,100%,0.5,0x0F0F0F0F,0
     -circle $2%,$3%,5,0.7,0 -circle $2%,$3%,3,0.7,0,255,0
   -endif
+
+#@gimp Chromatic aberration : gimp_chromatic_aberration, gimp_chromatic_aberration_preview(0)
+#@gimp : Primary color = color(255,0,0)
+#@gimp : X-shift = float(0,-16,16)
+#@gimp : Y-shift = float(0,-16,16)
+#@gimp : sep = separator()
+#@gimp : Secondary color = color(0,255,0)
+#@gimp : X-shift (px) = float(0,-16,16)
+#@gimp : Y-shift (px) = float(0,-16,16)
+#@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/05/2015</i>.</small>")
+gimp_chromatic_aberration :
+
+  # Compute orthonormal color basis.
+  -l[]
+   (${1-3}) (${6-8})
+    -y c -orientation[0]
+    --*[0,1] --*[0] {is} --[1,3] -rm[2] -orientation[1]
+    -_cross3d {0,^},{^} -y x -a y
+    M={^} -transpose Minv={^} -rm
+  -endl
+
+  # Shift images.
+  -repeat $! -l[$>]
+    -mix_rgb $M
+    -s c
+    100%,100%,1,2 -fc[-1] {-$4},{-$5} -warp[0] [-1],1,2,1 -rm[-1]
+    100%,100%,1,2 -fc[-1] {-$9},{-$10} -warp[1] [-1],1,2,1 -rm[-1]
+    -a c
+    -mix_rgb $Minv
+  -endl -done
+  -c 0,255
+
+gimp_chromatic_aberration_preview :
+  -gimp_split_preview "-gimp_chromatic_aberration $*",$-1
 
 #@gimp Dirty : gimp_dirty, gimp_dirty_preview(0)
 #@gimp : Amplitude = float(30,0,100)
