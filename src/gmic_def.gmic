@@ -23033,7 +23033,7 @@ gimp_blur_radial_preview :
     -circle $2%,$3%,5,0.7,0 -circle $2%,$3%,3,0.7,0,255,0
   -endif
 
-#@gimp Chromatic aberration : gimp_chromatic_aberration, gimp_chromatic_aberration_preview(0)
+#@gimp Chromatic aberrations : gimp_chromatic_aberrations, gimp_chromatic_aberrations_preview(0)
 #@gimp : Primary color = color(255,0,0)
 #@gimp : X-shift = float(0,-16,16)
 #@gimp : Y-shift = float(0,-16,16)
@@ -23043,7 +23043,7 @@ gimp_blur_radial_preview :
 #@gimp : Y-shift (px) = float(0,-16,16)
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/05/2015</i>.</small>")
-gimp_chromatic_aberration :
+gimp_chromatic_aberrations :
 
   # Compute orthonormal color basis.
   -l[]
@@ -23065,8 +23065,8 @@ gimp_chromatic_aberration :
   -endl -done
   -c 0,255
 
-gimp_chromatic_aberration_preview :
-  -gimp_split_preview "-gimp_chromatic_aberration $*",$-1
+gimp_chromatic_aberrations_preview :
+  -gimp_split_preview "-gimp_chromatic_aberrations $*",$-1
 
 #@gimp Dirty : gimp_dirty, gimp_dirty_preview(0)
 #@gimp : Amplitude = float(30,0,100)
