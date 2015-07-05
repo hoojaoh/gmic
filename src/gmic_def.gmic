@@ -23055,14 +23055,14 @@ gimp_chromatic_aberrations :
   -endl
 
   # Shift images.
-  -repeat $! -l[$>]
+  -repeat $! -l[$>] -to_color -split_opacity -l[0]
     -mix_rgb $M
     -s c
     100%,100%,1,2 -fc[-1] {-$4},{-$5} -warp[0] [-1],1,2,1 -rm[-1]
     100%,100%,1,2 -fc[-1] {-$9},{-$10} -warp[1] [-1],1,2,1 -rm[-1]
     -a c
     -mix_rgb $Minv
-  -endl -done
+  -endl -a c -endl -done
   -c 0,255
 
 gimp_chromatic_aberrations_preview :
