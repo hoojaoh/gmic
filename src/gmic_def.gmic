@@ -26411,6 +26411,7 @@ _gimp_lathing3d :
 
 gimp_lathing3d :
   -_gimp_lathing3d ${1-3} -gimp_render3d ${4--1}
+  -nm name("[3d lathing]"),pos(0,0),mode(alpha)
 
 gimp_lathing3d_preview :
   -gimp_lathing3d ${1-3},{w},{h},${6--1}
