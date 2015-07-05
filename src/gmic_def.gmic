@@ -28197,6 +28197,7 @@ gmicol_rotate :
 #@gmicol clone("Blur [glow]")
 #@gmicol clone("Blur [linear]")
 #@gmicol clone("Blur [radial]")
+#@gmicol clone("Chromatic aberrations")
 #@gmicol clone("Dirty")
 #@gmicol clone("Lomo")
 #@gmicol clone("Noise [additive]")
