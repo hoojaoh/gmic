@@ -580,7 +580,7 @@ _help_usage :
 \n          a given number or expression.
 \n       . Function '"${c}"isfile()"$n"' (resp. '"${c}"isdir()"$n"') returns 0 (false) or 1 (true) whether its argument
 \n          is a valid path to a file (resp. to a directory) or not.
-\n       . Function '"${c}"fdate(path,attr)"$n"' returns the date attribute for the given 'path' (file or directory),
+\n       . Function '"${c}"fdate(attr,path)"$n"' returns the date attribute for the given 'path' (file or directory),
 \n          with 'attr' being { 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }.
 \n       . Function '"${c}"isin(v,a_1,...,a_n)"$n"' returns 0 (false) or 1 (true) whether the first value 'v' appears
 \n          in the set of other values 'a_i'.
@@ -19047,6 +19047,51 @@ gimp_gmicky_preview :
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : link = link("View latest changelog","https://www.flickr.com/groups/gmic/discuss/72157653514140862/")
+
+#@gimp Search filters : _none_, gimp_search_filters
+#@gimp : note = note("<small><i>Type the filter name you want to search for...</i></small>")
+#@gimp : Find = text(0,"/")
+#@gimp : sep = separator()
+#@gimp : Matches = _text(1,"")
+#@gimp : sep = separator(), note = note("<small>Authors : <i>Garagecoder</i> and <i>David Tschumperl&#233;</i>.      Latest update : <i>2015/07/06</i>.</small>")
+gimp_search_filters : -skip "${1=/}"
+  -l[]
+
+    # Retrieve filter file.
+    file_now=${-path_tmp}gmic_now.cimgz
+    0 -o $file_now -rm
+    date_now={fdate(2,$file_now)+31*(fdate(1,$file_now)+12*fdate(0,$file_now))} # Current date.
+    file_filters=${-path_rc}gimp_filters
+    date_filters={fdate(2,$file_filters)+31*(fdate(1,$file_filters)+12*fdate(0,$file_filters))} # Date of filter file.
+    -if {$date_filters<0" || "$date_now-$date_filters>0} # Filter file needs to be refreshed.
+      -i raw:http://gmic.eu/gimp_filters.txt,uchar
+      -o raw:$file_filters,uchar
+    -else -i raw:$file_filters,uchar
+    -endif
+
+    # Perform the search.
+    --l
+      -+ 'if(i>=65&&i<=90,32,0)' -s -,10
+      -replace_seq ${-quote\ {'"(command "{`39`}'}},1e10
+      -replace_seq ${-quote\ {'"* "'}},1e10
+      -replace_seq ${-quote\ {'${-struncase\ "$1"}'}},-1e5
+      -a x -r 100%,1,1,1,2 -lt 0
+    -endl
+
+    # Remove lines that don't fit.
+    -s[0] -,10 -a[^-1] x
+    -rv -a y -discard x,0
+    -if {!w} -rm (32)
+    -else
+      -rows 1,100%
+      -s x
+      -autocrop 0 -autocrop 32
+      -i[^0] (10) -a y
+    -endif
+    -u "{$1}{"{t}"}"
+    -rm
+  -endl
+  -gimp_print_preview "Search filters",,"from term '$1'"
 
 #@gimp User satisfaction survey : gimp_survey, gimp_survey_preview
 #@gimp : note = note{"<small>Please help us by taking a few seconds to share your feelings about the G'MIC project. Thank you for giving us the opportunity to serve you better!</small>"}
