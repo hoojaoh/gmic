@@ -6,13 +6,16 @@ COM="."
 if [ -n "$*" ]; then COM="$*"; fi
 cd $HOME/work/src/CImg
 git commit -uno -am "$COM"
+echo "CImg"
 git push
 cd $HOME/work/src/gmic
 git commit -uno -am "$COM"
+echo "gmic"
 git push
 cd $HOME/work/src/gmic-community
 git pull
 git commit -uno -am "$COM"
+echo "gmic-community"
 git push
 
 cd $HOME/work/src/gmic
@@ -24,10 +27,13 @@ rsync -az * $HOME/work/src/gmic-mirror
 
 cd $HOME/work/src/gmic-minimal
 git commit -uno -am "$COM"
+echo "gmic-minimal"
 git push
 cd $HOME/work/src/gmic-minimal-mirror
 git commit -uno -am "$COM"
+echo "gmic-minimal-mirror"
 git push
 cd $HOME/work/src/gmic-mirror
 git commit -uno -am "$COM"
+echo "gmic-mirror"
 git push
