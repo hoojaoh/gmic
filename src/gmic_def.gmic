@@ -19101,7 +19101,7 @@ gimp_search_filters : -skip "${1=}"
     -u "{\"$1\"}{$2}{"{t}"}"
     -rm
   -endl
-  -if {narg("$1")} -gimp_print_preview "Search filters",,"from term '$1'"
+  -if {narg("$1")} -gimp_print_preview "Search filters",,"whose names contain:\n\n      '$1'"
   -else -gimp_print_preview "Search filters",,"(all filters)"
   -endif
 
