@@ -19050,11 +19050,11 @@ gimp_gmicky_preview :
 
 #@gimp Search filters : _none_, gimp_search_filters
 #@gimp : note = note("<small><i>Type the filter name you want to search for...</i></small>")
-#@gimp : Find = text(0,"/")
+#@gimp : Find = text(0,"")
 #@gimp : sep = separator()
 #@gimp : Matches = _text(1,"")
 #@gimp : sep = separator(), note = note("<small>Authors : <i>Garagecoder</i> and <i>David Tschumperl&#233;</i>.      Latest update : <i>2015/07/06</i>.</small>")
-gimp_search_filters : -skip "${1=/}"
+gimp_search_filters : -skip "${1=}"
   -l[]
 
     # Retrieve filter file.
@@ -19074,21 +19074,25 @@ gimp_search_filters : -skip "${1=/}"
       -+ 'if(i>=65&&i<=90,32,0)' -s -,10
       -replace_seq ${-quote\ {'"(command "{`39`}'}},1e10
       -replace_seq ${-quote\ {'"* "'}},1e10
-      -replace_seq ${-quote\ {'${-struncase\ "$1"}'}},-1e5
+      -if {narg("$1")} -replace_seq ${-quote\ {'${-struncase\ "$1"}'}},-1e5
+      -else -f -(iM<=255)
+      -endif
       -a x -r 100%,1,1,1,2 -lt 0
     -endl
 
     # Remove lines that don't fit.
     -s[0] -,10 -a[^-1] x
     -rv -a y -discard x,0
-    -if {!w} -rm (32)
+    -if {!w} -rm ({'"\n** no match found!\n"'})
     -else
       -rows 1,100%
       -s x
-      -autocrop 0 -autocrop 32
-      -i[^0] (10) -a y
+      -autocrop 0 -autocrop 32 N=$!
+      -i[^0] (10)
+      -i[0] ({'"** "$N" match"${"-if {"$N"!=1} -u es -else -u \"\" -endif"}" found:\n\n"'})
+      -y -a y
     -endif
-    -u "{$1}{"{t}"}"
+    -u "{\"$1\"}{"{t}"}"
     -rm
   -endl
   -gimp_print_preview "Search filters",,"from term '$1'"
@@ -24661,11 +24665,12 @@ gimp_blend_seamless :
   -rv
   -_gb_fwd $4
   -to_a[^0] -r[^0] [0],[0],1,100%,0
-  -repeat $! pos=${"-_gimp_merge_layers["$>"] pos,0,0"} -shift[$>] ${-u\ $pos},0,0 -done
+  -repeat $! pos=${-gimp_layer_pos[$>]} -shift[$>] ${-u\ $pos},0,0 -done
   -if $5 # Output as separate layers
     --blend_seamless $1,$2%,$3%
-    -k[0,-1] -rv -sub_alpha[0] [1],1
-  -else -blend_seamless $1,$2%,$3% # Output as a single layer.
+    -remove_opacity[0,-1] -k[0,-1] -rv -sub_alpha[0] [1],1
+  -else
+    -blend_seamless $1,$2%,$3% # Output as a single layer.
   -endif
   -_gb_bwd $4
 
