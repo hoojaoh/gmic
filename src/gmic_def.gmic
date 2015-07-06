@@ -19051,6 +19051,7 @@ gimp_gmicky_preview :
 #@gimp Search filters : _none_, gimp_search_filters
 #@gimp : note = note("<small><i>Type the filter name you want to search for...</i></small>")
 #@gimp : Find = text(0,"")
+#@gimp : Include category names in the search = bool(0)
 #@gimp : sep = separator()
 #@gimp : Matches = _text(1,"")
 #@gimp : sep = separator(), note = note("<small>Authors : <i>Garagecoder</i> and <i>David Tschumperl&#233;</i>.      Latest update : <i>2015/07/06</i>.</small>")
@@ -19074,7 +19075,12 @@ gimp_search_filters : -skip "${1=}"
       -+ 'if(i>=65&&i<=90,32,0)' -s -,10
       -replace_seq ${-quote\ {'"(command "{`39`}'}},1e10
       -replace_seq ${-quote\ {'"* "'}},1e10
-      -if {narg("$1")} -replace_seq ${-quote\ {'${-struncase\ "$1"}'}},-1e5
+      -if {narg("$1")}
+        -if {!$2} # Exclude category name from the search.
+          -replace_seq ${-quote\ {'" (in "{`39`}'}},0
+          -f '>if(y>1&&!i[y-1],0,i)'
+        -endif
+        -replace_seq ${-quote\ {'${-struncase\ "$1"}'}},-1e5
       -else -f -(iM<=255)
       -endif
       -a x -r 100%,1,1,1,2 -lt 0
@@ -19092,7 +19098,7 @@ gimp_search_filters : -skip "${1=}"
       -i[0] ({'"** "$N" match"${"-if {"$N"!=1} -u es -else -u \"\" -endif"}" found:\n\n"'})
       -y -a y
     -endif
-    -u "{\"$1\"}{"{t}"}"
+    -u "{\"$1\"}{$2}{"{t}"}"
     -rm
   -endl
   -if {narg("$1")} -gimp_print_preview "Search filters",,"from term '$1'"
