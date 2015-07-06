@@ -19095,7 +19095,9 @@ gimp_search_filters : -skip "${1=}"
     -u "{\"$1\"}{"{t}"}"
     -rm
   -endl
-  -gimp_print_preview "Search filters",,"from term '$1'"
+  -if {narg("$1")} -gimp_print_preview "Search filters",,"from term '$1'"
+  -else -gimp_print_preview "Search filters",,"(all filters)"
+  -endif
 
 #@gimp User satisfaction survey : gimp_survey, gimp_survey_preview
 #@gimp : note = note{"<small>Please help us by taking a few seconds to share your feelings about the G'MIC project. Thank you for giving us the opportunity to serve you better!</small>"}
