@@ -8593,7 +8593,7 @@ _axes :
 #@gmic : Input a 2d RGBA colored ball sprite.
 #@gmic : Default values: 'size=64', 'R=255', 'G=R', 'B=R', 'specular_light=0.8', 'specular_size=1' and 'shading=1.5'.
 #@gmic : $ -repeat 9 -ball {1.5^($>+2)},${-RGB} -done -append x
-ball : -check "${1=64}>0 && ${5=0.8}>=0 && $5<=8 && ${6=1}>=0 $6<=8 && ${7=1.5}>=0" -skip ${2=255},${3=$2},${4=$3}
+ball : -check "${1=64}>0 && ${5=0.8}>=0 && $5<=8 && ${6=1}>=0 && $6<=8 && ${7=1.5}>=0" -skip ${2=255},${3=$2},${4=$3}
   -e[^-1] "Input $1x$1 ball with color (${2-4}), specular light $5, specular size $6 and shadow factor $7."
   -v - -l[]
   {2*$1},{2*$1} -= 1,65%,30% -distance 1 -* -1
@@ -19103,12 +19103,17 @@ gimp_search_filters : -skip "${1=}"
       -i[0] ({'"** "$N" match"${"-if {"$N"!=1} -u es -else -u \"\" -endif"}" found:\n\n"'})
       -y -a y
     -endif
+
+    -rows[-1] 0,{min(256,h-1)}
+
     -u "{\"$1\"}{$2}{$3}{"{t}"}"
     -rm
   -endl
   -if {narg("$1")} -gimp_print_preview "Search filters",,"whose names contain:\n\n      '$1'"
   -else -gimp_print_preview "Search filters",,"(all filters)"
   -endif
+  -d
+
 
 #@gimp User satisfaction survey : gimp_survey, gimp_survey_preview
 #@gimp : note = note{"<small>Please help us by taking a few seconds to share your feelings about the G'MIC project. Thank you for giving us the opportunity to serve you better!</small>"}
