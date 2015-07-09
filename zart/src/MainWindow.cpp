@@ -1102,4 +1102,3 @@ MainWindow::initGUIFromCameraList(const QList<int> & camList)
            this, SLOT(onComboSourceChanged(int)));
   onComboSourceChanged(0);
 }
-
