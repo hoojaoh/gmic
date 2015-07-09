@@ -19107,7 +19107,7 @@ gimp_gmicky_preview :
 #@gimp : Include category/command names in the search = bool(0)
 #@gimp : sep = separator()
 #@gimp : Matches = _text(1,"")
-#@gimp : sep = separator(), note = note("<small>Authors : <i>Garagecoder</i> and <i>David Tschumperl&#233;</i>.      Latest update : <i>2015/07/06</i>.</small>")
+#@gimp : sep = separator(), note = note("<small>Authors : <i>Garagecoder</i> and <i>David Tschumperl&#233;</i>.      Latest update : <i>07/06/2015</i>.</small>")
 gimp_search_filters : -skip "${1=}"
   -l[]
 
