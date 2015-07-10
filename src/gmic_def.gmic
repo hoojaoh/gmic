@@ -27942,7 +27942,7 @@ gimp_import_image :
 #@gimp : Output directory = _folder("")
 #@gimp : Output HTML file = _text("model.html")
 #@gimp : sep = separator()
-#@gimp : Maximum image size = int(512,0,1024)
+#@gimp : Maximum image size = int(512,2,1024)
 #@gimp : Maximum number of image colors = _int(12,2,64)
 #@gimp : Starting point = choice(1,"Top left","Top right","Bottom left","Bottom right")
 #@gimp : Loop method = choice("Row by row","Column by column")
@@ -28049,7 +28049,9 @@ gimp_intarsia :
   -endl -done
 
 gimp_intarsia_preview :
-  -repeat $! -l[$>] -to_rgba
+  -to_rgb -repeat $! -l[$>]
+    -if {max(w,h)>$3} -rr2d $3,$3,0 -endif
+    -to_rgba
     -_gimp_intarsia $5,$6,0
     100%,100%,1,1,'if(y%2,y*w+w-1-x,y*w+x)<$8*wh/100' -*
     -if {min(w,h)<200} -rr2d 200,200,1,1 -endif
