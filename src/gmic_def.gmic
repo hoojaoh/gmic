@@ -27967,7 +27967,7 @@ gimp_intarsia :
     ({'"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n\
         \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n\
         <html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n\
-        <head></head><body bgcolor=\"#FFFDFF\"><center>\n\
+        <head></head><body bgcolor=\"#FFFDFF\"><center><font size=\"-1\">\n\
         <h2>"$image_basename" ("{0,w}x{0,h}")</h2>\n\
         <table border=\"0\" cellpadding=\"8\"><tr><td>\n\
         <table border=\"0\" cellpadding=\"4\">\n"'})
@@ -27981,7 +27981,7 @@ gimp_intarsia :
       ({'${-dec2hex\ {$R*65536+$G*256+$B}}'}) --[-1] {'0'} -r[-1] 6,1,1,1,0,0,1,0 -+[-1] {'0'}
       -f[-1] if(i>={'a'}&&i<={'z'},i+{'A'}-{'a'},i)
       hcolor={t} -rm[-1]
-      64,32,1,4 -fc[-1] $color,255 -frame[-1] 1,1,0,0,0,255 -o[-1] "$1/"${image_name}_$>.png -rm[-1]
+      48,32,1,4 -fc[-1] $color,255 -frame[-1] 1,1,0,0,0,255 -o[-1] "$1/"${image_name}_$>.png -rm[-1]
       ({'"<tr><td><b>Colour "$>"</b></td><td><img src=\""${image_name}_$>.png"\" /></td><td>\#"$hcolor"</td></tr>\n"'})
     -done
     ({'"</table>\n</td><td>"'})
@@ -28000,7 +28000,7 @@ gimp_intarsia :
     -t[-2] "Result",0,0,16,1,0,0,0,255
     -t[-1] "Ordering overview",0,0,16,1,0,0,0,255
     -frame[-2,-1] 20,20,0,0,0,0
-    -if {w>h} -a[-2,-1] y -else -a[-2,-1] x -endif
+    -a[-2,-1] y
     -o[-1] "$1/"$image_name.png -rm[-1]
 
     ({'"<img src=\""$image_name.png"\" /></td></tr></table>\n"'})
@@ -28043,7 +28043,7 @@ gimp_intarsia :
     -endl
     -rm[0]
 
-    ({'"</table>\n</center>\n</body>"'})
+    ({'"</table>\n</font></center>\n</body>"'})
     -a x -o raw:"$1/$2",uchar
     -rm
   -endl -done
@@ -28054,7 +28054,7 @@ gimp_intarsia_preview :
     -to_rgba
     -_gimp_intarsia $5,$6,0
     100%,100%,1,1,'if(y%2,y*w+w-1-x,y*w+x)<$8*wh/100' -*
-    -if {min(w,h)<200} -rr2d 200,200,1,1 -endif
+    -if {min(w,h)<140} -rr2d 140,140,1,1 -endif
     -expand_xy 16,0
 
     100%,100% -circle[-1] 16,16,1%,1,1
