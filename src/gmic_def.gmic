@@ -27967,9 +27967,12 @@ gimp_intarsia :
         \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n\
         <html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n\
         <head></head><body bgcolor=\"#FFFDFF\"><center>\n\
-        <h2>"$image_basename" ("{0,w}x{0,h}")</h2>\n"'})
+        <h2>"$image_basename" ("{0,w}x{0,h}")</h2>\n\
+        <table border=\"0\" cellpadding=\"8\"><tr><td>\n\
+        <table border=\"0\" cellpadding=\"4\">\n"'})
 
     # Render image of colors.
+    0 -nm[-1] "$2" image_name={b} -rm[-1]
     nb_cols={1,w}
     -repeat $nb_cols
       color=${-at[1]\ $>}
@@ -27977,21 +27980,17 @@ gimp_intarsia :
       ({'${-dec2hex\ {$R*65536+$G*256+$B}}'}) --[-1] {'0'} -r[-1] 6,1,1,1,0,0,1,0 -+[-1] {'0'}
       -f[-1] if(i>={'a'}&&i<={'z'},i+{'A'}-{'a'},i)
       hcolor={t} -rm[-1]
-      0 -t[-1] "Color "$>,0,0,20,1,255 -r[-1] 100%,100%,1,4 -sh[-1] 0,2 -f[-1] 0 -rm[-1]
-      64,100%,1,4 -fc[-1] $color,255 -frame[-1] 1,1,0,0,0,255
-      0 -t[-1] \#$hcolor,0,0,16,1,255 -r[-1] 100%,100%,1,4 -sh[-1] 0,2 -f[-1] 0 -rm[-1]
-      -expand_xy[-3--1] 5,0
+      64,32,1,4 -fc[-1] $color,255 -frame[-1] 1,1,0,0,0,255 -o[-1] "$1/"${image_name}_$>.png -rm[-1]
+      ({'"<tr><td><b>Colour "$>"</b></td><td><img src=\""${image_name}_$>.png"\" /></td><td>\#"$hcolor"</td></tr>\n"'})
     -done
-    -append_tiles[-{3*$nb_cols}--1] 3,$nb_cols,0,0.5
+    ({'"</table>\n</td><td>"'})
 
     # Render result and overview images.
     starting=${"-arg {1+$5},\"Top left\",\"Top right\",\"Bottom left\",\"Bottom right\""}
     label=${"-arg {1+$6},Row,Column"}
     -if $6 dir0="T &#8594; B" dir1="B &#8594; T" -else dir0="L &#8594; R" dir1="R &#8594; L" -endif
     dir={arg(1+2*$5+$6,0,0,1,0,0,1,1,1)}
-#    inv_ind={arg(1+2*$5+$6,0,0,0,1,1,0,1,1)}
 
-    0 -nm[-1] "$2" image_name={b}.png -rm[-1]
     --map[0] [1]
     -rr2d[-1] 200,200,1,1
     --gimp_intarsia_preview[-1] ${1-7},63 -drgba[-1]
@@ -28001,12 +28000,9 @@ gimp_intarsia :
     -t[-1] "Ordering overview",0,0,16,1,0,0,0,255
     -frame[-2,-1] 20,20,0,0,0,0
     -if {w>h} -a[-2,-1] y -else -a[-2,-1] x -endif
+    -o[-1] "$1/"$image_name.png -rm[-1]
 
-    -expand_xy[-2,-1] 5,0
-    -a[-2,-1] x,0.5
-    -o[-1] "$1/"$image_name -rm[-1]
-
-    ({'"<img src=\""$image_name"\" />\n"'})
+    ({'"<img src=\""$image_name.png"\" /></td></tr></table>\n"'})
     -if $7 ({'"<p><b>Additional comments:</b><br/><textarea cols=\"80\" rows=\"10\" placeholder=\"Enter comments here...\"></textarea></p>\n"'}) -endif
     ({'"<p><b>Starting point:</b> "$starting"\
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Orientation:</b> "$label" by "$label"</p>\n"'})
