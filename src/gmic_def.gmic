@@ -27987,7 +27987,7 @@ gimp_intarsia :
     label=${"-arg {1+$6},Row,Column"}
     -if $6 dir0="T &#8594; B" dir1="B &#8594; T" -else dir0="L &#8594; R" dir1="R &#8594; L" -endif
     dir={arg(1+2*$5+$6,0,0,1,0,0,1,1,1)}
-    inv_ind={arg(1+2*$5+$6,0,0,0,1,1,0,1,1)}
+#    inv_ind={arg(1+2*$5+$6,0,0,0,1,1,0,1,1)}
 
     0 -nm[-1] "$2" image_name={b}.png -rm[-1]
     --map[0] [1]
@@ -28018,7 +28018,8 @@ gimp_intarsia :
       -s y
       -repeat $! -l[$>]
         -if {$>%2} -mirror[-1] x -endif
-        ind={if($inv_ind,w-$>,1+$>)}
+#        ind={if($inv_ind,w-$>,1+$>)}
+        ind={1+$>}
         im={im} -compress_rle 0,0 -rows 6,100%
         ({'"<tr><td valign=\"top\"><b>"$label" "$ind"</b></td><td valign=\"top\">"${dir$dir}"</td><td>\n"'})
         i=0 n=0 -do
