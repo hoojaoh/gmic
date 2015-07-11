@@ -27936,7 +27936,9 @@ gimp_import_image :
 
 #@gimp Intarsia : gimp_intarsia, gimp_intarsia_preview
 #@gimp : note = note{"<small><b>Note:</b>
-#@gimp : This filter generates a HTML page that describes how to reproduce the input image with intarsia.
+#@gimp : Intarsia is a method of Crochet/Knitting with a number of colours, in which a separate ball of yarn
+#@gimp : is used for each area of colour.
+#@gimp : This filter creates a HTML version of a graph chart which is solely used for this purpose
 #@gimp : </small>"}
 #@gimp : sep = separator()
 #@gimp : Output directory = _folder("")
