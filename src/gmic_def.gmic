@@ -18521,7 +18521,7 @@ _after :
   0 -t[-1] "After",1,-1,13,1,1 -r[-1] {w+4},{h+4},1,1,0,0,0.5,0.5
 
 gimp_split_preview : -skip ${3=0},${4=0}
-  -m "_gsp : -rr2d {max(w,256)},{max(h,256)},0,1"
+  -m "_gsp : m={max(w,h,256)} -if {$m==256} -rr2d $m,$m,0,1 -endif"
   -if $3
     -m "gsp : w={w} h={h} s={s} -l -apply_timeout \"$1\",$3 -onfail -gimp_timeout_preview -endl -if {!$!} $w,$h,1,4 -drgba -to_colormode $s -endif -k[0] -if {s>4} -channels 0,3 -endif"
   -else
