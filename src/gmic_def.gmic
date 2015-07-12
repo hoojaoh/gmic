@@ -27943,7 +27943,7 @@ gimp_import_image :
 #@gimp : </small>"}
 #@gimp : sep = separator()
 #@gimp : Output directory = _folder("")
-#@gimp : Output HTML file = _text("model.html")
+#@gimp : Output HTML file = _text("intarsia.html")
 #@gimp : sep = separator()
 #@gimp : Maximum image size = int(512,2,1024)
 #@gimp : Maximum number of image colors = _int(12,2,64)
@@ -27993,17 +27993,18 @@ gimp_intarsia :
     dir={arg(1+2*$5+$6,0,0,1,0,0,1,1,1)}
 
     --map[0] [1]
-    -rr2d[-1] 200,200,1,1
     --gimp_intarsia_preview[-1] ${1-7},63 -drgba[-1]
-
+    -rr2d[-2] 200,200,1,1
     -to_rgba[-2,-1] -frame[-2,-1] 1,1,0,0,0,255 -frame[-2,-1] 0,20,0,0,0,0
     -t[-2] "Result",0,0,16,1,0,0,0,255
     -t[-1] "Ordering overview",0,0,16,1,0,0,0,255
     -frame[-2,-1] 20,20,0,0,0,0
-    -a[-2,-1] y
-    -o[-1] "$1/"$image_name.png -rm[-1]
 
-    ({'"<img src=\""$image_name.png"\" /></td></tr></table>\n"'})
+    -o[-2] "$1/"${image_name}_A.png
+    -o[-1] "$1/"${image_name}_B.png
+    -rm[-2,-1]
+
+    ({'"<table border=\"0\"><tr><td><img src=\""${image_name}_A.png"\" /></td></tr><tr><td><img src=\""${image_name}_B.png"\" /></td></tr></table></td></tr></table>\n"'})
     -if $7 ({'"<p><b>Additional comments:</b><br/><textarea cols=\"80\" rows=\"10\" placeholder=\"Enter comments here...\"></textarea></p>\n"'}) -endif
     ({'"<p><b>Starting point:</b> "$starting"\
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Orientation:</b> "$label" by "$label"</p>\n"'})
@@ -28017,10 +28018,8 @@ gimp_intarsia :
       -s y
       -repeat $! -l[$>]
         -if {$>%2} -mirror[-1] x -endif
-#        ind={if($inv_ind,w-$>,1+$>)}
-        ind={1+$>}
         im={im} -compress_rle 0,0 -rows 6,100%
-        ({'"<tr><td valign=\"top\"><b>"$label" "$ind"</b></td><td valign=\"top\">"${dir$dir}"</td><td>\n"'})
+        ({'"<tr><td valign=\"top\"><b>"$label" "{1+$>}"</b></td><td valign=\"top\">"${dir$dir}"</td><td>\n"'})
         i=0 n=0 -do
           val={0,i[$i]} i={$i+1}
           -if {$val>=0} occ=1
