@@ -19085,9 +19085,8 @@ gimp_gmicky_preview :
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : note = note("<small><b>Documentation:</b></small>")
-#@gimp : note = link{0,"Official G'MIC wiki.","https://sourceforge.net/p/gmic/wiki/Home/"}
+#@gimp : note = link{0,"Official G'MIC wiki.","https://github.com/dtschump/gmic-community/wiki"}
 #@gimp : note = link{0,"Screenshots of some of the plug-in filters.","http://gmic.eu/gimp.shtml"}
-#@gimp : note = link{0,"List of available plug-in filters.","http://gmic.eu/gimp_filters.txt"}
 #@gimp : note = link{0,"Tutorial for learning the G'MIC language.","http://gmic.eu/tutorial/index.shtml"}
 #@gimp : note = link{0,"Reference documentation of the G'MIC language (html).","http://gmic.eu/reference.shtml"}
 #@gimp : note = link{0,"Reference documentation of the G'MIC language (pdf).","http://gmic.eu/gmic_reference.pdf"}
@@ -24797,7 +24796,7 @@ gimp_blend_seamless_preview :
 #@gimp : sep = separator(), note = note{"<small><b>Note:</b>
 #@gimp : This filter needs two layers to work properly. Set the <i>Input layers</i> option to handle multiple input layers.
 #@gimp : </small>"}
-#@gimp : link = link("Reference page for G'MIC blending modes","https://sourceforge.net/p/gmic/wiki/Blending%20modes/")
+#@gimp : link = link("Reference page for G'MIC blending modes","https://github.com/dtschump/gmic-community/wiki/Blending-modes")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>06/24/2014</i>.</small>")
 gimp_blend :
   mode=${-arg\ 1+$1,add,alpha,and,average,blue,burn,darken,difference,\
