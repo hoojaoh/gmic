@@ -23679,7 +23679,7 @@ gimp_split_details_layers :
     nm=${-gimp_layer_name}
     pos=${-gimp_layer_pos}
     -split_details $1,$2,$3
-    -+[^0] 128 -c[^0] 0,255
+    -+[^0] 128 -c[^0] 0,255 -round
     -repeat {$!-1} -nm[{1+$>}] "mode(grainmerge), name"($nm" [freq ""#"{1+$>}"]), pos("$pos")" -done
     -nm[0] "name"($nm" [base]), pos("$pos")"
     -rv
