@@ -12933,6 +12933,7 @@ stripes_y : -skip ${1=10}
 #@gmic : $ image.jpg --texturize_canvas ,
 texturize_canvas : -check "${1=20}>=0 && ${2=3}>=0 && ${3=0.6}>=0 && ${4=80}"
   -e[^-1] "Add canvas texture to image$?, with amplitude $1, fibrousness $2 and emboss level $3."
+  -v -
   -repeat $! -l[$>]
     {w},{h} -rand[-1] 0,255 --blur_x[-1] $2 -blur_y[-2] $2 -+[-2,-1] -g[-1] -a[-2,-1] c
     --compose_channels[-1] + -orientation[-2] -compose_channels[-2] + -n[-2] $3,1 -n[-1] 0,255
