@@ -62,6 +62,7 @@ ImageView::ImageView( QWidget * parent )
   _image = QImage( 640, 480, QImage::Format_RGB888 );
   _image.fill( 0 );
   setMinimumSize(320,200);
+  setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
   _imagePosition = geometry();
   _scaleFactor = 1.0;
   _zoomOriginal= false;
@@ -139,8 +140,9 @@ void ImageView::zoomFitBest()
   _zoomOriginal = false;
   QFrame * frame = dynamic_cast<QFrame*>(parent());
   if ( frame ) {
+    setMinimumSize(320,200);
     QRect rect = frame->layout()->contentsRect();
-    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
     resize(rect.width(),rect.height());
   }
 }

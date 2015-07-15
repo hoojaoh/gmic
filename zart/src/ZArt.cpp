@@ -93,7 +93,8 @@ int main( int argc, char *argv[] )
   QSplashScreen splashScreen(QPixmap(":/images/splash.png"));
   splashScreen.show();
   app.processEvents();
-  WebcamSource::retrieveWebcamResolutions(WebcamSource::getWebcamList(),&splashScreen);
+  WebcamSource::retrieveWebcamResolutions(WebcamSource::getWebcamList(),
+					  &splashScreen);
   if ( ! gmic::init_rc() ) {
     cerr << "[ZArt] Warning: Could not create resources directory.\n";
   }
