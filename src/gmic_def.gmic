@@ -21133,6 +21133,38 @@ gimp_channel_processing :
 gimp_channel_processing_preview :
   -gimp_split_preview "-gimp_channel_processing $*",$-1
 
+#@gimp Channels to layers : gimp_channels2layers, gimp_channels2layers_preview
+#@gimp : Colorspace = choice("RGB","CMY","HSV")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/15/2015</i>.</small>")
+gimp_channels2layers :
+  -repeat $! -l[$<] nm=${-gimp_layer_name} -to_rgb
+    -if {$1==0} # RGB
+      -s[0] c
+      -r[0] 100%,100%,1,3,0,0,0,0,0,0 -nm[0] name($nm" "[red]),mode(add)
+      -r[1] 100%,100%,1,3,0,0,0,0,0,0.5 -nm[1] name($nm" "[green]),mode(add)
+      -r[2] 100%,100%,1,3,0,0,0,0,0,1 -nm[2] name($nm" "[blue]),mode(add)
+    -elif {$1==1} # CMY
+      -rgb2cmy[0] --[0] 255 -s[0] c
+      -r[0] 100%,100%,1,3,0,0,0,0,0,0 -nm[0] name($nm" "[cyan]),mode(difference)
+      -r[1] 100%,100%,1,3,0,0,0,0,0,0.5 -nm[1] name($nm" "[magenta]),mode(difference)
+      -r[2] 100%,100%,1,3,0,0,0,0,0,1 -nm[2] name($nm" "[yellow]),mode(difference)
+      -+[0-2] 255
+      -i[0] 100%,100%,1,3,255 -nm[0] name($nm" "[base]),mode(difference)
+    -else # HSV
+      -rgb2hsv[0] -s[0] c,-2
+      -r[0] 100%,100%,1,3,0,0 -sh[0] 2,2 -f[-1] 1 -rm[-1] -nm[0] name($nm" "[color]),mode(normal)
+      -r[1] 100%,100%,1,3,0,0,0,0,0,1 -nm[1] name($nm" "[value]),mode(value)
+      -hsv2rgb[0,1] -rv[0,1]
+    -endif
+  -endl -done
+
+gimp_channels2layers_preview :
+  -repeat $! -l[$>]
+    -gimp_channels2layers $*
+    -repeat $! -l[$>] -text_outline "\#"{1+$>},1,1,43,7,1,255 -endl -done
+    -frame 1,1,0 -frame 3,3,255 -append_tiles ,
+  -endl -done
+
 #@gimp Color balance : gimp_balance_gamma, gimp_balance_gamma_preview
 #@gimp : Neutral color = color(128,128,128)
 #@gimp : Stretch colors = bool(1)
