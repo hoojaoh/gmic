@@ -4609,7 +4609,7 @@ float2int8 :
   -v - -repeat $! -l[$>]
     -s c -repeat $! -l[$>]
       m={im} M={iM} -quantize 16777216,0,1
-      -->> 8 -and[-1] 255 --and[-2] 255 ->>[-3] 16
+      -->> 8 -&[-1] 255 --&[-2] 255 ->>[-3] 16
       ({'$m,$M'}) -a y
     -endl -done -a c
   -endl -done -v +
@@ -4621,7 +4621,7 @@ int82float :
   -v - -repeat $! -l[$>]
     -s c -repeat $! -l[$>]
       -sh[-1] {h-1},{h-1},0,0 m={t} -rm[-1]
-      -rows 0,{h-2} -s y,3 -*[-3] 65536 -*[-2] 256 -or
+      -rows 0,{h-2} -s y,3 -*[-3] 65536 -*[-2] 256 -|
       -skip ${-n\ $m}
     -endl -done -a c
   -endl -done -v +
@@ -5161,7 +5161,7 @@ colormap : -check "isint($1) && $1>=0" -skip ${2=1},${3=1}
             -i[-2] 256,1,1,1,'x' -r[-2] {w},1,1,1,0,2 -*[-2] [-1] -r[-2,-1] $1,1,1,1,2 -max[-1] 0.01 -/[-2,-1]
           -done -a[2--1] c
           --[-2] [-1] -abs[-2] diff={{-2,is}/w} -rm[-2]           # Compute colormap difference.
-          -and[-2] 255 --index[-2] [-1],0,0 -*[-1] 256 -+[-3,-1]  # Compute new k-means labels.
+          -&[-2] 255 --index[-2] [-1],0,0 -*[-1] 256 -+[-3,-1]    # Compute new k-means labels.
         -while {$diff>0.5}
         -rm[-2] -*[-1] {($M-$m)/255} -+[-1] $m                    # Convert colormap values back to initial value range.
       -endif
@@ -5410,7 +5410,7 @@ replace_color : -check "$1>=0 && $2>=0"
   -e[^-1] "Replace color ("$col1") by color ("$col2") in image$?, with tolerance $1 and smoothness $2."
   -v - -repeat $! -l[$>]
     1,1,1,100%,$col1 -r[1] [0]
-    -if $1 --[1] [0] -norm[1] -<=[1] $1 -else -==[1] [0] -l[1] -s c -and -endl -endif
+    -if $1 --[1] [0] -norm[1] -<=[1] $1 -else -==[1] [0] -l[1] -s c -& -endl -endif
     -b[1] $2
     1,1,1,{0,s},$col2 -r[2] [0] -j[0] [2],0,0,0,0,1,[1] -k[0]
   -endl -done -v +
@@ -5910,7 +5910,7 @@ autocrop_components : -skip ${1=0%} -check "${2=0.1%}>=0 && isbool(${3=0}) && is
   -v - -repeat $! -l[$>]
     min_area={max(1,round(if(${-is_percent\ $2},$2*w*h,$2)))}
     --channels 100% ->[-1] $1 -area_fg[-1] 0,$3 ->=[-1] $min_area  # Discard background and small objects.
-    --area[-1] 0,1 -<[-1] $min_area -or[-2,-1] -label_fg[-1] 0,1   # Fill small holes in objects.
+    --area[-1] 0,1 -<[-1] $min_area -|[-2,-1] -label_fg[-1] 0,1    # Fill small holes in objects.
 
     # Extract detected objects.
     N={iM} -repeat {iM}
@@ -7426,7 +7426,7 @@ inpaint_holes : -check "${1=4}>=0 && ${2=0}>=0" -skip ${3=0}
   -v - -repeat $! -l[$>]
     100%,100%,100%
     area={if(${-is_percent\ $1},$1*w*h*d,$1)}
-    -repeat {0,s} -sh[0] $>,$> --area[-1] $2,$3 -<=[-1] $1 -or[1,-1] -rm[-1] -done
+    -repeat {0,s} -sh[0] $>,$> --area[-1] $2,$3 -<=[-1] $1 -|[1,-1] -rm[-1] -done
     -if {im} -k[0] whd={w},{h},{d} -r 1,1,1,100%,2 -r $whd,100%
     -else -inpaint[0] [1],0,{2*!$2+!!$3} -k[0] -endif
   -endl -done -v +
@@ -10823,7 +10823,7 @@ text_pointcloud3d : -skip ${1="text1"},${2="text2"},${3=1}
   0 -t[-1] "$2",0,0,53,1,1 -mirror[-1] y
   -autocrop[-2,-1] 0
   -expand_xy[-2,-1] 2,0 -dilate[-2,-1] 2
-  -permute[-1] zyxc -r[-2,-1] ${-max_whd} -and[-2,-1]
+  -permute[-1] zyxc -r[-2,-1] ${-max_whd} -&[-2,-1]
 
   100%,100% -rand[-1] 0,{{-2,d}-1} -round[-1] -r[-1] [-2] -f[-1] 'if(z==i,1,0)'
   -distance[-1] 1 -+[-1] 1 --f[-1] 1 -rv[-2,-1] -/[-2,-1] -*[-1] [-2]
@@ -10833,7 +10833,7 @@ text_pointcloud3d : -skip ${1="text1"},${2="text2"},${3=1}
   -distance[-1] 1 -+[-1] 1 --f[-1] 1 -rv[-2,-1] -/[-2,-1] -*[-1] [-3]
   --dilate[-1] 0,0,{d} -==[-2,-1] -*[-3,-1]
 
-  -or[-2,-1]
+  -|[-2,-1]
 
   -b[-1] $3 -isosurface3d[-1] 25%
   -c3d[-1] -n3d[-1] -nm[-1] "[3d text pointcloud]" -v +
@@ -11889,7 +11889,7 @@ boxfitting : -check "isint(${1=3}) && $1>=1 && isint(${2=0}) && $2>=0 && ${3=0.1
       -repeat {int(($max_size-$min_size)/2)}
         --dilate[-1] 3 -area_fg[-1] 0,1 -==[-1] {($min_size+2*$>+2)^2}
         -if {!iM} -rm[-1] -break -endif  # No more squares to grow.
-        -or[-2,-1]
+        -|[-2,-1]
       -done
 
     -done
@@ -11964,7 +11964,7 @@ cubism : -check "${1=50}>=0 && ${2=10}>=0 && $2<=50 && ${5=0}>=0" -skip ${3=75},
 draw_whirl : -skip ${1=100}
   -e[^-1] "Apply whirl drawing effect on image$? with amplitude $1."
   -v - -repeat $! -l[$>]
-    100%,100% -noise[-1] 70,2 -*[-1] 255 -r[-1] [-2] -and[-1,-2] -smooth[-1] $1,0,1,2,2
+    100%,100% -noise[-1] 70,2 -*[-1] 255 -r[-1] [-2] -&[-1,-2] -smooth[-1] $1,0,1,2,2
     -sqrt[-1] -n[-1] 0,255 -equalize[-1]
   -endl -done -v +
 
@@ -12248,7 +12248,7 @@ mosaic : -skip ${1=0.8},${2=1}
   -v - -repeat $! -l[$>]
     label0={1+im} -+ $label0
     100%,100% -noise[-1] {$1*2},2 -*[-2] [-1] -distance[-1] 1 -*[-1] -1 -watershed[-2] [-1],{if($2,0,1)} -rm[-1]
-    -if $2 --l[-1] -> 0 -s c -and -endl --[-2] $label0 -*[-2,-1] -else --[-1] $label0 -endif
+    -if $2 --l[-1] -> 0 -s c -& -endl --[-2] $label0 -*[-2,-1] -else --[-1] $label0 -endif
   -endl -done -v +
 
 #@gmic old_photo
@@ -13040,7 +13040,7 @@ blend : -skip ${1=alpha},${2=1},${3=1},${4=0}
 
 _blend_alpha :
 _blend_and :
-  -and[1] [0]
+  -&[1] [0]
 _blend_add :
   -+[1] [0] -c[1] 0,255
 _blend_average :
@@ -13093,7 +13093,7 @@ _blend_multiply :
 _blend_negation :
   -+[1] [0] --[1] 255 -abs[1] -*[1] -1 -+[1] 255
 _blend_or :
-  -or[1] [0]
+  -|[1] [0]
 _blend_overlay :
   --*[0,1] -/[2] 127.5 -+[1] [0] -*[1] 2 --[1] 255 --[1] [2] --<[0] 128 -j[1] [2],0,0,0,0,1,[3] -rm[2,3] -c[1] 0,255
 _blend_pinlight :
@@ -14302,7 +14302,7 @@ img2text : -skip "${1= }"
 #@gmic : Convert selected 8bits-valued vectors into their hexadecimal representations (ascii-encoded).
 img82hex :
   -e[^-1] "Convert 8bits-valued vector$? into hexadecimal representations (ascii-encoded)."
-  -v - -mod 256 -y
+  -v - -% 256 -y
   -repeat $!
     --f[$>] 'v=int(i)&15;v+if(v<10,48,87)'  # lower digit.
     -f[$>] 'v=int(i)>>4;v+if(v<10,48,87)'   # higher digit.
@@ -15452,7 +15452,7 @@ _x_colorize :
         -sh[-1] 0,0,0,0 -*[-1] {$pw/$w} -rm[-1]
         -sh[-1] 1,1,0,0 -*[-1] {$ph/$h} -rm[-1]
         -pointcloud[-1] -1,$pw,$ph
-        --compose_channels[-1] max -!=[-1] 0 -distance[-1] 1 -*[-1] 0.02 -+[-1] 1 -pow[-1] -1 -+[-1] [potential] # Additional term that depends on marker's positions.
+        --compose_channels[-1] max -!=[-1] 0 -distance[-1] 1 -*[-1] 0.02 -+[-1] 1 -^[-1] -1 -+[-1] [potential] # Additional term that depends on marker's positions.
         -if {!$1} -dilate[-2] 3 -endif
         -watershed[-2] [-1],1 -rm[-1] --[-1] 1
       -else [potential],[potential],1,3,255
@@ -15528,7 +15528,7 @@ _x_colorize :
     status={points,^}
     [img] -__x_colorize[-1] $1
     -pointcloud[points] -1,$w,$h
-    --compose_channels[points] max -!=[-1] 0 -distance[-1] 1 -*[-1] 0.02 -+[-1] 1 -pow[-1] -1 -+[potential,-1]
+    --compose_channels[points] max -!=[-1] 0 -distance[-1] 1 -*[-1] 0.02 -+[-1] 1 -^[-1] -1 -+[potential,-1]
     -if {!$1} zfact={{img,max(w,h)}/{potential,max(w,h)}} -dilate[points] {int(3*$zfact)} -endif
     -watershed[points] [potential],1 --[points] 1 -nm[points] colors
   -else [img],[img],1,3,255 -nm[-1] colors
@@ -15551,7 +15551,7 @@ _x_colorize :
 # Compute potential function.
 __x_colorize :
   -if $1 # Potential for lineart.
-    -b[-1] 0.05% -n[-1] 0,1 --b[-1] 0.5% -pow[-2] 10 -n[-2] 0,1 -n[-1] 0.3,1 -min[-2,-1]
+    -b[-1] 0.05% -n[-1] 0,1 --b[-1] 0.5% -^[-2] 10 -n[-2] 0,1 -n[-1] 0.3,1 -min[-2,-1]
   -else  # Potential for generic grayscale image.
     -gradient_norm[-1] -n[-1] 0,255 -normalize_local[-1] 3,3 -*[-1] -1 -n[-1] 0,255
     -b[-1] 0.05% -n[-1] 0,1 -sqr[-1] --b[-1] 0.5% -n[-2,-1] 0,1 -min[-2,-1]
@@ -16144,7 +16144,7 @@ x_landscape :
 
   # Generate global map + colors.
   900,900 -plasma[-1] 1,1,6 -b[-1] 0.07% -n[-1] 0,255 -nm[-1] map
-  --g[-1] -*[-1] 0.5 -+[-2,-1] -n[-1] 0,1 -pow[-1] 2 -n[-1] -150,330
+  --g[-1] -*[-1] 0.5 -+[-2,-1] -n[-1] 0,1 -^[-1] 2 -n[-1] -150,330
   -equalize[map] 256 -n[map] -400,160 -c[map] 0,100% # Add water.
   (0,102,51;149,175,124;102,42,0;255,255,255) -permute[-1] yzcx -srgb2rgb[-1] -r[-1] 256,1,1,3,3 -rgb2srgb[-1] --n[map] 0,255 -map[-1] [-2] -rm[-2]
   -+[-1] [-2] -rm[-2] -c[-1] 0,255 -nm[-1] colors # Colors.
@@ -16250,9 +16250,9 @@ x_life :
   # Start user-event loop.
   -do
     (1,1,1;1,0,1;1,1,1) --correlate[0] [-1],0 -rm[-2]           # Count numbers of neighboring living cells.
-    --ir[-1] 2,2 -and[-1] [0] -ir[-2] 3,3 -or[-2,-1]            # Make the game evolve (kill or create cells).
+    --ir[-1] 2,2 -&[-1] [0] -ir[-2] 3,3 -|[-2,-1]               # Make the game evolve (kill or create cells).
     -rv[0,-1]                                                   # Update game state.
-    -if {{*,x}>0" && "{*,b}==1" && "$stock>0}                 # Add random cells to the game if user presses mouse button.
+    -if {{*,x}>0" && "{*,b}==1" && "$stock>0}                   # Add random cells to the game if user presses mouse button.
       nb={?*7}
       -repeat $nb
         x={{*,x}/{*,w}*{0,w}+?(-4,4)}
@@ -16280,9 +16280,9 @@ x_life :
       -r[3] {?(100,600)}%,1,1,3,5 -c[3] 0,255
     -endif
 
-    --r[1] {2,w},{2,h} -and[-1] 7 -b[-1] {1+$score*0.05}   # Render colored image of the game and display it.
+    --r[1] {2,w},{2,h} -&[-1] 7 -b[-1] {1+$score*0.05}          # Render colored image of the game and display it.
     -n[-1] 0,{3,w} -map[-1] [3] -*[-1] 0.1 -+[2,-1] -/[2] 1.1
-    [2] -if {{*,x}>0}                                          # Add a small target icon at the mouse position.
+    [2] -if {{*,x}>0}                                           # Add a small target icon at the mouse position.
       opac={0.7*min(1,$stock/500)} r={min(500,$stock)*cos($iteration)/100}
       -ellipse[-1] {*,x},{*,y},{15+$r},{15+$r},0,$opac,0,196,0
       -ellipse[-1] {*,x},{*,y},{10+$r},{10+$r},0,$opac,32,64,16
@@ -16610,7 +16610,7 @@ x_minimal_path :
           -if {min($P1)>=0}
             --text_outline[0] "Processing...",5,5,13,1,1,255,255,255 -w[-1] -rm[-1]
             --minimal_path[1] $P0,$P1,1
-            -pointcloud[-1] 0 -*[-1] 255 -r[-1] 100%,100%,1,[0],0,0,0,0,0,0.5 -r[-1] [0],0 -or[0,-1]
+            -pointcloud[-1] 0 -*[-1] 255 -r[-1] 100%,100%,1,[0],0,0,0,0,0,0.5 -r[-1] [0],0 -|[0,-1]
             P0=$P1 p={$p+1}
           -endif
         -endif
@@ -16699,7 +16699,7 @@ x_pacman :
     16,16,1,1,'x' ---[map] 1 -max[-1] 0 -*[-1] 16 -r[-1] 1600%,1600%
     16,16,1,1,'y' -r[-3,-1] [-2],0,2 -+[-2,-1] -a[-2,-1] c
     16,16,1,3 -_pacman_pacdots_gfx -_pacman_pacgum_gfx -a[-3--1] y
-    -warp[-1] [-2],0,0 -rm[-2] -or[-2,-1] -r[-1] 100%,{h+24},1,3,0,0,0,1
+    -warp[-1] [-2],0,0 -rm[-2] -|[-2,-1] -r[-1] 100%,{h+24},1,3,0,0,0,1
     -t[-1] "Lives :",10,0,23,1,255 -t[-1] "Score :",{w-140},0,23,1,255
     -if $lives --r[pacman_2] 12,12,1,4,2 -r[-1] {100*$lives}%,100%,1,4,0,2 -j[-2] [-1],90,7 -rm[-1] -endif
     -nm[-1] visu
@@ -17206,20 +17206,20 @@ x_quantize_rgb : -check "isint(${1=16}) && $1>1"
     -if {$b&1" && "$i==1} # Toggle dithering.
       dithering={!$dithering} -rm[visu_img] -wait -1
     -elif {$b&1" && "$i==2} # Add new color.
-      (${-RGB}) -y[-1] c -a[centroids,-1] x  -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -and[colors] 255 pause=1 -wait 100
+      (${-RGB}) -y[-1] c -a[centroids,-1] x  -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -&[colors] 255 pause=1 -wait 100
     -elif {$b&2" && "$i==2" && "{centroids,w}>2} # Remove color.
-      -r[centroids] {centroids,w-1} -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -and[colors] 255 pause=1 -wait 100
+      -r[centroids] {centroids,w-1} -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -&[colors] 255 pause=1 -wait 100
     -elif {$b&2" && "$i>=3} # Toggle clusters/colors mode.
       clustering={!$clustering} -rm[visu_3d] -wait -1
     -elif {*,M} # Init colormap with median-cut.
-      --and[colors] 255 -colormap[-1] {centroids,w},0,0 -rm[centroids] -nm[-1] centroids
-      -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -and[colors] 255 pause=1 -wait -1
+      --&[colors] 255 -colormap[-1] {centroids,w},0,0 -rm[centroids] -nm[-1] centroids
+      -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -&[colors] 255 pause=1 -wait -1
     -elif {*,R} # Init colormap with random values.
       -rand[centroids] 0,255 -round[centroids] 1
-      -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -and[colors] 255 pause=1 -wait -1
+      -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -&[colors] 255 pause=1 -wait -1
     -elif {*,U} # Init colormap with uniform sampling.
       -uniform_distribution {centroids,w},3 -*[-1] 255 -rm[centroids] -nm[-1] centroids
-      -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -and[colors] 255 pause=1 -wait -1
+      -_x_quantize_rgb_3d -rm[visu_3d,visu_img,visu_centroids] -&[colors] 255 pause=1 -wait -1
     -elif {*,ENTER} # Start k-means iterations.
       pause=0
     -elif {$b&1" && "$i>=3} # Manage 3d view rotation.
@@ -17241,8 +17241,8 @@ x_quantize_rgb : -check "isint(${1=16}) && $1>1"
       pause={*,SPACE}
 
       # Estimate new centroids positions.
-      -and[colors] 255 --index[colors] [centroids] -*[-1] 256 -+[colors,-1]      # Estimate nearest centroids for all colors.
-      -repeat {colors,s}                                                         # Recompute centroid positions.
+      -&[colors] 255 --index[colors] [centroids] -*[-1] 256 -+[colors,-1]      # Estimate nearest centroids for all colors.
+      -repeat {colors,s}                                                       # Recompute centroid positions.
         -sh[colors] $>,$> --histogram[-1] {centroids,w*256},0,{centroids,w*256-1} -rm[-2]
         -i[-2] 256,1,1,1,'x' -r[-2] {w},1,1,1,0,2 -*[-2] [-1] -r[-2,-1] {centroids,w},1,1,1,2 -max[-1] 0.01 -/[-2,-1]
       -done -a[-{colors,s}--1] c
@@ -17270,7 +17270,7 @@ x_quantize_rgb : -check "isint(${1=16}) && $1>1"
   -if $obj3d -rm[obj3d] -endif
   --distribution3d[centroids] -circles3d[-1] 5 -col3d[-1] 255      # Pre-compute 3d object.
   -colorcube3d -p3d[-1] 1
-  --and[colors] 255 -distribution3d[-1] -o3d[-1] 0.8 -+3d[-3--1]
+  --&[colors] 255 -distribution3d[-1] -o3d[-1] 0.8 -+3d[-3--1]
   --3d[-1] 128,128,128 -nm[-1] obj3d _N={i[7]}
 
 _x_quantize_rgb_text :
@@ -17371,7 +17371,7 @@ x_rubber3d :
     -w[-1]
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {2*w},{2*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {w},{h} -endif
     -wait[0] 20
-    -sh[2] 2,2 --[-1] 1 -and[-1] {{1,d}-1} -rm[-1]
+    -sh[2] 2,2 --[-1] 1 -&[-1] {{1,d}-1} -rm[-1]
     frame={($frame-1)%{1,d}}
   -while {{*}" && "!{*,ESC}" && "!{*,Q}}
   -rm -w 0 -v +
@@ -17889,7 +17889,7 @@ x_select_palette : -skip ${1=xsp_variable},${2=0}
       M={w} N={h} 100%,100%,1,1,1
       --r[-1] {$ww-17},100%,1,1,4
       -r[-2] 100%,{$wh-57},1,1,4
-      -r[-2,-1] [-1],[-2] -or[-2,-1]
+      -r[-2,-1] [-1],[-2] -|[-2,-1]
       -line[-1] 100%,0,100%,100%,1,1
       -line[-1] 0,100%,100%,100%,1,1
       --[-1] 1 -*[-1] -1
@@ -17993,7 +17993,7 @@ x_shadebobs :
 
     # Draw bobs, map colors and display.
     -j3d[img] [obj3d],50%,50%,0,-1,2,0,0
-    -and[img] 255 --map[img] [colormap] -w[-1] -rm[-1] -wait 20
+    -&[img] 255 --map[img] [colormap] -w[-1] -rm[-1] -wait 20
   -while {{*}" && "!{*,ESC}" && "!{*,Q}}
   -rm -w 0 -v +
 
@@ -19717,7 +19717,7 @@ gimp_ministeck :
       --colormap[-1] $1 -index[-2] [-1]
       [0],[0],1,1 -rand[2] 0,1 -dilate[2] $4 -+[0,2]
       -r[0] $3""00%,$3""00%
-      --g[0] xy,1 -!=[-2,-1] 0 --f[0] 'i(x+1,y+1)-i(x,y)' -!=[-3--1] 0 -or[-3--1]
+      --g[0] xy,1 -!=[-2,-1] 0 --f[0] 'i(x+1,y+1)-i(x,y)' -!=[-3--1] 0 -|[-3--1]
       -z[0,-1] 0,0,{w-2},{h-2}
       -if $7 [-1] -endif
       --shift[-1] 1,1 -*[-2] -1 -+[-2,-1] -b[-1] {$6*$3/5} -n[-1] -$5,$5
@@ -19841,7 +19841,7 @@ gimp_puzzle :
 
       # Decompose puzzle into set of pieces.
       ---[-1] 1 -label_fg[-1] 0
-      --area_fg[-1] 0,0 -<[-1] 50% -or[-3] [-1] -==[-1] 0 -*[-2,-1]
+      --area_fg[-1] 0,0 -<[-1] 50% -|[-3] [-1] -==[-1] 0 -*[-2,-1]
       -distance[-2] 0 -*[-2] -1 -watershed[-1] [-2] -rm[-2] -label[-1] 0,0
 
       -repeat {iM+1}
@@ -20307,7 +20307,7 @@ gimp_delaunay_preview :
 gimp_polygonize :
   -polygonize $1,$2,{$3^2},$4,$5
   -if $9 -repeat $! -l[$>]  # has outline.
-    --norm -g[-1] xy,1 -!=[-2,-1] 0 -or[-2,-1] -r[-1] 100%,100%,1,4
+    --norm -g[-1] xy,1 -!=[-2,-1] 0 -|[-2,-1] -r[-1] 100%,100%,1,4
     -replace_color[-1] 0,0,1,1,1,1,$6,$7,$8,$9
     -blend alpha
   -endl -done -endif
@@ -20379,7 +20379,7 @@ gimp_shapeism :
     -repeat $6
 
       # Create map of possible locations.
-      --channels[2] 100% -->[1] $> -!=[-2] 0 -or[-2,-1] -a[2,-1] c
+      --channels[2] 100% -->[1] $> -!=[-2] 0 -|[-2,-1] -a[2,-1] c
 
       # Create shape at given scale.
       size={if($6<=1,$7,$7+($8-$7)*$>/($6-1))}
@@ -20408,7 +20408,7 @@ gimp_shapeism :
 gimp_shapeism_preview :
   -gimp_print_preview ""
   50%,50% -_gimp_shapeism$1[-1] ${2-4} -frame[-1] 1,1,0 ->=[-1] 50% -n[-1] 0,255 -r[-1] 100%,100%,1,4
-  -r[-1] [0],0,0,0.5,0.5 -or
+  -r[-1] [0],0,0,0.5,0.5 -|
 
 _gimp_shapeism0 : # Square
   -f 255 -skip $*
@@ -20559,7 +20559,7 @@ gimp_charcoal :
     -if $6 --ir $7,$8 -endif  # Add highlights layer if required.
     -ir[0] $2,$3
     -if {!$15} -==[0] 0 -endif
-    -or
+    -|
     --*[0] $10 --*[0] $11 -*[0] $9
     -a[-3--1] c -replace_color 0,0,0,0,0,$12,$13,$14
     -r $w,$h,1,100%,2
@@ -22017,7 +22017,7 @@ gimp_hsv_equalizer_preview :
     --f[0] if(abs(i-$2)<$3/2|abs(i-$2-360)<$3/2|abs(i-$2+360)<$3/2,1,0)
     --f[0] if(abs(i-$7)<$8/2|abs(i-$7-360)<$8/2|abs(i-$7+360)<$8/2,1,0)
     --f[0] if(abs(i-$12)<$13/2|abs(i-$12-360)<$13/2|abs(i-$12+360)<$13/2,1,0) #masks
-    -or[-3--1] -+[-1] 0.33 -/[-1] 1.33	#1 and 0.25
+    -|[-3--1] -+[-1] 0.33 -/[-1] 1.33	#1 and 0.25
     -*[2,-1] -a c -hsv2rgb
   -endif -endl
 
@@ -22215,9 +22215,9 @@ gimp_select_color :
     -select_color[1] $2%,$color
     -if $4 --area[-1] 0,0 -<=[-1] {round($4^1.5)} -inpaint[-2] [-1],0,3 -rm[-1] -endif # Fill holes.
     -b[1] $3 -n[1] 0,255
-    -if {$9==0} -sh[0] 100%,100% -and[-1] [1]                      # Selected colors.
+    -if {$9==0} -sh[0] 100%,100% -&[-1] [1]                        # Selected colors.
     -elif {$9==1} -rm[0]                                           # Selected mask.
-    -elif {$9==2} --[1] 255 -*[1] -1 -sh[0] 100%,100% -and[-1] [1] # Rejected colors.
+    -elif {$9==2} --[1] 255 -*[1] -1 -sh[0] 100%,100% -&[-1] [1]   # Rejected colors.
     -elif {$9==3} -rm[0] -- 255 -* -1                              # Rejected mask.
     -else # Replaced color.
       -/[1] 255 --*[0,1] --*[1] $11 --*[1] $12 --*[1] $13 -*[1] $10 -a[1,-3--1] c --[1,2] -+
@@ -26326,7 +26326,7 @@ gimp_upscale_smart_preview :
     -if {w<{-2,w}||h<{-2,h}}  # Test for downscaling
       -rm[-1] -/[-1] 4
       0 -t[-1] "Downscaling is\nnot allowed!",5,5,20,1,255 -r[-1] [-2],[-2],1,1,0,0,0.5,0.5
-      -or[-2,-1]
+      -|[-2,-1]
     -else
       -z[-2] {50-50*{-2,w}/w}%,{50-50*{-2,h}/h}%,{50+50*{-2,w}/w}%,{50+50*{-2,h}/h}%
       -rm[-1] -gimp_upscale_smart[-1] $1,$2,$3,$4,$5 -c[-1] 0,255
@@ -27242,7 +27242,7 @@ gimp_neon_lightning :
     --b[-1] $8%,1 -n[-1] 0,1 -sqrt[-1] -n[-2,-1] 0,255 -max[-2,-1]
     [-1] -blend[0,1] value
     -smooth 5,0,1,0.5,2,10,0
-    -/[-1] 255 -pow[-1] $14 -*[-1] 255
+    -/[-1] 255 -^[-1] $14 -*[-1] 255
     -a c -c 0,255
   -endl -done
 
@@ -27318,7 +27318,7 @@ gimp_shadebobs :
       t={$t+$4/100}
     -done
   -endl -done
-  -and 255 -if $10 -map {$10-1} -endif
+  -& 255 -if $10 -map {$10-1} -endif
 
 #@gimp Sierpinski triangle : gimp_sierpinski, gimp_sierpinski(1)
 #@gimp : Recursions = int(6,0,10)
