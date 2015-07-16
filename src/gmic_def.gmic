@@ -22228,6 +22228,34 @@ gimp_select_color :
 gimp_select_color_preview :
   -gimp_split_preview "-gimp_select_color $*",$-1
 
+#@gimp Selective desaturation : gimp_selective_desaturation, gimp_selective_desaturation_preview(1)
+#@gimp : Reference color = color(255,255,255)
+#@gimp : Desaturate = choice("Reference color","All but reference color")
+#@gimp : Strength = float(3,0,10)
+#@gimp : Regularization = int(0,0,20)
+#@gimp : Maximum saturation = choice("From input","From reference color","Maximum value")
+#@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/15/2015</i>.</small>")
+gimp_selective_desaturation :
+  -repeat $! -l[$>] -to_color -split_opacity -l[0]
+    --fc $1,$2,$3
+    --[1] [0] -norm[1] -/[1] {1e-6+iM}
+    -if $4 -*[1] -{max(0.01,$5)} -+[1] 1
+    -else -ge[1] {5*$5}%
+    -endif
+    -c[1] 0,1
+    -rgb2hsl[0] -s[0] c
+    mM={im},{iM} -repeat $6 -guided[-1] [2],1,0.1 -done -n[-1] $mM # Regularization step.
+    -if {$7==0} -*[1,-1]
+    -elif {$7==1} ($1^$2^$3) -rgb2hsl[-1] -*[1] {i[1]} -rm[-2,-1]
+    -else -rv[1,-1] -rm[-1]
+    -endif
+    -a c -hsl2rgb
+  -endl -a c -endl -done
+
+gimp_selective_desaturation_preview :
+  -gimp_split_preview "-gimp_selective_desaturation $*",$-1
+
 #@gimp Sepia : gimp_sepia, gimp_sepia_preview
 #@gimp : Gamma = float(0,-1.2,1.2)
 #@gimp : Contrast = float(1,0,4)
