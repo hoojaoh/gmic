@@ -18969,7 +18969,7 @@ _gimp_manage_filter_sources :
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
 #@gimp : link = link(0,"[40] Pat David","http://blog.patdavid.net/")
-#@gimp : link = link(0,"[39] Antti Luoma","")
+#@gimp : link = link(0,"[39] Antti Luoma","https://plus.google.com/+AnttiLuoma")
 #@gimp : link = link(0,"[38] Eddy Young Tie Yang","https://twitter.com/jeyoung")
 #@gimp : link = link(0,"[37] Thomas Elfstrom","")
 #@gimp : link = link(0,"[36] Valentine Boyce","")
@@ -22762,6 +22762,105 @@ gimp_circle_transform_preview :
       -circle $x0,$y0,$r,1,0xFFFFFFFF,0,255,0,255
     -endif
   -endl -done
+
+#@gimp Drop water : gimp_drop_water, gimp_drop_water_preview(1)
+#@gimp : note = note("<small><b>Shape geometry:</b></small>")
+#@gimp : Shapes = choice("Procedural","Opaque regions on top layer")
+#@gimp : Density = float(25,0,100)
+#@gimp : Radius = float(2,0,5)
+#@gimp : Variability = float(80,0,100)
+#@gimp : note = note("<small>Parameters <i>Density</i>, <i>Radius</i> and <i>Variability</i> are used only in <i>Procedural shapes</i> mode.</small>")
+#@gimp : sep = separator(), note = note("<small><b>Rendering:</b></small>")
+#@gimp : Refraction = float(3,0,20)
+#@gimp : Light angle = float(35,0,360)
+#@gimp : Specular size = float(10,0,100)
+#@gimp : Specular intensity = float(1,0,1)
+#@gimp : Specular centering = float(0.5,0,1)
+#@gimp : Shadow amplitude = float(0.25,0,3)
+#@gimp : Shadow smoothness = float(0.75,0,3)
+#@gimp : Diffuse shadow = float(0.05,0,3)
+#@gimp : Output as separate layers = _bool(0)
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/17/2015</i>.</small>")
+gimp_drop_water : -skip $*
+  N={$!-$1}
+  -if {$N<=0} -error "At least two layers are required in this mode." -endif
+
+  -repeat $N -l[{$!-$>-1}] nm0={n} nm=${-gimp_layer_name}
+    -nm img
+
+    # Create binary shapes (i.e. opacity map).
+    -if $1 # Shape from top layer.
+      -pass[0] 0 -to_a[-1] -channels[-1] 100% -ge[-1] 50%
+      -r[-1] [0],[0],1,1,0,0,0.5,0.5
+    -else # Procedural shape.
+      100%,100%
+      delta={$3*$4%} rmin={max(0.1,$3-$delta)} rmax={$3}
+      -repeat 10
+        100%,100%
+        -random3d {max(1,max(w,h)*$2/500)} -*3d[-1] {-2,w},{-2,h},0
+        -j3d[-2] [-1],0,0,0,1,1,0,0 -rm[-1]
+        -b[-1] {$rmin+($rmax-$rmin)*$>/9}%,0,1 -n[-1] 0,1
+        -j[-2] [-1],0,0,0,0,0.5 -rm[-1]
+      -done
+      -ge[-1] 10%
+    -endif
+    -nm[-1] shape
+
+    # Create elevation map.
+    --b[shape] 1% -n[-1] 0,30
+    -nm[-1] elevation
+
+    # Warp image.
+    -g[elevation] xy -a[-2,-1] c -nm[-1] grad
+    --*[grad] {grad,$5*max(w,h)/100} -*[-1] [shape] -warp[img] [-1],1,1,1 -rm[-1]
+
+    # Compute specular spots.
+    --*[grad] -1 100%,100%,1,1,1 -a[-2,-1] c -orientation[-1]  # 3d normal map.
+    a={$6*pi/180} ca={-cos($a)} sa={-sin($a)}
+    -mix_channels[-1] ({(1-$9)*$ca},{(1-$9)*$sa},1) -c[-1] {100-$7}%,100% -n[-1] 0,1
+    -*[-1] [shape] -nm[-1] spots
+
+    # Compute ambiant light (gradient).
+    -mix_channels[grad] ($ca,$sa)
+    -n[grad] 0,1 -*[grad] [shape]
+
+    # Drop shadow.
+    --shift[shape] {-$10*$ca}%,{-$10*$sa}%,0,0,1
+    --[-1] [shape] -ge[-1] 1 -b[-1] $11% -n[-1] 0,1
+    -nm[-1] shadow
+    -b[shape] $12% -n[-1] 0,1  # Add diffuse shadow around each drop.
+
+    # Prepare layers for GIMP output.
+    -nm[img] name($nm)
+
+    -*[shadow] 255 -channels[shadow] -1,0 -mv[shadow] 1
+    -nm[shadow] name($nm" [shadow]"),mode(alpha)
+
+    -channels[spots] -1,0 -sh[spots] 0,0 -f[-1] 1 -rm[-1] -*[spots] 255
+    -nm[spots] name($nm" [specular spots]"),mode(lighten),opacity({$8*100})
+
+    -rv[shape,grad] -a[shape,grad] c -*[grad] 255
+    -nm[grad] name($nm" [gradient]"),mode(grainmerge)
+    -rv
+
+    -if {!$13} -gimp_merge_layers -nm $nm0 -endif
+  -endl -done
+  -if $1 -rm[0] -endif
+
+gimp_drop_water_preview :
+  N={$!-$1}
+  -if {$N<=0} -gimp_warning_preview "At least two layers are required in this mode." -return -endif
+  -if $1
+    -repeat $N -l[{$!-$>-1}]
+      -pass[0] 0 -mv[-1] 0
+      -gimp_drop_water $* -gimp_merge_layers
+    -endl -done
+    -rm[0]
+  -else
+    -repeat $! -l[$>]
+      -gimp_drop_water $* -gimp_merge_layers
+    -endl -done
+  -endif
 
 #@gimp Euclidean - polar : gimp_euclidean2polar, gimp_euclidean2polar(1)
 #@gimp : X-center (%) = float(50,0,100)
