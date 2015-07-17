@@ -19138,8 +19138,11 @@ gimp_search_filters : -skip "${1=}"
     file_filters=${-path_rc}gimp_filters
     date_filters={fdate(2,$file_filters)+31*(fdate(1,$file_filters)+12*fdate(0,$file_filters))} # Date of filter file.
     -if {$date_filters<0" || "$date_now-$date_filters>0} # Filter file needs to be refreshed.
-      -i raw:http://gmic.eu/gimp_filters.txt,uchar
-      -o raw:$file_filters,uchar
+      -l[]
+        -i raw:http://gmic.eu/gimp_filters.txt,uchar
+        -o raw:$file_filters,uchar
+      -onfail -i raw:$file_filters,uchar
+      -endl
     -else -i raw:$file_filters,uchar
     -endif
 
