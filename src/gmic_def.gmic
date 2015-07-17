@@ -22794,12 +22794,12 @@ gimp_drop_water : -skip ${13=0}
       -r[-1] [0],[0],1,1,0,0,0.5,0.5
     -else # Procedural shape.
       100%,100%
-      rmin={max(0.1,$3*(1-$4%))}
+      rmin={max(0.1,$3*(1-$4%))} rmax={max(0.1,$3)}
       -repeat 10
         100%,100%
         -random3d {max(1,$2)} -*3d[-1] {-2,w},{-2,h},0
         -j3d[-2] [-1],0,0,0,1,1,0,0 -rm[-1]
-        -b[-1] {$rmin+($3-$rmin)*$>/9}%,0,1
+        -b[-1] {$rmin+($rmax-$rmin)*$>/9}%,0,1
         -j[-2] [-1],0,0,0,0,0.5 -rm[-1]
       -done
       -ge[-1] 10%
@@ -22830,14 +22830,14 @@ gimp_drop_water : -skip ${13=0}
     -nm[-1] shadow
     -b[shape] $12% -n[-1] 0,1  # Add diffuse shadow around each drop.
 
-    # Prepare layers for GIMP output.
+    # Prepare layers for output.
     -nm[img] name($nm)
 
     -*[shadow] 255 -channels[shadow] -1,0 -mv[shadow] 1
     -nm[shadow] name($nm" [shadow]"),mode(alpha)
 
     -channels[spots] -1,0 -sh[spots] 0,0 -f[-1] 1 -rm[-1] -*[spots] 255
-    -nm[spots] name($nm" [specular spots]"),mode(lighten),opacity({$8*100})
+    -nm[spots] name($nm" [specular spots]"),mode(normal),opacity({$8*100})
 
     -rv[shape,grad] -a[shape,grad] c -*[grad] 255
     -nm[grad] name($nm" [gradient]"),mode(grainmerge)
