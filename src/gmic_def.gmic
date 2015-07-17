@@ -22781,7 +22781,7 @@ gimp_circle_transform_preview :
 #@gimp : Diffuse shadow = float(0.05,0,3)
 #@gimp : Output as separate layers = _bool(0)
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/17/2015</i>.</small>")
-gimp_drop_water : -skip $*
+gimp_drop_water : -skip ${13=0}
   N={$!-$1}
   -if {$N<=0} -error "At least two layers are required in this mode." -endif
 
@@ -28636,6 +28636,25 @@ gmicol_rotate :
 
 #@gmicol clone("Cartesian transform")
 #@gmicol clone("Circle transform")
+
+#@gmicol Drop water : gimp_drop_water_preview, gimp_drop_water_preview(1)
+#@gmicol : note = note("<small><b>Shape geometry:</b></small>")
+#@gmicol : Shapes = choice("Procedural","Opaque regions on top layer")
+#@gmicol : Density = float(30,0,100)
+#@gmicol : Radius = float(2,0,5)
+#@gmicol : Variability = float(80,0,100)
+#@gmicol : note = note("<small>Parameters <i>Density</i>, <i>Radius</i> and <i>Variability</i> are used only in <i>Procedural shapes</i> mode.</small>")
+#@gmicol : sep = separator(), note = note("<small><b>Rendering:</b></small>")
+#@gmicol : Refraction = float(3,0,20)
+#@gmicol : Light angle = float(35,0,360)
+#@gmicol : Specular size = float(10,0,100)
+#@gmicol : Specular intensity = float(1,0,1)
+#@gmicol : Specular centering = float(0.5,0,1)
+#@gmicol : Shadow amplitude = float(0.25,0,3)
+#@gmicol : Shadow smoothness = float(0.75,0,3)
+#@gmicol : Diffuse shadow = float(0.05,0,3)
+#@gmicol : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/17/2015</i>.</small>")
+
 #@gmicol clone("Euclidean - polar")
 #@gmicol clone("Fish-eye")
 #@gmicol clone("Flower")
