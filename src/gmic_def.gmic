@@ -18948,7 +18948,7 @@ _gimp_manage_filter_sources :
 #@gimp : sep = separator()
 #@gimp : note = link(0,"[1] G'MIC reference documentation","http://gmic.eu/reference.shtml")
 #@gimp : note = link(0,"[2] G'MIC scripting tutorial","http://gmic.eu/tutorial/index.shtml")
-#@gimp : note = link(0,"[3] G'MIC filter template","https://sourceforge.net/p/gmic/community/ci/master/tree/template.gmic?format=raw")
+#@gimp : note = link(0,"[3] G'MIC filter template","http://gmic.eu/template.gmic")
 
 #@gimp Friends Hall of Fame : _none_, gimp_friends
 #@gimp : note = note{"\n<span foreground="purple" underline="single">Donators :</span>"}
@@ -18958,7 +18958,7 @@ _gimp_manage_filter_sources :
 #@gimp :              (cover expenses for open-source events, for instance). Also, it will motivate
 #@gimp :              us to design more new image filters and effects. Feel free to donate
 #@gimp :              if you appreciate <b>G'MIC</b>, by clicking on:"}
-#@gimp : link = link{"Make a donation via Paypal","http://sourceforge.net/donate/index.php?group_id=234931"}
+#@gimp : link = link{"Make a donation via Paypal","https://pledgie.com/campaigns/29753"}
 #@gimp : link = link{"Make a donation via Flattr","http://flattr.com/thing/41097/GMIC-GREYCs-Magic-for-Image-Computing"}
 #@gimp : link = link{"Make a donation via Bitcoin","bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation"}
 #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
