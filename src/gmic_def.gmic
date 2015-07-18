@@ -22784,7 +22784,7 @@ gimp_circle_transform_preview :
 #@gimp : Smoothness = float(0.15,0,3)
 #@gimp : Output as separate layers = _bool(1)
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/17/2015</i>.</small>")
-gimp_drop_water : -skip ${13=0}
+gimp_drop_water : -skip ${14=0}
   N={$!-$1}
   -if {$N<=0} -error "At least two layers are required in this mode." -endif
 
