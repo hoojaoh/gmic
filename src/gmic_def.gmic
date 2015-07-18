@@ -22782,7 +22782,7 @@ gimp_circle_transform_preview :
 #@gimp : Shadow smoothness = float(0.75,0,3)
 #@gimp : Diffuse shadow = float(0.05,0,3)
 #@gimp : Smoothness = float(0.15,0,3)
-#@gimp : Output as separate layers = _bool(0)
+#@gimp : Output as separate layers = _bool(1)
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/17/2015</i>.</small>")
 gimp_drop_water : -skip ${13=0}
   N={$!-$1}
@@ -22816,7 +22816,7 @@ gimp_drop_water : -skip ${13=0}
     # Warp image.
     -g[elevation] xy -a[-2,-1] c -nm[-1] grad
     --*[grad] {grad,$5*max(w,h)/100} -*[-1] [shape] -b[-1] $13%
-    -warp[img] [-1],1,1,1 -rm[-1]
+    --warp[img] [-1],1,1,1 -rm[-2] -nm[-1] refraction
 
     # Compute specular spots.
     --*[grad] -1 100%,100%,1,1,1 -a[-2,-1] c -orientation[-1]  # 3d normal map.
@@ -22836,17 +22836,20 @@ gimp_drop_water : -skip ${13=0}
 
     # Prepare layers for output.
     -nm[img] name($nm)
+    -mv[refraction] 1
+    -to_a[refraction] -sh[refraction] 100%,100% -*[-1] [shape] -rm[-1]
+    -nm[refraction] name($nm" [refraction]"),mode(alpha)
 
-    -*[shadow] 255 -channels[shadow] -1,0 -mv[shadow] 1
+    -*[shadow] 255 -channels[shadow] -1,0 -mv[shadow] 2
     -nm[shadow] name($nm" [shadow]"),mode(alpha)
 
     -channels[spots] -1,0 -sh[spots] 0,0 -f[-1] 1 -rm[-1] -*[spots] 255
-    -nm[spots] name($nm" [specular spots]"),mode(normal),opacity({$8*100})
+    -nm[spots] name($nm" [specular spots]"),mode(alpha),opacity({$8*100})
 
     -rv[shape,grad] -a[grad,shape] c -*[grad] 255 -b[grad] $13%
     -nm[grad] name($nm" [gradient]"),mode(grainmerge)
-    -rv
 
+    -rv
     -if {!$14} -gimp_merge_layers -nm $nm0 -endif
   -endl -done
   -if $1 -rm[0] -endif
