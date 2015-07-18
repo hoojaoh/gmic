@@ -22768,7 +22768,7 @@ gimp_circle_transform_preview :
 #@gimp Drop water : gimp_drop_water, gimp_drop_water_preview(1)
 #@gimp : note = note("<small><b>Shape geometry:</b></small>")
 #@gimp : Shapes = choice("Procedural","Opaque regions on top layer")
-#@gimp : Density = float(30,0,100)
+#@gimp : Density = float(20,0,100)
 #@gimp : Radius = float(2,0,5)
 #@gimp : Variability = float(80,0,100)
 #@gimp : note = note("<small>Parameters <i>Density</i>, <i>Radius</i> and <i>Variability</i> are used only in <i>Procedural shapes</i> mode.</small>")
@@ -22781,6 +22781,7 @@ gimp_circle_transform_preview :
 #@gimp : Shadow amplitude = float(0.25,0,3)
 #@gimp : Shadow smoothness = float(0.75,0,3)
 #@gimp : Diffuse shadow = float(0.05,0,3)
+#@gimp : Smoothness = float(0.15,0,3)
 #@gimp : Output as separate layers = _bool(0)
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/17/2015</i>.</small>")
 gimp_drop_water : -skip ${13=0}
@@ -22814,7 +22815,8 @@ gimp_drop_water : -skip ${13=0}
 
     # Warp image.
     -g[elevation] xy -a[-2,-1] c -nm[-1] grad
-    --*[grad] {grad,$5*max(w,h)/100} -*[-1] [shape] -warp[img] [-1],1,1,1 -rm[-1]
+    --*[grad] {grad,$5*max(w,h)/100} -*[-1] [shape] -b[-1] $13%
+    -warp[img] [-1],1,1,1 -rm[-1]
 
     # Compute specular spots.
     --*[grad] -1 100%,100%,1,1,1 -a[-2,-1] c -orientation[-1]  # 3d normal map.
@@ -22841,11 +22843,11 @@ gimp_drop_water : -skip ${13=0}
     -channels[spots] -1,0 -sh[spots] 0,0 -f[-1] 1 -rm[-1] -*[spots] 255
     -nm[spots] name($nm" [specular spots]"),mode(normal),opacity({$8*100})
 
-    -rv[shape,grad] -a[shape,grad] c -*[grad] 255
+    -rv[shape,grad] -a[grad,shape] c -*[grad] 255 -b[grad] $13%
     -nm[grad] name($nm" [gradient]"),mode(grainmerge)
     -rv
 
-    -if {!$13} -gimp_merge_layers -nm $nm0 -endif
+    -if {!$14} -gimp_merge_layers -nm $nm0 -endif
   -endl -done
   -if $1 -rm[0] -endif
 
@@ -28655,6 +28657,7 @@ gmicol_rotate :
 #@gmicol : Shadow amplitude = float(0.25,0,3)
 #@gmicol : Shadow smoothness = float(0.75,0,3)
 #@gmicol : Diffuse shadow = float(0.05,0,3)
+#@gmicol : Smoothness = float(0.15,0,3)
 #@gmicol : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/17/2015</i>.</small>")
 
 #@gmicol clone("Euclidean - polar")
