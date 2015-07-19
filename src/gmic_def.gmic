@@ -22839,13 +22839,13 @@ gimp_drop_water : -skip ${14=0}
 
     # Prepare layers for output.
     -nm[img] name($nm)
-    -mv[refraction] 1
+
+    -*[shadow] 255 -channels[shadow] -1,0 -mv[shadow] 1
+    -nm[shadow] name($nm" [shadow]"),mode(alpha)
 
     -to_a[refraction] -sh[refraction] 100%,100% --b[shape] $13% -*[-2,-1] -rm[-1]
+    -mv[refraction] 2
     -nm[refraction] name($nm" [refraction]"),mode(alpha)
-
-    -*[shadow] 255 -channels[shadow] -1,0 -mv[shadow] 2
-    -nm[shadow] name($nm" [shadow]"),mode(alpha)
 
     -channels[spots] -1,0 -sh[spots] 0,0 -f[-1] 1 -rm[-1] -*[spots] 255
     -nm[spots] name($nm" [specular spots]"),mode(alpha),opacity({$8*100})
