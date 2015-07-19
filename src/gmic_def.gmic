@@ -22775,19 +22775,22 @@ gimp_circle_transform_preview :
 #@gimp : Radius = float(2,0,5)
 #@gimp : Variability = float(80,0,100)
 #@gimp : note = note("<small>Parameters <i>Density</i>, <i>Radius</i> and <i>Variability</i> are used only in <i>Procedural shapes</i> mode.</small>")
-#@gimp : sep = separator(), note = note("<small><b>Rendering:</b></small>")
+#@gimp : sep = separator(), note = note("<small><b>Light parameters:</b></small>")
 #@gimp : Refraction = float(3,0,20)
 #@gimp : Light angle = float(35,0,360)
 #@gimp : Specular size = float(10,0,100)
 #@gimp : Specular intensity = float(1,0,1)
 #@gimp : Specular centering = float(0.5,0,1)
-#@gimp : Shadow amplitude = float(0.25,0,3)
+#@gimp : sep = separator(), note = note("<small><b>Shadow parameters:</b></small>")
+#@gimp : Shadow size = float(0.25,0,3)
+#@gimp : Shadow intensity = float(0.5,0,1)
 #@gimp : Shadow smoothness = float(0.75,0,3)
 #@gimp : Diffuse shadow = float(0.05,0,3)
+#@gimp : sep = separator()
 #@gimp : Smoothness = float(0.15,0,3)
 #@gimp : Output as separate layers = _bool(1)
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>07/17/2015</i>.</small>")
-gimp_drop_water : -skip ${14=0}
+gimp_drop_water : -skip ${15=0}
   N={$!-$1}
   -if {$N<=0} -error "At least two layers are required in this mode." -endif
 
@@ -22818,7 +22821,7 @@ gimp_drop_water : -skip ${14=0}
 
     # Warp image.
     -g[elevation] xy -a[-2,-1] c -nm[-1] grad
-    --*[grad] {grad,$5*max(w,h)/100} -*[-1] [shape] -b[-1] $13%
+    --*[grad] {grad,$5*max(w,h)/100} -*[-1] [shape] -b[-1] $14%
     --warp[img] [-1],1,1,1 -rm[-2] -nm[-1] refraction
 
     # Compute specular spots.
@@ -22833,28 +22836,28 @@ gimp_drop_water : -skip ${14=0}
 
     # Drop shadow.
     --shift[shape] {-$10*$ca}%,{-$10*$sa}%,0,0,1
-    --[-1] [shape] -ge[-1] 1 -b[-1] $11% -n[-1] 0,1
+    --[-1] [shape] -ge[-1] 1 -b[-1] $12% -n[-1] 0,1
     -nm[-1] shadow
-    -b[shape] $12% -n[-1] 0,1  # Add diffuse shadow around each drop.
+    -b[shape] $13% -n[-1] 0,1  # Add diffuse shadow around each drop.
 
     # Prepare layers for output.
     -nm[img] name($nm)
 
     -*[shadow] 255 -channels[shadow] -1,0 -mv[shadow] 1
-    -nm[shadow] name($nm" [shadow]"),mode(alpha)
+    -nm[shadow] name($nm" [shadow]"),mode(alpha),opacity({$11*100})
 
-    -to_a[refraction] -sh[refraction] 100%,100% --b[shape] $13% -*[-2,-1] -rm[-1]
+    -to_a[refraction] -sh[refraction] 100%,100% --b[shape] $14% -*[-2,-1] -rm[-1]
     -mv[refraction] 2
     -nm[refraction] name($nm" [refraction]"),mode(alpha)
 
     -channels[spots] -1,0 -sh[spots] 0,0 -f[-1] 1 -rm[-1] -*[spots] 255
     -nm[spots] name($nm" [specular spots]"),mode(alpha),opacity({$8*100})
 
-    -rv[shape,grad] -a[grad,shape] c -*[grad] 255 -b[grad] $13%
+    -rv[shape,grad] -a[grad,shape] c -*[grad] 255 -b[grad] $14%
     -nm[grad] name($nm" [gradient]"),mode(grainmerge)
 
     -rv
-    -if {!$14} -gimp_merge_layers -nm $nm0 -endif
+    -if {!$15} -gimp_merge_layers -nm $nm0 -endif
   -endl -done
   -if $1 -rm[0] -endif
 
@@ -28661,7 +28664,8 @@ gmicol_rotate :
 #@gmicol : Specular size = float(10,0,100)
 #@gmicol : Specular intensity = float(1,0,1)
 #@gmicol : Specular centering = float(0.5,0,1)
-#@gmicol : Shadow amplitude = float(0.25,0,3)
+#@gmicol : Shadow size = float(0.25,0,3)
+#@gmicol : Shadow intensity = float(0.5,0,1)
 #@gmicol : Shadow smoothness = float(0.75,0,3)
 #@gmicol : Diffuse shadow = float(0.05,0,3)
 #@gmicol : Smoothness = float(0.15,0,3)
