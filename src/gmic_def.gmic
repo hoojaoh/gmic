@@ -18653,8 +18653,8 @@ gimp_autocrop_layers :
 # #@gimp : note = note{"<b>Installation </b>: unzip the archive files and copy them into folder\n
 # #@gimp :              <i>C:\\Program Files\\GIMP\\lib\\gimp\\2.0\\plug-ins\</i>"}
 # #@gimp : note = note{"\n<span foreground="purple"><u>Linux version :</u></span>"}
-# #@gimp : url = link{"Download plug-in for Linux (64 bits)","http://gmic.eu/files/latest_/gmic_gimp_linux64.zip"}
-# #@gimp : url = link{"Download plug-in for Linux (32 bits)","http://gmic.eu/files/latest_/gmic_gimp_linux32.zip"}
+# #@gimp : url = link{"Download plug-in for Linux (64 bits)","http://gmic.eu/files/latest/gmic_gimp_linux64.zip"}
+# #@gimp : url = link{"Download plug-in for Linux (32 bits)","http://gmic.eu/files/latest/gmic_gimp_linux32.zip"}
 # #@gimp : note = note{"<b>Installation </b>: unzip the archive files and copy them in folder\n
 # #@gimp :              <i>/usr/lib/gimp/2.0/plug-ins/</i>"}
 # #@gimp : note = note{"\nNote that there will be no updated filters anymore for your current plug-in version.
