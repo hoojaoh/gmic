@@ -569,10 +569,11 @@ _help_usage :
 \n       "$c"!=, ==, <=, >=, <, >, <<"$n" (left bitwise shift), "$c">>"$n" (right bitwise shift), "$c"-, +, *, /,
 \n       %"$n" (modulo), "$c"^"$n" (power), "$c"!"$n" (logical not), "$c"~"$n" (bitwise not).
 \n    _ "${g}"Usual functions:"$n" "${c}"sin(), cos(), tan(), asin(), acos(), atan(), sinh(), cosh(), tanh(),
-\n       log(), log2(), log10(), exp(), sign(), abs(), atan2(), round(), narg(), arg(),
+\n       log(), log2(), log10(), exp(), sqrt(), cbrt(), sign(), abs(), atan2(), round(), narg(), arg(),
 \n       isval(), isnan(), isinf(), isint(), isbool(), isdir(), isfile(), rol()"$n" (left bit rotation),
 \n       "${c}"ror()"$n" (right bit rotation), "${c}"min(), max(), med(), kth(), sinc(), int()"$n".
-\n       . Function '"${c}"atan2()"$n"' is the version of '"${c}"atan()"$n"' with two arguments 'y' and 'x' (as in C/C++).
+\n       . Function '"${c}"atan2(x,y)"$n"' is the version of '"${c}"atan()"$n"' with two arguments 'y' and 'x' (as in C/C++).
+\n       . Function '"${c}"hypoth(x,y)"$n"' computes the square root of the sum of the squares of x and y.
 \n       . Function '"${c}"narg()"$n"' returns the number of specified arguments.
 \n       . Function '"${c}"arg(i,a_1,..,a_n)"$n"' returns the ith argument a_i.
 \n       . Functions '"${c}"min()"$n"', '"${c}"max()"$n"', '"${c}"med()"$n"' and '"${c}"kth()"$n"' can be called with an arbitrary number of arguments.
