@@ -574,6 +574,7 @@ _help_usage :
 \n       "${c}"ror()"$n" (right bit rotation), "${c}"min(), max(), med(), kth(), sinc(), int()"$n".
 \n       . Function '"${c}"atan2(x,y)"$n"' is the version of '"${c}"atan()"$n"' with two arguments 'y' and 'x' (as in C/C++).
 \n       . Function '"${c}"hypoth(x,y)"$n"' computes the square root of the sum of the squares of x and y.
+\n       . Function '"${c}"normP(u1,...,un)"$n"' computes the LP-norm of the specified vector (P being an unsigned integer or 'inf').
 \n       . Function '"${c}"narg()"$n"' returns the number of specified arguments.
 \n       . Function '"${c}"arg(i,a_1,..,a_n)"$n"' returns the ith argument a_i.
 \n       . Functions '"${c}"min()"$n"', '"${c}"max()"$n"', '"${c}"med()"$n"' and '"${c}"kth()"$n"' can be called with an arbitrary number of arguments.
