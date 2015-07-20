@@ -4492,11 +4492,11 @@ apply_gamma : -check $1>=0
   -v - -repeat $! -l[$>] mM={im},{iM} -n 0,1 -^ {1/$1} -n $mM -endl -done -v +
 
 #@gmic balance_gamma : _ref_color1,...
-#@gmic : Apply color balance transformation on selected image, with respect to specified reference color.
+#@gmic : Compute gamma-corrected color balance of selected image, with respect to specified reference color.
 #@gmic : Default value: 'ref_color1=128'.
 #@gmic : $ image.jpg --balance_gamma 128,64,64
 balance_gamma : -skip ${1=128}
-  -e[^-1] "Apply color balance transformation on image$?, with gamma curve and reference color ("${^0}")."
+  -e[^-1] "Apply gamma-corrected color balance of image$?, with reference color ("${^0}")."
   -v - -repeat $! -l[$>]
     (${^0}) -r[-1] {-2,s},1,1,1,0,1 -s[-2] c -/[-1] 255
     -repeat {$!-1} -/[$>] 255 -^[$>] {log({[$>]})/log({$>,ia})} -*[$>] 255 -done
@@ -4707,6 +4707,21 @@ negative :
 #@gmic : Default value: 'noise_type=0'.
 #@gmic : $ image.jpg --noise[0] 50,0 --noise[0] 50,1 --noise[0] 10,2 -cut 0,255
 #@gmic : $ 300,300,1,3 [0] -noise[0] 20,0 -noise[1] 20,1 --histogram 100 -display_graph[-2,-1] 400,300,3
+
+#@gmic normlp : p>=0
+#@gmic : Compute the pointwise Lp-norm norm of vector-valued pixels in selected images.
+#@gmic : Default value: 'p=2'.
+#@gmic : $ image.jpg --normlp[0] 0 --normlp[0] 1 --normlp[0] 2 --normlp[0] inf
+normlp : -check "isval(${1==2}) && $1>=0"
+  -e[^-1] "Compute pointwise L"$1"-norm of vectors, in image$?."
+  -v -
+  -if {$1==0} -neq 0 -compose_channels +
+  -elif {$1==1} -abs -compose_channels +
+  -elif {$1==2} -norm
+  -elif {$1==inf} -abs -compose_channels max
+  -else -pow $1 -compose_channels + -pow {1/$1}
+  -endif
+  -v +
 
 #@gmic norm
 #@gmic : Compute the pointwise euclidean norm of vector-valued pixels in selected images.
@@ -28724,7 +28739,6 @@ gmicol_rotate :
 
 #@gmicol clone("Random shade stripes")
 #@gmicol clone("Scanlines")
-#@gmicol clone("Tilt shift")
 #@gmicol clone("Visible watermark")
 
 #@gmicol _<b>Details</b>
@@ -28754,7 +28768,6 @@ gmicol_rotate :
 
 #@gmicol clone("Add grain")
 #@gmicol clone("B&amp;W films")
-#@gmicol clone("Grain")
 #@gmicol clone("Instant [consumer]")
 #@gmicol clone("Instant [pro]")
 #@gmicol clone("Negative [color]")
@@ -28903,7 +28916,6 @@ gmicol_rgb_distribution_preview :
 #@gmicol clone("Shade bobs")
 #@gmicol clone("Sierpinski triangle")
 #@gmicol clone("Snowflake")
-#@gmicol clone("Spiral")
 #@gmicol clone("Stars")
 #@gmicol clone("Superformula")
 #@gmicol clone("Truchet")
