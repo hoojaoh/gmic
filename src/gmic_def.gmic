@@ -19144,8 +19144,8 @@ gimp_gmicky_preview :
 #@gimp : - <b>12/07/2013</b> : version <i>1.5.8.0</i>.\n
 #@gimp : - <b>05/14/2014</b> : version <i>1.5.9.0</i>.\n
 #@gimp : - <b>08/20/2014</b> : version <i>1.6.0.0</i>.\n
-#@gimp : - <span foreground="purple"><b>06/22/2015</b> : version <i>1.6.5.0</i> (Current stable).</span>\n
-#@gimp : - <b>07/07/2015</b> : version <i>1.6.5.1</i> (Current pre-release).\n
+#@gimp : - <b>06/22/2015</b> : version <i>1.6.5.0</i>.\n
+#@gimp : - <span foreground="purple"><b>07/21/2015</b> : version <i>1.6.5.1</i> (Current stable).</span>\n
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : link = link("View latest changelog","https://discuss.pixls.us/t/on-the-road-to-gmic-1-6-5-1/284")
@@ -28597,7 +28597,7 @@ gmicol_rotate :
 
 #@gmicol clone("Abstraction")
 #@gmicol clone("Boost-fade")
-#@gmicol : thumbnail_parameters = 10
+#@gmicol : thumbnail_parameters = 10,0
 
 #@gmicol clone("Boost chromaticity")
 #@gmicol clone("Channel processing")
@@ -28641,7 +28641,6 @@ gmicol_rotate :
 #@gmicol clone("Select-replace color")
 #@gmicol clone("Sepia")
 #@gmicol clone("Tone presets")
-#@gmicol clone("User-defined")
 #@gmicol clone("Vintage style")
 #@gmicol clone("Zone system")
 
