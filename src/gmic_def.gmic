@@ -22791,7 +22791,8 @@ gimp_circle_transform_preview :
 #@gimp : Density = float(20,0,100)
 #@gimp : Radius = float(2,0,5)
 #@gimp : Variability = float(80,0,100)
-#@gimp : note = note("<small>Parameters <i>Density</i>, <i>Radius</i> and <i>Variability</i> are used only in <i>Procedural shapes</i> mode.</small>")
+#@gimp : Random seed = int(0,0,16384)
+#@gimp : note = note("<small>Parameters <i>Density</i>, <i>Radius</i>, <i>Variability</i> and <i>Random seed</i> are used only in <i>Procedural shapes</i> mode.</small>")
 #@gimp : sep = separator(), note = note("<small><b>Light parameters:</b></small>")
 #@gimp : Refraction = float(3,0,20)
 #@gimp : Light angle = float(35,0,360)
@@ -22815,6 +22816,7 @@ gimp_drop_water :
     -nm img
 
     # Create binary shapes (i.e. opacity map).
+    -srand $5
     -if $1 # Shape from top layer.
       -pass[0] 0 -to_a[-1] -channels[-1] 100% -ge[-1] 50%
       -r[-1] [0],[0],1,1,0,0,0.5,0.5
@@ -22838,13 +22840,13 @@ gimp_drop_water :
 
     # Warp image.
     -g[elevation] xy -a[-2,-1] c -nm[-1] grad
-    --*[grad] {grad,$5*max(w,h)/100} -*[-1] [shape] -b[-1] $14%
+    --*[grad] {grad,$6*max(w,h)/100} -*[-1] [shape] -b[-1] $15%
     --warp[img] [-1],1,1,1 -rm[-2] -nm[-1] refraction
 
     # Compute specular spots.
     --*[grad] -1 100%,100%,1,1,1 -a[-2,-1] c -orientation[-1]  # 3d normal map.
-    a={$6*pi/180} ca={-cos($a)} sa={-sin($a)}
-    -mix_channels[-1] ({(1-$9)*$ca},{(1-$9)*$sa},1) -c[-1] {100-$7}%,100% -n[-1] 0,1
+    a={$7*pi/180} ca={-cos($a)} sa={-sin($a)}
+    -mix_channels[-1] ({(1-$10)*$ca},{(1-$10)*$sa},1) -c[-1] {100-$8}%,100% -n[-1] 0,1
     -*[-1] [shape] -nm[-1] spots
 
     # Compute ambiant light (gradient).
@@ -22852,29 +22854,29 @@ gimp_drop_water :
     -n[grad] 0,1 -*[grad] [shape]
 
     # Drop shadow.
-    --shift[shape] {-$10*$ca}%,{-$10*$sa}%,0,0,1
-    --[-1] [shape] -ge[-1] 1 -b[-1] $12% -n[-1] 0,1
+    --shift[shape] {-$11*$ca}%,{-$11*$sa}%,0,0,1
+    --[-1] [shape] -ge[-1] 1 -b[-1] $13% -n[-1] 0,1
     -nm[-1] shadow
-    -b[shape] $13% -n[-1] 0,1  # Add diffuse shadow around each drop.
+    -b[shape] $14% -n[-1] 0,1  # Add diffuse shadow around each drop.
 
     # Prepare layers for output.
     -nm[img] name($nm)
 
     -*[shadow] 255 -channels[shadow] -1,0 -mv[shadow] 1
-    -nm[shadow] name($nm" [shadow]"),mode(alpha),opacity({$11*100})
+    -nm[shadow] name($nm" [shadow]"),mode(alpha),opacity({$12*100})
 
-    -to_a[refraction] -sh[refraction] 100%,100% --b[shape] $14% -*[-2,-1] -rm[-1]
+    -to_a[refraction] -sh[refraction] 100%,100% --b[shape] $15% -*[-2,-1] -rm[-1]
     -mv[refraction] 2
     -nm[refraction] name($nm" [refraction]"),mode(alpha)
 
     -channels[spots] -1,0 -sh[spots] 0,0 -f[-1] 1 -rm[-1] -*[spots] 255
-    -nm[spots] name($nm" [specular spots]"),mode(alpha),opacity({$8*100})
+    -nm[spots] name($nm" [specular spots]"),mode(alpha),opacity({$9*100})
 
-    -rv[shape,grad] -a[grad,shape] c -*[grad] 255 -b[grad] $14%
+    -rv[shape,grad] -a[grad,shape] c -*[grad] 255 -b[grad] $15%
     -nm[grad] name($nm" [gradient]"),mode(grainmerge)
 
     -rv
-    -if {!$15} -gimp_merge_layers -nm $nm0 -endif
+    -if {!$16} -gimp_merge_layers -nm $nm0 -endif
   -endl -done
   -if $1 -rm[0] -endif
 
@@ -28674,7 +28676,8 @@ gmicol_rotate :
 #@gmicol : Density = float(30,0,100)
 #@gmicol : Radius = float(2,0,5)
 #@gmicol : Variability = float(80,0,100)
-#@gmicol : note = note("<small>Parameters <i>Density</i>, <i>Radius</i> and <i>Variability</i> are used only in <i>Procedural shapes</i> mode.</small>")
+#@gmicol : Random seed = int(0,0,16384)
+#@gmicol : note = note("<small>Parameters <i>Density</i>, <i>Radius</i>, <i>Variability</i> and <i>Random seed</i> are used only in <i>Procedural shapes</i> mode.</small>")
 #@gmicol : sep = separator(), note = note("<small><b>Rendering:</b></small>")
 #@gmicol : Refraction = float(3,0,20)
 #@gmicol : Light angle = float(35,0,360)
