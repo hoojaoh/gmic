@@ -584,6 +584,7 @@ _help_usage :
 \n          is a valid path to a file (resp. to a directory) or not.
 \n       . Function '"${c}"fdate(attr,path)"$n"' returns the date attribute for the given 'path' (file or directory),
 \n          with 'attr' being { 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }.
+\n       . Function '"${c}"date(attr)"$n" returns the specified attribute for the current date (same meaning than fdate()).
 \n       . Function '"${c}"isin(v,a_1,...,a_n)"$n"' returns 0 (false) or 1 (true) whether the first value 'v' appears
 \n          in the set of other values 'a_i'.
 \n
