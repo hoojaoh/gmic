@@ -489,6 +489,8 @@ _help_usage :
 \n       . '"$c"$_version"$n"': A 4-digits number telling about the current "${g}"version"$n" of the "${-GMIC}" interpreter.
 \n          (currently '"$g$_version$n"').
 \n       . '"$c"$_vt100"$n"': Set to "${g}"1"$n" (default value) if "${g}"colored text output"$n" is allowed on the console.
+\n       . '"$c"$_path_rc"$n"': The path to the G'MIC folder used to store resources and configuration files (its value is OS-dependent).
+\n       . '"$c"$_path_user"$n"': The path to the G'MIC user file .gmic (its value is OS-dependent).
 \n
 \n  - '"$c"${\"command line\"}"$n"' is substituted by the "${g}"status value"$n" set by the execution of the
 \n     specified command line (see command '"$c"-status"$n"' to learn more about status).
@@ -529,7 +531,7 @@ _help_usage :
 \n  - '"$c"{*}"$n"' is substituted by the "${g}"visibility state"$n" of the instant display window "$c"[0]"$n"
 \n     (can be "$c"{ 0=closed | 1=visible }"$n").
 \n  - '"$c"{*,feature}"$n"' or '"$c"{*indice,feature}"$n"' is substituted by a "${g}"specific feature"$n" of the
-\n     instant display window "$c"\#0"$n" (or "$c"\#indice"$n", if specified). Requested '"${g}"feature"$n"' can be:
+\n     instant display window "$c"#0"$n" (or "$c"#indice"$n", if specified). Requested '"${g}"feature"$n"' can be:
 \n       . '"${g}"w"$n"': display width (i.e. width of the display area managed by the window).
 \n       . '"${g}"h"$n"': display height (i.e. height of the display area managed by the window).
 \n       . '"${g}"wh"$n"': display width x display height.
@@ -693,12 +695,12 @@ _help_usage :
 \n  - At startup, "${-GMIC}" automatically includes user's command file "$g"$HOME/.gmic"$n" (on Unix) or
 \n     "$g"%APPDATA%/gmic"$n" (on Windows), and runs command '"${c}"-cli_start"$n"' if defined.
 \n  - Custom command names must use characters [a-zA-Z0-9_] and cannot start with a number.
-\n  - Any '"$c" \# comment"$n"' expression found in a custom commands file is "${g}"discarded"$n" by the "${-GMIC}"
+\n  - Any '"$c" ""# comment"$n"' expression found in a custom commands file is "${g}"discarded"$n" by the "${-GMIC}"
 \n     parser, wherever it is located in a line.
 \n  - In a custom command, the following "$g"$-expressions"$n" are substituted:
 \n    . '"$c"$""\*"$n"' is substituted by a copy of the specified string of arguments.
 \n    . '"$c"$\"*\""$n"' is substituted by a copy of the specified string of arguments, each being double-quoted.
-\n    . '"$c"$""\#"$n"' is substituted by the maximum indice of known arguments (either specified by the
+\n    . '"$c"$""#"$n"' is substituted by the maximum indice of known arguments (either specified by the
 \n       user or set to a default value in the custom command).
 \n    . '"$c"$""?"$n"' is substituted by a string telling about the command subset restriction (only
 \n       useful when custom commands need to output descriptive messages).
@@ -713,7 +715,7 @@ _help_usage :
 \n       substituted by all arguments of the invoked command (eq. to '"$c"$""*"$n"' if all specified
 \n       arguments have indeed a value).
 \n    . '"$c"$""=var"$n"' is substituted by the set of instructions that will assign each argument "$c"$i"$n"
-\n       to the named variable '"${c}"var$i"$n"' (for i in "$g"[0..$""\#]"$n"). This is particularly useful when a
+\n       to the named variable '"${c}"var$i"$n"' (for i in "$g"[0..$""#]"$n"). This is particularly useful when a
 \n       custom command want to manage variable numbers of arguments. Variables names must
 \n       use characters [a-zA-Z0-9_] and cannot start with a number.
 \n
@@ -805,7 +807,7 @@ _help_header_ascii :
   -_help_section "Usage"
 
 __help_header_ascii :
-  -if {narg($_prerelease)} strprerelease=" (pre-release \#"$_prerelease")" -else strprerelease="" -endif
+  -if {narg($_prerelease)} strprerelease=" (pre-release ""#"$_prerelease")" -else strprerelease="" -endif
   -v +
   -e[] "
 \n "${_gmic_b}"gmic: GREYC's Magic for Image Computing."$_gmic_n"
@@ -836,7 +838,7 @@ _help_footer_ascii :
 # Commands to output help in html format.
 _help_header_html :
   _section=0
-  -if {narg($_prerelease)} strprerelease=" (pre-release \#"$_prerelease")" -else strprerelease="" -endif
+  -if {narg($_prerelease)} strprerelease=" (pre-release ""#"$_prerelease")" -else strprerelease="" -endif
   _gmic_n="</font></b>" _gmic_r="<b><font color=\"#900000\">" _gmic_g="<b><font color=\"#009000\">"
   _gmic_m="<b><font color=\"#900090\">" _gmic_c="<b><font color=\"#005090\">"
 
@@ -934,7 +936,7 @@ _help_footer_html :
 # Commands to output help in latex format.
 _help_header_latex :
   strver=${-strver}
-  -if {narg($_prerelease)} strprerelease=" (pre-release \\\#"$_prerelease")" -else strprerelease="" -endif
+  -if {narg($_prerelease)} strprerelease=" (pre-release \\#"$_prerelease")" -else strprerelease="" -endif
   -v + -e[] "\\documentclass[a4paper,11pt,twoside]{book}
 \n\\usepackage{hyperref,fancyhdr,graphicx,amssymb,amsmath,times,makeidx,listings,color}
 \n\\graphicspath{{img/}}
@@ -1717,14 +1719,14 @@ _document_gmic_split_ascii :
 # Define document_gmic commands for bash auto-completion script output.
 _document_gmic_header_bash : -skip $1
   -v +
-  -e[] "\#
-\n\#  Bash completion rules for 'gmic'.
-\n\#
-\n\# This file has been generated automatically.
-\n\# Do not edit!
-\n\#
-\n\# This file should be copied/renamed in '/etc/bash_completion.d/gmic'.
-\n\#
+  -e[] "#
+\n#  Bash completion rules for 'gmic'.
+\n#
+\n# This file has been generated automatically.
+\n# Do not edit!
+\n#
+\n# This file should be copied/renamed in '/etc/bash_completion.d/gmic'.
+\n#
 \n
 \n_"$_name"()
 \n{
@@ -1847,7 +1849,7 @@ _document_gmic_ex_on_html :
   -if $_is_ex
     -u ""
   -else
-    -u "<br/><table style=\"margin-left:100px\" width=\"75%\" bgcolor=\"\#FFFFFF\" bordercolor=\"black\" border=\"1\" cellpadding=\"4\" cellspacing=\"0\">"\
+    -u "<br/><table style=\"margin-left:100px\" width=\"75%\" bgcolor=\"#FFFFFF\" bordercolor=\"black\" border=\"1\" cellpadding=\"4\" cellspacing=\"0\">"\
        "<tr><td colspan=\"2\" bgcolor=\"#000000\"><font color=\"white\"><b>Example of use:</b></font></td></tr>"
     _is_ex=1
   -endif
@@ -1958,7 +1960,7 @@ _document_gmic_header_images : -skip $1
 
 _document_gmic_subsection_images :
   -v +
-  -e[] "\n ** Section \#"$_subsection": "{0,t}".\n"
+  -e[] "\n ** Section ""#"$_subsection": "{0,t}".\n"
   -v -
 _document_gmic_declaration_images : _command_name={0,t}
 _document_gmic_description_images :
@@ -2315,6 +2317,22 @@ gmicky_wilber :
 #@gmic : $ -i (1,2,3;4,5,6;7,8,9^9,8,7;6,5,4;3,2,1)
 #@gmic : $ image.jpg (1,2,3;4,5,6;7,8,9) (255^128^64) 400,400,1,3,'if(x>w/2,x,y)*c'
 #@gmic : $$
+
+#@gmic ig : eq. to '-input_globbing'.
+ig :
+  -input_glob $*
+
+#@gmic input_glob : pattern
+#@gmic : Insert new images from several filenames that match the specified glob pattern.
+input_glob :
+  -e[^1] "Input all files that match glob pattern '$*'."
+  -v -
+  -files 3,"$*"
+  N=$!
+  -m "_ig : $""=arg -repeat $""# -i ${arg{1+$>}} -done"
+  -_ig ${} -uncommand _ig
+  -if {$N==$!} -error[0--3] "Command '-input_glob': No matching filenames for pattern '$*'." -endif
+  -v +
 
 #@gmic input_gpl : filename
 #@gmic : Input specified filename as a GIMP palette data file.
@@ -2812,7 +2830,7 @@ update_film_emulation_html :
     category=${-arg\ {1+$>},$categories}
     presets=${-_gimp_emulate_film_$category}
 
-    -v + -e[] "\n  * Category \#"{1+$>}": "$category" ***\n" -v -
+    -v + -e[] "\n  * Category ""#"{1+$>}": "$category" ***\n" -v -
     -if $category -else -x "mkdir "$category -endif
     -if $category/clut -else -x "mkdir "$category/clut -endif
 
@@ -3502,13 +3520,13 @@ update_server : -skip ${1=$_version},${2=1}
 
   # Search / replace strings.
   -v + -e[] "> Search and replace strings." -v -
-  -replace_str "\#@gmic\n",""
+  -replace_str "#@gmic\n",""
   -replace_str "<small>samj","<small>Author: <i>Samj</i>."
   -replace_str " Update : <i>20","   Latest update: <i>20"
 
   # Remove useless comments and line breaks.
   -repeat $! -l[$>] -s -,10 -repeat $! -l[$<]
-    -if {i[0]=={'\#'}" && "i[1]!={'"@"'}} -rm -endif
+    -if {i[0]=={'#'}" && "i[1]!={'"@"'}} -rm -endif
   -endl -done -i[^0] ({'\n'}) -a y -endl -done
 
   # Retrieve G'MIC command name for each filter.
@@ -3531,22 +3549,22 @@ update_server : -skip ${1=$_version},${2=1}
     -v -
 
     # Add footer and header.
-    -i[0,1,2] ({'"\#@gmic"\n\
-                 "\#"\n\
-                 "\#  File        : gmic_def.gmic"\n\
-                 "\#                ( G\47MIC commands file )"\n\
-                 "\#"\n\
-                 "\#  Description : Update file for G\47MIC commands and filters (version "${-strver}")."\n\
-                 "\#                ( http://gmic.eu )"\n\
-                 "\#"\n\
-                 "\#  License     : CeCILL v2.0"\n\
-                 "\#                ( http://www.cecill.info/licences/Licence_CeCILL_V2-en.html )"\n\
-                 "\#"\n\n'})
-    -i[2,4,6] ({'"\n\n\# Local Variables:"\n\
-                 "\# mode: sh"\n\
-                 "\# End:"\n\
-                 "\#"\n\
-                 "\# (End of G\47MIC update file)"'})
+    -i[0,1,2] ({'"#@gmic"\n\
+                 "#"\n\
+                 "#  File        : gmic_def.gmic"\n\
+                 "#                ( G\47MIC commands file )"\n\
+                 "#"\n\
+                 "#  Description : Update file for G\47MIC commands and filters (version "${-strver}")."\n\
+                 "#                ( http://gmic.eu )"\n\
+                 "#"\n\
+                 "#  License     : CeCILL v2.0"\n\
+                 "#                ( http://www.cecill.info/licences/Licence_CeCILL_V2-en.html )"\n\
+                 "#"\n\n'})
+    -i[2,4,6] ({'"\n\n# Local Variables:"\n\
+                 "# mode: sh"\n\
+                 "# End:"\n\
+                 "#"\n\
+                 "# (End of G\47MIC update file)"'})
     -y -a[6-8] y -a[3-5] y -a[0-2] y
 
     # Upload filter files on G'MIC server.
@@ -3562,7 +3580,7 @@ update_server : -skip ${1=$_version},${2=1}
     -_update_server_upload[] /tmp/gimp_update$1.gmic
     -_update_server_upload[] /tmp/update$1.gmic,update.gmic
 
-    (1650) -repeat {w}
+    (1650,1651) -repeat {w}
       -_update_server_upload[] /tmp/gimp_update$1.gmic,cli_update{i[$>]}.gmic
       -_update_server_upload[] /tmp/gimp_update$1.gmic,gimp_update{i[$>]}.gmic
     -done -rm[-1]
@@ -3894,7 +3912,7 @@ _update_tutorial_html :
       -if {$baselink'=='"http://www.particularart.com/tools-and-toys/gmic/"}  # Check for a 'local' link.
 
         # Retrieve anchor if any.
-        -l[] anchor="" ({'$link'}) -s +,{"'\#'"} -if {$!>1} anchor=#{t} link={0,t} -endif -rm -endl
+        -l[] anchor="" ({'$link'}) -s +,{"'#'"} -if {$!>1} anchor=#{t} link={0,t} -endif -rm -endl
         ({'$link'}) -autocrop[-1] {'/'}
         -l[-1] -s -,{'/'} -if {$!>6" && "{{-2,t}'!='command-guide}" && "{{-3,t}'!='command-guide}} relink={-2,t}_{t}.shtml -else relink={t}.shtml -endif -rm -endl
         ({'$relink'}) -if {i=={'-'}} -=[-1] {'_'} relink={t} -endif -rm[-1] # Replace first '-' by underscore if necessary.
@@ -11497,7 +11515,7 @@ _frame :
 #@gmic : This command returns the corresponding the list of widths and heights (expressed as a number of characters) for each selected image.
 #@gmic : Default values: 'charset=[ascii charset]', 'analysis_scale=16', 'analysis_smoothness=20%', 'synthesis_scale=16' and '_output_ascii_filename=[undefined]'.
 #@gmic : $ image.jpg --img2ascii , -r[0] [1],[1],1,3 --mul
-img2ascii : -skip "${1= !\042\#$%&\047()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\133\\\135^_\140abcdefghijklmnopqrstuvwxyz\173|\174~}","${5=}" -check "${2=16}>0 && ${3=20%}>=0 && ${4=16}>0"
+img2ascii : -skip "${1= !\042#$%&\047()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\133\\\135^_\140abcdefghijklmnopqrstuvwxyz\173|\174~}","${5=}" -check "${2=16}>0 && ${3=20%}>=0 && ${4=16}>0"
   -e[^-1] "Render image$? as binary ascii art, with charset '$1', analysis scale $2, analysis smoothness $3, synthesis scale $4 and output ascii filename '$5'."
   -v -
   is_multi={$!>1}
@@ -13409,7 +13427,7 @@ animate : -skip ${1=30},${2=0},${3=""},${4=10},${5=1},"${6=}"
 #@gmic : Apply specified command on live camera stream, and display it on display window [0].
 #@gmic : Default values: 'command=""', 'camera_index=0' (default camera), 'skip_frames=0' and 'output_filename=""'.
 apply_camera : -skip "${1=},${4=}" -check "${2=0}>=0 && ${3=0}>=0"
-  -e[^-1] "Apply command '$1' on camera stream \#$2, with $3 frames skip and output filename '$4'." -v -
+  -e[^-1] "Apply command '$1' on camera stream ""#$2, with $3 frames skip and output filename '$4'." -v -
   -l[] i=0 -do
     -camera $2,1,$3 $1 -w[-1] -1,-1,"(Camera ""#$2, "{w}x{h}")"
     -if {narg("$4")} -o[-1] ${-filename\ "$4",$i} i={$i+1} -endif
@@ -13478,7 +13496,7 @@ average_video : -check "isint(${2=0}) && $2>=0 && isint(${3=-1}) && ($3>=0 || $3
     -do
       -l[] -i "$1",$frame
         -if $!
-          -v + -e[] "\r  > Frame \#"$frame -v -
+          -v + -e[] "\r  > Frame ""#"$frame -v -
           frame={$frame+$4} N={$N+1}
         -else stopflag=1
         -endif
@@ -13487,7 +13505,7 @@ average_video : -check "isint(${2=0}) && $2>=0 && isint(${3=-1}) && ($3>=0 || $3
       -if {$!>1} -+ -endif
       -if {narg("$5")} --/[-1] $N -c[-1] 0,255 -o[-1] ${-filename\ "$5",$i} -rm[-1] i={$i+1} -endif
       -if {*}
-        --n 0,255 -w[-1] -1,-1,0,"Frame \#"$frame
+        --n 0,255 -w[-1] -1,-1,0,"Frame ""#"$frame
         -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,D}} -w[] {{*,w}*1.5},{{*,h}*1.5} -wait -1 -endif # Increase window size.
         -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,C}} -w[] {{*,w}/1.5},{{*,h}/1.5} -wait -1 -endif # Decrease window size.
         -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,R}} -w[] {0,w},{0,h} -wait -1 -endif             # Reset window size.
@@ -13652,7 +13670,7 @@ video2files : -check "isint(${3=0}) && $3>=0 && isint(${4=-1}) && ($4>=0 || $4==
     -i "$1",$frame
     -if $!
       -o ${"-filename \"$2\","$frame} -rm
-      -v + -e[] "\r  > Frame \#"$frame -v -
+      -v + -e[] "\r  > Frame ""#"$frame -v -
       frame={$frame+$5}
     -else stopflag=1
     -endif
@@ -14543,37 +14561,28 @@ path_tmp :
   -u $_path_tmp
   -v +
 
-#@gmic path_prc
-#@gmic : Return a path to the parent of resources directory.
-#@gmic : On Unix, add a point at the end of the path.
-path_prc :
-  -v -
-  -if {!narg($_path_prc)}
-    _path_prc=""
-    -if {!narg($_path_prc)} _path_prc=${GMIC_PATH} -endif
-    -if {!narg($_path_prc)} _path_prc=${GMIC_GIMP_PATH} -endif
-    -if {!narg($_path_prc)}
-      -if ${-is_windows} _path_prc=${APPDATA}
-      -else _path_prc=${HOME}
-      -endif
-    -endif
-    -if {!narg($_path_prc)} _path_prc=${TMP} -endif
-    -if {!narg($_path_prc)} _path_prc=${TEMP} -endif
-    -if {!narg($_path_prc)} _path_prc=${TMPDIR} -endif
-    -if ${-is_windows} _path_prc=$_path_prc\\
-    -else _path_prc=$_path_prc/
-    -endif
-  -endif
-  -u $_path_prc
-  -v +
-
 #@gmic path_rc
 #@gmic : Return a path to store persistent resources for one user (whose value is OS-dependent).
 path_rc :
   -v -
-  -if {narg($_path_rc)}
-  -elif ${-is_windows} _path_rc=${-path_prc[]}gmicrc\\
-  -else _path_rc=${-path_prc[]}.gmicrc/
+  -if {!narg($_path_rc)}
+    _path_rc=""
+    -if {!narg($_path_rc)} _path_rc=${GMIC_PATH} -endif
+    -if {!narg($_path_rc)} _path_rc=${GMIC_GIMP_PATH} -endif
+    -if {!narg($_path_rc)}
+      -if ${-is_windows} _path_rc=${APPDATA}
+      -else _path_rc=${HOME}
+      -endif
+    -endif
+    -if {!narg($_path_rc)} _path_rc=${TMP} -endif
+    -if {!narg($_path_rc)} _path_rc=${TEMP} -endif
+    -if {!narg($_path_rc)} _path_rc=${TMPDIR} -endif
+    -if ${-is_windows} _path_rc=$_path_rc\\
+    -else _path_rc=$_path_rc/
+    -endif
+    -if ${-is_windows} _path_rc=${_path_rc}gmicrc\\
+    -else _path_rc=${_path_rc}.gmicrc/
+    -endif
   -endif
   -u $_path_rc
   -v +
@@ -14759,7 +14768,7 @@ demo : -check "isint(${1=2}) && $1>=0 && $1<=2"
   -j[-2] [-1],20,$y0,0,0 -rm[-1]
   -rectangle[-1] 0,16,100%,44,1,120,120,32
   0 -t[-1] "G\47MIC "${-strver}" demos",2,2,28,1,1,1,1
-  -if {narg($_prerelease)} 0 -t[-1] "Pre-release :\n \#"$_prerelease,30,2,13,1,1,1,1 -a[-2,-1] x -endif
+  -if {narg($_prerelease)} 0 -t[-1] "Pre-release :\n ""#"$_prerelease,30,2,13,1,1,1,1 -a[-2,-1] x -endif
   -b[-1] 0.5 -n[-1] 0,1
 
   (32;255^255;255^0;0) -r[-1] [-2],[-2],1,3,3 -*[-2,-1] -round[-1] 1,-1 --!=[-1] 0 -channels[-1] 1
@@ -17695,7 +17704,7 @@ x_select_color : -skip ${1=xsc_variable}
       -endif
       ({'${-dec2hex\ {$R*65536+$G*256+$B}}'}) --[-1] {'0'} -r[-1] 6,1,1,1,0,0,1,0 -+[-1] {'0'}
       -f[-1] if(i>={'a'}&&i<={'z'},i+{'A'}-{'a'},i)
-      -t[-2] "HTML \#"{t},{$x0+115},{$y1+40},14,1,0 -rm[-1]
+      -t[-2] "HTML ""#"{t},{$x0+115},{$y1+40},14,1,0 -rm[-1]
       -w[-1] 100%,100%,0 -rm[-1]
       -if $rgba_mode $1=$R,$G,$B,$A -else $1=$R,$G,$B -endif
       update_view=0
@@ -17946,7 +17955,7 @@ x_select_palette : -skip ${1=xsp_variable},${2=0}
         -t[-2] "HSV ("$H","$S","$V")",8,{$wh-31},14,1,0
         ({'${-dec2hex\ {$R*65536+$G*256+$B}}'}) --[-1] {'0'} -r[-1] 6,1,1,1,0,0,1,0 -+[-1] {'0'}
         -f[-1] if(i>={'a'}&&i<={'z'},i+{'A'}-{'a'},i)
-        -t[-3] "HTML \#"{t},8,{$wh-17},14,1,0 -rm[-1]
+        -t[-3] "HTML ""#"{t},8,{$wh-17},14,1,0 -rm[-1]
       -endif
       -sh[baseview] 3,3 -j[-3] [-2],8,8,0,0,1,[-1] -rm[-2,-1]
       -nm[-1] view -w[view]
@@ -18461,20 +18470,14 @@ x_whirl : -check ${1=0.2}>=0
 # the G'MIC plug-in for GIMP
 #
 #-------------------------------------
-__help_end : #  <-- don't remove me, used as a marker for help !
+__help_end : #  <-- don't remove me, used as a end marker for command '-help' !
 
 # Function that returns the list of external sources to be included in the GIMP plug-in.
 # This command can be superseded on the user '.gmic' file to add sources for the plug-in.
 gimp_filter_sources :
-  ({'../gmic'})
+  -if {!narg($_path_user)} ({'../gmic'}) -else ({'$_path_user'}) -endif
   ({'http://gmic.eu/gimp_update$_version.gmic'},1) # Override default filters.
   -l[] -i cimgz:${-path_rc}gimp_filter_sources -onfail -endl
-
-  # Import old faves when possible.
-  -if ${-path_rc}gimp_faves -else
-    -if ${-is_windows} faves=${-path_prc[]}gmic_faves -else faves=${-path_prc[]}.gmic_faves -endif
-    -if $faves -l[] -i raw:$faves,uchar -o raw:${-path_rc}gimp_faves,uchar -rm -onfail -rm -endl -endif
-  -endif
 
 # Function used for filters based on parallelization with spatial splitting.
 gimp_parallel_overlap :
@@ -18761,7 +18764,7 @@ gimp_logo : -skip "${1=Plug-in for GIMP\n    [ "${-strver}" ]}"
 
 gimp_logo_en :
   -if {narg($_prerelease)}
-    -gimp_logo_version{round(?(0.5,3.49))} "       Plug-in for GIMP\n"[" "${-strver}" pre-release \#"$_prerelease]
+    -gimp_logo_version{round(?(0.5,3.49))} "       Plug-in for GIMP\n"[" "${-strver}" pre-release ""#"$_prerelease]
   -else
     -gimp_logo_version{round(?(0.5,3.49))} "Plug-in for GIMP\n    "[" "${-strver}" "]
   -endif
@@ -18790,7 +18793,7 @@ gimp_logo_en :
 #@gimp_fr : "}
 gimp_logo_fr :
   -if {narg($_prerelease)}
-    -gimp_logo_version{round(?(0.5,3.49))} "     Greffon pour GIMP\n"[" "${-strver}" pre-release \#"$_prerelease]
+    -gimp_logo_version{round(?(0.5,3.49))} "     Greffon pour GIMP\n"[" "${-strver}" pre-release ""#"$_prerelease]
   -else
     -gimp_logo_version{round(?(0.5,3.49))} "Greffon pour GIMP\n    "[" "${-strver}" "]
   -endif
@@ -18818,7 +18821,7 @@ gimp_logo_fr :
 #@gimp_ca : "}
 gimp_logo_ca :
   -if {narg($_prerelease)}
-    -gimp_logo_version{round(?(0.5,3.49))} "         per al GIMP\n"[" "${-strver}" pre-release \#"$_prerelease]
+    -gimp_logo_version{round(?(0.5,3.49))} "         per al GIMP\n"[" "${-strver}" pre-release ""#"$_prerelease]
   -else
     -gimp_logo_version{round(?(0.5,3.49))} "per al GIMP\n  "[" "${-strver}" "]
   -endif
@@ -19147,6 +19150,7 @@ gimp_gmicky_preview :
 #@gimp : - <b>08/20/2014</b> : version <i>1.6.0.0</i>.\n
 #@gimp : - <b>06/22/2015</b> : version <i>1.6.5.0</i>.\n
 #@gimp : - <span foreground="purple"><b>07/21/2015</b> : version <i>1.6.5.1</i> (Current stable).</span>\n
+#@gimp : - <b>07/24/2015</b> : version <i>1.6.5.2</i> (Current beta).\n
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : link = link("View latest changelog","https://discuss.pixls.us/t/on-the-road-to-gmic-1-6-5-1/284")
@@ -19538,7 +19542,7 @@ gimp_asciiart :
     -elif {$1==2} dict=" 0123456789"
     -elif {$1==3} dict=" abcdefghijklmnopqrstuvwxyz"
     -elif {$1==4} dict=" ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    -elif {$1==5} dict=" !\042\#$%&\047()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\133\\\135^_\140abcdefghijklmnopqrstuvwxyz\173|\174~"
+    -elif {$1==5} dict=" !\042#$%&\047()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\133\\\135^_\140abcdefghijklmnopqrstuvwxyz\173|\174~"
     -elif {$1==6} dict=" \16\17\20\21"
     -elif {$1==7} dict=" \200\201\202\203\204\205\206\207\210\211\212\213\214\215\216\217\220\221\222\223\224\225\226\227\230\231"
     -endif
@@ -19831,10 +19835,10 @@ gimp_montage_preview : -skip "${2=A}"
     "  -r {max(1,$""4-2*($5+$6))},{max(1,$""5-2*($5+$6))},1,100%,2 fs={min(53,max(w,h)/3)} "\
     "  -frame $6,$6,${7-10} "\
     "  -r {w+2*$5},{h+2*$5},1,100%,0,0,0.5,0.5 "\
-    "  0 -t[-1] \#$""1,0,0,$fs,1,255 -expand_xy[-1] 3,0 [-1]x3 -a[-4--2] c -dilate[-1] {3+2*$fs/20} -a[-2] [-1],c -j[0] [1],{5+$5+$6},{$5+$6},0,0,1,[2],255 -k[0] "\
+    "  0 -t[-1] ""#$""1,0,0,$fs,1,255 -expand_xy[-1] 3,0 [-1]x3 -a[-4--2] c -dilate[-1] {3+2*$fs/20} -a[-2] [-1],c -j[0] [1],{5+$5+$6},{$5+$6},0,0,1,[2],255 -k[0] "\
     "-else "\
     "  -r $""4,$""5,1,100%,2 fs={min(53,max(w,h)/3)} "\
-    "  0 -t[-1] \#$""1,0,0,$fs,1,255 -expand_xy[-1] 3,0 [-1]x3 -a[-4--2] c -dilate[-1] {3+2*$fs/20} -a[-2] [-1],c -j[0] [1],5,0,0,0,1,[2],255 -k[0] "\
+    "  0 -t[-1] ""#$""1,0,0,$fs,1,255 -expand_xy[-1] 3,0 [-1]x3 -a[-4--2] c -dilate[-1] {3+2*$fs/20} -a[-2] [-1],c -j[0] [1],5,0,0,0,1,[2],255 -k[0] "\
     "-endif "
   nw={w} nh={h}
   -resize_ratio2d $w,{$h-16},2,2
@@ -21197,7 +21201,7 @@ gimp_channels2layers :
 gimp_channels2layers_preview :
   -repeat $! -l[$>]
     -gimp_channels2layers $*
-    -repeat $! -l[$>] -text_outline "\#"{1+$>},1,1,43,7,1,255 -endl -done
+    -repeat $! -l[$>] -text_outline "#"{1+$>},1,1,43,7,1,255 -endl -done
     -frame 1,1,0 -frame 3,3,255 -append_tiles ,
   -endl -done
 
@@ -23870,7 +23874,7 @@ gimp_split_details_alpha_preview :
     -gimp_split_details_alpha ${1-4}
     -if $5 -remove_opacity[^-1] -else -to_rgba[-1] -endif
     -drgba
-    -repeat $! -l[$>] -text_outline "\#"{1+$>},1,1,43,7,1,255 -endl -done
+    -repeat $! -l[$>] -text_outline "#"{1+$>},1,1,43,7,1,255 -endl -done
     -frame 1,1,0 -frame 3,3,255 -append_tiles ,
   -endl -done
 
@@ -23896,7 +23900,7 @@ gimp_split_details_layers_preview :
     -gimp_split_details_layers $*
     -if $4 -equalize[^-1] 256 -endif
     -n[^-1] 0,255
-    -repeat $! -l[$>] -text_outline "\#"{1+$>},1,1,43,7,1,255 -endl -done
+    -repeat $! -l[$>] -text_outline "#"{1+$>},1,1,43,7,1,255 -endl -done
     -frame 1,1,0 -frame 3,3,255 -append_tiles ,
   -endl -done
 
@@ -25041,7 +25045,7 @@ gimp_split_colors : -skip ${2=0}
 gimp_split_colors_preview :
   -repeat $! -l[$>]
     --gimp_split_colors ${1-4} -drgba
-    -repeat $! -l[$>] -text_outline ${-arg\ {1+!!$>},"Original","\#"$>},1,1,43,7,1,255 -endl -done
+    -repeat $! -l[$>] -text_outline ${-arg\ {1+!!$>},"Original","#"$>},1,1,43,7,1,255 -endl -done
     -frame 1,1,0 -frame 3,3,255 -to_rgba -append_tiles ,
   -endl -done
 
@@ -25102,7 +25106,7 @@ gimp_pack : -skip "${5=}"
     -if {!narg($filename)} filename="$5/gmic_pack.txt" -endif
     -l[] -repeat {narg($coords)/2}
       x={arg(1+2*$>,$coords)} y={arg(2+2*$>,$coords)}
-      ({'"Image \#"{1+$>}" ("${nm$>}"): "$x,$y\n'})
+      ({'"Image ""#"{1+$>}" ("${nm$>}"): "$x,$y\n'})
     -done -a x -o raw:$filename,uchar -rm -endl
   -endif
   -nm "name(G'MIC packing),pos(0,0),mode(normal)"
@@ -28210,7 +28214,7 @@ gimp_intarsia :
       -f[-1] if(i>={'a'}&&i<={'z'},i+{'A'}-{'a'},i)
       hcolor={t} -rm[-1]
       48,32,1,4 -fc[-1] $color,255 -frame[-1] 1,1,0,0,0,255 -o[-1] "$1/"${image_name}_$>.png -rm[-1]
-      ({'"<tr><td><b>Colour "$>"</b></td><td><img src=\""${image_name}_$>.png"\" /></td><td>\#"$hcolor"</td></tr>\n"'})
+      ({'"<tr><td><b>Colour "$>"</b></td><td><img src=\""${image_name}_$>.png"\" /></td><td>#"$hcolor"</td></tr>\n"'})
     -done
     ({'"</table>\n</td><td>"'})
 
@@ -28779,14 +28783,6 @@ gmicol_rotate :
 #@gmicol clone("Negative [old]")
 #@gmicol clone("Slide [color]")
 #@gmicol clone("Various")
-#@gmicol clone("B&amp;W films - collage")
-#@gmicol clone("Instant - collage [consumer]")
-#@gmicol clone("Instant - collage [pro]")
-#@gmicol clone("Negative - collage [color]")
-#@gmicol clone("Negative - collage [new]")
-#@gmicol clone("Negative - collage [old]")
-#@gmicol clone("Slide - collage [color]")
-#@gmicol clone("Various - collage")
 
 #@gmicol _<b>Frames</b>
 #-----------------------
