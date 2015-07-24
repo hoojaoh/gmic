@@ -14567,7 +14567,6 @@ path_prc :
     _path_prc=""
     -if {!narg($_path_prc)} _path_prc=${GMIC_PATH} -endif
     -if {!narg($_path_prc)} _path_prc=${GMIC_GIMP_PATH} -endif
-    -if {!narg($_path_prc)} _path_prc=${XDG_CONFIG_HOME} -endif
     -if {!narg($_path_prc)}
       -if ${-is_windows} _path_prc=${APPDATA}
       -else _path_prc=${HOME}
