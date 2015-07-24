@@ -2315,6 +2315,22 @@ gmicky_wilber :
 #@gmic : $ image.jpg (1,2,3;4,5,6;7,8,9) (255^128^64) 400,400,1,3,'if(x>w/2,x,y)*c'
 #@gmic : $$
 
+#@gmic ig : eq. to '-input_globbing'.
+ig :
+  -input_glob $*
+
+#@gmic input_glob : pattern
+#@gmic : Insert new images from several filenames that match the specified glob pattern.
+input_glob :
+  -e[^1] "Input all files that match glob pattern '$*'."
+  -v -
+  -files 3,"$*"
+  N=$!
+  -m "_ig : $""=arg -repeat $""# -i ${arg{1+$>}} -done"
+  -_ig ${} -uncommand _ig
+  -if {$N==$!} -error[0--3] "Command '-input_glob': No matching filenames for pattern '$*'." -endif
+  -v +
+
 #@gmic input_gpl : filename
 #@gmic : Input specified filename as a GIMP palette data file.
 input_gpl :
@@ -14551,6 +14567,7 @@ path_prc :
     _path_prc=""
     -if {!narg($_path_prc)} _path_prc=${GMIC_PATH} -endif
     -if {!narg($_path_prc)} _path_prc=${GMIC_GIMP_PATH} -endif
+    -if {!narg($_path_prc)} _path_prc=${XDG_CONFIG_HOME} -endif
     -if {!narg($_path_prc)}
       -if ${-is_windows} _path_prc=${APPDATA}
       -else _path_prc=${HOME}
