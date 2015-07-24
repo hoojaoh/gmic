@@ -489,6 +489,8 @@ _help_usage :
 \n       . '"$c"$_version"$n"': A 4-digits number telling about the current "${g}"version"$n" of the "${-GMIC}" interpreter.
 \n          (currently '"$g$_version$n"').
 \n       . '"$c"$_vt100"$n"': Set to "${g}"1"$n" (default value) if "${g}"colored text output"$n" is allowed on the console.
+\n       . '"$c"$_path_rc"$n"': The path to the G'MIC folder used to store resources and configuration files (its value is OS-dependent).
+\n       . '"$c"$_path_user"$n"': The path to the G'MIC user file .gmic (its value is OS-dependent).
 \n
 \n  - '"$c"${\"command line\"}"$n"' is substituted by the "${g}"status value"$n" set by the execution of the
 \n     specified command line (see command '"$c"-status"$n"' to learn more about status).
@@ -14558,37 +14560,28 @@ path_tmp :
   -u $_path_tmp
   -v +
 
-#@gmic path_prc
-#@gmic : Return a path to the parent of resources directory.
-#@gmic : On Unix, add a point at the end of the path.
-path_prc :
-  -v -
-  -if {!narg($_path_prc)}
-    _path_prc=""
-    -if {!narg($_path_prc)} _path_prc=${GMIC_PATH} -endif
-    -if {!narg($_path_prc)} _path_prc=${GMIC_GIMP_PATH} -endif
-    -if {!narg($_path_prc)}
-      -if ${-is_windows} _path_prc=${APPDATA}
-      -else _path_prc=${HOME}
-      -endif
-    -endif
-    -if {!narg($_path_prc)} _path_prc=${TMP} -endif
-    -if {!narg($_path_prc)} _path_prc=${TEMP} -endif
-    -if {!narg($_path_prc)} _path_prc=${TMPDIR} -endif
-    -if ${-is_windows} _path_prc=$_path_prc\\
-    -else _path_prc=$_path_prc/
-    -endif
-  -endif
-  -u $_path_prc
-  -v +
-
 #@gmic path_rc
 #@gmic : Return a path to store persistent resources for one user (whose value is OS-dependent).
 path_rc :
   -v -
-  -if {narg($_path_rc)}
-  -elif ${-is_windows} _path_rc=${-path_prc[]}gmicrc\\
-  -else _path_rc=${-path_prc[]}.gmicrc/
+  -if {!narg($_path_rc)}
+    _path_rc=""
+    -if {!narg($_path_rc)} _path_rc=${GMIC_PATH} -endif
+    -if {!narg($_path_rc)} _path_rc=${GMIC_GIMP_PATH} -endif
+    -if {!narg($_path_rc)}
+      -if ${-is_windows} _path_rc=${APPDATA}
+      -else _path_rc=${HOME}
+      -endif
+    -endif
+    -if {!narg($_path_rc)} _path_rc=${TMP} -endif
+    -if {!narg($_path_rc)} _path_rc=${TEMP} -endif
+    -if {!narg($_path_rc)} _path_rc=${TMPDIR} -endif
+    -if ${-is_windows} _path_rc=$_path_rc\\
+    -else _path_rc=$_path_rc/
+    -endif
+    -if ${-is_windows} _path_rc=${_path_rc}gmicrc\\
+    -else _path_rc=${_path_rc}.gmicrc/
+    -endif
   -endif
   -u $_path_rc
   -v +
@@ -18481,15 +18474,9 @@ __help_end : #  <-- don't remove me, used as a marker for help !
 # Function that returns the list of external sources to be included in the GIMP plug-in.
 # This command can be superseded on the user '.gmic' file to add sources for the plug-in.
 gimp_filter_sources :
-  ({'../gmic'})
+  -if {!narg($_path_user)} ({'../gmic'}) -else ({'$_path_user'}) -endif
   ({'http://gmic.eu/gimp_update$_version.gmic'},1) # Override default filters.
   -l[] -i cimgz:${-path_rc}gimp_filter_sources -onfail -endl
-
-  # Import old faves when possible.
-  -if ${-path_rc}gimp_faves -else
-    -if ${-is_windows} faves=${-path_prc[]}gmic_faves -else faves=${-path_prc[]}.gmic_faves -endif
-    -if $faves -l[] -i raw:$faves,uchar -o raw:${-path_rc}gimp_faves,uchar -rm -onfail -rm -endl -endif
-  -endif
 
 # Function used for filters based on parallelization with spatial splitting.
 gimp_parallel_overlap :
@@ -19162,6 +19149,7 @@ gimp_gmicky_preview :
 #@gimp : - <b>08/20/2014</b> : version <i>1.6.0.0</i>.\n
 #@gimp : - <b>06/22/2015</b> : version <i>1.6.5.0</i>.\n
 #@gimp : - <span foreground="purple"><b>07/21/2015</b> : version <i>1.6.5.1</i> (Current stable).</span>\n
+#@gimp : - <b>07/24/2015</b> : version <i>1.6.5.2</i> (Current beta).\n
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : link = link("View latest changelog","https://discuss.pixls.us/t/on-the-road-to-gmic-1-6-5-1/284")
