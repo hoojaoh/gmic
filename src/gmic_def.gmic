@@ -3579,7 +3579,7 @@ update_server : -skip ${1=$_version},${2=1}
     -_update_server_upload[] /tmp/gimp_update$1.gmic
     -_update_server_upload[] /tmp/update$1.gmic,update.gmic
 
-    (1650) -repeat {w}
+    (1650,1651) -repeat {w}
       -_update_server_upload[] /tmp/gimp_update$1.gmic,cli_update{i[$>]}.gmic
       -_update_server_upload[] /tmp/gimp_update$1.gmic,gimp_update{i[$>]}.gmic
     -done -rm[-1]
@@ -18469,7 +18469,7 @@ x_whirl : -check ${1=0.2}>=0
 # the G'MIC plug-in for GIMP
 #
 #-------------------------------------
-__help_end : #  <-- don't remove me, used as a marker for help !
+__help_end : #  <-- don't remove me, used as a end marker for command '-help' !
 
 # Function that returns the list of external sources to be included in the GIMP plug-in.
 # This command can be superseded on the user '.gmic' file to add sources for the plug-in.
@@ -28782,14 +28782,6 @@ gmicol_rotate :
 #@gmicol clone("Negative [old]")
 #@gmicol clone("Slide [color]")
 #@gmicol clone("Various")
-#@gmicol clone("B&amp;W films - collage")
-#@gmicol clone("Instant - collage [consumer]")
-#@gmicol clone("Instant - collage [pro]")
-#@gmicol clone("Negative - collage [color]")
-#@gmicol clone("Negative - collage [new]")
-#@gmicol clone("Negative - collage [old]")
-#@gmicol clone("Slide - collage [color]")
-#@gmicol clone("Various - collage")
 
 #@gmicol _<b>Frames</b>
 #-----------------------
