@@ -18475,7 +18475,7 @@ __help_end : #  <-- don't remove me, used as a end marker for command '-help' !
 # Function that returns the list of external sources to be included in the GIMP plug-in.
 # This command can be superseded on the user '.gmic' file to add sources for the plug-in.
 gimp_filter_sources :
-  -if {!narg($_path_user)} ({'../gmic'}) -else ({'$_path_user'}) -endif
+  -if {!narg($_path_user)} ({'../gmic'}) -else ({'${"-\\ "$_path_user}'}) -endif
   ({'http://gmic.eu/gimp_update$_version.gmic'},1) # Override default filters.
   -l[] -i cimgz:${-path_rc}gimp_filter_sources -onfail -endl
 
