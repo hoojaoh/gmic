@@ -11115,6 +11115,12 @@ apply_timeout :
 #@gmic : Go to end of current block 'repeat..done', 'do..while' or 'local..endlocal'.
 #@gmic : $ image.jpg -repeat 10 -blur 1 -if {1==1} -continue -endif -deform 10 -done
 
+#@gmic \\ : eq. to '-backslash'. : (+)
+
+#@gmic backslash : status_string : (+)
+#@gmic : Escape backslash character in specified string and set it as the current status string.
+#@gmic : (eq. to '-\\\\').
+
 #@gmic break : (+)
 #@gmic : Break current 'repeat..done', 'do..while' or 'local..endlocal' block.
 #@gmic : $ image.jpg -repeat 10 -blur 1 -if {1==1} -break -endif -deform 10 -done
@@ -11248,8 +11254,8 @@ _rprogress : $*
 
 #@gmic u : eq. to '-status'. : (+)
 
-#@gmic status : value : (+)
-#@gmic : Set current status value. Used to define a returning value in a function.
+#@gmic status : status_string : (+)
+#@gmic : Set the current status string. Used to define a returning value in a function.
 #@gmic : (eq. to '-u').
 #@gmic : $ image.jpg -command "foo : u0=Dark u1=Bright -status ${u{ia>=128}}" -text_outline ${-foo},2,2,23,2,1,255
 
