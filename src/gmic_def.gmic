@@ -18985,8 +18985,8 @@ _gimp_manage_filter_sources :
 
 #@gimp Friends Hall of Fame : _none_, gimp_friends
 #@gimp : note = note{"\n<span foreground="purple" underline="single">Donators :</span>"}
-#@gimp : note = note{" <b>-</b> We've already received <b>42</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
-#@gimp :               You could be the <b>43rd</b> donator :)"}
+#@gimp : note = note{" <b>-</b> We've already received <b>44</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
+#@gimp :               You could be the <b>45th</b> donator :)"}
 #@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help us making <b>G'MIC</b> more visible
 #@gimp :              (cover expenses for open-source events, for instance). Also, it will motivate
 #@gimp :              us to design more new image filters and effects. Feel free to donate
@@ -18997,6 +18997,8 @@ _gimp_manage_filter_sources :
 #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
+#@gimp : link = link(0,"[44] Olivier Larski","")
+#@gimp : link = link(0,"[43] Victor Fandrey","")
 #@gimp : link = link(0,"[42] Stefan Peter","")
 #@gimp : link = link(0,"[41] Dimitrios Psychogios","https://plus.google.com/u/0/+DimitriosPsychogios")
 #@gimp : link = link(0,"[40] Pat David","http://blog.patdavid.net/")
