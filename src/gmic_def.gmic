@@ -3568,8 +3568,8 @@ update_server : -skip ${1=$_version},${2=1}
     -y -a[6-8] y -a[3-5] y -a[0-2] y
 
     # Upload filter files on G'MIC server.
-    -o[1] raw:$HOME/.gmicrc/cli_update$1.gmic,uchar
-    -o[2] raw:$HOME/.gmicrc/gimp_update$1.gmic,uchar
+    -o[1] raw:$HOME/.config/gmic/cli_update$1.gmic,uchar
+    -o[2] raw:$HOME/.config/gmic/gimp_update$1.gmic,uchar
 
     -o[0] raw:/tmp/update$1.gmic,uchar
     -o[1] cimgz:/tmp/cli_update$1.gmic,uchar
@@ -24516,8 +24516,8 @@ gimp_emulate_film_collage_various :
 #@gimp : color profiles manually (as a single .zip file) at this address :"}
 #@gimp : link = link{"http://gmic.eu/data_film_presets/all_gmic_film_presets.zip"}
 #@gimp : note = note{"You must then decompress all files contained in this archive at the following location:\n
-#@gimp : - for <b>Unix</b>-like systems : <span color="blue"><tt>$HOME/.gmicrc/</tt></span>\n
-#@gimp : - for <b>Windows</b> systems : <span color="blue"><tt>%APPDATA/gmicrc/</tt></span>
+#@gimp : - for <b>Unix</b>-like systems : <span color="blue"><tt>$HOME/.config/gmic/</tt></span>\n
+#@gimp : - for <b>Windows</b> systems : <span color="blue"><tt>%APPDATA/gmic/</tt></span>
 #@gimp : "}
 #@gimp : sep = separator(), note = note("<small>More info at:</small>")
 #@gimp : link = link{"Film Emulation Presets in G'MIC","http://gmic.eu/film_emulation/index.shtml"}
