@@ -2228,7 +2228,7 @@ _document_gmic :
 #@gmic e : eq. to '-echo'. : (+)
 
 #@gmic echo : message : (+)
-#@gmic : Output specified message, on the error output.
+#@gmic : Output specified message on the error output.
 #@gmic : (eq. to '-e').
 #@gmic : Command selection (if any) stands for displayed call stack subset instead of image indices.
 
@@ -11115,12 +11115,6 @@ apply_timeout :
 #@gmic : Go to end of current block 'repeat..done', 'do..while' or 'local..endlocal'.
 #@gmic : $ image.jpg -repeat 10 -blur 1 -if {1==1} -continue -endif -deform 10 -done
 
-#@gmic \\ : eq. to '-backslash'. : (+)
-
-#@gmic backslash : status_string : (+)
-#@gmic : Escape backslash character in specified string and set it as the current status string.
-#@gmic : (eq. to '-\\\\').
-
 #@gmic break : (+)
 #@gmic : Break current 'repeat..done', 'do..while' or 'local..endlocal' block.
 #@gmic : $ image.jpg -repeat 10 -blur 1 -if {1==1} -break -endif -deform 10 -done
@@ -11258,6 +11252,12 @@ _rprogress : $*
 #@gmic : Set the current status string. Used to define a returning value in a function.
 #@gmic : (eq. to '-u').
 #@gmic : $ image.jpg -command "foo : u0=Dark u1=Bright -status ${u{ia>=128}}" -text_outline ${-foo},2,2,23,2,1,255
+
+#@gmic uu : eq. to '-statunescape'. : (+)
+
+#@gmic statunescape : status_string : (+)
+#@gmic : Escape backslash character in specified string and set it as the current status string.
+#@gmic : (eq. to '-uu').
 
 #@gmic while : boolean : filename : (+)
 #@gmic : End a 'do..while' block and go back to associated '-do'
@@ -18481,7 +18481,7 @@ __help_end : #  <-- don't remove me, used as a end marker for command '-help' !
 # Function that returns the list of external sources to be included in the GIMP plug-in.
 # This command can be superseded on the user '.gmic' file to add sources for the plug-in.
 gimp_filter_sources :
-  -if {!narg($_path_user)} ({'../gmic'}) -else ({'${"-\\ "$_path_user}'}) -endif
+  -if {!narg($_path_user)} ({'../gmic'}) -else ({'${"-uu "$_path_user}'}) -endif
   ({'http://gmic.eu/gimp_update$_version.gmic'},1) # Override default filters.
   -l[] -i cimgz:${-path_rc}gimp_filter_sources -onfail -endl
 
