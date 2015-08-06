@@ -3869,7 +3869,7 @@ _update_tutorial_html :
   -replace_str "G\140MIC","G\47MIC"
   -replace_str "CNTL","CTRL"
   -replace_str "Rashid","Rachid"
-  -replace_str "http://gmic.sourceforge.net","http://gmic.eu"
+  -replace_str "gmic.sourceforge.net","gmic.eu"
   -replace_str "@#","$!"
   -replace_str "@{-1,","{"
   -replace_str "@{","{"
