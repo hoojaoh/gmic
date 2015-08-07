@@ -693,7 +693,7 @@ _help_usage :
 \n  - A command file is a simple "${g}"ascii text file"$n", where each line starts either by
 \n     '"${c}"command_name: command_definition"$n"' or '"${c}"command_definition (continuation)"$n"'.
 \n  - At startup, "${-GMIC}" automatically includes user's command file "$g"$HOME/.gmic"$n" (on Unix) or
-\n     "$g"%APPDATA%/gmic"$n" (on Windows), and runs command '"${c}"-cli_start"$n"' if defined.
+\n     "$g"%APPDATA%/user.gmic"$n" (on Windows), and runs command '"${c}"-cli_start"$n"' if defined.
 \n  - Custom command names must use characters [a-zA-Z0-9_] and cannot start with a number.
 \n  - Any '"$c" ""# comment"$n"' expression found in a custom commands file is "${g}"discarded"$n" by the "${-GMIC}"
 \n     parser, wherever it is located in a line.
@@ -18960,7 +18960,7 @@ _gimp_manage_filter_sources :
 #@gimp : <b>G'MIC</b> is an <b>open</b> image processing framework. Thus, including
 #@gimp : <b>user-defined filters</b> into this plug-in is possible.\n\n
 #@gimp : To do so, you need to create a <span foreground="purple" style="italic">.gmic</span>
-#@gimp : file in your <i>$HOME/</i> folder (or <i>%APPDATA%/gmic</i> on Windows, without the first dot).
+#@gimp : file in your <i>$HOME/</i> folder (or <i>%APPDATA%/user.gmic</i> on Windows).
 #@gimp : It will be read each time the plug-in is launched, or when the <i>Refresh</i>
 #@gimp : button (under the central pane) is pressed. It must be a regular ASCII file, containing the declarations and
 #@gimp : implementations of the filters (written in the <b>G'MIC</b> language) that will be added
