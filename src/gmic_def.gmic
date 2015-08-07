@@ -3568,8 +3568,8 @@ update_server : -skip ${1=$_version},${2=1}
     -y -a[6-8] y -a[3-5] y -a[0-2] y
 
     # Upload filter files on G'MIC server.
-    -o[1] raw:$_path_rc/cli_update$1.gmic,uchar
-    -o[2] raw:$_path_rc/gimp_update$1.gmic,uchar
+    -o[1] raw:${-path_rc}/cli_update$1.gmic,uchar
+    -o[2] raw:${-path_rc}/gimp_update$1.gmic,uchar
 
     -o[0] raw:/tmp/update$1.gmic,uchar
     -o[1] cimgz:/tmp/cli_update$1.gmic,uchar
