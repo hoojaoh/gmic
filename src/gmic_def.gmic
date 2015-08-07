@@ -18997,7 +18997,7 @@ _gimp_manage_filter_sources :
 #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
-#@gimp : link = link(0,"[45] Helga-Josefiene Nekrep","")
+#@gimp : link = link(0,"[45] Anonymous","")
 #@gimp : link = link(0,"[44] Olivier Larski","")
 #@gimp : link = link(0,"[43] Victor Fandrey","")
 #@gimp : link = link(0,"[42] Stefan Peter","")
