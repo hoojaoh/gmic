@@ -18999,7 +18999,7 @@ _gimp_manage_filter_sources :
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
 #@gimp : link = link(0,"[45] Anonymous","")
 #@gimp : link = link(0,"[44] Olivier Larski","")
-#@gimp : link = link(0,"[43] Victor Fandrey","")
+#@gimp : link = link(0,"[43] Victor Fandrey","http://victorfandrey.blogspot.ca")
 #@gimp : link = link(0,"[42] Stefan Peter","")
 #@gimp : link = link(0,"[41] Dimitrios Psychogios","https://plus.google.com/u/0/+DimitriosPsychogios")
 #@gimp : link = link(0,"[40] Pat David","http://blog.patdavid.net/")
@@ -25822,7 +25822,7 @@ gimp_plaid_texture :
 #@gimp : Transparency = bool(0)
 #@gimp : Color balance = color(128,128,128)
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>03/20/2011</i>.</small>")
-gimp_plasma : -skip ${4=0},${5=0}
+gimp_plasma :  -skip ${4=0},${5=0}
   -if $5 -to_rgba -else -to_rgb -endif
   -if $4 -rand 0,255 -endif
   -plasma $1,$2,$3 -n 0,255
