@@ -18998,7 +18998,7 @@ _gimp_manage_filter_sources :
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
 #@gimp : link = link(0,"[45] Anonymous","")
-#@gimp : link = link(0,"[44] Olivier Larski","")
+#@gimp : link = link(0,"[44] Olivier Larski","http://harlequin.webcomics.fr/page/episode-1-page-1")
 #@gimp : link = link(0,"[43] Victor Fandrey","http://victorfandrey.blogspot.ca")
 #@gimp : link = link(0,"[42] Stefan Peter","")
 #@gimp : link = link(0,"[41] Dimitrios Psychogios","https://plus.google.com/u/0/+DimitriosPsychogios")
