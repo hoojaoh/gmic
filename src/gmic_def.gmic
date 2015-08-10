@@ -1070,7 +1070,7 @@ use_vt100 :
   -endif -v +
 
 #@gmic version
-#@gmic : Display current version number.
+#@gmic : Display current version number on stdout.
 version :
   -v -
   -m "_e : -echo_stdout[] \"$""*\""
