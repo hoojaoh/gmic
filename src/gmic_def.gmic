@@ -808,13 +808,13 @@ _help_header_ascii :
 
 __help_header_ascii :
   -if {narg($_prerelease)} strprerelease=" (pre-release ""#"$_prerelease")" -else strprerelease="" -endif
-  -v +
-  -e[] "
+  str="
 \n "${_gmic_b}"gmic: GREYC's Magic for Image Computing."$_gmic_n"
 \n
 \n        "$_gmic_r${_gmic_b}"Version "${-strver}$strprerelease$_gmic_n", Copyright (c) 2008-2015, David Tschumperle.
 \n        "$_gmic_r"(http://gmic.eu)"$_gmic_n
-  -v -
+  -l[] -_e[] "" -onfail -m "_e : -e[] \"$""*\"" -endl
+  -v + -_e[] $str -v -
 
 _help_section_ascii :
   _section={$_section+1}
@@ -1072,8 +1072,10 @@ use_vt100 :
 #@gmic version
 #@gmic : Display current version number.
 version :
-  -v - -__help_header_ascii[] -v +
-  -e[] ""
+  -v -
+  -m "_e : -echo_stdout[] \"$""*\""
+  -__help_header_ascii[]
+  -v +
 
 v : # Allow 'gmic --v' to get the version number.
   -version
