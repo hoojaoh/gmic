@@ -2298,14 +2298,25 @@ function1d : -check "${1=1}>=0 && $1<=1" -skip ${2=0},${3=0}
 #@gmic : $ -gmicky
 gmicky :
   -e[^-1] "Load image of the G\47MIC mascot 'Gmicky'."
-  -v - -i http://gmic.eu/img/gmicky_large.cimgz -nm[-1] [gmicky] -v +
+  -v -
+  filename=${-path_rc}/gmicky_large.cimgz
+  -if $filename -i $filename
+  -else http://gmic.eu/img/gmicky_large.cimgz -o[-1] $filename -+[-1] 0
+  -endif
+  -nm[-1] [gmicky]
+  -v +
 
 #@gmic gmicky_wilber
 #@gmic : Load a new image of the G'MIC mascot 'Gmicky' together with GIMP mascot 'Wilber'.
 #@gmic : $ -gmicky_wilber
 gmicky_wilber :
   -e[^-1] "Load image of the G\47MIC mascot 'Gmicky' together with GIMP mascot 'Wilber'."
-  -v - -i http://gmic.eu/img/gmicky_wilber_large.cimgz -nm[-1] [gmicky_wilber] -v +
+  -v -
+  filename=${-path_rc}/gmicky_wilber_large.cimgz
+  -if $filename -i $filename
+  -else http://gmic.eu/img/gmicky_wilber_large.cimgz -o[-1] $filename -+[-1] 0
+  -endif
+  -nm[-1] [gmicky_wilber] -v +
 
 #@gmic i : eq. to '-input'. : (+)
 
@@ -2535,7 +2546,12 @@ rainbow_lut :
 #@gmic : $ -roddy
 roddy :
   -e[^-1] "Load image of the G\47MIC Rodilius mascot 'Roddy'."
-  -v - -i http://gmic.eu/img/roddy_large.cimgz -nm[-1] [roddy] -v +
+  -v -
+  filename=${-path_rc}/roddy_large.cimgz
+  -if $filename -i $filename
+  -else http://gmic.eu/img/roddy_large.cimgz -o[-1] $filename -+[-1] 0
+  -endif
+  -nm[-1] [roddy] -v +
 
 #@gmic select : feature_type,_X,_Y,_Z : (+)
 #@gmic : Interactively select a feature from selected images (use the instant display window [0] if opened).
