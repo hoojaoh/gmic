@@ -2300,7 +2300,7 @@ gmicky :
   -e[^-1] "Load image of the G\47MIC mascot 'Gmicky'."
   -v -
   filename=${-path_rc}/gmicky_large.cimgz
-  -if $filename -i $filename
+  -if $filename $filename
   -else http://gmic.eu/img/gmicky_large.cimgz -o[-1] $filename -+[-1] 0
   -endif
   -nm[-1] [gmicky]
@@ -2313,7 +2313,7 @@ gmicky_wilber :
   -e[^-1] "Load image of the G\47MIC mascot 'Gmicky' together with GIMP mascot 'Wilber'."
   -v -
   filename=${-path_rc}/gmicky_wilber_large.cimgz
-  -if $filename -i $filename
+  -if $filename $filename
   -else http://gmic.eu/img/gmicky_wilber_large.cimgz -o[-1] $filename -+[-1] 0
   -endif
   -nm[-1] [gmicky_wilber] -v +
@@ -2548,7 +2548,7 @@ roddy :
   -e[^-1] "Load image of the G\47MIC Rodilius mascot 'Roddy'."
   -v -
   filename=${-path_rc}/roddy_large.cimgz
-  -if $filename -i $filename
+  -if $filename $filename
   -else http://gmic.eu/img/roddy_large.cimgz -o[-1] $filename -+[-1] 0
   -endif
   -nm[-1] [roddy] -v +
@@ -18903,6 +18903,72 @@ gimp_logo_ca :
 #@gimp : <b> -</b> <i>Matthias Zepper</i> <small>(testing)</small>
 #@gimp : <b> -</b>"}
 
+#@gimp Download external data : gimp_download_all_data, gimp_no_preview(1)
+#@gimp : note = note{"This filter will download all external data files used by some filters of the <i>G'MIC</i> plug-in for GIMP (<i>film emulation</i>, <i>light leaks</i>, <i>grain</i>, etc...),
+#@gimp : and will install them as persistent files on your hard drive. After this operation, you won't need a permanent
+#@gimp : internet connection anymore in order to use some of the G'MIC filters."}
+#@gimp : note = note()
+#@gimp : note = note{"<b><span color="red">Warning:</span></b> A <b>lot of data</b> will be downloaded by this filter. This can take a long time !"}
+#@gimp : sep = separator()
+#@gimp : Force re-download from scratch = _bool(0)
+#@gimp : sep = separator()
+#@gimp : note = note{"<b><span color="red">Alternative (manual) method:</span></b>\nIf, for any reasons, your plug-in is unable to retrieve data from the Internet, you can download all
+#@gimp : those data files manually (as a single .zip file) at this address :"}
+#@gimp : link = link{"http://gmic.eu/gmic_all_data.zip"}
+#@gimp : note = note{"You must then decompress all files contained in this archive at the following location:\n
+#@gimp : - for <b>Unix</b>-like systems : <span color="blue"><tt>$HOME/.config/gmic/</tt></span>\n
+#@gimp : - for <b>Windows</b> systems : <span color="blue"><tt>%APPDATA/gmic/</tt></span>
+#@gimp : "}
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>04/16/2014</i>.</small>")
+gimp_download_all_data :
+
+  # Film emulation.
+  _filenames_film=${-_gimp_emulate_film_bw},\
+                  ${-_gimp_emulate_film_instant_consumer},\
+                  ${-_gimp_emulate_film_instant_pro},\
+                  ${-_gimp_emulate_film_negative_color},\
+                  ${-_gimp_emulate_film_negative_new},\
+                  ${-_gimp_emulate_film_negative_old},\
+                  ${-_gimp_emulate_film_print},\
+                  ${-_gimp_emulate_film_colorslide},\
+                  ${-_gimp_emulate_film_various}
+  _url_film=http://gmic.eu/data_film_presets
+  _prefix_film=film_
+
+  # Grain.
+  _filenames_grain=${-_gimp_emulate_grain}
+  _url_grain=http://gmic.eu/data_film_presets
+  _prefix_grain=grain_
+
+  # Light leaks.
+  _filenames_lightleak=${-_gimp_light_leaks}
+  _url_lightleak=http://gmic.eu/data_lightleaks
+  _prefix_lightleak=
+
+  # Logos.
+  _filenames_logo=gmicky_large,gmicky_small,gmicky_wilber_large,gmicky_wilber_small,roddy_large,roddy_small
+  _url_logo=http://gmic.eu/img
+  _prefix_logo=
+
+  # Manage downloads.
+  _n=0
+  _N={narg($_filenames_film,$_filenames_grain,$_filenames_lightleak,$_filename_logo)}
+  -progress 0
+  -_gimp_download_all_data[] film,$1
+  -_gimp_download_all_data[] grain,$1
+  -_gimp_download_all_data[] lightleak,$1
+  -_gimp_download_all_data[] logo,$1
+  -progress 100
+
+_gimp_download_all_data :
+   -repeat {narg(${_filenames_$1})}
+     filename=${-arg\ 1+$>,${_filenames_$1}}.cimgz
+     -v + -e[] "Download "$filename -v -
+     -if {$2" || "!isfile(${-path_rc}${_prefix_$1}$filename)} -l[] ${_url_$1}/$filename -o ${-path_rc}${_prefix_$1}$filename -rm -onfail -endl -endif
+     -progress {100*$_n/$_N}
+     _n={$_n+1}
+   -done
+
 #@gimp Filter sources : gimp_manage_filter_sources, gimp_manage_filter_sources_preview
 #@gimp : note = note{"<small>Here, you can enable some external filter sources, adding then new filters to your <b>G'MIC</b> plug-in.
 #@gimp : Once you have made your selection, click on the <b>Apply</b> or <b>OK</b> buttons below to validate it.
@@ -19129,16 +19195,16 @@ gimp_gmicky :
 gimp_gmicky_preview :
   w={w} h={h} -rm
   -if {$1==0}
-    filename=${-path_tmp}gmicky_small.cimgz
+    filename=${-path_rc}gmicky_small.cimgz
     url=http://gmic.eu/img/gmicky_small.cimgz
   -elif {$1==1}
-    filename=${-path_tmp}gmicky_wilber_small.cimgz
+    filename=${-path_rc}gmicky_wilber_small.cimgz
     url=http://gmic.eu/img/gmicky_wilber_small.cimgz
   -else
-    filename=${-path_tmp}roddy_small.cimgz
+    filename=${-path_rc}roddy_small.cimgz
     url=http://gmic.eu/img/roddy_small.cimgz
   -endif
-  -if $filename $filename -else -i $url -o $filename -endif
+  -if $filename $filename -else $url -o $filename -endif
   -r2dy $h
 
 #@gimp Links : _none_, _none_
@@ -24524,46 +24590,6 @@ gimp_emulate_film_collage_various :
 
 #@gimp _
 
-#@gimp [Download all presets] : gimp_emulate_film_download, gimp_no_preview(1)
-#@gimp : note = note{"This filter will download the color and grain profiles for all film emulation presets available in <i>G'MIC</i>,
-#@gimp : and will install them as persistent data files on your hard drive. After this operation, you won't need a permanent
-#@gimp : internet connection anymore in order to use the G'MIC film emulation filters."}
-#@gimp : note = note()
-#@gimp : note = note{"<b><span color="red">Warning:</span></b> About <b>90 Mb</b> of data will be downloaded by this filter. This can take a long time !"}
-#@gimp : sep = separator()
-#@gimp : Force re-download = _bool(0)
-#@gimp : sep = separator()
-#@gimp : note = note{"<b><span color="red">Alternative (manual) method:</span></b>\nIf, for any reasons, your plug-in is unable to retrieve data from the Internet, you can download all
-#@gimp : color profiles manually (as a single .zip file) at this address :"}
-#@gimp : link = link{"http://gmic.eu/data_film_presets/all_gmic_film_presets.zip"}
-#@gimp : note = note{"You must then decompress all files contained in this archive at the following location:\n
-#@gimp : - for <b>Unix</b>-like systems : <span color="blue"><tt>$HOME/.config/gmic/</tt></span>\n
-#@gimp : - for <b>Windows</b> systems : <span color="blue"><tt>%APPDATA/gmic/</tt></span>
-#@gimp : "}
-#@gimp : sep = separator(), note = note("<small>More info at:</small>")
-#@gimp : link = link{"Film Emulation Presets in G'MIC","http://gmic.eu/film_emulation/index.shtml"}
-#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>04/16/2014</i>.</small>")
-gimp_emulate_film_download :
-  -_gimp_emulate_film_download ${-_gimp_emulate_film_bw},\
-                               ${-_gimp_emulate_film_instant_consumer},\
-                               ${-_gimp_emulate_film_instant_pro},\
-                               ${-_gimp_emulate_film_negative_color},\
-                               ${-_gimp_emulate_film_negative_new},\
-                               ${-_gimp_emulate_film_negative_old},\
-                               ${-_gimp_emulate_film_print},\
-                               ${-_gimp_emulate_film_colorslide},\
-                               ${-_gimp_emulate_film_various},\
-                               ${-_gimp_emulate_grain}
-  -l[] -progress 0
-  -if $1 _force_redownload=1 -endif
-  -repeat $_nb_presets -l[] -_gimp_emulate_film 1,${_preset{1+$>}},1,0,1,0,0,0,0 -progress {($>+1)*100/$_nb_presets} -onfail -endl -rm -done
-  -endl
-
-_gimp_emulate_film_download :
-  _nb_presets=$#
-  $=_preset
-
-
 #@gimp _<b>Frames</b>
 #--------------------
 
@@ -25390,6 +25416,10 @@ gimp_light_leaks :
 
 gimp_light_leaks_preview :
   -gimp_split_preview "-gimp_light_leaks ${1--3},0",$-1,0,1
+
+_gimp_light_leaks :
+  u="" -repeat 71 -if {narg($u)} u=$u, -endif u=${u}lightleak_${"-padint "$>,6} -done
+  -u $u
 
 #@gimp Light patch : gimp_light_patch, gimp_light_patch(0)
 #@gimp : Density = int(5,2,30)
