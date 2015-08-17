@@ -147,7 +147,10 @@
       If you just want to compile the <b><a href="libgmic.shtml">libgmic</a></b> library, type <tt style="font-family:monospace;">$ make lib</tt> instead.<br/><br/>
       Note that compiling issues (compiler segfault) may happen with versions of <i>g++ 4.8.1</i> and <i>4.8.2</i>.
       If you encounter this kind of errors, you probably have to disable the support of OpenMP
-      in <b><font color="#000066">G'MIC</font></b> to make it work, by compiling it with:<br/> <tt style="font-family:monospace;">$ make OPENMP_CFLAGS="" OPENMP_LIBS=""</tt><br/> instead).<br/>
+      in <b><font color="#000066">G'MIC</font></b> to make it work, by compiling it with:
+      <pre style="font-family:monospace;">
+        $ make OPENMP_CFLAGS="" OPENMP_LIBS=""
+      </pre>
       Now, you should have the compiled files <tt style="font-family:monospace;">gmic</tt>, <tt style="font-family:monospace;">gmic_gimp</tt>, <tt style="font-family:monospace;">libgmic.a</tt>
       and <tt style="font-family:monospace;">libgmic.so</tt> in your <tt style="font-family:monospace;">gmic-src/</tt> folder.<br/><br/>
 
