@@ -122,7 +122,7 @@
       Accessing it via <a href="http://git-scm.com/"><i>git</i></a> ensures you get the latest code available, and will ease the
       source updates as well. Here are the instructions to compile <b><font color="#000066">G'MIC</font></b> and
       <a href="img/zart.jpg" class="highslide" onclick="return hs.expand(this)"><b>ZArt</b></a><div class="highslide-caption">Screenshot of <b>ZArt</b> in action.</div> on a fresh installation of <i>Debian (or Ubuntu)</i>.
-      It should not be much harder for other distros. First you need to install all the required tools and dependencies:
+      It should not be much harder for other distros. First you need to install all the required tools and libraries:
       <pre style="font-family:monospace;">
         $ sudo apt-get install git build-essential libgimp2.0-dev libcv-dev \
         libhighgui-dev libcurl4-openssl-dev libfftw3-dev
