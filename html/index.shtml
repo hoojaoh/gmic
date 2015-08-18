@@ -170,7 +170,7 @@
         <li>It provides light but efficient <b>visualization modules</b> dedicated to the exploration/viewing of
           2d/3d multi-spectral images, 3d vector objects (elevation map, isocurves, isosurfaces,...), or 1d graph plots.<br/><br/></li>
         <li>It is <b>highly extensible</b> through the possible inclusion of
-          <b><a href="http://gmic.eu/gmic_def.gmic">custom command files</a></b>
+          <b><a href="http://gmic.eu/gmic_stl.gmic">custom command files</a></b>
           which add new commands that become understood by the language interpreter. Thus, users can design their own
           image processing library on top of <b><font color="#000066">G'MIC</font></b>.<br/><br/>
         </li>
