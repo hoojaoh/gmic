@@ -215,7 +215,7 @@ echo " - Create 'gmic_stl.h' file"
 cd gmic/src/
 cp -f gmic_stl.gmic ../html/
 cp -f gmic_stl.gmic ../html/gmic_stl.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
-make def
+make stl
 
 if [ "$1" == "final" ]; then
     git tag v.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
