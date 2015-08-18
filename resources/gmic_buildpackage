@@ -67,7 +67,7 @@ if [ "$OSTYPE" == "msys" ]; then
         mv /tmp/Makefile Makefile
     else SUFFIX=_pre;
     fi &&
-    sed "s/rm -rf CImg.h gmic_def.h /rm -rf /" Makefile > /tmp/Makefile
+    sed "s/rm -rf CImg.h gmic_stl.h /rm -rf /" Makefile > /tmp/Makefile
     mv /tmp/Makefile Makefile
     cd .. &&
 
@@ -211,10 +211,10 @@ echo " - Release number : $VERSION$SUFFIX"
 
 # Create default command file.
 #-----------------------------
-echo " - Create 'gmic_def.h' file"
+echo " - Create 'gmic_stl.h' file"
 cd gmic/src/
-cp -f gmic_def.gmic ../html/
-cp -f gmic_def.gmic ../html/gmic_def.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
+cp -f gmic_stl.gmic ../html/
+cp -f gmic_stl.gmic ../html/gmic_stl.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
 make def
 
 if [ "$1" == "final" ]; then
@@ -228,7 +228,7 @@ fi
 #---------------------------------------------
 echo " - Create list of filters."
 rm -f /tmp/gimp_filters.txt
-\gmic gmic_def.gmic -update_server > /tmp/gimp_filters.txt
+\gmic gmic_stl.gmic -update_server > /tmp/gimp_filters.txt
 size=`du -b /tmp/gimp_filters.txt | head -c 1`
 if [ "$size" != "0" ]; then
     cp -f /tmp/gimp_filters.txt ../html/
@@ -245,16 +245,16 @@ cd ..
 #------------------------------------------
 echo " - Create HTML reference page."
 cd html
-rm -f img/gmic_def*.jpg image.jpg
+rm -f img/gmic_stl*.jpg image.jpg
 ln -s img/tiger.jpg image.jpg
-\gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar -document_gmic images,img/
+\gmic -v - ../src/gmic_stl.gmic raw:../src/gmic_stl.gmic,uchar -document_gmic images,img/
 if [ "$1" == "final" ]; then
-    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _version=$VERSION _prerelease= -__help html >& reference.shtml;
+    \gmic -v - ../src/gmic_stl.gmic raw:../src/gmic_stl.gmic,uchar _version=$VERSION _prerelease= -__help html >& reference.shtml;
 else
-    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _version=$VERSION _prerelease=`date +%m%d%y` -__help html >& reference.shtml;
+    \gmic -v - ../src/gmic_stl.gmic raw:../src/gmic_stl.gmic,uchar _version=$VERSION _prerelease=`date +%m%d%y` -__help html >& reference.shtml;
 fi
 rm -f image.jpg
-\gmic ../src/gmic_def.gmic -update_gallery_html
+\gmic ../src/gmic_stl.gmic -update_gallery_html
 cd ..
 
 # Create .pdf handbook.
@@ -262,9 +262,9 @@ cd ..
 echo " - Create PDF reference handbook."
 cd html
 if [ "$1" == "final" ]; then
-    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _version=$VERSION _prerelease= -__help latex >& reference.tex;
+    \gmic -v - ../src/gmic_stl.gmic raw:../src/gmic_stl.gmic,uchar _version=$VERSION _prerelease= -__help latex >& reference.tex;
 else
-    \gmic -v - ../src/gmic_def.gmic raw:../src/gmic_def.gmic,uchar _version=$VERSION _prerelease=`date +%m%d%y` -__help latex >& reference.tex;
+    \gmic -v - ../src/gmic_stl.gmic raw:../src/gmic_stl.gmic,uchar _version=$VERSION _prerelease=`date +%m%d%y` -__help latex >& reference.tex;
 fi
 pdflatex reference.tex
 makeindex reference
@@ -278,7 +278,7 @@ cd ..
 echo " - Upload G'MIC web page."
 cd html
 lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "mirror -RL . /www/gmic/ ; quit"
-rm -f gmic_def.gmic gmic_def.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
+rm -f gmic_stl.gmic gmic_stl.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
 cd ..
 
 # Construct a clean version of G'MIC directory.
@@ -289,8 +289,8 @@ mkdir $DIR
 cp -Lrf COPYING README $DIR
 mkdir $DIR/src
 cd src
-cp -Lrf Makefile CImg.h gmic.cpp gmic.h gmic_def.h gmic_def.gmic gmic_gimp.cpp gmic_in_script.scm gmic_use_lib.cpp $DIR/src
-touch $DIR/src/gmic_def.h
+cp -Lrf Makefile CImg.h gmic.cpp gmic.h gmic_stl.h gmic_stl.gmic gmic_gimp.cpp gmic_in_script.scm gmic_use_lib.cpp $DIR/src
+touch $DIR/src/gmic_stl.h
 cd ..
 mkdir $DIR/man
 cd man
@@ -327,7 +327,7 @@ sed s\/_gmic_versio3\/$RELEASE1.$RELEASE2.$RELEASE3\/g Makefile > /tmp/Makefile
 mv /tmp/Makefile Makefile
 sed s\/_gmic_versio1\/$RELEASE1\/g Makefile > /tmp/Makefile
 mv /tmp/Makefile Makefile
-sed "s/rm -rf CImg.h gmic_def.h /rm -rf /" Makefile > /tmp/Makefile
+sed "s/rm -rf CImg.h gmic_stl.h /rm -rf /" Makefile > /tmp/Makefile
 mv /tmp/Makefile Makefile
 make clean
 rm -f gmic_buildpackage
