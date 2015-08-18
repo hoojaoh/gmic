@@ -132,8 +132,8 @@
 
 # This command is run when the cli tool 'gmic' is invoked without arguments on the command line.
 cli_noarg :
-  -v + -version
-  -e[] "[gmic] No commands, options or data provided (type 'gmic -h' to get help)."
+  -version -v +
+  -e[] "\n[gmic] No commands, options or data provided (type 'gmic -h' to get help)."
   -if {{*,u}>0} -e[] "[gmic] Running in demo mode." -v - -demo , -e[] ""
   -else -e[] "\n"
   -endif -v -
