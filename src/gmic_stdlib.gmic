@@ -1,10 +1,10 @@
 #@gmic
 #
-#  File        : gmic_stl.gmic
+#  File        : gmic_stdlib.gmic
 #                ( G'MIC command file )
 #
 #  Description : Define the commands of the standard G'MIC library, as well as
-#                the filters for the G'MIC plug-in for GIMP, and for the
+#                the base filters for the G'MIC plug-in for GIMP, and for the
 #                web service G'MIC Online.
 #                ( http://gmic.eu )
 #
@@ -3199,7 +3199,7 @@ update_gallery_html :
   Click on an image to zoom-in. The corresponding <b><font color=\"#000066\">G\47MIC</font></b> command used to generate the image appears as a caption.\n
   This gallery is intended to show the flexibility and the genericity of the <b><font color=\"#000066\">G\47MIC</font></b> language.\n
   Remember, you can easily define your own image filters and effects by writting\n
-  your custom <b><font color=\"#000066\">G\47MIC</font></b> <a href=\"http://gmic.eu/gmic_stl.gmic\">command file</a>,\n
+  your custom <b><font color=\"#000066\">G\47MIC</font></b> <a href=\"http://gmic.eu/gmic_stdlib.gmic\">command file</a>,\n
   and eventually put them directly in <a href=\"http://www.gimp.org\">GIMP</a> afterwards.\n\n
   <ul>\n
   <li>See also the <a href=\"gimp.shtml\">GIMP plug-in page</a> to see various screenshots of what <b><font color=\"#000066\">G\47MIC</font></b> can do.</li>\n
@@ -3356,14 +3356,14 @@ update_server : -skip ${1=$_version},${2=1}
   # Copy latest command definitions on G'MIC server if necessary.
   -if {$1==$_version}
     -v + -e[] "> Upload latest version ("${-strver}") of commands on G'MIC server.\n" -v -
-    -_update_server_upload $HOME/work/src/gmic/src/gmic_stl.gmic,gmic_stl.$1
-    -_update_server_upload $HOME/work/src/gmic/src/gmic_stl.gmic
+    -_update_server_upload $HOME/work/src/gmic/src/gmic_stdlib.gmic,gmic_stdlib.$1
+    -_update_server_upload $HOME/work/src/gmic/src/gmic_stdlib.gmic
   -endif
 
   # Get command source files and archive them.
   -v + -e[] "> Load and archive .gmic source files.\n" -v -
   _nb_sources=0
-  -load_gmic http://gmic.eu/gmic_stl.$1
+  -load_gmic http://gmic.eu/gmic_stdlib.$1
   -if {$1!=$_version} -l -load_gmic http://gmic.eu/backports$1.gmic -onfail -endl -endif
   -x "cd $HOME/work/src/gmic-community && git pull 2>&1 >/dev/null"
   -load_gmic ${HOME}/work/src/gmic-community/compatibility.gmic
@@ -3889,7 +3889,7 @@ _update_tutorial_html :
   -replace_str "CNTL","CTRL"
   -replace_str "Rashid","Rachid"
   -replace_str "gmic.sourceforge.net","gmic.eu"
-  -replace_str "gmic_def","gmic_stl"
+  -replace_str "gmic_def","gmic_stdlib"
   -replace_str "@#","$!"
   -replace_str "@{-1,","{"
   -replace_str "@{","{"
