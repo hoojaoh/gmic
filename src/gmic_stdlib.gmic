@@ -28476,6 +28476,7 @@ gmicol_logo_en :
 #@gmicol Bokeh : gmicol_bokeh, gimp_bokeh_preview(1)
 #@gmicol : Number of scales = int(3,1,10)
 #@gmicol : Shape = choice(8,"Triangle","Square","Diamond","Pentagon","Hexagon","Octogon","Decagon","Star","Circular")
+#@gmicol : Random seed = int(0,0,65535)
 #@gmicol : sep = separator(), note = note{"<small><b>Starting parameters:</b></small>"}
 #@gmicol : Density = int(30,1,256)
 #@gmicol : Radius (%) = float(8,0,50)
