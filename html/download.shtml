@@ -8,7 +8,7 @@
 
       <p>The packages below provide both the command-line tool <a href="tutorial/basics.shtml">gmic</a> and the plug-in for <a href="http://www.gimp.org">GIMP</a>
         for some common architectures (also <i>ZArt</i> and the <i>libgmic</i> interfaces in the deb packages).
-        If you are only interested by the <a href="http://www.gimp.org">GIMP</a> plug-in, please <a href="gimp.shtml">check this dedicated page</a> instead.
+        If you are looking for the <a href="http://www.gimp.org">GIMP</a> plug-in only, please <a href="gimp.shtml">check this dedicated page</a> instead.
         It is recommended you uninstall any previous installations of <b><font color="#000066">G'MIC</font></b>, before installing a new version.
       </p>
 
@@ -133,7 +133,7 @@
       </pre>
       If you need more than the sources (i.e. the additional resources and web pages), use the <i>git</i> repository named <tt style="font-family:monospace;">gmic</tt>
       instead of <tt style="font-family:monospace;">gmic-minimal</tt>.
-      Alternatively, you may also prefer to get the sources from <a href="http://gmic.eu/files/">the last released stable <i>.tar.gz</i> file</a>
+      Alternatively, you may also prefer to get the sources from <a href="http://gmic.eu/files/latest/gmic_source.tar.gz">the last released stable <i>.tar.gz</i> file</a>
       instead of the current development version.<br/><br/>
       You are now ready to compile the following <b><font color="#000066">G'MIC</font></b> interfaces:
       <a href="http://gmic.eu/reference.shtml"><i>gmic</i></a> (command-line tool),
@@ -144,7 +144,7 @@
         $ make
       </pre>
       and go out for a long drink. The compilation takes time. There are few source files, but many lines to compile anyway.<br/>
-      If you just want to compile the <b><a href="libgmic.shtml">libgmic</a></b> library, type <tt style="font-family:monospace;">$ make lib</tt> instead.<br/><br/>
+      If you just want to compile the <b><a href="libgmic.shtml">libgmic</a></b> library, type &nbsp;&nbsp;<tt style="font-family:monospace;">$ make lib</tt>&nbsp;&nbsp; instead.<br/><br/>
       Note that compiling issues (compiler segfault) may happen with versions of <i>g++ 4.8.1</i> and <i>4.8.2</i>.
       If you encounter this kind of errors, you probably have to disable the support of OpenMP
       in <b><font color="#000066">G'MIC</font></b> to make it work, by compiling it with:
