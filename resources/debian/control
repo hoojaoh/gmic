@@ -20,10 +20,10 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Enhances : gimp
 Description: GREYC's Magic for Image Computing
- G'MIC is an open and full-featured framework for image processing, providing
- several different user interfaces to convert/manipulate/filter/visualize
- generic image datasets, from 1d scalar signals to 3d+t sequences of
- multi-spectral volumetric images.
+ G'MIC is an open and full-featured framework for image processing.
+ It provides several different user interfaces to convert/manipulate/filter/visualize
+ generic image datasets, ranging from 1d scalar signals to 3d+t sequences of
+ multi-spectral volumetric images, including 2d color images.
  .
- This package contains the stand-alone binary, the library file, the
- gimp plug-in and the webcam gui.
+ This package contains the command-line tool (gmic), the plug-in for gimp (gmic_gimp),
+ the library file (libgmic) and the webcam gui (zart).

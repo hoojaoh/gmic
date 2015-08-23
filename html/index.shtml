@@ -26,9 +26,9 @@
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
           <td valign="top">
-            <b><font color="#000066">G'MIC</font></b> is an open and full-featured framework for <b>image processing</b>,
-            providing several different <b>user interfaces</b> to convert/manipulate/filter/visualize
-            <b>generic image datasets</b>, from 1d scalar signals to 3d+t sequences of multi-spectral volumetric images.<br/><br/>
+            <b><font color="#000066">G'MIC</font></b> is an open and full-featured framework for <b><a href="https://en.wikipedia.org/wiki/Image_processing">image processing</a></b>.
+            It provides several different <b><a href="https://en.wikipedia.org/wiki/User_interface">user interfaces</a></b> to convert/manipulate/filter/visualize
+            <b>generic image datasets</b>, ranging from 1d scalar signals to 3d+t sequences of multi-spectral volumetric images which includes 2d color images.<br/><br/>
             These interfaces are:<br/><br/>
 
 
@@ -91,9 +91,10 @@
 
             <br/>Other open-source projects are known to use some of the <b><font color="#000066">G'MIC</font></b> features:
             <ul>
+              <li><b><a href="http://ekd.tuxfamily.org/">EKD</a></b>, a free software dedicated to postproduction processing for videos and images.</li>
               <li><b><a href="https://www.krita.org">Krita</a></b>, a free digital painting and illustration application. <i>Krita</i> has its own <b><font color="#000066">G'MIC</font></b> plug-in.</li>
               <li><b><a href="http://aferrero2707.github.io/PhotoFlow/">Photoflow</a></b>, a fully non-destructive photo retouching program.</li>
-              <li><b><a href="http://ekd.tuxfamily.org/">EKD</a></b>, a free software dedicated to postproduction processing for videos and images.</li>
+              <li><b><a href="http://veejayhq.net/">Veejay</a></b>, a visual instrument and realtime video sampler.</li>
             </ul>
 
           </td>
