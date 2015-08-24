@@ -583,10 +583,14 @@ _help_usage :
 \n       . Function '"${c}"arg(i,a_1,..,a_n)"$n"' returns the ith argument a_i.
 \n       . Functions '"${c}"min()"$n"', '"${c}"max()"$n"', '"${c}"argmin()"$n"', '"${c}"argmax()"$n"', '"${c}"med()"$n"' and '"${c}"kth()"$n"' can be called with
 \n         an arbitrary number of arguments.
-\n       . Function '"${c}"repeat(expression)"$n"' repeats the evaluation of the specified expression until it vanishes.
-\n          It can be used to compute mathematical series. For instance the expression:
-\n          '"${c}"N=24;a=0;b=1;repeat(c=a+b;a=b;b=c;N=N-1);a"$n"' returns the Nth value of the Fibonacci sequence
+\n       . Functions '"${c}"dowhile(expression)"$n"' and '"${c}"whiledo(expression)"$n"' repeat the evaluation of the expression
+\n          until it vanishes. They can be used to compute mathematical series. For instance the expression:
+\n          '"${c}"N=24;a=0;b=1;whiledo(c=a+b;a=b;b=c;N=N-1);a"$n"' returns the Nth value of the Fibonacci sequence.
 \n          (here, 46368 for N=24).
+\n          '"${c}"dowhile(expression)"$n"' evaluates the specified expression before checking the nullity condition.
+\n          '"${c}"whiledo(expression)"$n"' checks first the nullity condition before evaluating the specified expression.
+\n          (thus it might be never evaluated).
+\n          Both functions return "${c}"0"$n".
 \n       . Functions '"${c}"isval()"$n"', '"${c}"isnan()"$n"', '"${c}"isinf()"$n"', '"${c}"isbool()"$n"' can be used to test the type of
 \n          a given number or expression.
 \n       . Function '"${c}"isfile()"$n"' (resp. '"${c}"isdir()"$n"') returns 0 (false) or 1 (true) whether its argument
