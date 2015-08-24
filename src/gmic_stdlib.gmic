@@ -489,7 +489,8 @@ _help_usage :
 \n       . '"$c"$_version"$n"': A 4-digits number telling about the current "${g}"version"$n" of the "${-GMIC}" interpreter.
 \n          (currently '"$g$_version$n"').
 \n       . '"$c"$_vt100"$n"': Set to "${g}"1"$n" (default value) if "${g}"colored text output"$n" is allowed on the console.
-\n       . '"$c"$_path_rc"$n"': The path to the G'MIC folder used to store resources and configuration files (its value is OS-dependent).
+\n       . '"$c"$_path_rc"$n"': The path to the G'MIC folder used to store resources and configuration files
+\n         (its value is OS-dependent).
 \n       . '"$c"$_path_user"$n"': The path to the G'MIC user file .gmic (its value is OS-dependent).
 \n
 \n  - '"$c"${\"command line\"}"$n"' is substituted by the "${g}"status value"$n" set by the execution of the
@@ -573,20 +574,23 @@ _help_usage :
 \n    _ "${g}"Usual functions:"$n" "${c}"sin(), cos(), tan(), asin(), acos(), atan(), sinh(), cosh(), tanh(),
 \n       log(), log2(), log10(), exp(), sqrt(), cbrt(), sign(), abs(), atan2(), round(), narg(), arg(),
 \n       isval(), isnan(), isinf(), isint(), isbool(), isdir(), isfile(), rol()"$n" (left bit rotation),
-\n       "${c}"ror()"$n" (right bit rotation), "${c}"min(), max(), med(), kth(), sinc(), int()"$n".
+\n       "${c}"ror()"$n" (right bit rotation), "${c}"min(), max(), argmin(), argmax(), med(), kth(), sinc(), int()"$n".
 \n       . Function '"${c}"atan2(x,y)"$n"' is the version of '"${c}"atan()"$n"' with two arguments 'y' and 'x' (as in C/C++).
 \n       . Function '"${c}"hypoth(x,y)"$n"' computes the square root of the sum of the squares of x and y.
-\n       . Function '"${c}"normP(u1,...,un)"$n"' computes the LP-norm of the specified vector (P being an unsigned integer or 'inf').
+\n       . Function '"${c}"normP(u1,...,un)"$n"' computes the LP-norm of the specified vector
+\n         (P being an unsigned integer or 'inf').
 \n       . Function '"${c}"narg()"$n"' returns the number of specified arguments.
 \n       . Function '"${c}"arg(i,a_1,..,a_n)"$n"' returns the ith argument a_i.
-\n       . Functions '"${c}"min()"$n"', '"${c}"max()"$n"', '"${c}"med()"$n"' and '"${c}"kth()"$n"' can be called with an arbitrary number of arguments.
+\n       . Functions '"${c}"min()"$n"', '"${c}"max()"$n"', '"${c}"argmin()"$n"', '"${c}"argmax()"$n"', '"${c}"med()"$n"' and '"${c}"kth()"$n"' can be called with
+\n         an arbitrary number of arguments.
 \n       . Functions '"${c}"isval()"$n"', '"${c}"isnan()"$n"', '"${c}"isinf()"$n"', '"${c}"isbool()"$n"' can be used to test the type of
 \n          a given number or expression.
 \n       . Function '"${c}"isfile()"$n"' (resp. '"${c}"isdir()"$n"') returns 0 (false) or 1 (true) whether its argument
 \n          is a valid path to a file (resp. to a directory) or not.
 \n       . Function '"${c}"fdate(attr,path)"$n"' returns the date attribute for the given 'path' (file or directory),
 \n          with 'attr' being { 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }.
-\n       . Function '"${c}"date(attr)"$n" returns the specified attribute for the current (locale) date (same meaning as fdate()).
+\n       . Function '"${c}"date(attr)"$n" returns the specified attribute for the current (locale) date
+\n         (same meaning as fdate()).
 \n       . Function '"${c}"isin(v,a_1,...,a_n)"$n"' returns 0 (false) or 1 (true) whether the first value 'v' appears
 \n          in the set of other values 'a_i'.
 \n
