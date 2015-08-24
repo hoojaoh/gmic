@@ -583,16 +583,19 @@ _help_usage :
 \n       . Function '"${c}"arg(i,a_1,..,a_n)"$n"' returns the ith argument a_i.
 \n       . Functions '"${c}"min()"$n"', '"${c}"max()"$n"', '"${c}"argmin()"$n"', '"${c}"argmax()"$n"', '"${c}"med()"$n"' and '"${c}"kth()"$n"' can be called with
 \n         an arbitrary number of arguments.
+\n       . Function '"${c}"repeat(nb_iterations,formula)"$n"' repeats the execution of the specified formula 'nb_iterations' times.
+\n          It can be used to compute mathematical series. For instance the expression:
+\n          '"${c}"a=0;b=1;repeat(N,c=a+b;a=b;b=c);a"$n"' returns the Nth value of the Fibonacci sequence.
 \n       . Functions '"${c}"isval()"$n"', '"${c}"isnan()"$n"', '"${c}"isinf()"$n"', '"${c}"isbool()"$n"' can be used to test the type of
 \n          a given number or expression.
 \n       . Function '"${c}"isfile()"$n"' (resp. '"${c}"isdir()"$n"') returns 0 (false) or 1 (true) whether its argument
 \n          is a valid path to a file (resp. to a directory) or not.
+\n       . Function '"${c}"isin(v,a_1,...,a_n)"$n"' returns 0 (false) or 1 (true) whether the first value 'v' appears
+\n          in the set of other values 'a_i'.
 \n       . Function '"${c}"fdate(attr,path)"$n"' returns the date attribute for the given 'path' (file or directory),
 \n          with 'attr' being { 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }.
 \n       . Function '"${c}"date(attr)"$n" returns the specified attribute for the current (locale) date
 \n         (same meaning as fdate()).
-\n       . Function '"${c}"isin(v,a_1,...,a_n)"$n"' returns 0 (false) or 1 (true) whether the first value 'v' appears
-\n          in the set of other values 'a_i'.
 \n
 \n    _ "${g}"Variable names"$n" below are pre-defined. They can be overloaded.
 \n         . '"${c}"w"$n"': width of the associated image, if any (0 otherwise).
