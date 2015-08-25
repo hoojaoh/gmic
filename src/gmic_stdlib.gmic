@@ -585,15 +585,15 @@ _help_usage :
 \n         an arbitrary number of arguments.
 \n       . Function '"${c}"dowhile(expression)"$n"' repeats the evaluation of the expression until it vanishes.
 \n          It can be used to compute mathematical series. For instance the expression:
-\n          '"${c}"N=24;n=N-1;F0=0;F1=1;dowhile(F2=F0+F1;F0=F1;F1=F2;n=n-1);F2"$n"' returns the Nth value of the
-\n           Fibonacci sequence, for N>=2 (here, 46368 for N=24).
+\n          '"${c}"if(N<2,N,n=N-1;F0=0;F1=1;dowhile(F2=F0+F1;F0=F1;F1=F2;n=n-1);F2)"$n"' returns the Nth value of the
+\n           Fibonacci sequence, for N>=0 (e.g., 46368 for N=24).
 \n          '"${c}"dowhile(expression)"$n"' always evaluates the specified expression at least once, then check
 \n          for the nullity condition. It always returns 0 when done.
 \n       . Function '"${c}"for(init,condition,expression)"$n"' first evaluates the expression '"${c}"init"$n"', then iteratively
 \n          evaluates '"${c}"expression"$n"' while '"${c}"condition"$n"' is verified. it may happen that no iteration is done,
 \n          in which case the function returns 0. Otherwise, it returns the last value of '"${c}"expression"$n"'.
-\n          For instance, the expression: '"${c}"N=24;for(F0=0;F1=1;n=2,n<=N,n=n+1;F2=F0+F1;F0=F1;F1=F2)"$n"' returns
-\n          the Nth value of the Fibonacci sequence, for N>=2 (here, 46368 for N=24).
+\n          For instance, the expression: '"${c}"if(N<2,N,for(n=N;F0=0;F1=1,n=n-1,F2=F0+F1;F0=F1;F1=F2))"$n"' returns
+\n          the Nth value of the Fibonacci sequence, for N>=0 (e.g., 46368 for N=24).
 \n       . Functions '"${c}"isval()"$n"', '"${c}"isnan()"$n"', '"${c}"isinf()"$n"', '"${c}"isbool()"$n"' can be used to test the type of
 \n          a given number or expression.
 \n       . Function '"${c}"isfile()"$n"' (resp. '"${c}"isdir()"$n"') returns 0 (false) or 1 (true) whether its argument
@@ -14220,6 +14220,11 @@ _dec2oct : -check isint($1)
 #@gmic : Return the factorial of the specified value.
 fact : -check isint($1)
   -v - res=1 -repeat $1 res={$res*($>+1)} -done -u $res -v +
+
+#@gmic fibonacci : N>=0
+#@gmic : Return the Nth number of the Fibonacci sequence.
+fibonacci :
+  -u {N=$1;if(N<2,N,for(n=N;F0=0;F1=1,n=n-1,F2=F0+F1;F0=F1;F1=F2))}
 
 #@gmic file_mv : filename_src,filename_dest
 #@gmic : Rename or move a file from a location $1 to another location $2.
