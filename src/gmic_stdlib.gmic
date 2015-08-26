@@ -28570,6 +28570,7 @@ gmicol_bokeh :
 #@gmicol clone("Polygonize [energy]")
 #@gmicol clone("Poster edges")
 #@gmicol clone("Rodilius")
+#@gmicol clone("Vector painting")
 #@gmicol clone("Warhol")
 #@gmicol clone("Whirl drawing")
 
