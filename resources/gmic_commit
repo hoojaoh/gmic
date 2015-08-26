@@ -15,18 +15,19 @@ cd $HOME/work/src/gmic
 git commit -uno -am "$COM"
 git push
 
-echo -e "\n  ** gmic-community\n"
-cd $HOME/work/src/gmic-community
-git pull
-git commit -uno -am "$COM"
-git push
-
 cd $HOME/work/src/gmic
+cp -rf COPYING README README.md $HOME/work/src/gmic-community
 cp -rf COPYING README README.md zart $HOME/work/src/gmic-minimal
 cp -rf src/*.cpp src/*.h src/Makefile src/*.scm $HOME/work/src/gmic-minimal/src
 cp -rf COPYING README README.md zart $HOME/work/src/gmic-minimal-mirror
 cp -rf src/*.cpp src/*.h src/Makefile src/*.scm $HOME/work/src/gmic-minimal-mirror/src
 rsync -az * $HOME/work/src/gmic-mirror
+
+echo -e "\n  ** gmic-community\n"
+cd $HOME/work/src/gmic-community
+git pull
+git commit -uno -am "$COM"
+git push
 
 echo -e "\n  ** gmic-minimal\n"
 cd $HOME/work/src/gmic-minimal
