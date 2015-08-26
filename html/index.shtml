@@ -77,7 +77,7 @@
               </tr>
               <tr>
                 <td valign="top">
-                  <b>5</b> - A small, portable, thread-safe, multi-threaded, C++ image processing library <b>libgmic</b>, to be linked to third-party applications.
+                  <b>5</b> - A small, portable, thread-safe, multi-threaded, C++ image processing library <b><a href="libgmic.shtml">libgmic</a></b>, to be linked to third-party applications.
                   <a href="libgmic.shtml">Its simple API</a> allows programmers to add all <b><font color="#000066">G'MIC</font></b> image processing features in their own software without much efforts.
                   <p align="right"><i><font size="-1"><a href="libgmic.shtml">[learn more...]</a></font></i></p>
                   <hr noshade="noshade" size="1" width="80%"/>
