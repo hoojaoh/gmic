@@ -31,7 +31,6 @@
             <b>generic image datasets</b>, ranging from 1d scalar signals to 3d+t sequences of multi-spectral volumetric images, including 2d color images.<br/><br/>
             These interfaces are:<br/><br/>
 
-
             <table cellpadding="10" cellspacing="0">
               <tr>
                 <td valign="top">
@@ -79,7 +78,7 @@
               <tr>
                 <td valign="top">
                   <b>5</b> - A small, portable, thread-safe, multi-threaded, C++ image processing library <b>libgmic</b>, to be linked to third-party applications.
-                  Its simple API allows programmers to add all <b><font color="#000066">G'MIC</font></b> image processing features in their own software without much efforts.
+                  <a href="libgmic.shtml">Its simple API</a> allows programmers to add all <b><font color="#000066">G'MIC</font></b> image processing features in their own software without much efforts.
                   <p align="right"><i><font size="-1"><a href="libgmic.shtml">[learn more...]</a></font></i></p>
                   <hr noshade="noshade" size="1" width="80%"/>
                 </td>

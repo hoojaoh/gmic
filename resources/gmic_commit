@@ -22,9 +22,9 @@ git commit -uno -am "$COM"
 git push
 
 cd $HOME/work/src/gmic
-cp -rf COPYING README zart $HOME/work/src/gmic-minimal
+cp -rf COPYING README* zart $HOME/work/src/gmic-minimal
 cp -rf src/*.cpp src/*.h src/Makefile src/*.scm $HOME/work/src/gmic-minimal/src
-cp -rf COPYING README zart $HOME/work/src/gmic-minimal-mirror
+cp -rf COPYING README* zart $HOME/work/src/gmic-minimal-mirror
 cp -rf src/*.cpp src/*.h src/Makefile src/*.scm $HOME/work/src/gmic-minimal-mirror/src
 rsync -az * $HOME/work/src/gmic-mirror
 
