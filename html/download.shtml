@@ -77,7 +77,7 @@
               <tr>
                 <td><a href="http://gmic.eu/files/latest/gmic_source.tar.gz"><img alt="" src="img/download_sources.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
                 <td><a href="http://gmic.eu/files/latest/gmic_source.tar.gz"><font size="3">Download latest G'MIC source.</font></a><br/>
-                  (tar.gz file, alternative: <a href="https://forge.greyc.fr/projects/gmic-minimal/repository">git repository</a>)<br/><br/></td>
+                  (tar.gz file, alternative: <a href="https://github.com/dtschump/gmic-minimal">git repository</a>)<br/><br/></td>
               </tr>
               <tr>
                 <td><a href="http://gmic.eu/files/"><img alt="" src="img/download_browse.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
@@ -129,7 +129,7 @@
       </pre>
       Then, get the <b><font color="#000066">G'MIC</font></b> sources from the <i>git</i> repository:
       <pre style="font-family:monospace;">
-        $ git clone <a href="https://forge.greyc.fr/projects/gmic-minimal/repository">https://forge.greyc.fr/git/gmic-minimal</a> gmic-src
+        $ git clone <a href="https://github.com/dtschump/gmic-minimal">https://github.com/dtschump/gmic-minimal.git</a> gmic-src
       </pre>
       If you need more than the sources (i.e. the additional resources and web pages), use the <i>git</i> repository named <tt style="font-family:monospace;">gmic</tt>
       instead of <tt style="font-family:monospace;">gmic-minimal</tt>.
