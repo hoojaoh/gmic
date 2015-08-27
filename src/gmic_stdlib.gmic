@@ -669,8 +669,14 @@ _help_usage :
 \n       . '"${c}"fdate(attr,path)"$n"' returns the date attribute for the given 'path' (file or directory),
 \n          with 'attr' being { 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }.
 \n       . '"${c}"date(attr)"$n" returns the specified attribute for the current (locale) date
-\n         (same meaning as fdate()).
-\n       . '"${c}"print(expression)"$n" prints the value of the specified expression on the console (and returns its value).
+\n          (same meaning as fdate()).
+\n       . '"${c}"print(expression)"$n" prints the value of the specified expression on the console
+\n          (and returns its value).
+\n
+\n    _ Expressions '"${c}"i(x,y,z,c)=value"$n"', '"${c}"j(x,y,z,c)=value"$n"', '"${c}"i[offset]=value"$n"' and '"${c}"j[offset]=value"$n"' allow
+\n       to set pixel values at different locations than the current one in the associated image, either
+\n       with global coordinates/offsets (with '"${c}"i(...)"$n"' and '"${c}"i[...]"$n"') or relatively to the current
+\n       position "${g}"(x,y,z,c)"$n" (with '"${c}"j(...)"$n"' and '"${c}"j[...]"$n"'). These expressions always return '"${c}"value"$n"'.
 \n
 \n  - The last image of the list is always associated to the evaluations of '"$c"{expressions}"$n"',
 \n     e.g. "${-GMIC}" sequence '"${c}"256,128 -f {w}"$n"' will create a 256x128 image filled with value 256."
