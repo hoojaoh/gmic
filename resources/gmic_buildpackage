@@ -385,23 +385,6 @@ echo " - Waiting for all packages.".
 
 cd ${HOME}/work/src/
 
-# Windows: Full packages.
-FILE=gmic_${VERSION}${SUFFIX}_win32.zip
-while [ ! -f ${FILE} ]; do sleep 10; done
-sleep 10
-if [ "$1" == "final" ]; then
-    lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
-fi
-lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_win32.zip; quit"
-
-FILE=gmic_${VERSION}${SUFFIX}_win64.zip
-while [ ! -f ${FILE} ]; do sleep 10; done
-sleep 10
-if [ "$1" == "final" ]; then
-    lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
-fi
-lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_win64.zip; quit"
-
 # Windows: GIMP plug-in.
 FILE=gmic_gimp_${VERSION}${SUFFIX}_win32.zip
 while [ ! -f ${FILE} ]; do sleep 10; done
@@ -434,6 +417,23 @@ if [ "$1" == "final" ]; then
     lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
 fi
 lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_gimp_win64.exe; quit"
+
+# Windows: Full packages.
+FILE=gmic_${VERSION}${SUFFIX}_win32.zip
+while [ ! -f ${FILE} ]; do sleep 10; done
+sleep 10
+if [ "$1" == "final" ]; then
+    lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
+fi
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_win32.zip; quit"
+
+FILE=gmic_${VERSION}${SUFFIX}_win64.zip
+while [ ! -f ${FILE} ]; do sleep 10; done
+sleep 10
+if [ "$1" == "final" ]; then
+    lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/windows/ ${FILE}; quit";
+fi
+lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "put -O /www/gmic/files/latest/ ${FILE} -o gmic_win64.zip; quit"
 
 # Linux: Static packages.
 FILE=gmic_static_${VERSION}${SUFFIX}_linux32.zip
