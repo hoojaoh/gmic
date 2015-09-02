@@ -82,6 +82,8 @@
 #           Note that you can optionally specify a float-valued factor>=0 between parentheses at the end of
 #           the 'preview_command' to force the default zoom factor used by the GIMP preview for this filter.
 #           Use (0) for a 1:1 preview, (1) for previewing the whole image, (2) for 1/2 image and so on...
+#           You can also add a second number between parentheses to specify the visibility state of the
+#           preview widget zoom buttons (0=hidden or 1=visible).
 #
 #      'parameter = typedef' tells about the names, types and default values of the filter parameters.
 #
