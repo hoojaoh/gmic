@@ -646,7 +646,7 @@ _help_usage :
 \n       . '"${c}"i[offset]"$n"' returns the value of the pixel located at "${g}"specified offset"$n" in the associated
 \n          image buffer (or 0 if offset is out-of-bounds).
 \n       . '"${c}"j[offset]"$n"' does the same for an offset relative to the current pixel "$g"(x,y,z,c)"$n".
-\n       . Note that if specified formula starts with '"$c">"$n"' or '"$c"<"$n"', the pixel access operators
+\n       . If the specified formula starts with '"$c">"$n"' or '"$c"<"$n"', the pixel access operators
 \n          '"${c}"i(), i[], j()"$n"' and '"${c}"j[]"$n"' return values of the image being currently modified,
 \n          in forward ('"$c">"$n"') or backward ('"$c"<"$n"') order.
 \n       . '"${c}"if(condition,expr_then,expr_else)"$n"': return value of '"${c}"expr_then"$n"' or '"${c}"expr_else"$n"',
