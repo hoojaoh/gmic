@@ -20525,7 +20525,7 @@ gimp_rodilius :
 gimp_rodilius_preview :
   -gimp_split_preview "-gimp_rodilius $*",$-1
 
-#@gimp Shapeism : gimp_shapeism, gimp_shapeism_preview(0)
+#@gimp Shapeism : gimp_shapeism, gimp_shapeism_preview(0)+
 #@gimp : Shape = choice(2,"Squares","Triangles","Circles","Diamond","Hexagon","Octagon","Stars","Custom")
 #@gimp : Branches = int(7,3,16)
 #@gimp : Thickness = float(0.38,0,1)
@@ -20650,7 +20650,7 @@ gimp_draw_whirl_preview :
 #@gimp _<b>Black &amp; white</b>
 #-------------------------------
 
-#@gimp Black &amp; white : gimp_blackandwhite, gimp_blackandwhite_preview(1)
+#@gimp Black &amp; white : gimp_blackandwhite, gimp_blackandwhite_preview(1)+
 #@gimp : Red level = float(0.299,0,1)
 #@gimp : Red smoothness = float(0,0,10)
 #@gimp : Green level = float(0.587,0,1)
