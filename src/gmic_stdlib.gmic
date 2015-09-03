@@ -82,8 +82,8 @@
 #           Note that you can optionally specify a float-valued factor>=0 between parentheses at the end of
 #           the 'preview_command' to force the default zoom factor used by the GIMP preview for this filter.
 #           Use (0) for a 1:1 preview, (1) for previewing the whole image, (2) for 1/2 image and so on...
-#           You can also add a second number between parentheses to specify the visibility state of the
-#           preview widget zoom buttons (0=hidden or 1=visible).
+#           You can also put an additional '+' sign after the parenthesis to specify the rendered preview
+#           is still accurate for different zoom factors.
 #
 #      'parameter = typedef' tells about the names, types and default values of the filter parameters.
 #
@@ -19648,7 +19648,7 @@ gimp_array :
 gimp_array_preview :
   -gimp_array $1,$2,$3,$4,$5,0
 
-#@gimp Ascii art : gimp_asciiart, gimp_asciiart_preview(0)
+#@gimp Ascii art : gimp_asciiart, gimp_asciiart_preview(0)+
 #@gimp : Charset = choice(5,"Custom","Binary digits","Digits","Lowercase letters","Uppercase letters","Ascii","Card suits","Math symbols")
 #@gimp : Custom dictionnary = text{" .oO0"}
 #@gimp : Analysis scale = int(16,8,103)
@@ -20352,7 +20352,7 @@ gimp_feltpen_preview :
 #@gimp : sep = separator(), link = link("Click here for a detailed description of this filter.","http://www.gimpchat.com/viewtopic.php?f=28&t=10036")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>04/25/2014</i>.</small>")
 
-#@gimp Hope poster : gimp_poster_hope, gimp_poster_hope_preview(0)
+#@gimp Hope poster : gimp_poster_hope, gimp_poster_hope_preview(0)+
 #@gimp : Gamma = float(0,-3,3)
 #@gimp : Smoothness = float(3,0,20)
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
@@ -20402,7 +20402,7 @@ gimp_lylejk_painting :
 gimp_lylejk_painting_preview :
   -gimp_split_preview "-gimp_lylejk_painting $*",$-1
 
-#@gimp Painting : gimp_painting, gimp_painting_preview(0)
+#@gimp Painting : gimp_painting, gimp_painting_preview(0)+
 #@gimp : Abstraction = int(5,1,10)
 #@gimp : Details scale = float(2.5,0,5)
 #@gimp : Color = float(1.5,0,4)
@@ -20424,7 +20424,7 @@ gimp_painting : -skip ${4=0},${5=0}
 gimp_painting_preview :
   -gimp_split_preview "-gimp_painting $*",$-1
 
-#@gimp Pen drawing : gimp_pen_drawing, gimp_pen_drawing_preview(0)
+#@gimp Pen drawing : gimp_pen_drawing, gimp_pen_drawing_preview(0)+
 #@gimp : Amplitude = float(10,0,30)
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
