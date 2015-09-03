@@ -24148,7 +24148,7 @@ __gimp_emulate_grain :
 
   -a[^-1] c -endl -done -rm[-1]
 
-#@gimp B&amp;W films : gimp_emulate_film_bw, gimp_emulate_film_bw_preview(1)
+#@gimp B&amp;W films : gimp_emulate_film_bw, gimp_emulate_film_bw_preview(1)+
 #@gimp : Preset = choice{"None",
 #@gimp : "Agfa APX 100","Agfa APX 25","Fuji Neopan 1600","Fuji Neopan Acros 100","Ilford Delta 100","Ilford Delta 3200","Ilford Delta 400","Ilford FP4 Plus 125",
 #@gimp : "Ilford HP5 Plus 400","Ilford HPS 800","Ilford Pan F Plus 50","Ilford XP2","Kodak BW 400 CN","Kodak HIE (HS Infra)","Kodak T-Max 100","Kodak T-Max 3200",
@@ -24179,7 +24179,7 @@ _gimp_emulate_film_bw :
 gimp_emulate_film_bw_preview :
   -gimp_split_preview "-gimp_emulate_film_bw $*",$-1
 
-#@gimp Instant [consumer] : gimp_emulate_film_instant_consumer, gimp_emulate_film_instant_consumer_preview(1)
+#@gimp Instant [consumer] : gimp_emulate_film_instant_consumer, gimp_emulate_film_instant_consumer_preview(1)+
 #@gimp : Preset = choice{"None",
 #@gimp : "Polaroid PX-100UV+ Cold --","Polaroid PX-100UV+ Cold -","Polaroid PX-100UV+ Cold","Polaroid PX-100UV+ Cold +","Polaroid PX-100UV+ Cold ++","Polaroid PX-100UV+ Cold +++",
 #@gimp : "Polaroid PX-100UV+ Warm --","Polaroid PX-100UV+ Warm -","Polaroid PX-100UV+ Warm","Polaroid PX-100UV+ Warm +","Polaroid PX-100UV+ Warm ++","Polaroid PX-100UV+ Warm +++",
@@ -24221,7 +24221,7 @@ _gimp_emulate_film_instant_consumer :
 gimp_emulate_film_instant_consumer_preview :
   -gimp_split_preview "-gimp_emulate_film_instant_consumer $*",$-1
 
-#@gimp Instant [pro] : gimp_emulate_film_instant_pro, gimp_emulate_film_instant_pro_preview(1)
+#@gimp Instant [pro] : gimp_emulate_film_instant_pro, gimp_emulate_film_instant_pro_preview(1)+
 #@gimp : Preset = choice{"None",
 #@gimp : "Fuji FP-100c --","Fuji FP-100c -","Fuji FP-100c","Fuji FP-100c +","Fuji FP-100c ++","Fuji FP-100c ++a","Fuji FP-100c +++",
 #@gimp : "Fuji FP-100c Cool --","Fuji FP-100c Cool -","Fuji FP-100c Cool","Fuji FP-100c Cool +","Fuji FP-100c Cool ++",
@@ -24270,7 +24270,7 @@ _gimp_emulate_film_instant_pro :
 gimp_emulate_film_instant_pro_preview :
   -gimp_split_preview "-gimp_emulate_film_instant_pro $*",$-1
 
-#@gimp Negative [color] : gimp_emulate_film_negative_color, gimp_emulate_film_negative_color_preview(1)
+#@gimp Negative [color] : gimp_emulate_film_negative_color, gimp_emulate_film_negative_color_preview(1)+
 #@gimp : Preset = choice{"None",
 #@gimp : "Agfa Ultra Color 100","Agfa Vista 200","Fuji Superia 200","Fuji Superia HG 1600","Fuji Superia Reala 100","Fuji Superia X-Tra 800",
 #@gimp : "Kodak Elite 100 XPRO","Kodak Elite Color 200","Kodak Elite Color 400","Kodak Portra 160 NC","Kodak Portra 160 VC","Lomography Redscale 100"}
@@ -24296,7 +24296,7 @@ _gimp_emulate_film_negative_color :
 gimp_emulate_film_negative_color_preview :
   -gimp_split_preview "-gimp_emulate_film_negative_color $*",$-1
 
-#@gimp Negative [new] : gimp_emulate_film_negative_new, gimp_emulate_film_negative_new_preview(1)
+#@gimp Negative [new] : gimp_emulate_film_negative_new, gimp_emulate_film_negative_new_preview(1)+
 #@gimp : Preset = choice{"None","Fuji 160C","Fuji 400H","Fuji 800Z","Fuji Ilford HP5","Kodak Portra 160","Kodak Portra 400","Kodak Portra 800","Kodak TMAX 3200","Kodak TRI-X 400"}
 #@gimp : Effect = choice(1,"Low","Standard","High","Higher")
 #@gimp : sep = separator()
@@ -24328,7 +24328,7 @@ _gimp_emulate_film_negative_new :
 gimp_emulate_film_negative_new_preview :
   -gimp_split_preview "-gimp_emulate_film_negative_new $*",$-1
 
-#@gimp Negative [old] : gimp_emulate_film_negative_old, gimp_emulate_film_negative_old_preview(1)
+#@gimp Negative [old] : gimp_emulate_film_negative_old, gimp_emulate_film_negative_old_preview(1)+
 #@gimp : Preset = choice{0,"None","Fuji Ilford Delta 3200","Fuji Neopan 1600","Fuji Superia 100","Fuji Superia 400","Fuji Superia 800","Fuji Superia 1600",
 #@gimp : "Kodak Portra 160 NC","Kodak Portra 160 VC","Kodak Portra 400 NC","Kodak Portra 400 UC","Kodak Portra 400 VC"}
 #@gimp : Effect = choice(1,"Low","Standard","High","Higher")
@@ -24363,7 +24363,7 @@ _gimp_emulate_film_negative_old :
 gimp_emulate_film_negative_old_preview :
   -gimp_split_preview "-gimp_emulate_film_negative_old $*",$-1
 
-#@gimp Print films : gimp_emulate_film_print, gimp_emulate_film_print_preview(1)
+#@gimp Print films : gimp_emulate_film_print, gimp_emulate_film_print_preview(1)+
 #@gimp : Preset = choice{"None","Fuji 3510 (Constlclip)","Fuji 3510 (Constlmap)","Fuji 3510 (Cuspclip)",
 #@gimp : "Fuji 3513 (Constlclip)","Fuji 3513 (Constlmap)","Fuji 3513 (Cuspclip)",
 #@gimp : "Kodak 2383 (Constlclip)","Kodak 2383 (Constlmap)","Kodak 2383 (Cuspclip)",
@@ -24394,7 +24394,7 @@ _gimp_emulate_film_print :
 gimp_emulate_film_print_preview :
   -gimp_split_preview "-gimp_emulate_film_print $*",$-1
 
-#@gimp Slide [color] : gimp_emulate_film_colorslide, gimp_emulate_film_colorslide_preview(1)
+#@gimp Slide [color] : gimp_emulate_film_colorslide, gimp_emulate_film_colorslide_preview(1)+
 #@gimp : Preset = choice{"None",
 #@gimp : "Agfa Precisa 100","Fuji Astia 100F","Fuji FP 100C","Fuji Provia 100F","Fuji Provia 400F","Fuji Provia 400X","Fuji Sensia 100",
 #@gimp : "Fuji Superia 200 XPRO","Fuji Velvia 50","Generic Fuji Astia 100","Generic Fuji Provia 100","Generic Fuji Velvia 100",
@@ -24426,7 +24426,7 @@ _gimp_emulate_film_colorslide :
 gimp_emulate_film_colorslide_preview :
   -gimp_split_preview "-gimp_emulate_film_colorslide $*",$-1
 
-#@gimp User-defined : gimp_emulate_film_userdefined, gimp_emulate_film_userdefined(1)
+#@gimp User-defined : gimp_emulate_film_userdefined, gimp_emulate_film_userdefined(1)+
 #@gimp : Specify CLUT as = choice(2,"Top layer","Bottom layer","Filename")
 #@gimp : CLUT filename = file()
 #@gimp : note = note("<small><b>Note:</b> Do not forget to set the <i>Input layers</i> option if you select <i>Top layer</i> or <i>Bottom layer</i>.</small>")
@@ -24451,7 +24451,7 @@ gimp_emulate_film_userdefined :
   -endif
   -_gimp_emulate_film 0,1,${3--1}
 
-#@gimp Various : gimp_emulate_film_various, gimp_emulate_film_various_preview(1)
+#@gimp Various : gimp_emulate_film_various, gimp_emulate_film_various_preview(1)+
 #@gimp : Preset = choice{"None","60's","60's (faded)","60's (faded alt)","Black & White","Color (rich)","Faded","Faded (alt)","Faded (analog)","Faded (extreme)","Faded (vivid)",
 #@gimp : "Hong Kong","Light (blown)","Lomo","Natural (vivid)","Nostalgic","Purple","Retro",
 #@gimp : "Summer","Summer (alt)","Sunny","Sunny (alt)","Sunny (warm)","Sunny (rich)","Super warm","Super warm (rich)","Sutro FX","Vibrant","Vibrant (alien)",
