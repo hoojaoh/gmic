@@ -197,6 +197,7 @@ RELEASE2=`echo $RELEASE0 | head -c2 | tail -c1`
 RELEASE3=`echo $RELEASE0 | head -c3 | tail -c1`
 RELEASE4=`echo $RELEASE0 | head -c4 | tail -c1`
 VERSION=$RELEASE1.$RELEASE2.$RELEASE3.$RELEASE4
+SVERSION=$RELEASE1$RELEASE2$RELEASE3$RELEASE4
 if [ "$1" == "final" ]; then SUFFIX=""; else SUFFIX=_pre; fi
 DIR=/tmp/gmic-${VERSION}${SUFFIX}
 rm -f gmic_${VERSION}${SUFFIX}_*.deb gmic_${VERSION}${SUFFIX}.tar.gz deb_gmic_${VERSION}${SUFFIX}.tar.gz \
@@ -249,9 +250,9 @@ rm -f img/gmic_stdlib*.jpg image.jpg
 ln -s img/tiger.jpg image.jpg
 \gmic -v - ../src/gmic_stdlib.gmic raw:../src/gmic_stdlib.gmic,uchar -document_gmic images,img/
 if [ "$1" == "final" ]; then
-    \gmic -v - ../src/gmic_stdlib.gmic raw:../src/gmic_stdlib.gmic,uchar _version=$VERSION _prerelease= -__help html >& reference.shtml;
+    \gmic -v - ../src/gmic_stdlib.gmic raw:../src/gmic_stdlib.gmic,uchar _prerelease= -__help html >& reference.shtml;
 else
-    \gmic -v - ../src/gmic_stdlib.gmic raw:../src/gmic_stdlib.gmic,uchar _version=$VERSION _prerelease=`date +%m%d%y` -__help html >& reference.shtml;
+    \gmic -v - ../src/gmic_stdlib.gmic raw:../src/gmic_stdlib.gmic,uchar _prerelease=`date +%m%d%y` -__help html >& reference.shtml;
 fi
 rm -f image.jpg
 \gmic ../src/gmic_stdlib.gmic -update_gallery_html
@@ -262,9 +263,9 @@ cd ..
 echo " - Create PDF reference handbook."
 cd html
 if [ "$1" == "final" ]; then
-    \gmic -v - ../src/gmic_stdlib.gmic raw:../src/gmic_stdlib.gmic,uchar _version=$VERSION _prerelease= -__help latex >& reference.tex;
+    \gmic -v - ../src/gmic_stdlib.gmic raw:../src/gmic_stdlib.gmic,uchar _version=$SVERSION _prerelease= -__help latex >& reference.tex;
 else
-    \gmic -v - ../src/gmic_stdlib.gmic raw:../src/gmic_stdlib.gmic,uchar _version=$VERSION _prerelease=`date +%m%d%y` -__help latex >& reference.tex;
+    \gmic -v - ../src/gmic_stdlib.gmic raw:../src/gmic_stdlib.gmic,uchar _version=$SVERSION _prerelease=`date +%m%d%y` -__help latex >& reference.tex;
 fi
 pdflatex reference.tex
 makeindex reference
