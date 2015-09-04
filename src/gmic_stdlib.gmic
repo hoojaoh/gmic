@@ -22223,7 +22223,7 @@ gimp_hsv_equalizer_preview :
     -*[2,-1] -a c -hsv2rgb
   -endif -endl
 
-#@gimp Mixer [RGB] : gimp_mix_rgb, gimp_mix_rgb_preview(1)
+#@gimp Mixer [RGB] : gimp_mix_rgb, gimp_mix_rgb_preview(1)+
 #@gimp : Red contrast = float(1,0,4)
 #@gimp : Red brightness = float(0,-255,255)
 #@gimp : Red smoothness = float(0,0,10)
@@ -22263,7 +22263,7 @@ gimp_mix_rgb :
 gimp_mix_rgb_preview :
   -gimp_split_preview "-gimp_mix_rgb $*",$-1
 
-#@gimp Mixer [YCbCr] : gimp_mix_ycbcr, gimp_mix_ycbcr_preview(1)
+#@gimp Mixer [YCbCr] : gimp_mix_ycbcr, gimp_mix_ycbcr_preview(1)+
 #@gimp : Luminance contrast = float(1,0,4)
 #@gimp : Luminance brightness = float(0,-255,255)
 #@gimp : Luminance smoothness = float(0,0,10)
@@ -22292,7 +22292,7 @@ gimp_mix_ycbcr :
 gimp_mix_ycbcr_preview :
   -gimp_split_preview "-gimp_mix_ycbcr $*",$-1
 
-#@gimp Mixer [HSV] : gimp_mix_hsv, gimp_mix_hsv_preview(1)
+#@gimp Mixer [HSV] : gimp_mix_hsv, gimp_mix_hsv_preview(1)+
 #@gimp : Hue contrast = float(1,0,4)
 #@gimp : Hue brightness = float(0,-180,180)
 #@gimp : Hue smoothness = float(0,0,10)
@@ -22321,7 +22321,7 @@ gimp_mix_hsv :
 gimp_mix_hsv_preview :
   -gimp_split_preview "-gimp_mix_hsv $*",$-1
 
-#@gimp Mixer [Lab] : gimp_mix_lab, gimp_mix_lab_preview(1)
+#@gimp Mixer [Lab] : gimp_mix_lab, gimp_mix_lab_preview(1)+
 #@gimp : Lightness contrast = float(1,0.5,1.5)
 #@gimp : Lightness brightness = float(0,-50,50)
 #@gimp : Lightness smoothness = float(0,0,10)
@@ -22354,7 +22354,7 @@ _gimp_mix_lab :
 gimp_mix_lab_preview :
   -gimp_split_preview "-gimp_mix_lab $*",$-1
 
-#@gimp Mixer [CMYK] : gimp_mix_cmyk, gimp_mix_cmyk_preview(1)
+#@gimp Mixer [CMYK] : gimp_mix_cmyk, gimp_mix_cmyk_preview(1)+
 #@gimp : Cyan contrast = float(1,0,4)
 #@gimp : Cyan brightness = float(0,-255,255)
 #@gimp : Cyan smoothness = float(0,0,10)
