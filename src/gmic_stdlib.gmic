@@ -3630,7 +3630,7 @@ update_server : -skip ${1=$_version},${2=1}
     -_update_server_upload[] /tmp/gimp_update$1.gmic
     -_update_server_upload[] /tmp/update$1.gmic,update.gmic
 
-    (1650,1651) -repeat {w}
+    (1650,1651,1652) -repeat {w}
       -_update_server_upload[] /tmp/gimp_update$1.gmic,cli_update{i[$>]}.gmic
       -_update_server_upload[] /tmp/gimp_update$1.gmic,gimp_update{i[$>]}.gmic
     -done -rm[-1]
@@ -19292,6 +19292,7 @@ gimp_gmicky_preview :
 #@gimp : - <b>08/20/2014</b> : version <i>1.6.0.0</i>.\n
 #@gimp : - <b>06/22/2015</b> : version <i>1.6.5.0</i>.\n
 #@gimp : - <span foreground="purple"><b>09/04/2015</b> : version <i>1.6.5.2</i> (Current stable).</span>\n
+#@gimp : - <b>09/05/2015</b> : version <i>1.6.5.3_pre</i> (Current development version).\n
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : link = link("View latest changelog","https://discuss.pixls.us/t/release-of-gmic-1-6-5-2")
