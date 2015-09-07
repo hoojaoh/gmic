@@ -2613,25 +2613,25 @@ void process_image(const char *const commands_line, const bool is_apply) {
           calibrate_image(img,layer_dimensions(p,3),false);
 
           // New version.
-          std::fprintf(stderr,"\nDEBUG : HAHA!\n");
 
-          GeglBuffer *buffer = gimp_drawable_get_buffer(layers[p]);
-          std::fprintf(stderr,"\nDEBUG : buffer = %p\n",(void*)buffer);
+          int x, y, width, height;
+          gimp_drawable_mask_intersect(layers[p],&x,&y,&width,&height);
+
+          //          GimpDrawable *drawable = gimp_drawable_get(layers[p]);
+          //gimp_drawable_mask_bounds(layers[p],&x1,&y1,&x2,&y2);
+
+
+          //          GeglBuffer *buffer = gimp_drawable_get_buffer(layers[p]);
+
+          GeglBuffer *buffer = gimp_drawable_get_shadow_buffer(layers[p]);
 
           const GeglRectangle *rect = gegl_buffer_get_extent(buffer);
-          std::fprintf(stderr,"\nDEBUG : rect = %p\n",(void*)rect);
-
           GeglBufferIterator *iter = gegl_buffer_iterator_new(buffer,rect,0,
                                                               babl_format("RGBA float"),
                                                               GEGL_ACCESS_WRITE,GEGL_ABYSS_NONE);
-          std::fprintf(stderr,"\nDEBUG : iter = %p\n",(void*)iter);
-
           img.channels(0,3).permute_axes("cxyz");
+          //          img/=255;
           const float *ptrs = img.data();
-
-          std::fprintf(stderr,"\nDEBUG : HOHO!\n");
-          std::exit(0);
-
           while (gegl_buffer_iterator_next(iter)) {
             float *ptrd = (float*)iter->data[0];
             int count = 4*iter->length;
@@ -2654,10 +2654,16 @@ void process_image(const char *const commands_line, const bool is_apply) {
           gimp_layer_set_offsets(layers[p],layer_posx,layer_posy);
           if (verbosity_mode==1) gimp_item_set_name(layers[p],new_label);
           else if (layer_name) gimp_item_set_name(layers[p],layer_name);
-          //gimp_drawable_flush(drawable);
-          //          gimp_drawable_merge_shadow(drawable->drawable_id,true);
-          //          gimp_drawable_update(drawable->drawable_id,x1,y1,x2 - x1,y2 - y1);
-          // gimp_drawable_detach(drawable);
+          /*          gimp_drawable_flush(drawable);
+          gimp_drawable_merge_shadow(drawable->drawable_id,true);
+          gimp_drawable_update(drawable->drawable_id,x1,y1,x2 - x1,y2 - y1);
+          gimp_drawable_detach(drawable);
+          */
+
+          gimp_drawable_merge_shadow(layers[p],true);
+          gimp_drawable_update(layers[p],x,y,width,height);
+          gimp_displays_flush();
+
         } else { // Indirect replacement: create new layers.
           gimp_selection_none(image_id);
 #if GIMP_MINOR_VERSION<=6
@@ -3961,6 +3967,7 @@ bool create_dialog_gui() {
 //--------------------------------------------------
 void gmic_run(const gchar *name, gint nparams, const GimpParam *param,
               gint *nreturn_vals, GimpParam **return_vals) {
+  gegl_init(NULL,NULL);
 
   // Init plug-in variables.
   static GimpParam return_values[1];
