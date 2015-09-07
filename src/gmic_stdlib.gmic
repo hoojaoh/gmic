@@ -19128,7 +19128,7 @@ _gimp_manage_filter_sources :
 #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
-#@gimp : link = link(0,"[47] Sudarshan Chakravarthy","")
+#@gimp : link = link(0,"[47] Sudi","http://www.captivemoment.com")
 #@gimp : link = link(0,"[46] Mahvin","http://www.mahvin.com/")
 #@gimp : link = link(0,"[45] Anonymous","")
 #@gimp : link = link(0,"[44] Olivier Larski","http://harlequin.webcomics.fr/page/episode-1-page-1")
