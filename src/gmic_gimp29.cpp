@@ -2612,58 +2612,26 @@ void process_image(const char *const commands_line, const bool is_apply) {
           CImg<gmic_pixel_type> &img = spt.images[p];
           calibrate_image(img,layer_dimensions(p,3),false);
 
-          // New version.
-
           int x, y, width, height;
-          gimp_drawable_mask_intersect(layers[p],&x,&y,&width,&height);
-
-          //          GimpDrawable *drawable = gimp_drawable_get(layers[p]);
-          //gimp_drawable_mask_bounds(layers[p],&x1,&y1,&x2,&y2);
-
-
-          //          GeglBuffer *buffer = gimp_drawable_get_buffer(layers[p]);
-
-          GeglBuffer *buffer = gimp_drawable_get_shadow_buffer(layers[p]);
-
-          const GeglRectangle *rect = gegl_buffer_get_extent(buffer);
-          GeglBufferIterator *iter = gegl_buffer_iterator_new(buffer,rect,0,
-                                                              babl_format("RGBA float"),
-                                                              GEGL_ACCESS_WRITE,GEGL_ABYSS_NONE);
-          img.channels(0,3).permute_axes("cxyz");
-          //          img/=255;
-          const float *ptrs = img.data();
-          while (gegl_buffer_iterator_next(iter)) {
-            float *ptrd = (float*)iter->data[0];
-            int count = 4*iter->length;
-            while (count--) *(ptrd++) = *(ptrs++);
+          if (gimp_drawable_mask_intersect(layers[p],&x,&y,&width,&height)) {
+            GeglBuffer *buffer = gimp_drawable_get_shadow_buffer(layers[p]);
+            const GeglRectangle *rect = gegl_buffer_get_extent(buffer);
+            GeglBufferIterator *iter = gegl_buffer_iterator_new(buffer,rect,0,
+                                                                babl_format("R'G'B' float"),
+                                                                GEGL_ACCESS_WRITE,GEGL_ABYSS_NONE);
+            img.channels(0,2).permute_axes("cxyz")/=255;
+            gegl_buffer_set(buffer,rect,0,babl_format("R'G'B' float"),img.data(),0);
+            g_object_unref(buffer); // flushes the shadow tiles.
+            img.assign();
+            gimp_drawable_merge_shadow(layers[p],true);
+            gimp_drawable_update(layers[p],x,y,width,height);
+            gimp_displays_flush();
           }
-
-          // Old version.
-          /*
-            GimpDrawable *drawable = gimp_drawable_get(layers[p]);
-            gimp_drawable_mask_bounds(drawable->drawable_id,&x1,&y1,&x2,&y2);
-            gimp_pixel_rgn_init(&region,drawable,x1,y1,x2 - x1,y2 - y1,true,true);
-            convert_image2uchar(img);
-            gimp_pixel_rgn_set_rect(&region,(guchar*)img.data(),x1,y1,x2 - x1,y2 - y1);
-          */
-
-          img.assign();
-
           gimp_layer_set_mode(layers[p],layer_blendmode);
           gimp_layer_set_opacity(layers[p],layer_opacity);
           gimp_layer_set_offsets(layers[p],layer_posx,layer_posy);
           if (verbosity_mode==1) gimp_item_set_name(layers[p],new_label);
           else if (layer_name) gimp_item_set_name(layers[p],layer_name);
-          /*          gimp_drawable_flush(drawable);
-          gimp_drawable_merge_shadow(drawable->drawable_id,true);
-          gimp_drawable_update(drawable->drawable_id,x1,y1,x2 - x1,y2 - y1);
-          gimp_drawable_detach(drawable);
-          */
-
-          gimp_drawable_merge_shadow(layers[p],true);
-          gimp_drawable_update(layers[p],x,y,width,height);
-          gimp_displays_flush();
-
         } else { // Indirect replacement: create new layers.
           gimp_selection_none(image_id);
 #if GIMP_MINOR_VERSION<=6
