@@ -25127,7 +25127,6 @@ gimp_blend_seamless_preview :
 #@gimp : "Vivid light","Xor"}
 #@gimp : Process as = choice("Two-by-two","Upper layer is the top layer for all blends","Lower layer is the bottom layer for all blends")
 #@gimp : Opacity = float(1,0,1)
-#@gimp : Revert layers = bool(0)
 #@gimp : Preview all outputs = bool(1)
 #@gimp : sep = separator(), note = note{"<small><b>Note:</b>
 #@gimp : This filter needs two layers to work properly. Set the <i>Input layers</i> option to handle multiple input layers.
@@ -25141,14 +25140,14 @@ gimp_blend :
        multiply,negation,or,overlay,pinlight,red,reflect,saturation,\
        shapeaverage,shapeaverage0,softburn,softdodge,softlight,screen,stamp,subtract,value,\
        vividlight,xor}
-  -if {$2==0} -repeat {int($!/2)} -l[$>,{$>+1}] -rv -blend $mode,$3,$4 -endl -done # Two-by-two.
-  -elif {$2==1" && "$!>1} -blend[^0] [0],$mode,$3,1 -rm[0]  # Top layer is top for all blends.
-  -elif {$2==2" && "$!>1} -blend[^-1] [-1],$mode,$3,0 -rm[-1] # Bottom layer is bottom for all blends.
+  -if {$2==0} -repeat {int($!/2)} -l[$>,{$>+1}] -rv -blend $mode,$3 -endl -done # Two-by-two.
+  -elif {$2==1" && "$!>1} -blend[^0] [0],$mode,$3,0 -rm[0]  # Top layer is top for all blends.
+  -elif {$2==2" && "$!>1} -blend[^-1] [-1],$mode,$3,1 -rm[-1] # Bottom layer is bottom for all blends.
   -endif
 
 gimp_blend_preview :
   -gimp_blend $*
-  -if $5 -append_tiles , -endif
+  -if $4 -append_tiles , -endif
 
 #@gimp Colors to layers : gimp_split_colors, gimp_split_colors_preview(1)
 #@gimp : Color tolerance = float(50,0,256)
