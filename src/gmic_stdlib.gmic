@@ -4319,11 +4319,11 @@ sort_str :
 #@gmic : $ image.jpg -div '1+abs(cos(x/10)*sin(y/10))'
 #@gmic : $ image.jpg --norm -add[-1] 1 --div
 
-#@gmic divc : [divider_real,divider,_imag],_epsilon>=0
+#@gmic div_complex : [divider_real,divider,_imag],_epsilon>=0
 #@gmic : Perform division of the selected complex pair (real,imag) of images by specified complex pair of images (divider_real,divider_imag).
 #@gmic : In complex pairs, the real image must be placed before the imaginary image.
 #@gmic : Default value: 'epsilon=1e-8'.
-divc : -check ${3=1e-8}>=0
+div_complex : -check ${3=1e-8}>=0
   -e[^-1] "Divide complex pair$? by complex pair $1,$2."
   -v - -repeat {int($!/2)} -pass${1--2} 0 -l[$>,{$>+1},-2,-1]
     --*[1,2] --*[0,3] --[-2,-1] # ac+bd
