@@ -13233,7 +13233,7 @@ _blend_subtract :
 _blend_value :
   -to_color -sh 0,2 -rgb2hsv[2,3] -sh[2] 0,1 -j[1] [4] -rm[4] -hsv2rgb[2,3] -rm[2,3]
 _blend_vividlight :
-  -*[1] 2 --blend burn --[1] 256 --blend[0,1] dodge ->=[1] 0
+  -*[1] 2 --blend burn --[1] 255 --blend[0,1] dodge ->=[1] 0
   -j[2] [3],0,0,0,0,1,[1] -rm[1,3]
 _blend_xor :
   -xor[1] [0]
