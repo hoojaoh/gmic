@@ -548,6 +548,7 @@ _help_usage :
 \n       .' "${g}"v"$n"': screen height (actually independent on the window size).
 \n       . '"${g}"uv"$n"': screen width x screen height.
 \n       . '"${g}"n"$n"': current normalization type of the instant display.
+\n       . '"${g}"t"$n"': window title of the instant display.
 \n       . '"${g}"x"$n"': X-coordinate of the mouse position (or -1, if outside the display area).
 \n       . '"${g}"y"$n"': Y-coordinate of the mouse position (or -1, if outside the display area).
 \n       . '"${g}"b"$n"': state of the mouse buttons { 1=left-but. | 2=right-but. | 4=middle-but. }.
