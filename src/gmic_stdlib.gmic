@@ -21214,7 +21214,7 @@ gimp_pencil_portraitbw :
   -endl -a c -endl -done
 
 gimp_pencil_portraitbw_preview :
-  -gimp_split_preview "-gimp_pencil_portraitbw $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_pencil_portraitbw $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Sketch : gimp_sketchbw, gimp_sketchbw_preview(0)
 #@gimp : Number of orientations = int(2,1,16)
@@ -26350,7 +26350,7 @@ gimp_anisotropic_smoothing :
   -endl -done -c 0,255
 
 gimp_anisotropic_smoothing_preview :
-  -gimp_split_preview "-gimp_anisotropic_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_anisotropic_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [bilateral] : gimp_bilateral, gimp_bilateral_preview(0)
 #@gimp : Spatial variance = float(10,0,100)
@@ -26364,7 +26364,7 @@ gimp_bilateral : -skip ${5=0},${6=0}
   -ac "-gimp_parallel_overlap \"-repeat $3 -bilateral $1,$2 -done\",$5,$6",$4
 
 gimp_bilateral_preview :
-  -gimp_split_preview "-gimp_bilateral $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_bilateral $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [guided] : gimp_blur_guided, gimp_blur_guided_preview(0)
 #@gimp : Radius = int(5,1,100)
@@ -26378,7 +26378,7 @@ gimp_blur_guided : -skip ${5=0},${6=0}
   -ac "-gimp_parallel_overlap \"-repeat $3 -guided $1,$2 -done\",$5,$6",$4
 
 gimp_blur_guided_preview :
-  -gimp_split_preview "-gimp_blur_guided $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_blur_guided $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [diffusion] : gimp_diffusion_smoothing, gimp_diffusion_smoothing_preview(0)
 #@gimp : Sharpness = float(0.7,0,2)
@@ -26395,7 +26395,7 @@ gimp_diffusion_smoothing :
   -ac "-gimp_parallel_overlap \"-smooth $6,$1,$2,$3,$4,$5,0 -c 0,255\",$8,$9",$7
 
 gimp_diffusion_smoothing_preview :
-  -gimp_split_preview "-gimp_diffusion_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_diffusion_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [mean-curvature] : gimp_meancurvature_smoothing, gimp_meancurvature_smoothing_preview(0)
 #@gimp : Time step = float(30,5,50)
@@ -26409,7 +26409,7 @@ gimp_meancurvature_smoothing :
   -ac "-gimp_parallel_overlap \"-meancurvature_flow $2,$1,$3 -c 0,255\",$5,$6",$4
 
 gimp_meancurvature_smoothing_preview :
-  -gimp_split_preview "-gimp_meancurvature_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_meancurvature_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [median] : gimp_median, gimp_median_preview(0)
 #@gimp : Radius = int(3,1,20)
@@ -26421,7 +26421,7 @@ gimp_median :
   -ac "-median $1,$2",$3
 
 gimp_median_preview :
-  -gimp_split_preview "-gimp_median $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_median $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [nlmeans] : gimp_nlmeans, gimp_nlmeans_preview(0)
 #@gimp : Patch size = float(4,0.5,10)
@@ -26447,7 +26447,7 @@ _gimp_nlmeans4 : -if {s>=3} -channels 0,2 -srgb2rgb -rgb2lab -channels 0 -else -
 _gimp_nlmeans5 :
 
 gimp_nlmeans_preview:
-  -gimp_split_preview "-gimp_nlmeans $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_nlmeans $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [patch-based] : gimp_patch_smoothing, gimp_patch_smoothing_preview(0)
 #@gimp : Spatial variance = float(10,0.1,200)
@@ -26465,7 +26465,7 @@ gimp_patch_smoothing :
   -ac "-gimp_parallel_overlap \"-repeat $7 -denoise $1,$2,$3,$4,$5,$6 -done -c 0,255\",$9,$10",$8
 
 gimp_patch_smoothing_preview :
-  -gimp_split_preview "-gimp_patch_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_patch_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [perona-malik] : gimp_peronamalik_smoothing, gimp_peronamalik_smoothing_preview(0)
 #@gimp : K-factor = float(20,0,255)
@@ -26480,7 +26480,7 @@ gimp_peronamalik_smoothing :
   -ac "-gimp_parallel_overlap \"-peronamalik_flow $1,$3,$2,$4 -c 0,255\",$6,$7",$5
 
 gimp_peronamalik_smoothing_preview :
-  -gimp_split_preview "-gimp_peronamalik_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_peronamalik_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [selective gaussian] : gimp_selective_smoothing, gimp_selective_smoothing_preview(0)
 #@gimp : Amplitude = float(5,0,20)
@@ -26495,7 +26495,7 @@ gimp_selective_smoothing :
   -ac "-gimp_parallel_overlap \"-repeat $4 -blur_selective $1,$2,$3 -done -c 0,255\",$6,$7",$5
 
 gimp_selective_smoothing_preview :
-  -gimp_split_preview "-gimp_selective_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_selective_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [skin] : gimp_smooth_skin, gimp_smooth_skin_preview(1)
 #@gimp : note = note("<small><b>Step 1:</b> Skin detection</small>")
@@ -26600,7 +26600,7 @@ gimp_tv_smoothing :
   -ac "-gimp_parallel_overlap \"-tv_flow $2,$1,$3 -c 0,255\",$5,$6",$4
 
 gimp_tv_smoothing_preview :
-  -gimp_split_preview "-gimp_tv_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_tv_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Smooth [wavelets] : gimp_haar_smoothing, gimp_haar_smoothing_preview(0)
 #@gimp : Threshold = float(1,0,10)
@@ -26615,7 +26615,7 @@ gimp_haar_smoothing :
   -ac "-gimp_parallel_overlap \"-denoise_haar $1,$3,$2 -c 0,255\",$5,$6",$4
 
 gimp_haar_smoothing_preview :
-  -gimp_split_preview "-gimp_haar_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),$GMIC_GIMP_TIMEOUT,8)}
+  -gimp_split_preview "-gimp_haar_smoothing $*",$-1,{if(narg($GMIC_GIMP_TIMEOUT),0$GMIC_GIMP_TIMEOUT,8)}
 
 #@gimp Upscale [diffusion] : gimp_upscale_smart, gimp_upscale_smart_preview(0)
 #@gimp : Width = text("200%")
