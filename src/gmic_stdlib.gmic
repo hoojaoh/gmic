@@ -3317,7 +3317,7 @@ update_server : -skip ${1=$_version},${2=1}
   -v -
 
   # Create substitution list to force filters having a particular location.
-  -_update_server_move[] "/Arrays &amp; tiles/Hearts","/Testing/Samj/Arrays &amp; tiles"
+  -_update_server_move[] "/Arrays~&amp;~tiles/Hearts","/Testing/Samj/Arrays~&amp;~tiles"
   -_update_server_move[] "/Artistic/Pastell~art","/Testing/Naggobot"
   -_update_server_move[] "/Artistic/Simple~noise~canvas","/Patterns"
   -_update_server_move[] "/Artistic/Granular~texture","/Testing/Samj/Artistic"
