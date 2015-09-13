@@ -26703,7 +26703,7 @@ gimp_scalenx_preview :
 # $14 = Antialiasing (0 | 1)
 gimp_render3d : -skip ${14=1}
   width={(1+$14)*$1} height={(1+$14)*$2}
-  -n3d -c3d -m3d $13 f3d={0.5*max($width,$height)/tan($7*pi/360)}
+  -n3d -c3d -m3d {round($13)} f3d={0.5*max($width,$height)/tan($7*pi/360)}
   -f3d $f3d -l3d {$8*$f3d},{$9*$f3d},{$10*$f3d} -sl3d $11 -ss3d $12
   -repeat $! -l[$>]
     -*3d {$3*max($width,$height)} -r3d 0,0,1,$6 -r3d 0,1,0,$5 -r3d 1,0,0,$4

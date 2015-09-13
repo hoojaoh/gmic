@@ -216,7 +216,7 @@ echo " - Create 'gmic_stdlib.h' file"
 cd gmic/src/
 cp -f gmic_stdlib.gmic ../html/
 cp -f gmic_stdlib.gmic ../html/gmic_stdlib.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
-make stdlib
+make stdlib CImg.h
 
 if [ "$1" == "final" ]; then
     git tag v.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
