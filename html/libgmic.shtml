@@ -11,7 +11,7 @@
         It is used by all available <b><font color="#000066">G'MIC</font></b> interfaces.
         It is built upon the <a href="http://cimg.eu">CImg Library</a>, a lower-level C++ template image processing library which actually implements
         the core algorithms that <b><font color="#000066">G'MIC</font></b> uses (a.k.a the <i>native commands</i>).
-        Despite its small size (approx. <i>6 MB</i> ), <b>libgmic</b> provides even more image processing operators
+        Despite its small size (approx. <i>5 MB</i> ), <b>libgmic</b> provides even more image processing operators
         than <i>CImg</i>, as well as a simpler <i>API</i>,
         so that anyone can readily integrate all the <b><font color="#000066">G'MIC</font></b> features
         directly into their own code.
