@@ -598,6 +598,8 @@ _help_usage :
 \n          in the set of other values 'a_i'.
 \n       . '"${c}"min()"$n"', '"${c}"max()"$n"', '"${c}"argmin()"$n"', '"${c}"argmax()"$n"', '"${c}"med()"$n"' and '"${c}"kth()"$n"' can be called with
 \n         an arbitrary number of arguments.
+\n       . '"${c}"round(value,rounding_value,direction)"$n"' returns a rounded value.
+\n          'direction' can be "${g}"{ -1=to-lowest | 0=to-nearest | 1=to-highest }"$n".
 \n
 \n    _ "${g}"Variable names"$n" below are pre-defined. They can be overloaded.
 \n       . '"${c}"w"$n"': width of the associated image, if any (0 otherwise).
@@ -618,6 +620,14 @@ _help_usage :
 \n       . '"${c}"g"$n"': a random value, following a gaussian distribution of variance 1
 \n          (roughly in [-5,5]).
 \n       . '"${c}"i"$n"': current processed pixel value (i.e. value located at (x,y,z,c)) of the
+\n          associated image, if any (0 otherwise).
+\n       . '"${c}"R"$n"': first channel value of current processed pixel (i.e. value located at (x,y,z,0)) of the
+\n          associated image, if any (0 otherwise).
+\n       . '"${c}"G"$n"': second channel value of current processed pixel (i.e. value located at (x,y,z,1)) of the
+\n          associated image, if any (0 otherwise).
+\n       . '"${c}"B"$n"': third channel value of current processed pixel (i.e. value located at (x,y,z,2)) of the
+\n          associated image, if any (0 otherwise).
+\n       . '"${c}"A"$n"': fourth channel value of current processed pixel (i.e. value located at (x,y,z,3)) of the
 \n          associated image, if any (0 otherwise).
 \n       . '"${c}"im"$n"','"${c}"iM"$n"','"${c}"ia"$n"','"${c}"iv"$n"','"${c}"is"$n"','"${c}"ip"$n"','"${c}"ic"$n"': Respectively the minimum, maximum, average values,
 \n          variance, sum, product and median value of the associated image, if any (0 otherwise).
