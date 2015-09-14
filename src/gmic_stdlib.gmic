@@ -580,12 +580,13 @@ _help_usage :
 \n       %"$n" (modulo), "$c"^"$n" (power), "$c"!"$n" (logical not), "$c"~"$n" (bitwise not).
 \n
 \n    _ "${g}"Usual functions:"$n" "${c}"sin(), cos(), tan(), asin(), acos(), atan(), atan2(), sinh(), cosh(), tanh(),
-\n       sinc(), hypoth(), abs(), sign(), log(), log2(), log10(), exp(), sqrt(), cbrt(),
+\n       sinc(), hypoth(), abs(), sign(), log(), log2(), log10(), exp(), sqrt(), cbrt(), cut(),
 \n       narg(), arg(), isval(), isnan(), isinf(), isint(), isbool(), isfile(), isdir(), isin(),
 \n       rol()"$n" (left bit rotation), "${c}"ror()"$n" (right bit rotation), "${c}"min(), max(), argmin(), argmax(),
 \n       med(), kth(), round(), int()"$n".
 \n       . '"${c}"atan2(x,y)"$n"' is the version of '"${c}"atan()"$n"' with two arguments 'y' and 'x' (as in C/C++).
 \n       . '"${c}"hypoth(x,y)"$n"' computes the square root of the sum of the squares of x and y.
+\n       . '"${c}"cut(value,min,max)"$n"' returns value if it is in range [min,max], or min or max otherwise.
 \n       . '"${c}"narg(a_1,...,a_N)"$n"' returns the number of specified arguments (here, N).
 \n       . '"${c}"arg(i,a_1,..,a_N)"$n"' returns the ith argument a_i.
 \n       . '"${c}"isval()"$n"', '"${c}"isnan()"$n"', '"${c}"isinf()"$n"', '"${c}"isint()"$n"', '"${c}"isbool()"$n"' test the type of
