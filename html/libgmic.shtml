@@ -24,7 +24,7 @@
       <ul>
         <li>
           The header file <tt style="font-family:monospace;"><a href="https://forge.greyc.fr/projects/gmic/repository/revisions/master/entry/src/gmic.h">gmic.h</a></tt>
-          which contains the declarations of the classes and methods allowing to use the <b>libgmic</b>library.
+          which contains the declarations of the classes and methods allowing to use the <b>libgmic</b> library.
           This file needs to be included by your source code.
         </li>
         <li>
