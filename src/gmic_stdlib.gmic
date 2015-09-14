@@ -270,7 +270,7 @@ _help_usage :
 \n  - "${-GMIC}" defines a set of various commands and substitution mechanisms to allow the design
 \n     of complex pipelines managing this list of images, in a very flexible way:
 \n     You can insert or remove images in the list, rearrange image indices, process images
-\n     (individually or as a group), merge image data together and output image files.
+\n     (individually or grouped), merge image data together, display and output image files...
 \n  - Such a pipeline can be written itself as a custom "${-GMIC}" command storable in a user
 \n     command file, and can be re-used afterwards in another bigger pipeline if necessary."
 
@@ -307,10 +307,10 @@ _help_usage :
 \n     right. For instance, the expression:
 \n\n       "${c}"filename.jpg -blur 3,0 -sharpen 10 -resize 200%,200% -output output.jpg"$n"\n
 \n     defines a valid pipeline composed of nine "${-GMIC}" items.
-\n  - Each "${-GMIC}" item is a string which represents either a command, a sequence of
+\n  - Each "${-GMIC}" item is a string which represents either a command, a list of
 \n     command arguments, a filename, or a special input string.
 \n  - Escape characters '"$g"\\"$n"' and double quotes '"$g"\""$n"' can be used to define items containing
-\n     spaces or special characters. For instance, the two strings
+\n     spaces or other special characters. For instance, the two strings
 \n     '"${c}"single\\ item"$n"' and '"${c}"\"single item\""$n"' define the same single item, with a space in it."
 
   -_help_section "Input data items"
