@@ -586,7 +586,7 @@ _help_usage :
 \n       med(), kth(), round(), int()"$n".
 \n       . '"${c}"atan2(x,y)"$n"' is the version of '"${c}"atan()"$n"' with two arguments 'y' and 'x' (as in C/C++).
 \n       . '"${c}"hypoth(x,y)"$n"' computes the square root of the sum of the squares of x and y.
-\n       . '"${c}"gauss(x,sigma)"$n"' returns 'exp(-x^2/(2*s^2))/sqrt(2*pi*sigma^2)'.
+\n       . '"${c}"gauss(x,_sigma)"$n"' returns 'exp(-x^2/(2*s^2))/sqrt(2*pi*sigma^2)'.
 \n       . '"${c}"cut(value,min,max)"$n"' returns value if it is in range [min,max], or min or max otherwise.
 \n       . '"${c}"narg(a_1,...,a_N)"$n"' returns the number of specified arguments (here, N).
 \n       . '"${c}"arg(i,a_1,..,a_N)"$n"' returns the ith argument a_i.
@@ -597,7 +597,7 @@ _help_usage :
 \n       . '"${c}"isin(v,a_1,...,a_n)"$n"' returns "${g}"0 (false)"$n" or "${g}"1 (true)"$n" whether the first value 'v' appears
 \n          in the set of other values 'a_i'.
 \n       . '"${c}"min()"$n"', '"${c}"max()"$n"', '"${c}"argmin()"$n"', '"${c}"argmax()"$n"', '"${c}"med()"$n"' and '"${c}"kth()"$n"' can be called with
-\n         an arbitrary number of arguments.
+\n          an arbitrary number of arguments.
 \n       . '"${c}"round(value,rounding_value,direction)"$n"' returns a rounded value.
 \n          'direction' can be "${g}"{ -1=to-lowest | 0=to-nearest | 1=to-highest }"$n".
 \n
@@ -616,7 +616,7 @@ _help_usage :
 \n       . '"${c}"c"$n"': current processed channel of the associated image, if any (0 otherwise).
 \n       . '"${c}"e"$n"': value of e, i.e. 2.71828..
 \n       . '"${c}"pi"$n"': value of pi, i.e. 3.1415926..
-\n       . '"$c"?"$n"' or '"${c}"u"$n"': a random value between [0,1], following a uniform distribution.
+\n       . '"${c}"u"$n"': a random value between [0,1], following a uniform distribution.
 \n       . '"${c}"g"$n"': a random value, following a gaussian distribution of variance 1
 \n          (roughly in [-5,5]).
 \n       . '"${c}"i"$n"': current processed pixel value (i.e. value located at (x,y,z,c)) of the
@@ -649,8 +649,8 @@ _help_usage :
 \n    _ The following "${g}"specific functions"$n" are also defined:
 \n       . '"${c}"normP(u1,...,un)"$n"' computes the LP-norm of the specified vector
 \n         (P being an "${g}"unsigned integer"$n" or '"${g}"inf"$n"').
-\n       . '"$c"?(max)"$n"' or '"$c"?(min,max)"$n"': return a random value between "$g"[0,max]"$n" or "$g"[min,max]"$n",
-\n          following a uniform distribution. '"${c}"u(max)"$n"' and '"${c}"u(0,max)"$n"' mean the same.
+\n       . '"$c"u(max)"$n"' or '"$c"u(min,max)"$n"': return a random value between "$g"[0,max]"$n" or "$g"[min,max]"$n",
+\n          following a uniform distribution.
 \n       . '"${c}"i(_a,_b,_c,_d,_interpolation,_boundary)"$n"': return the value of the pixel located
 \n          at position "$g"(a,b,c,d)"$n" in the associated image, if any (0 otherwise).
 \n          Interpolation parameter can be "$c"{ 0=nearest neighbor | other=linear }"$n".
@@ -820,7 +820,7 @@ _help_examples :
 \n     "${c}"gmic 1000,1,1,2 -f \"X=3*(x-500)/500;X^2*sin(3*X^2)+if(c==0,u(0,-1),cos(X*10))\" -plot"$n"
 \n
 \n  - Plot a 3d elevated function in random colors:
-\n     "${c}"gmic 128,128,1,3,\"?(0,255)\" -plasma 10,3 -blur 4 -sharpen 10000 \\\
+\n     "${c}"gmic 128,128,1,3,\"u(0,255)\" -plasma 10,3 -blur 4 -sharpen 10000 \\\
 \n      -elevation3d. \"'X=(x-64)/6;Y=(y-64)/6;100*exp(-(X^2+Y^2)/30)*abs(cos(X)*sin(Y))'\""$n"
 \n
 \n  - Plot the isosurface of a 3d volume:
@@ -831,7 +831,7 @@ _help_examples :
 \n      -blur 1 -elevation3d -0.1 -md3d 4"$n"
 \n
 \n  - Generate a 3d ring of torii:
-\n     "${c}"gmic -repeat 20 -torus3d 15,2 -color3d. \"{?(60,255)},{?(60,255)},{?(60,255)}\" \\\
+\n     "${c}"gmic -repeat 20 -torus3d 15,2 -color3d. \"{u(60,255)},{u(60,255)},{u(60,255)}\" \\\
 \n      -*3d. 0.5,1 -if \"{$>%2}\" -r3d. 0,1,0,90 -endif -+3d. 70 -+3d \\\
 \n      -r3d 0,0,1,18 -done -md3d 3 -m3d 5 -db3d 0"$n"
 \n
@@ -1331,7 +1331,7 @@ dg : -check "${1=640}>32 && ${2=480}>32" -skip ${3=1},${4=0},${5=0},${6=0},${7=0
 #@gmic : 'vertex_type' can be { 0=none | 1=points | 2,3=crosses | 4,5=circles | 6,7=squares }.
 #@gmic : 'xmin','xmax','ymin','ymax' set the coordinates of the displayed xy-axes.
 #@gmic : Default values: 'width=640', 'height=480', 'plot_type=1', 'vertex_type=1', 'xmin=xmax=ymin=ymax=0 (auto)', 'xlabel="x-axis"' and 'ylabel="y-axis"'.
-#@gmic : $ 128,1,1,1,'cos(x/10+?)' --display_graph 400,300,3
+#@gmic : $ 128,1,1,1,'cos(x/10+u)' --display_graph 400,300,3
 display_graph : -check "${1=640}>32 && ${2=480}>32" -skip ${3=1},${4=0},${5=0},${6=0},${7=0},${8=0},"${9=x-axis}","${10=y-axis}"
   -_display_graph ${1-8},"$9","$10"
 
@@ -1428,7 +1428,7 @@ _display_histogram : -check "${1=512}>0 && ${2=300}>0 && ${3=256}>0" -skip ${4=0
 #@gmic : as the actual drawing opacity.
 #@gmic : Default values: 'width=512', 'height=width', 'outline_opacity=3', 'vertex_radius=0', 'is_antialiased=1', 'is_decorated=1', 'xlabel="x-axis"' and 'ylabel="y-axis"'.
 #@gmic : $ 1024,1,1,2,'t=x/40;if(c==0,sin(t),cos(t))*(exp(cos(t))-2*cos(4*t)-sin(t/12)^5)' -display_parametric 512,512
-#@gmic : $ 1000,1,1,2,?(-100,100) -quantize 4,1 -noise 12 -channels 0,2 --normalize 0,255 -append c -display_parametric 512,512,0.1,8
+#@gmic : $ 1000,1,1,2,u(-100,100) -quantize 4,1 -noise 12 -channels 0,2 --normalize 0,255 -append c -display_parametric 512,512,0.1,8
 display_parametric : -check "${1=512}>0 && ${2=$1}>0 && ${4=0}>=0" -skip ${3=3},${5=1},${6=1},"${7=x-axis}","${8=y-axis}"
   -v - s0="no " s1="" o0="" o1="colored "
   -v + -e[^-1] "Render $1x$2 parametric graph plot from data of image$?, with "${o{$3>1}}"outline opacity "{if($3>1,$3-1,$3)}\
@@ -1497,7 +1497,7 @@ dp :
 #@gmic : 'outline_type' can be { r<0=dots with radius -r | 0=no outline | r>0=lines+dots with radius r }.
 #@gmic : 'fill_color' can be { -1=no fill | R,G,B=fill with specified color }.
 #@gmic : Default values: 'width=500', 'height=width', 'outline_type=1', 'fill_R=fill_G=fill_B=200', 'theta_start=0', 'theta_end=360', 'xlabel="x-axis"' and 'ylabel="y-axis"'.
-#@gmic : $ 300,1,1,1,'0.3+abs(cos(10*pi*x/w))+?(0.4)' -display_polar 512,512,4,200,255,200
+#@gmic : $ 300,1,1,1,'0.3+abs(cos(10*pi*x/w))+u(0.4)' -display_polar 512,512,4,200,255,200
 #@gmic : $ 3000,1,1,1,'x^3/1e10' -display_polar 400,400,1,-1,,,0,{15*360}
 display_polar :
   -v - _gmic_s="$?" -v +
@@ -4089,7 +4089,7 @@ _update_tutorial_html :
   -o raw:$3,char
   # -x "git add $3"
   -rm
-  -wait {5000+?(2000)}
+  -wait {5000+u(2000)}
   -v +
 
 #@gmic v : eq. to '-verbose'. : (+)
@@ -5002,7 +5002,7 @@ roundify : -check $1>=0
 #@gmic : If specified coordinates are outside the image bounds, no action is performed.
 #@gmic : Default values: 'x=y=z=c=0'.
 #@gmic : $ 2,2 -set 1,0,0 -set 2,1,0 -set 3,0,1 -set 4,1,1
-#@gmic : $ image.jpg -repeat 10000 -set 255,{?(100)}%,{?(100)}%,0,{?(100)}% -done
+#@gmic : $ image.jpg -repeat 10000 -set 255,{u(100)}%,{u(100)}%,0,{u(100)}% -done
 
 #@gmic threshold : value[%],_is_soft={ 0 | 1 } : (no arg) : (+)
 #@gmic : Threshold values of selected images.
@@ -5911,9 +5911,9 @@ to_rgba :
 #@gmic : $ image.jpg --rand 0,255 --transfer_colors[0] [1],1
 transfer_colors : -skip ${1=0}
   -e[^-1] "Transfer colors of image $1 to image$?."
-  -v - -pass$1 0 -mv. 0 -to_rgb[0] -to_colormode[^0] {max(3,${-max_s})} -c 0,255      # Convert all images to RGB[A]
-  -repeat $! -l[$>] -split_opacity -rgb2ycbcr[0] -a c -endl -done    # Perform RGB[A] to YCbCr[A] conversion.
-  -l[0] -s c -histogram_cumul 256,1,0,255 -a c -* 255 -endl          # Compute channel-by-channel cumulative histogram of target image.
+  -v - -pass$1 0 -mv. 0 -to_rgb[0] -to_colormode[^0] {max(3,${-max_s})} -c 0,255   # Convert all images to RGB[A]
+  -repeat $! -l[$>] -split_opacity -rgb2ycbcr[0] -a c -endl -done                  # Perform RGB[A] to YCbCr[A] conversion.
+  -l[0] -s c -histogram_cumul 256,1,0,255 -a c -* 255 -endl                        # Compute channel-by-channel cumulative histogram of target image.
   -repeat {$!-1} -l[0,{$<+1}]
     -if $1 -repeat 3 -sh[0,1] $>,$> -equalize. 256,0,255 -index. [-2],0,0 -rm[-2,-1] -done         # Transfer brightness + colors.
     -else -repeat 2 -sh[0,1] {$>+1},{$>+1} -equalize. 256,0,255 -index. [-2],0,0 -rm[-2,-1] -done  # Transfer colors only.
@@ -7119,9 +7119,9 @@ denoise_haar : -check "${1=1.4}>=0 && isint(${2=0}) && $2>=0 && isint(${3=10}) &
     -r {round(w,2^($nb_scales+1),1)},{round(h,2^($nb_scales+1),1)},{if(d==1,1,round(d,2^($nb_scales+1),1))},100%,0,0
     --f 0
     -repeat $3
-      dx={round(?(0,{4*$nb_scales}))}
-      dy={round(?(0,{4*$nb_scales}))}
-      dz={if($d==1,0,round(?(0,{4*$nb_scales})))}
+      dx={round(u(0,{4*$nb_scales}))}
+      dy={round(u(0,{4*$nb_scales}))}
+      dz={if($d==1,0,round(u(0,{4*$nb_scales})))}
       --shift[0] $dx,$dy,$dz,0,2
       -haar. $nb_scales
       -threshold. {$1*$sigma},1
@@ -7464,8 +7464,8 @@ iee :
       --g xy,0 -hessian... xxxyyy         # ixx ixy iyy ix iy
       -*... [-2] -*[-4] [-1] -*[-4] -2    # ixx -2iyixy ixiyy ix iy
       -+[-4,-3] -*... [-2]                # ixx -2ixiyixy+ix^2iyy ix iy
-      -sqr[-2,-1] -*[-4] [-1] -+[-4,-3]    # iy^2ixx-2ixiyixy+ix^2iyy ix^2 iy^2
-      -+[-2,-1] -+. 1e-8 -/                # (iy^2ixx+2ixiyixy+ix^2iyy)/(ix^2+iy^2)
+      -sqr[-2,-1] -*[-4] [-1] -+[-4,-3]   # iy^2ixx-2ixiyixy+ix^2iyy ix^2 iy^2
+      -+[-2,-1] -+. 1e-8 -/               # (iy^2ixx+2ixiyixy+ix^2iyy)/(ix^2+iy^2)
     -else
       --inn -laplacian.. --
     -endif
@@ -8031,9 +8031,9 @@ syntexturize : -check "${1=100%}>0 && ${2=$1}>0"
     # Compute coherent random phase.
     100%,100% -rand. {-pi},{pi}
     -=. 0
-    -if {!(w%2)} -=. {(?<0.5)*pi},{int(w/2)} -endif
-    -if {!(h%2)} -=. {(?<0.5)*pi},0,{int(h/2)} -endif
-    -if {!(h%2)&&!(h%2)} -=. {(?<0.5)*pi},{int(w/2)},{int(h/2)} -endif
+    -if {!(w%2)} -=. {(u<0.5)*pi},{int(w/2)} -endif
+    -if {!(h%2)} -=. {(u<0.5)*pi},0,{int(h/2)} -endif
+    -if {!(h%2)&&!(h%2)} -=. {(u<0.5)*pi},{int(w/2)},{int(h/2)} -endif
 
     # Add random phase to fft of input image.
     --sin. -cos..
@@ -8453,7 +8453,7 @@ patches : -check "isint($1) && $1>0 && isint($2) && $2>0 && isint($3) && $3>0"
 
 #@gmic plot2value
 #@gmic : Retrieve values from selected 2d graph plots.
-#@gmic : $ 400,300,1,1,'if(y>300*abs(cos(x/10+2*?)),1,0)' --plot2value --display_graph. 400,300
+#@gmic : $ 400,300,1,1,'if(y>300*abs(cos(x/10+2*u)),1,0)' --plot2value --display_graph. 400,300
 plot2value :
   -e[^-1] "Retrieve values from 2d graph plot$?."
   -v - -repeat $! -l[$>]
@@ -8803,7 +8803,7 @@ cie1931 :
 #@gmic : even if a color is specified. If a pattern is specified, the circle is
 #@gmic : drawn outlined instead of filled.
 #@gmic : Default values: 'opacity=1', 'pattern=(undefined)' and 'color1=0'.
-#@gmic : $ image.jpg -repeat 300 -circle {?(100)}%,{?(100)}%,{?(30)},0.3,${-RGB} -done -circle 50%,50%,100,0.7,255
+#@gmic : $ image.jpg -repeat 300 -circle {u(100)}%,{u(100)}%,{u(30)},0.3,${-RGB} -done -circle 50%,50%,100,0.7,255
 circle : -skip ${4=1},${5=0}
   -v - ({'"$5"'},0) is_pattern={{[0,1]}'=='{'0x'}} -rm. -v +
   -if $is_pattern
@@ -8820,12 +8820,12 @@ circle : -skip ${4=1},${5=0}
 #@gmic : even if a color is specified. If a pattern is specified, the ellipse is
 #@gmic : drawn outlined instead of filled.
 #@gmic : Default values: 'opacity=1', 'pattern=(undefined)' and 'color1=0'.
-#@gmic : $ image.jpg -repeat 300 -ellipse {?(100)}%,{?(100)}%,{?(30)},{?(30)},{?(180)},0.3,${-RGB} -done -ellipse 50%,50%,100,100,0,0.7,255
+#@gmic : $ image.jpg -repeat 300 -ellipse {u(100)}%,{u(100)}%,{u(30)},{u(30)},{u(180)},0.3,${-RGB} -done -ellipse 50%,50%,100,100,0,0.7,255
 
 #@gmic flood : x[%],_y[%],_z[%],_tolerance>=0,_is_high_connectivity={ 0 | 1 },_opacity,_color1,.. : (+)
 #@gmic : Flood-fill selected images using specified value and tolerance.
 #@gmic : Default values: 'y=z=0', 'tolerance=0', 'is_high_connectivity=0', 'opacity=1' and 'color1=0'.
-#@gmic : $ image.jpg -repeat 1000 -flood {?(100)}%,{?(100)}%,0,20,0,1,${-RGB} -done
+#@gmic : $ image.jpg -repeat 1000 -flood {u(100)}%,{u(100)}%,0,20,0,1,${-RGB} -done
 
 #@gmic gaussian : _sigma1[%],_sigma2[%],_angle
 #@gmic : Draw a centered gaussian on selected images, with specified standard deviations and orientation.
@@ -8928,7 +8928,7 @@ grid : -check "$1>=0 && $2>=0" -skip ${3=0},${4=0},${5=1},${6=0}
 #@gmic : 'pattern' is an hexadecimal number starting with '0x' which can be omitted
 #@gmic : even if a color is specified.
 #@gmic : Default values: 'opacity=1', 'pattern=(undefined)' and 'color1=0'.
-#@gmic : $ image.jpg -repeat 500 -line 50%,50%,{?(w)},{?(h)},0.5,${-RGB} -done -line 0,0,100%,100%,1,0xCCCCCCCC,255 -line 100%,0,0,100%,1,0xCCCCCCCC,255
+#@gmic : $ image.jpg -repeat 500 -line 50%,50%,{u(w)},{u(h)},0.5,${-RGB} -done -line 0,0,100%,100%,1,0xCCCCCCCC,255 -line 100%,0,0,100%,1,0xCCCCCCCC,255
 
 #@gmic mandelbrot : z0r,z0i,z1r,z1i,_iteration_max>=0,_is_julia={ 0 | 1 },_c0r,_c0i,_opacity : (+)
 #@gmic : Draw mandelbrot/julia fractal on selected images.
@@ -8954,7 +8954,7 @@ marble : -skip ${1=0.2},${2=0.1},${3=45},${4=0},${5=0.4},${6=0.8},${7=0.6},${8=1
 maze : -check "isint(${1=15}) && $1>0 && isint(${2=$1}) && $2>0 && isint(${3=24}) && $3>0"
   -e[^-1] "Input $1x$2 maze."
   -v -
-  ({round(?($1-1))},{round(?($2-1))})  # Starting cell.
+  ({round(u($1-1))},{round(u($2-1))})  # Starting cell.
   $1,$2,1,1,15 --f. 0 -a[-2,-1] c   # Starting maze data.
   -_generate_maze $1,$2
   -_render_maze. $3 -nm. [maze]
@@ -8974,7 +8974,7 @@ _generate_maze :
     left=-1 -if {i($x,$y)&2" && "$x>0" && "!i($x-1,$y,0,1)} left={$x-1},$y,2 is_candidate=1 -endif      # Left.
     right=-1 -if {i($x,$y)&1" && "$x<$1-1" && "!i($x+1,$y,0,1)} right={$x+1},$y,1 is_candidate=1 -endif # Right.
     -if $is_candidate
-      ($up,$down,$left,$right) -discard. -1 -r. 3,{h/3},1,1,-1 -shift. 0,{round(?(4))},0,0,2 -rows. 0,0 -mv. -2
+      ($up,$down,$left,$right) -discard. -1 -r. 3,{h/3},1,1,-1 -shift. 0,{round(u(4))},0,0,2 -rows. 0,0 -mv. -2
     -endif
 
     # Remove wall between the current and chosen neighboring cells.
@@ -9069,9 +9069,9 @@ pack_sprites : -check "isint(${1=5}) && $1>=0 && ${2=25}>=0 && $2<=100 && isint(
       # Compute reference sprite.
       ind={1+($>%$N)} area=${area$ind}
       -if {$3==0} [$ind]
-      -elif {$3==1} --rotate[$ind] {round(?)*180}
-      -elif {$3==2} --rotate[$ind] {round(?(3))*90}
-      -else --rotate[$ind] {?*360} -sh. 100%,100% -!=. 0 area={is} -rm.
+      -elif {$3==1} --rotate[$ind] {round(u)*180}
+      -elif {$3==2} --rotate[$ind] {round(u(3))*90}
+      -else --rotate[$ind] {u*360} -sh. 100%,100% -!=. 0 area={is} -rm.
       -endif
 
       # Get binary map of possible locations.
@@ -9105,14 +9105,14 @@ pack_sprites : -check "isint(${1=5}) && $1>=0 && ${2=25}>=0 && $2<=100 && isint(
           --channels.. 100% -i.. (-128;{w};{h};{s})
           -if {$n>1} [-3] -endif
         -elif {$3==1} # 180 deg. rotation allowed.
-          --rotate[-6] {round(?(1))*180} -i.. (-128;{w};{h};{s})
+          --rotate[-6] {round(u(1))*180} -i.. (-128;{w};{h};{s})
           -if {$n>1} --rotate. 180 -i.. (-128;{w};{h};{s}) -endif
           -if {$n>2} 4,{$n-2},1,1,-128,0,0,0 1,100% -rand. 0,1 -round. 1 -j.. [-1],1 -rm. -endif
           --channels[-4] 100% -i.. (-128;{w};{h};{s})
           -if {$n>1} --channels[-4] 100% -i.. (-128;{w};{h};{s}) -endif
           -if {$n>2} [-5] -endif
         -else # 90 deg. rotation (or more) allowed.
-          --rotate[-6] {round(?(3))*90} -i.. (-128;{w};{h};{s})
+          --rotate[-6] {round(u(3))*90} -i.. (-128;{w};{h};{s})
           -if {$n>1} --rotate. 90 -i.. (-128;{w};{h};{s}) -endif
           -if {$n>2} --rotate. 90 -i.. (-128;{w};{h};{s}) -endif
           -if {$n>3} --rotate. 90 -i.. (-128;{w};{h};{s}) -endif
@@ -9190,7 +9190,7 @@ piechart : -check $1>=0
 #@gmic point : x[%],y[%],_z[%],_opacity,_color1,.. : (+)
 #@gmic : Set specified colored pixel on selected images.
 #@gmic : Default values: 'z=0', 'opacity=1' and 'color1=0'.
-#@gmic : $ image.jpg -repeat 10000 -point {?(100)}%,{?(100)}%,0,1,${-RGB} -done
+#@gmic : $ image.jpg -repeat 10000 -point {u(100)}%,{u(100)}%,0,1,${-RGB} -done
 
 #@gmic polka_dots : diameter>=0,_density,_offset1,_offset2,_angle,_aliasing,_shading,_opacity,_color,...
 #@gmic : Draw dots pattern on selected images.
@@ -9217,7 +9217,7 @@ polka_dots : -check $1>=0 -skip ${2=20},${3=50},${4=50},${5=0},${6=10},${7=1},${
 #@gmic : drawn outlined instead of filled.
 #@gmic : Default values: 'opacity=1', 'pattern=(undefined)' and 'color1=0'.
 #@gmic : $ image.jpg -polygon 4,20%,20%,80%,30%,80%,70%,20%,80%,0.3,0,255,0 -polygon 4,20%,20%,80%,30%,80%,70%,20%,80%,1,0xCCCCCCCC,255
-#@gmic : $ image.jpg 2,16,1,1,'?(if(x,{h},{w}))' -polygon.. {h},{^},0.6,255,0,255 -remove.
+#@gmic : $ image.jpg 2,16,1,1,'u(if(x,{h},{w}))' -polygon.. {h},{^},0.6,255,0,255 -remove.
 
 #@gmic quiver : [function_image],_sampling>0,_factor,_is_arrow={ 0 | 1 },_opacity,_pattern,_color1,.. : (+)
 #@gmic : Draw specified 2d vector/orientation field on selected images.
@@ -9234,7 +9234,7 @@ polka_dots : -check $1>=0 -skip ${2=20},${3=50},${4=50},${5=0},${6=10},${7=1},${
 #@gmic : even if a color is specified. If a pattern is specified, the rectangle is
 #@gmic : drawn outlined instead of filled.
 #@gmic : Default values: 'opacity=1', 'pattern=(undefined)' and 'color1=0'.
-#@gmic : $ image.jpg -repeat 30 -rectangle {?(100)}%,{?(100)}%,{?(100)}%,{?(100)}%,0.3,${-RGB} -done
+#@gmic : $ image.jpg -repeat 30 -rectangle {u(100)}%,{u(100)}%,{u(100)}%,{u(100)}%,0.3,${-RGB} -done
 rectangle : -skip ${5=1},${6=0}
   -v - ({'"$5"'},0) is_pattern={{[0,1]}'=='{'0x'}} -rm. -v +
   -if $is_pattern
@@ -9326,7 +9326,7 @@ spiralbw :
 #@gmic spline : x0[%],y0[%],u0[%],v0[%],x1[%],y1[%],u1[%],v1[%],_nb_vertices>=2,_opacity,_color1,..
 #@gmic : Draw specified colored spline curve on selected images (cubic hermite spline).
 #@gmic : Default values: 'nb_vertices=256', 'opacity=1' and 'color1=0'.
-#@gmic : $ image.jpg -repeat 30 -spline {?(100)}%,{?(100)}%,{?(-600,600)},{?(-600,600)},{?(100)}%,{?(100)}%,{?(-600,600)},{?(-600,600)},256,0.3,255 -done
+#@gmic : $ image.jpg -repeat 30 -spline {u(100)}%,{u(100)}%,{u(-600,600)},{u(-600,600)},{u(100)}%,{u(100)}%,{u(-600,600)},{u(-600,600)},256,0.3,255 -done
 spline : -skip ${9=256},${10=1},${11=0}
   -e[^-1] "Draw spline from ($1,$2) [$3,$4] to ($5,$6) [$7,$8] on image$?, with $9 vertices, opacity $10 and color (${11--1})."
   -v -
@@ -9483,7 +9483,7 @@ yinyang :
 
 #@gmic svd : (+)
 #@gmic : Compute SVD decomposition of selected matrices.
-#@gmic : $ 10,10,1,1,'if(x==y,x+?(-0.2,0.2),0)' --svd
+#@gmic : $ 10,10,1,1,'if(x==y,x+u(-0.2,0.2),0)' --svd
 
 #@gmic transpose
 #@gmic : Transpose selected matrices.
@@ -9511,7 +9511,7 @@ transpose :
 #@gmic : 3d object, or merge all selected 3d objects together.
 #@gmic : (eq. to '-+3d').
 #@gmic : Default values: 'ty=tz=0'.
-#@gmic : $ -sphere3d 10 -repeat 5 --add3d. 10,{?(-10,10)},0 -color3d. ${-RGB} -done -add3d
+#@gmic : $ -sphere3d 10 -repeat 5 --add3d. 10,{u(-10,10)},0 -color3d. ${-RGB} -done -add3d
 #@gmic : $ -repeat 20 -torus3d 15,2 -color3d. ${-RGB} -mul3d. 0.5,1 -if {$>%2} -rotate3d. 0,1,0,90 -endif -add3d. 70 -add3d -rotate3d. 0,0,1,18 -done -double3d 0
 
 #@gmic animate3d : _width>0,_height>0,_angle_dx,_angle_dy,_angle_dz,_zoom_factor>=0,_filename
@@ -9672,7 +9672,7 @@ c3d :
 #@gmic center3d
 #@gmic : Center selected 3d objects at (0,0,0).
 #@gmic : (eq. to '-c3d').
-#@gmic : $ -repeat 100 -circle3d {?(100)},{?(100)},{?(100)},2 -done -add3d -color3d. 255,0,0 --center3d -color3d. 0,255,0 -add3d
+#@gmic : $ -repeat 100 -circle3d {u(100)},{u(100)},{u(100)},2 -done -add3d -color3d. 255,0,0 --center3d -color3d. 0,255,0 -add3d
 center3d :
   -_$0
 
@@ -9930,7 +9930,7 @@ distribution3d :
 #@gmic : When invoked with (no arg) or 'z-factor', the elevation map is computed as the pointwise L2 norm of the
 #@gmic : pixel values. Otherwise, the elevation map is taken from the specified image or formula.
 #@gmic : $ image.jpg -blur 5 -elevation3d 0.5
-#@gmic : $ 128,128,1,3,?(255) -plasma 10,3 -blur 4 -sharpen 10000 -elevation3d. 'X=(x-64)/6;Y=(y-64)/6;100*exp(-(X^2+Y^2)/30)*abs(cos(X)*sin(Y))'
+#@gmic : $ 128,128,1,3,u(255) -plasma 10,3 -blur 4 -sharpen 10000 -elevation3d. 'X=(x-64)/6;Y=(y-64)/6;100*exp(-(X^2+Y^2)/30)*abs(cos(X)*sin(Y))'
 
 #@gmic empty3d
 #@gmic : Input empty 3d object.
@@ -10359,7 +10359,7 @@ n3d :
 #@gmic normalize3d
 #@gmic : Normalize selected 3d objects to unit size.
 #@gmic : (eq. to '-n3d').
-#@gmic : $ -repeat 100 -circle3d {?(3)},{?(3)},{?(3)},0.1 -done -add3d -color3d. 255,0,0 --normalize3d. -color3d. 0,255,0 -add3d
+#@gmic : $ -repeat 100 -circle3d {u(3)},{u(3)},{u(3)},0.1 -done -add3d -color3d. 255,0,0 --normalize3d. -color3d. 0,255,0 -add3d
 normalize3d :
   -_$0
 
@@ -10379,7 +10379,7 @@ _normalize3d :
 #@gmic : Set opacity of selected 3d objects.
 #@gmic : (eq. to '-o3d').
 #@gmic : Default value: 'opacity=1'.
-#@gmic : $ -torus3d 100,10 -double3d 0 -repeat 7 --rotate3d. 1,0,0,20 -opacity3d. {?} -done -add3d
+#@gmic : $ -torus3d 100,10 -double3d 0 -repeat 7 --rotate3d. 1,0,0,20 -opacity3d. {u} -done -add3d
 
 #@gmic parametric3d : _x(a,b),_y(a,b),_z(a,b),_amin,_amax,_bmin,_bmax,_res_a>0,_res_b>0,_res_x>0,_res_y>0,_res_z>0,_smoothness>=0,_isovalue>=0
 #@gmic : Input 3d object from specified parametric surface (x(a,b),y(a,b),z(a,b)).
@@ -10440,8 +10440,8 @@ pca_patch3d : -check "isint(${1=7}) && $1>0 && isint(${2=1000}) && $2>0 && isint
 
     # Pick set of N random located patchs.
     -repeat $3
-      x={round(?({0,w}))}
-      y={round(?({0,h}))}
+      x={round(u({0,w}))}
+      y={round(u({0,h}))}
       ({$6*$x};{$6*$y})
       --z[0] {$x-$P1},{$y-$P1},{$x+$P2},{$y+$P2},1
       -y. -a[-2,-1] y
@@ -10820,7 +10820,7 @@ spherical3d : -check "${1=64}>=3 && ${2=$1}>=3" -skip "${3=abs(1+0.5*cos(3*phi)*
 #@gmic spline3d : x0[%],y0[%],z0[%],u0[%],v0[%],w0[%],x1[%],y1[%],z1[%],u1[%],v1[%],w1[%],_nb_vertices>=2
 #@gmic : Input 3d spline with specified geometry.
 #@gmic : Default values: 'nb_vertices=128'.
-#@gmic : $ -repeat 100 -spline3d {?},{?},{?},{?},{?},{?},{?},{?},{?},{?},{?},{?},128 -color3d. ${-RGB} -done -box3d 1 -primitives3d. 1 -+3d
+#@gmic : $ -repeat 100 -spline3d {u},{u},{u},{u},{u},{u},{u},{u},{u},{u},{u},{u},128 -color3d. ${-RGB} -done -box3d 1 -primitives3d. 1 -+3d
 spline3d : -check ${13=128}>=2
   -e[^-1] "Input new 3d spline from (${1-3}) [${4-6}] to (${7-9}) [${10-12}] with $13 vertices."
   -v -
@@ -10914,7 +10914,7 @@ star3d : -check "${1=5}>0 && ${2=0.38}>=0 && $2<=1"
 #@gmic : Extract 3d streamlines from selected vector fields or from specified formula.
 #@gmic : 'interpolation' can be { 0=nearest integer | 1=1st-order | 2=2nd-order | 3=4th-order }.
 #@gmic : Default values: 'dl=0.1', 'interpolation=2', 'is_backward=0' and 'is_oriented=0'.
-#@gmic : $ 100,100,100,3 -rand -10,10 -blur 3 -repeat 300 --streamline3d[0] {?(100)},{?(100)},{?(100)},1000,1,1 -color3d. ${-RGB} -done -remove[0] -box3d 100 -primitives3d. 1 -add3d
+#@gmic : $ 100,100,100,3 -rand -10,10 -blur 3 -repeat 300 --streamline3d[0] {u(100)},{u(100)},{u(100)},1000,1,1 -color3d. ${-RGB} -done -remove[0] -box3d 100 -primitives3d. 1 -add3d
 
 #@gmic -3d : eq. to '-sub3d'. : (+)
 
@@ -10922,7 +10922,7 @@ star3d : -check "${1=5}>0 && ${2=0.38}>=0 && $2<=1"
 #@gmic : Shift selected 3d objects with the opposite of specified displacement vector.
 #@gmic : (eq. to '--3d').
 #@gmic : Default values: 'ty=tz=0'.
-#@gmic : $ -sphere3d 10 -repeat 5 --sub3d. 10,{?(-10,10)},0 -color3d. ${-RGB} -done -add3d
+#@gmic : $ -sphere3d 10 -repeat 5 --sub3d. 10,{u(-10,10)},0 -color3d. ${-RGB} -done -add3d
 
 #@gmic superformula3d : resolution>1,m>=1,n1,n2,n3
 #@gmic : Input 2d superformula curve as a 3d object.
@@ -11213,7 +11213,7 @@ apply_timeout :
 
 #@gmic do : (+)
 #@gmic : Start a 'do..while' block.
-#@gmic : $ image.jpg -luminance i={ia+2} -do -set 255,{?(100)}%,{?(100)}% -while {ia<$i}
+#@gmic : $ image.jpg -luminance i={ia+2} -do -set 255,{u(100)}%,{u(100)}% -while {ia<$i}
 
 #@gmic done : (+)
 #@gmic : End a 'repeat..done' block, and go to associated '-repeat' position, if iterations remain.
@@ -11409,7 +11409,7 @@ array_random : -skip ${2=$1},${3=$1},${4=$2}
   -e[^-1] "Create $3x$4 array of tiles from $1x$2 array$?."
   -v - -repeat $! -l[$>] nm={0,n}
     -split_tiles $1,$2
-    -repeat $3 -repeat $4 [{?($1*$2-1)}] -done -done
+    -repeat $3 -repeat $4 [{u($1*$2-1)}] -done -done
     -rm[0-{$1*$2-1}] -append_tiles $3,$4
   -nm $nm -endl -done -v +
 
@@ -11904,9 +11904,9 @@ _puzzle :
   -repeat $2
     ({'CImg3d'},$R,{$R-1})
     -repeat $1
-      sign={if(?<=0.5,-1,1)}
-      center={$4*?(-0.25,0.25)}
-      knob={$5*?(-0.05,0.12)}
+      sign={if(u<=0.5,-1,1)}
+      center={$4*u(-0.25,0.25)}
+      knob={$5*u(-0.05,0.12)}
       ($>,0;\
        {0.2+$center+$>},{-$sign*$3*0.1};\
        {0.4+$center+$>},0;\
@@ -11972,7 +11972,7 @@ taquin : -check "isint($1) && $1>0 & isint(${2=$1}) && $2>0" -skip ${3=0},${4=50
    -repeat {$!-1} -l[$>,-1] -split_opacity[0] -+[0] [-1] -a[^-1] c -endl -done -rm. -c 0,255
    -frame $6,$6,${7-10}
    -if {$3==3} -f. 0 -endif
-   -repeat $! -mv[$>] {?($!)} -done
+   -repeat $! -mv[$>] {u($!)} -done
    -if {$3==1} -f[0] 0 -elif {$3==2} -f. 0 -endif
    -append_tiles $1,$2
  -nm $nm -endl -done -v +
@@ -12055,7 +12055,7 @@ cartoon : -skip ${1=3},${2=150},${3=20},${4=0.25},${5=1.5},${6=8}
 #@gmic : $ image.jpg --color_ellipses ,,0.15
 color_ellipses : -skip ${1=1400},${2=5},${3=0.1}
   -e[^-1] "Add $1 random color ellipses to image$?, with maximum radius $2 and opacity $1."
-  -v - -repeat $1 -ellipse {?(0,100)}%,{?(0,100)}%,{?(0,$2)}%,{?(0,$2)}%,{?(0,360)},$3,{?(60,255)},{?(60,255)},{?(60,255)},255 -done -v +
+  -v - -repeat $1 -ellipse {u(0,100)}%,{u(0,100)}%,{u(0,$2)}%,{u(0,$2)}%,{u(0,360)},$3,{u(60,255)},{u(60,255)},{u(60,255)},255 -done -v +
 
 #@gmic cubism : _density>=0,0<=_thickness<=50,_max_angle,_opacity,_smoothness>=0
 #@gmic : Apply cubism effect on selected images.
@@ -12163,7 +12163,7 @@ ellipsionism : -check "${1=10}>0 && ${2=3}>0 && ${5=8}>0 && ${6=0.6}>0" -skip ${
     # Render ellipses.
     [-2],[-2],1,[-2]
     -repeat {$6*w*h/max($1,$2)}
-      xy={?(w)},{?(h)}
+      xy={u(w)},{u(h)}
       -ellipse. $xy,$1,$2,{-2,i($xy)},$4,\
                 {-3,i($xy,0,0)},{-3,i($xy,0,1)},{-3,i($xy,0,2)},{-3,i($xy,0,3)}
       -ellipse. $xy,$1,$2,{-2,i($xy)},$4,0x1,\
@@ -14293,7 +14293,7 @@ file_mv :
 #@gmic : Return a random filename for storing temporary data.
 file_rand :
   -v -
-  -do filename=${-path_tmp}gmic$_pid{round(?(0,9))}{round(?(0,9))}{round(?(0,9))}{round(?(0,9))}{round(?(0,9))}{round(?(0,9))}
+  -do filename=${-path_tmp}gmic$_pid{round(u(0,9))}{round(u(0,9))}{round(u(0,9))}{round(u(0,9))}{round(u(0,9))}{round(u(0,9))}
   -while $filename
   -u $filename
   -v +
@@ -14722,12 +14722,12 @@ reset :
 #@gmic RGB
 #@gmic : Return a random int-valued RGB color.
 RGB :
-  -v - -u {round(?(255))},{round(?(255))},{round(?(255))} -v +
+  -v - -u {round(u(255))},{round(u(255))},{round(u(255))} -v +
 
 #@gmic RGBA
 #@gmic : Return a random int-valued RGBA color.
 RGBA :
-  -v - -u {round(?(255))},{round(?(255))},{round(?(255))},{round(?(255))} -v +
+  -v - -u {round(u(255))},{round(u(255))},{round(u(255))},{round(u(255))} -v +
 
 #@gmic str : string
 #@gmic : Print specified string into its binary, octal, decimal and hexadecimal representations.
@@ -14922,7 +14922,7 @@ demo : -check "isint(${1=2}) && $1>=0 && $1<=2"
 
     # Manage ball animation.
     -if {$|-$time0>5} alpha={$alpha+0.03} -endif
-    -if {$alpha>1} alpha={$alpha-1} cfx=$nfx cfy=$nfy cfz=$nfz nfx={g} nfy={g} nfz={g} time0={$|-?*3} -endif
+    -if {$alpha>1} alpha={$alpha-1} cfx=$nfx cfy=$nfy cfz=$nfz nfx={g} nfy={g} nfz={g} time0={$|-u*3} -endif
   -while {{*}" && "!{*,ESC}" && "!{*,Q}}
   -rm -w 0 -endl -v 0 -e[] ""
 
@@ -14962,7 +14962,7 @@ x_2048 :
   -v - -l[]
   score=0 -f3d 50 -m3d 0
   -m "_x_2048_setrandom : --==[0] 0 -f. 'if(i,4*y+x,-1)' -discard. -1
-      off={i[round(?(h-1))]} -rm. x={$off&3} y={$off>>2} n={if(?<0.75,1,2)}
+      off={i[round(u(h-1))]} -rm. x={$off&3} y={$off>>2} n={if(u<0.75,1,2)}
       -=[0] $n,$x,$y [{2+$n}] -c3d.
       -repeat 6 -j3d[1] [-1],{78+$x*121},{190+$y*121},{10*$<},{(1+$>)/6} -w[1] -wait 20 -done
       -rm."
@@ -15158,7 +15158,7 @@ x_blobs :
         -if {$moving<0} moving=$nearest -endif
         -=[1] $x,0,$moving -=[1] $y,1,$moving
         -else # Insert new blob.
-          ($x,$y,{?(20,50)},{?(-0.3,0.3)},{?(0,pi/2)},{?(0,0.009)},{?(64,255)},{?(64,255)}) -a[^0] y
+          ($x,$y,{u(20,50)},{u(-0.3,0.3)},{u(0,pi/2)},{u(0,0.009)},{u(64,255)},{u(64,255)}) -a[^0] y
           moving={h-1}
         -endif
     -elif {$b&2} # Remove existing blob.
@@ -15188,8 +15188,8 @@ x_bouncing :
   520,320,1,3 -plasma 1,1,9 -n 0,220
   N=12
   -repeat $N
-    -ball[] {round(?(32,80))},${-RGB}
-    t$>={?(200)} x$>={0,?(10,w-10)} h$>={?(150,300)} vx$>={if(?<0.5,1,-1)*?(1,8)}
+    -ball[] {round(u(32,80))},${-RGB}
+    t$>={u(200)} x$>={0,u(10,w-10)} h$>={u(150,300)} vx$>={if(u<0.5,1,-1)*u(1,8)}
   -done
   -mv[0] $! -w. -1,-1,0,"[G"{`39`}"MIC] Bouncing balls"
   (0;0.7;1) -r. {-2,w},70,1,1,3
@@ -15761,14 +15761,14 @@ x_fireworks :
   -do                                               # Start animation loop.
     time={$time-1}
     -if {$!==2\ ||\ $time<0} # Insert new rocket.
-      -i[0] ({?(w)},\        # X-position
+      -i[0] ({u(w)},\        # X-position
              {h},\           # Y-position
-             {?(-3,3)},\     # X-velocity
-             {?(2)-5},\      # Y-velocity
-             {30+?(20)},\    # Time of explosion
+             {u(-3,3)},\     # X-velocity
+             {u(2)-5},\      # Y-velocity
+             {30+u(20)},\    # Time of explosion
              1.5,\           # Radius
              255,255,255)    # Color
-      time={?(20)}           # Elapsed time until next rocket.
+      time={u(20)}           # Elapsed time until next rocket.
     -endif
     -*. 0.99               # Create fading effect with previous frames.
     -j. [-2],0,0,0,0,0.2   # Add background.
@@ -15780,9 +15780,9 @@ x_fireworks :
       ({$i,[2]},{$i,[3]},0,0.09,-1,0,0,0,0) -+[$i,-1] # Compute new position of the rocket.
       -if {{$i,[0]}<0\ ||\ {$i,[0]}>=w\ ||\ {$i,[1]}>=h\ ||\ $radius<0} to_be_removed=1 -endif # Discard if rocket disappear.
       -if {{$i,[4]}<0\ &&\ {$i,[4]}>=-1} # In case of explosion -> Split current rocket into several colorful rockets.
-        color={min(255,80+?(200))},{min(255,80+?(200))},{min(255,80+?(200))}
-        radius={?(10)}
-        N={5+?(10)}
+        color={min(255,80+u(200))},{min(255,80+u(200))},{min(255,80+u(200))}
+        radius={u(10)}
+        N={5+u(10)}
         -repeat $N
           angle={$>*2*pi/$N}
           -i... ({$i,[0,1]},{2*cos($angle)+{$i,[2]}/1.5},{2*sin($angle)+{$i,[3]}/1.5},-2,$radius,$color)
@@ -15817,8 +15817,8 @@ x_fisheye :
   -t "  G\47MIC\nFISH-EYE\n EFFECT",20,13,23,1,255 -scale3x -b 5 -sharpen 1000
   -f i+150-3*abs(y-h/2) -c. 0,255 -frame_fuzzy. 15,10,15,1.5,0 -to_rgb.
   -endif
-  -torus3d 20,6 -col3d. {?(30,255)},{?(30,255)},{?(30,255)} --r3d. 1,0,0,90
-  -col3d. {?(30,255)},{?(30,255)},{?(30,255)} -+3d. 15 -+3d[-2,-1] -*3d. 4 -db3d 0 -c3d.
+  -torus3d 20,6 -col3d. {u(30,255)},{u(30,255)},{u(30,255)} --r3d. 1,0,0,90
+  -col3d. {u(30,255)},{u(30,255)},{u(30,255)} -+3d. 15 -+3d[-2,-1] -*3d. 4 -db3d 0 -c3d.
   R=30
   -w.. {1.25*{-2,w}},{1.25*{-2,h}},0,"[G"{`39`}"MIC] Fish-eye effect"
   -do
@@ -16393,10 +16393,10 @@ x_life :
     --ir. 2,2 -&. [0] -ir.. 3,3 -|[-2,-1]                       # Make the game evolve (kill or create cells).
     -rv[0,-1]                                                   # Update game state.
     -if {{*,x}>0" && "{*,b}==1" && "$stock>0}                   # Add random cells to the game if user presses mouse button.
-      nb={?*7}
+      nb={u*7}
       -repeat $nb
-        x={{*,x}/{*,w}*{0,w}+?(-4,4)}
-        y={{*,y}/{*,h}*{0,h}+?(-3,3)}
+        x={{*,x}/{*,w}*{0,w}+u(-4,4)}
+        y={{*,y}/{*,h}*{0,h}+u(-3,3)}
         -=[0] 1,$x,$y
         -=[1] $iteration,$x,$y
         -point[2] {$x*{2,w}/{0,w}},{$y*{2,h}/{0,h}},0,0.8,255
@@ -16414,10 +16414,10 @@ x_life :
     -endif
 
     -if {{3,w}==1}                                              # Create color palette if necessary.
-      -rm[3] -i[3] {?(3,12)},1,1,3,?(100,255)
-      -r[3] {?(100,300)}%,1,1,3,4
+      -rm[3] -i[3] {u(3,12)},1,1,3,u(100,255)
+      -r[3] {u(100,300)}%,1,1,3,4
       -point[3] 0,0,0,1,0
-      -r[3] {?(100,600)}%,1,1,3,5 -c[3] 0,255
+      -r[3] {u(100,600)}%,1,1,3,5 -c[3] 0,255
     -endif
 
     --r[1] {2,w},{2,h} -&. 7 -b. {1+$score*0.05}                # Render colored image of the game and display it.
@@ -16620,7 +16620,7 @@ x_minesweeper : -check "${1=20}>=8 && $1<=30 && ${2=$1}>=8 && $2<=30"
   # Generate random mine field and player board.
   # Labels : 0=mine, 1=empty, 2='1-near', 3='2-near', ..., 9='8-near', 10=still unknown.
   $1,$2 -noise. 30,2 nb_mines={is} (1,1,1;1,0,1;1,1,1) --convolve.. [-1],0 -rm.. -+. 1 -==.. 0 -*[-2,-1] -nm. field
-  -do x={round(?(w-1))} y={round(?(h-1))} -while {i($x,$y)!=1} # Find a good starting point.
+  -do x={round(u(w-1))} y={round(u(h-1))} -while {i($x,$y)!=1} # Find a good starting point.
   --f[field] 11 -=. 12,$x,$y -nm. board
 
   # Generate sprite graphics.
@@ -16906,9 +16906,9 @@ x_pacman :
         -endif
 
         -if {!($xg&15)" && "!($yg&15)} # Check if ghost can take a new direction.
-          ({?},{?},{?},{?};0,1,2,3)
+          ({u},{u},{u},{u};0,1,2,3)
           -if {$mg<2}
-            -=. {?(0.6,1)},{if($mg==0,dX0=$xp-$xg;dY0=$yp-$yg;if(abs(dX0)>abs(dY0),if(dX0>0,0,2),if(dY0>0,1,3)),\ # Try to chase pacman.
+            -=. {u(0.6,1)},{if($mg==0,dX0=$xp-$xg;dY0=$yp-$yg;if(abs(dX0)>abs(dY0),if(dX0>0,0,2),if(dY0>0,1,3)),\ # Try to chase pacman.
                                       dX1=$xp-$xg;dY1=$yp-$yg;if(abs(dX1)<abs(dY1),if(dX1>0,2,0),if(dY1>0,3,1)))} # Try to escape pacman.
             -=. 0,{($dg+2)%4}
             -if $is_get_ready -=. 0.8,{path,i({$xg>>4},{$yg>>4})} -endif
@@ -16953,8 +16953,8 @@ x_pacman :
         -endif
 
         -if {!$is_get_ready" && "($|-$fruit_timer)>=10}
-          x={round(?(0,{map0,w}))}
-          y={round(?(0,{map0,h}))}
+          x={round(u(0,{map0,w}))}
+          y={round(u(0,{map0,h}))}
           -if {!{map,i($x,$y)}" && "{map0,i($x,$y)}==2}
             n={min(3,int(abs(g*1.7)))} -=[map] {4+$n},$x,$y -j[visu] [fruit$n],{16*$x},{16*$y+24} fruit_timer=$|
           -endif
@@ -17211,7 +17211,7 @@ x_plasma :
   N=8
   -repeat $N
     320,200,1,3 -rand. 0,255 -plasma. 1,0,7 -n. 0,255
-    amp={?(-40,40)} freq={round(?(2,6))} dir$>={if(?<0.5,-1,1)*round(?(1,2))}
+    amp={u(-40,40)} freq={round(u(2,6))} dir$>={if(u<0.5,-1,1)*round(u(1,2))}
     100%,100%,1,1,'$amp*cos(y*2*pi*$freq/h)'
   -done
 
@@ -17235,7 +17235,7 @@ x_plasma :
 
     -shift[$a21] 0,${dir$a},0,0,2  # Animate plasma background.
     -shift[$b21] 0,${dir$b},0,0,2
-    -if {int($t+0.005)>int($t)} dir$a={if(?<0.5,-1,1)*round(?(1,3))} -endif
+    -if {int($t+0.005)>int($t)} dir$a={if(u<0.5,-1,1)*round(u(1,3))} -endif
     t={($t+max(0.005,($|-$tic))%$N)}
 
     # Render text scrolling.
@@ -18112,10 +18112,10 @@ x_shadebobs :
   -do
     t={$t+0.015}
     -if {$t>4*pi" || "{*,b}} # Reset motions variables if necessary.
-      rx={?(-1,1)} ry={?(-1,1)} rz={?(-1,1)} rt={?(-1,1)} rcx={?(-0.6*0.6)} t=0
-      N={20+round(?(80))} R={(2+round(?(40)))*min({*,w},{*,h})/300}
+      rx={u(-1,1)} ry={u(-1,1)} rz={u(-1,1)} rt={u(-1,1)} rcx={u(-0.6*0.6)} t=0
+      N={20+round(u(80))} R={(2+round(u(40)))*min({*,w},{*,h})/300}
       -if $obj3d -rm[colormap,img,obj3d] -endif
-      {4+round(?(12))},1,1,3 -noise[0] 255,2 -r[0] 256,1,1,3,3 -*[0] 255 -shift[0] 1 -nm. colormap
+      {4+round(u(12))},1,1,3 -noise[0] 255,2 -r[0] 256,1,1,3,3 -*[0] 255 -shift[0] 1 -nm. colormap
       (67.5;73.5;109.5;103.5;51.5;100.5;{2*$N};$N) 3,{2*$N},1,1,0
       1,$N,1,1,5 2,$N,1,1,'y+x*$N' -a[-2--1] x -z. 0,5
       4,$N,1,1,1 -y[-3--1] -a[-4--1] y -nm. obj3d
@@ -18279,7 +18279,7 @@ x_tetris :
   -i[m16] 3,2,1,1,0,1,1,1,1,0
   -i[m20] 3,2,1,1,0,1,0,1,1,1
   -i[m24] 3,2,1,1,1,1,0,0,1,1
-  -if {?<0.25}  # Enable extended set.
+  -if {u<0.25}  # Enable extended set.
     -i[m28] 2,1,1,1,1,1
     -i[m32] 2,2,1,1,1,1,0,1
     -i[m36] 3,1,1,1,1,1,1
@@ -18291,7 +18291,7 @@ x_tetris :
   N=$!
 
   # Render triomino colored sprites.
-  -i[colors] 3,$N,1,1,'?(16,224)' -r. 3,400% -i[mask] (0,-1,0;1,0,-1;0,1,0) -*. 120
+  -i[colors] 3,$N,1,1,'u(16,224)' -r. 3,400% -i[mask] (0,-1,0;1,0,-1;0,1,0) -*. 120
   -repeat $N
     --r[m$>] 500%,500%,1,3 --correlate. [mask],0 -r. 200%,200%,1,1,3 -r.. [-1] -*[-2,-1] -c. 30%,100%
     --r[m$>] [-1],[-1],1,3 --replace_color. 0,0,1,1,1,{colors,[{3*$>}-{3*$>+2}]} -rv[-3,-1] -+[-3,-1] -c.. 0,255
@@ -18308,7 +18308,7 @@ x_tetris :
   -n. 0,64 -blur_x. 1 100%,100% -noise. 0.5,2 -b. 1 -*. 300 -+[-2,-1] -c. 0,255 -nm. background
 
   # Start game.
-  time=$| score=0 fall_mode=0 gameover=0 n=-1 nn={round(?(0,$N-1))}
+  time=$| score=0 fall_mode=0 gameover=0 n=-1 nn={round(u(0,$N-1))}
   -do
     -wait {if($fall_mode,-1,-20)}
 
@@ -18324,7 +18324,7 @@ x_tetris :
       -l[board] -s y i=-1 -repeat $! -if {$<,im} i=$<,$i -endif -done
       0 -rm[$i] -a y score={$score+2^(narg($i)-1)-1} -r $W,$H,1,1,0,0,0,1 -nm board -endl
       -if {narg($i)>1} -l[render] -s y,$H 0 -rm[$i] -a y -r {$fact*$W},{$fact*$H},1,3,0,0,0,1 -nm render -endl -endif
-      n=$nn nn={round(?(0,$N-1))} x={$W/2} y=0 do_render=1 fall_mode=0
+      n=$nn nn={round(u(0,$N-1))} x={$W/2} y=0 do_render=1 fall_mode=0
     -endif
 
     # Render board at current time.
@@ -18414,8 +18414,8 @@ x_tictactoe :
 
     # Draw symbol on selected position and update board state.
     -_x_tictactoe{$player%2}                                                  # Generate the symbol sprite and his mask.
-    -j... [-2],{"130*"$tmp3" + 15+?(-5,5)"},\                                 # Draw symbol at its position (with some fuzzyness).
-               {"130*"$tmp2" + 15+?(-5,5)"},0,0,1,[-1]
+    -j... [-2],{"130*"$tmp3" + 15+u(-5,5)"},\                                 # Draw symbol at its position (with some fuzzyness).
+               {"130*"$tmp2" + 15+u(-5,5)"},0,0,1,[-1]
     -rm[-2--1]                                                                # Delete the sprite and the mask (not needed anymore).
     -w.                                                                       # Update display window.
     state={$state+(1+$player)*$tmp1}                                          # Update the board state.
@@ -18429,8 +18429,8 @@ x_tictactoe :
       tmp1={[$>]}                                                             # Save the current configuration code (used several times).
       -if {($state&$tmp1)==$tmp1||($state&(2*$tmp1))==2*$tmp1}                # If a winner has been found.
         -_x_tictactoe{i($>,3)}                                                # Generate the stroke symbol and his mask.
-        -j[-4] [-2],{130*{-3,i($>,1)}+?(-5,5)},\                              # And display it on the board at its position.
-                        {130*{-3,i($>,2)}+?(-5,5)},0,0,1,[-1] -rm[-2--1]
+        -j[-4] [-2],{130*{-3,i($>,1)}+u(-5,5)},\                              # And display it on the board at its position.
+                        {130*{-3,i($>,2)}+u(-5,5)},0,0,1,[-1] -rm[-2--1]
         -if {($state&$tmp1)==$tmp1} -w.. -1,-1,0,"Tic-Tac-Toe (X won!)"
         -else -w.. -1,-1,0,"Tic-Tac-Toe (O won!)"                             # Update display window.
         -endif
@@ -18467,7 +18467,7 @@ _x_tictactoe2 : # Generate the board.
   100%,100% -noise. 10 -b. 8,0 -sharpen. 1.5 -n. 220,255 -*[-2,-1] -to_rgb.
 
 _x_tictactoe3 : # Generate an horizontal stroke and his mask.
-  421,130,1,1,1 -line. 10%,60%,90%,60%,1,0 -erode. 6 -_x_tictactoe -rotate. {?(-6,6)},1,1,50%,50% -__x_tictactoe 180,10,10
+  421,130,1,1,1 -line. 10%,60%,90%,60%,1,0 -erode. 6 -_x_tictactoe -rotate. {u(-6,6)},1,1,50%,50% -__x_tictactoe 180,10,10
 
 _x_tictactoe4 : # Generate a vertical stroke and his mask.
   -_x_tictactoe3 -transpose[-2--1]
@@ -18495,9 +18495,9 @@ x_waves :
 ---------------------------------------------"
   -v -
   -if {!$!} -l[] # Generate fractal image
-    200,200 x={-1.06-?*0.1} y={-0.26-?*0.1}
+    200,200 x={-1.06-u*0.1} y={-0.26-u*0.1}
     -mandelbrot $x,$y,{$x+0.1},{$y+0.1},256
-    16,1,1,3,? -r. 256,1,1,3,3 -shift. 1
+    16,1,1,3,u -r. 256,1,1,3,3 -shift. 1
     -map[0] [-1] -rm. -r2dx 100
     --mirror y --mirror x -+ -n 0,255
   -endl -else -k[0] -r[0] 100,100,1,3,2 -endif
@@ -18532,7 +18532,7 @@ x_waves :
     -endif
 
     -rm[-2,-1] -wait 20
-    -if {{*,b}&1||($|-$time0)>1} ({?*$w};{?*$w};70;0) -a[5,-1] x time0={$|-?} -endif # Insert new ball.
+    -if {{*,b}&1||($|-$time0)>1} ({u*$w};{u*$w};70;0) -a[5,-1] x time0={$|-u} -endif # Insert new ball.
     -if {5,h} -l[5,-1] # Manage ball motion and collision.
       -sh[0] 2,2,0,0 -sh[0] 3,3,0,0 --.. [-1] -+. 0.2 -rm[-2,-1]
       -s[0] x -repeat {$!-1} coords={$<,[0-1]} -if {{$<,[2]}<i($coords)} -=. {80+{i($coords)}},$coords -rm[$<] -endif -done
@@ -18560,7 +18560,7 @@ x_whirl : -check ${1=0.2}>=0
   tangle=0 tzoom=0 xc={(w-{-3,w})/2} yc={(h-{-3,h})/2}
   -do
     -rand... 0,255 -j.. [-3],$xc,$yc,0,0
-    -rotate.. {8*sin($tangle)},0,0,{w/2+?(-2,2)},{h/2},{1.03+0.02*sin($tzoom)}
+    -rotate.. {8*sin($tangle)},0,0,{w/2+u(-2,2)},{h/2},{1.03+0.02*sin($tzoom)}
     tangle={$tangle+0.001} tzoom={$tzoom+0.02}
     -j. [-2],0,0,0,0,$1 -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {3*w},{3*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {1.5*w},{1.5*h} -endif
@@ -18826,7 +18826,7 @@ gimp_logo_version3 : -skip "${1=Plug-in for GIMP}"
     -r. 500%,500%,1,1,3 -b. 3% ->=. 50%
     -distance. 1 -<=. 10
     [-1]x3 -whirls[-4--2] ,
-    r$>={?(0.4,1)} g$>={?(0.2,1)} b$>={?(0.6,1)}
+    r$>={u(0.4,1)} g$>={u(0.2,1)} b$>={u(0.6,1)}
     -*[-4] ${r$>} -*... ${g$>} -*.. ${b$>}
     -a[-4--2] c -n.. 0,255 -*. 255 -a[-2,-1] c
   -done
@@ -18860,8 +18860,8 @@ gimp_logo_version1 : -skip "${1=Plug-in for GIMP}"
   -if $! ratio={w/h} -else ratio=1 -endif
   -rm 118,44,1,1 -t "G\47MIC",3,-6,53,1,255 -r 100%,100%,10,1 -r 100%,100%,20,1,0,0,0.5,0.5,0.5 -b 1.5
   -isosurface3d 50%
-  -col3d {?(150,255)},{?(150,255)},{?(150,255)}
-  -sphere3d 8 -col3d. {?(150,255)},{?(150,255)},{?(150,255)} -+3d. 72,-6 -+3d -c3d. -rv3d
+  -col3d {u(150,255)},{u(150,255)},{u(150,255)}
+  -sphere3d 8 -col3d. {u(150,255)},{u(150,255)},{u(150,255)} -+3d. 72,-6 -+3d -c3d. -rv3d
   -db3d 0 -sl3d 0.2 -ss3d 1.3 -r3d. 1,0,0,30 -f3d 120 -*3d. 1.5
   230,120,1,3 -j3d. [-2],50%,30%,0,1,4 -rm..
   0 -t. "$1",0,0,13,1,255,255,255 -j.. [-1],{({-2,w}-w)/2},75% -rm.
@@ -18872,13 +18872,13 @@ gimp_logo_version1 : -skip "${1=Plug-in for GIMP}"
   -r. [-2],[-2],1,4,0,0,0.5,0.5 -blend alpha
 
 gimp_logo : -skip "${1=Plug-in for GIMP\n    [ "${-strver}" ]}"
-    -gimp_logo_version{round(?(0.5,3.49))} "$1"
+    -gimp_logo_version{round(u(0.5,3.49))} "$1"
 
 gimp_logo_en :
   -if {narg($_prerelease)}
-    -gimp_logo_version{round(?(0.5,3.49))} "       Plug-in for GIMP\n"[" "${-strver}" pre-release ""#"$_prerelease]
+    -gimp_logo_version{round(u(0.5,3.49))} "       Plug-in for GIMP\n"[" "${-strver}" pre-release ""#"$_prerelease]
   -else
-    -gimp_logo_version{round(?(0.5,3.49))} "Plug-in for GIMP\n    "[" "${-strver}" "]
+    -gimp_logo_version{round(u(0.5,3.49))} "Plug-in for GIMP\n    "[" "${-strver}" "]
   -endif
 
 #---------------------
@@ -18905,9 +18905,9 @@ gimp_logo_en :
 #@gimp_fr : "}
 gimp_logo_fr :
   -if {narg($_prerelease)}
-    -gimp_logo_version{round(?(0.5,3.49))} "     Greffon pour GIMP\n"[" "${-strver}" pre-release ""#"$_prerelease]
+    -gimp_logo_version{round(u(0.5,3.49))} "     Greffon pour GIMP\n"[" "${-strver}" pre-release ""#"$_prerelease]
   -else
-    -gimp_logo_version{round(?(0.5,3.49))} "Greffon pour GIMP\n    "[" "${-strver}" "]
+    -gimp_logo_version{round(u(0.5,3.49))} "Greffon pour GIMP\n    "[" "${-strver}" "]
   -endif
 
 #----------------------
@@ -18933,9 +18933,9 @@ gimp_logo_fr :
 #@gimp_ca : "}
 gimp_logo_ca :
   -if {narg($_prerelease)}
-    -gimp_logo_version{round(?(0.5,3.49))} "         per al GIMP\n"[" "${-strver}" pre-release ""#"$_prerelease]
+    -gimp_logo_version{round(u(0.5,3.49))} "         per al GIMP\n"[" "${-strver}" pre-release ""#"$_prerelease]
   -else
-    -gimp_logo_version{round(?(0.5,3.49))} "per al GIMP\n  "[" "${-strver}" "]
+    -gimp_logo_version{round(u(0.5,3.49))} "per al GIMP\n  "[" "${-strver}" "]
   -endif
 
 #----------------------
@@ -19491,7 +19491,7 @@ survey :
   -rm
 
   # Render results.
-  _back={?(240,255)},{?(240,255)},{?(240,255)}
+  _back={u(240,255)},{u(240,255)},{u(240,255)}
   -_survey_choice[] 0,"1. Who am I?","N.C.","A photographer","A painter","An illustrator","A graphic designer","A lover of image filters","An image processing expert","An open-source enthusiast","A scientist","Someone else",420
   -_survey_bool[] 1,"I do graphics/image processing for a living."
   -r[-2,-1] ${-max_w[-2,-1]},100%,1,3,0,1 -a[-2,-1] y
@@ -19557,7 +19557,7 @@ _survey_bool : -skip ${3=0}
   (${_answers$1}) -histogram. 2,0,1 -normalize_sum. val0={round(i[0]*100)} val1={100-$val0} -rm.
   0 -t. "$2",0,0,20,1,0,0,0,255
 
-  RGB1={?(60,90)},{?(60,90)},{?(60,90)} ($RGB1) -*. 2 -c. 0,255 RGB2={^} -rm.
+  RGB1={u(60,90)},{u(60,90)},{u(60,90)} ($RGB1) -*. 2 -c. 0,255 RGB2={^} -rm.
   128,1,1,3 -fc. $RGB1 -line. 0,0,$val1%,0,1,$RGB2
   0 -t. $val1%,0,0,16,1,1
   -r.. 100%,{h+8},1,3 -r. [-2],[-2],1,1,0,0,0.5,0.5
@@ -19575,7 +19575,7 @@ _survey_choice :
   # Render side labels.
   --l.
     i=1 -repeat {w} -if {i[$>]}
-      RGB$>={?(150)},{?(150)},{?(150)}
+      RGB$>={u(150)},{u(150)},{u(150)}
       val={round(i[$>]*100)}
       0 -t. $i." "${arg{3+$>}}"   ",0,0,20,1,${RGB$>},255
       0 -t. [$val%],0,0,20,1,${RGB$>},255
@@ -19993,7 +19993,7 @@ gimp_montage : -skip "${2=A}"
   code0=X code1="$2" code2=H code3=V code4=A code5=B
   -if {$3==1&&$4<0.5} -r {max(10,$4*200)}%,{max(10,$4*200)}%,1,100%,2 -endif
   -to_rgba -if $14 -rv -endif -if {$13%$!} -mv[{$13%$!}--1] 0 -endif
-  -if {$11||$12} -repeat $! -rotate[$>] {$11+?(-$12,$12)},1,0 -done -endif
+  -if {$11||$12} -repeat $! -rotate[$>] {$11+u(-$12,$12)},1,0 -done -endif
   -montage ${code$1},{if($3==0,$4,2+max(0,$4-0.5))},$15,\
     "-if {$""7%2} -mirror x -endif -if {$""8%2} -mirror y -endif "\
     "-rotate {90*$""6} "\
@@ -20012,7 +20012,7 @@ gimp_montage_preview : -skip "${2=A}"
   -drgba
   code0=X code1="$2" code2=H code3=V code4=A code5=B
   -to_rgba -if $14 -rv -endif -if {$13%$!} -mv[{$13%$!}--1] 0 -endif
-  -if {$11||$12} -repeat $! -rotate[$>] {$11+?(-$12,$12)},1,0 -done -endif
+  -if {$11||$12} -repeat $! -rotate[$>] {$11+u(-$12,$12)},1,0 -done -endif
   -montage ${code$1},{if($3==0,$4,2+max(0,$4-0.5))},0,\
     "-if {$""7%2} -mirror x -endif -if {$""8%2} -mirror y -endif "\
     "-rotate {90*$""6} "\
@@ -20077,11 +20077,11 @@ gimp_puzzle :
       -rm[0,1]
 
       # Recompose puzzle.
-      -if $14 -sort_list +,? -endif
+      -if $14 -sort_list +,u -endif
 
       -if $16 # One piece by layer.
         -repeat $! -l[$<]
-          -r2dy {max(0.1,$10+$11*?(-1,1))}% -rotate {$12+$13*?(-1,1)}
+          -r2dy {max(0.1,$10+$11*u(-1,1))}% -rotate {$12+$13*u(-1,1)}
           -if $15 -expand_xy 1,0 -endif
           cx={round(w/2)} cy={round(h/2)}
           -sh 100%,100% -if $15 -dilate. 3 -endif
@@ -20092,7 +20092,7 @@ gimp_puzzle :
       -else # All pieces on the same layer.
         -i[0] $w,$h,1,{s}
         -repeat {$!-1}
-          -r2dy. {max(0.1,$10+$11*?(-1,1))}% -rotate. {$12+$13*?(-1,1)}
+          -r2dy. {max(0.1,$10+$11*u(-1,1))}% -rotate. {$12+$13*u(-1,1)}
           -if $15 -expand_xy. 1,0 -endif
           cx={round(w/2)} cy={round(h/2)}
           -sh. 100%,100% -if $15 -dilate. 3 -endif
@@ -27010,10 +27010,10 @@ gimp_random3d :
     f3d={0.5*max(w,h)/tan($5*pi/360)} -f3d $f3d -l3d {$6*$f3d},{$7*$f3d},{$8*$f3d} -sl3d $9 -ss3d $10
     -to_rgb ({w},{h},{d},{s}) -/. 2 -repeat $2
     ({1,[0]}) -+. {1,[1]} -*. $3 -/. 100 -_gimp_random3d$1 {^} -rm..
-    -r3d. 1,1,0,{?(0,360)}
-    ({?(-1,1)}) -*. {1,[0]} ({?(-1,1)}) -*. {1,[1]}
-    -+3d... {-2,^},{^},{?(-$4,$4)} -rm[-2,-1]
-    -col3d. {?(255)},{?(255)},{?(255)} -done -+3d[2--1] -j3d[0] [-1],50%,50%,0,$12,$11,0,1
+    -r3d. 1,1,0,{u(0,360)}
+    ({u(-1,1)}) -*. {1,[0]} ({u(-1,1)}) -*. {1,[1]}
+    -+3d... {-2,^},{^},{u(-$4,$4)} -rm[-2,-1]
+    -col3d. {u(255)},{u(255)},{u(255)} -done -+3d[2--1] -j3d[0] [-1],50%,50%,0,$12,$11,0,1
     -k[0]
   -endl -done
 
@@ -27127,7 +27127,7 @@ gimp_equation_parametric :
   -endl -done
 
 #@gimp Equation plot [y=f(x)] : gimp_equation_plot, gimp_equation_plot
-#@gimp : F(x) = text{"X*c+10*cos(X+c+?)"}
+#@gimp : F(x) = text{"X*c+10*cos(X+c+u)"}
 #@gimp : X-min = float(-10,-100,100)
 #@gimp : X-max = float(10,-100,100)
 #@gimp : Resolution = int(100,2,1024)
@@ -27138,7 +27138,7 @@ gimp_equation_parametric :
 #@gimp : note = note("<small><b>Note</b> :
 #@gimp : Use variable <b>X</b> instead of <b>x</b> in the above equation to take care of the X-min/max settings.
 #@gimp : Variable <b>c</b> refers to the current channel number.
-#@gimp : Variable <b>?</b> refers to a uniformly distributed random value in [0,1].
+#@gimp : Variable <b>u</b> refers to a uniformly distributed random value in [0,1].
 #@gimp : Reduce resolution to be able to view
 #@gimp : separate graph vertices.</small>")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
@@ -27421,16 +27421,16 @@ gimp_lightning :
         new_y=0
         new_angle=$14
       -else
-        i={round(?(1,max(1,($!-1)*$6)))}
+        i={round(u(1,max(1,($!-1)*$6)))}
         level={$i,[-2]}
         angle={$i,[-1]}
         nb_points={$i,i[6]}
-        p={round(($nb_points-2)*?($17%,$18%))}
+        p={round(($nb_points-2)*u($17%,$18%))}
         new_level={$level+1}
-        new_length={max(2,round(($nb_points-$p)*?($19%,$20%)))}
+        new_length={max(2,round(($nb_points-$p)*u($19%,$20%)))}
         new_x={$i,i[8+3*$p]}
         new_y={$i,i[9+3*$p]}
-        new_angle={$angle+?($21,$22)*if(?>0.5,1,-1)}
+        new_angle={$angle+u($21,$22)*if(u>0.5,1,-1)}
       -endif
 
       -_gimp_lightning $new_length,$4,$5
@@ -27552,12 +27552,12 @@ gimp_neon_lightning :
   -repeat $! -l[$>]
     100%,100%,1,4 -rm[0]
     -repeat $7
-      x0={max(0,min(w,$1+?(-$3,$3)))} y0={max(0,min(h,$2+?(-$3,$3)))}
-      x1={max(0,min(w,$4+?(-$6,$6)))} y1={max(0,min(h,$5+?(-$6,$6)))}
-      u0={?(0,100)} v0={?(0,100)} u1={?(0,100)} v1={?(0,100)}
-      R={max(0,min(255,?($10-$d,$10+$d)))}
-      G={max(0,min(255,?($11-$d,$11+$d)))}
-      B={max(0,min(255,?($12-$d,$12+$d)))}
+      x0={max(0,min(w,$1+u(-$3,$3)))} y0={max(0,min(h,$2+u(-$3,$3)))}
+      x1={max(0,min(w,$4+u(-$6,$6)))} y1={max(0,min(h,$5+u(-$6,$6)))}
+      u0={u(0,100)} v0={u(0,100)} u1={u(0,100)} v1={u(0,100)}
+      R={max(0,min(255,u($10-$d,$10+$d)))}
+      G={max(0,min(255,u($11-$d,$11+$d)))}
+      B={max(0,min(255,u($12-$d,$12+$d)))}
       -spline $x0%,$y0%,$u0%,$v0%,$x1%,$y1%,$u1%,$v1%,256,1,$R,$G,$B,1
     -done
     -s c,-3
@@ -28543,7 +28543,7 @@ gimp_solve_maze_preview :
 #@gmicol : note = link{"The G'MIC plug-in for GIMP","http://gmic.eu/gimp.shtml"}
 #@gmicol : sep = separator(), note = note("<small>Authors: <i>S&#233;bastien Fourey</i> and <i>David Tschumperl&#233;</i>.      Latest update: <i>10/11/2012</i>.</small>")
 gmicol_logo_en :
-  -gimp_logo_version{round(?(0.5,3.49))} "- Online -\n"[" "${-strver}" "]
+  -gimp_logo_version{round(u(0.5,3.49))} "- Online -\n"[" "${-strver}" "]
 
 #@gmicol clone("Contributors")
 
