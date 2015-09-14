@@ -661,9 +661,9 @@ _help_usage :
 \n          of an image with a classical finite difference scheme.
 \n       . '"${c}"j(_dx,_dy,_dz,_dc,_interpolation,_boundary)"$n"' does the same for the pixel located
 \n          at position "$g"(x+dx,y+dy,z+dz,c+dc)"$n" (pixel access relative to the current coordinates).
-\n       . '"${c}"i[offset]"$n"' returns the value of the pixel located at "${g}"specified offset"$n" in the associated
+\n       . '"${c}"i[offset,_boundary]"$n"' returns the value of the pixel located at "${g}"specified offset"$n" in the associated
 \n          image buffer (or 0 if offset is out-of-bounds).
-\n       . '"${c}"j[offset]"$n"' does the same for an offset relative to the current pixel "$g"(x,y,z,c)"$n".
+\n       . '"${c}"j[offset,_boundary]"$n"' does the same for an offset relative to the current pixel "$g"(x,y,z,c)"$n".
 \n       . If the specified formula starts with '"$c">"$n"' or '"$c"<"$n"', the pixel access operators
 \n          '"${c}"i(), i[], j()"$n"' and '"${c}"j[]"$n"' return values of the image being currently modified,
 \n          in forward ('"$c">"$n"') or backward ('"$c"<"$n"') order.
