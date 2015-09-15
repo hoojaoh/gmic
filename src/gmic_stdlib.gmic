@@ -681,10 +681,9 @@ _help_usage :
 \n          returns the Nth value of the Fibonacci sequence, for N>=0 (e.g., 46368 for N=24).
 \n       . '"${c}"whiledo(condition,expression)"$n"' is exactly the same as '"${c}"for(init,condition,expression)"$n"'
 \n          without the specification of an initializing expression.
-\n       . '"${c}"fdate(attr,path)"$n"' returns the date attribute for the given 'path' (file or directory),
+\n       . '"${c}"date(attr,path)"$n"' returns the date attribute for the given 'path' (file or directory),
 \n          with 'attr' being { 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }.
-\n       . '"${c}"date(attr)"$n" returns the specified attribute for the current (locale) date
-\n          (same meaning as fdate()).
+\n       . '"${c}"date(_attr)"$n" returns the specified attribute for the current (locale) date.
 \n       . '"${c}"print(expression)"$n" prints the value of the specified expression on the console
 \n          (and returns its value).
 \n
@@ -19352,9 +19351,9 @@ gimp_search_filters : -skip "${1=}"
     # Retrieve filter file.
     file_now=${-path_tmp}gmic_now.cimgz
     0 -o $file_now -rm
-    date_now={fdate(2,$file_now)+31*(fdate(1,$file_now)+12*fdate(0,$file_now))} # Current date.
+    date_now={date(2,$file_now)+31*(date(1,$file_now)+12*date(0,$file_now))} # Current date.
     file_filters=${-path_rc}gimp_filters
-    date_filters={fdate(2,$file_filters)+31*(fdate(1,$file_filters)+12*fdate(0,$file_filters))} # Date of filter file.
+    date_filters={date(2,$file_filters)+31*(date(1,$file_filters)+12*date(0,$file_filters))} # Date of filter file.
     -if {$date_filters<0" || "$date_now-$date_filters>0} # Filter file needs to be refreshed.
       -l[]
         -i raw:http://gmic.eu/gimp_filters.txt,uchar
