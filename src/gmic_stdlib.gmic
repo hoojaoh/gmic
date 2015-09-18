@@ -690,7 +690,7 @@ _help_usage :
 \n       . '"${c}"debug(expression)"$n" prints detailed debug information about the sequence of operations
 \n          done by the math parser to evaluate the expression (and returns its value).
 \n
-\n    _ Expressions '"${c}"i(x,y,z,c)=value"$n"', '"${c}"j(x,y,z,c)=value"$n"', '"${c}"i[offset]=value"$n"' and '"${c}"j[offset]=value"$n"' allow
+\n    _ Expressions '"${c}"i(x,_y,_z,_c)=value"$n"', '"${c}"j(x,_y,_z,_c)=value"$n"', '"${c}"i[offset]=value"$n"' and '"${c}"j[offset]=value"$n"' allow
 \n       to set pixel values at different locations than the current one in the associated image, either
 \n       with global coordinates/offsets (with '"${c}"i(...)"$n"' and '"${c}"i[...]"$n"') or relatively to the current
 \n       position "${g}"(x,y,z,c)"$n" (with '"${c}"j(...)"$n"' and '"${c}"j[...]"$n"'). These expressions always return '"${c}"value"$n"'.
