@@ -14799,7 +14799,7 @@ tic :
 #@gmic : Use it in conjunction with '-tic'.
 toc :
   -v - _ticpos={$_ticpos-1} -v +
-  -e[^-1] "Elapsed time : "{_$|-${_tic$_ticpos}}" s".
+  -e[^-1] "Elapsed time: "{_$|-${_tic$_ticpos}}" s".
 
 #@gmic std_noise
 #@gmic : Return the estimated noise standard deviation of the last selected image.
