@@ -578,7 +578,8 @@ _help_usage :
 \n
 \n    _ "${g}"Usual operators:"$n" "$c"||"$n" (logical or), "$c"&&"$n" (logical and), "$c"|"$n" (bitwise or), "$c"&"$n" (bitwise and),
 \n       "$c"!=, ==, <=, >=, <, >, <<"$n" (left bitwise shift), "$c">>"$n" (right bitwise shift), "$c"-, +, *, /,
-\n       %"$n" (modulo), "$c"^"$n" (power), "$c"!"$n" (logical not), "$c"~"$n" (bitwise not).
+\n       %"$n" (modulo), "$c"^"$n" (power), "$c"!"$n" (logical not), "$c"~"$n" (bitwise not),
+\n       "$c"++"$n", "$c"--"$n", "$c"+="$n", "$c"-="$n", "$c"*="$n", "$c"/="$n", "$c"%="$n", "$c"&="$n", "$c"|="$n", "$c"^="$n", "$c">>="$n", "$c"<<="$n" (in-place operators).
 \n
 \n    _ "${g}"Usual functions:"$n" "${c}"sin(), cos(), tan(), asin(), acos(), atan(), atan2(), sinh(), cosh(), tanh(),
 \n       sinc(), hypoth(), gauss(), abs(), sign(), log(), log2(), log10(), exp(), sqrt(), cbrt(), cut(),
