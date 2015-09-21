@@ -661,9 +661,6 @@ _help_usage :
 \n       . '"${c}"i[offset,_boundary]"$n"' returns the value of the pixel located at "${g}"specified offset"$n" in the
 \n          associated image buffer (or 0 if offset is out-of-bounds).
 \n       . '"${c}"j[offset,_boundary]"$n"' does the same for an offset relative to the current pixel "$g"(x,y,z,c)"$n".
-\n       . If the specified formula starts with '"$c">"$n"' or '"$c"<"$n"', the pixel access operators
-\n          '"${c}"i(), i[], j()"$n"' and '"${c}"j[]"$n"' return values of the image being currently modified,
-\n          in forward ('"$c">"$n"') or backward ('"$c"<"$n"') order.
 \n       . '"${c}"if(condition,expr_then,expr_else)"$n"': return value of '"${c}"expr_then"$n"' or '"${c}"expr_else"$n"',
 \n          depending on the value of '"${c}"condition"$n"' "${g}"(0=false, other=true)"$n". Using the ternary
 \n          operator '"${c}"condition?expr_then:expr_else"$n"' gives an equivalent expression. For instance,
@@ -690,6 +687,12 @@ _help_usage :
 \n          (and returns its value).
 \n       . '"${c}"debug(expression)"$n" prints detailed debug information about the sequence of operations
 \n          done by the math parser to evaluate the expression (and returns its value).
+\n
+\n    - If the specified expression starts with '"$c">"$n"' or '"$c"<"$n"', the pixel access operators
+\n       '"${c}"i(), i[], j()"$n"' and '"${c}"j[]"$n"' return values of the image being currently modified,
+\n       in forward ('"$c">"$n"') or backward ('"$c"<"$n"') order.
+\n    - Starting an expression with '"$c"*"$n"' forces the multiple evaluations that required for an image
+\n       to be run in parallel.
 \n
 \n    _ Expressions '"${c}"i(x,_y,_z,_c)=value"$n"', '"${c}"j(x,_y,_z,_c)=value"$n"', '"${c}"i[offset]=value"$n"' and '"${c}"j[offset]=value"$n"' allow
 \n       to set pixel values at different locations than the current one in the associated image, either
@@ -19220,9 +19223,10 @@ _gimp_manage_filter_sources :
 #@gimp : link = link(0,"[1] Lyle Kroll","http://www.artwanted.com/artist.cfm?artid=10918")
 #@gimp : sep = separator()
 #@gimp : note = note{"\n<span foreground="purple" underline="single">Postcard senders :</span>"}
-#@gimp : note = note{" <b>-</b> We've received <b>27</b> postcards from <b>G'MIC</b> enthusiasts so far.
-#@gimp :               You could be the <b>28th</b> sender :)"}
+#@gimp : note = note{" <b>-</b> We've received <b>28</b> postcards from <b>G'MIC</b> enthusiasts so far.
+#@gimp :               You could be the <b>29th</b> sender :)"}
 #@gimp : note = note{" <b>-</b> A big hug goes to these postcard senders (recently received first) :"}
+#@gimp : link = link(0,"[28] Werner Meier - Germany","http://cimg.eu/img/postcard54.jpg")
 #@gimp : link = link(0,"[27] Patrick Wauters - Roma/Italy","http://cimg.eu/img/postcard53.jpg")
 #@gimp : link = link(0,"[26] Marc Lis - Belgium","http://cimg.eu/img/postcard52.jpg")
 #@gimp : link = link(0,"[25] ZondeR - France","http://cimg.eu/img/postcard51.jpg")
