@@ -1365,7 +1365,7 @@ _display_graph : -check "${1=640}>32 && ${2=480}>32" -skip ${3=1},${4=0},${5=0},
     -endif
 
     # Draw plot for each channel.
-    -repeat {-3,s} -sh... $>,$> -graph... [-1],$3,$4,$ymax,$ymin,1,{-2,[0-2]} -rm. -shift. 0,-1 -done
+    -repeat {-3,s} -sh... $> -graph... [-1],$3,$4,$ymax,$ymin,1,{-2,[0-2]} -rm. -shift. 0,-1 -done
     -rm[-3,-1]
     -line. 0,0,100%,0,1,110 -line. 100%,0,100%,100%,1,110
     -line. 100%,100%,0,100%,1,255 -line. 0,100%,0,0,1,255
@@ -1409,7 +1409,7 @@ _display_histogram : -check "${1=512}>0 && ${2=300}>0 && ${3=256}>0" -skip ${4=0
     -a c -f '"$7"' vM={iM} -s z
     -repeat $! -l[$>]
       $1,$2,1,{s},-255
-      -repeat {s} -sh[-2,-1] $>,$> -graph. [-2],3,0,$vM,0,1,0 -rm[-2,-1] -done
+      -repeat {s} -sh[-2,-1] $> -graph. [-2],3,0,$vM,0,1,0 -rm[-2,-1] -done
       -rm.. -+ 255
       -if $6
         100%,100%
@@ -1445,9 +1445,9 @@ display_parametric : -check "${1=512}>0 && ${2=$1}>0 && ${4=0}>=0" -skip ${3=3},
     -endif
 
     # Manage coordinates of vertices.
-    -sh. 0,0 xm={im} xM={iM} -rm.
-    -sh. 1,1 ym={im} yM={iM} -rm.
-    -sh. 2,2 zm={im} zM={iM} -rm.
+    -sh. 0 xm={im} xM={iM} -rm.
+    -sh. 1 ym={im} yM={iM} -rm.
+    -sh. 2 zm={im} zM={iM} -rm.
     -permute. cxyz -s. x,2
     -i.. (1,0;1,{$N-1}) -r.. 2,$N,1,1,3 -round.. 1,$N,1,1,1 # Primitives, colors and opacities.
     -y -a y -c3d -n3d -*3d 1,-1,1
@@ -2767,11 +2767,11 @@ shape_star : -check "${1=512}>=0 && ${2=5}>0 && ${3=0.5}>=0 && $3<=1"
 
 #@gmic sh : eq. to '-shared'. : (+)
 
-#@gmic shared : x0[%],x1[%],y[%],z[%],v[%] : y0[%],y1[%],z[%],v[%] : z0[%],z1[%],v[%] : v0[%],v1[%] : (no arg) : (+)
+#@gmic shared : x0[%],x1[%],y[%],z[%],v[%] : y0[%],y1[%],z[%],v[%] : z0[%],z1[%],v[%] : v0[%],v1[%] : v0[%] : (no arg) : (+)
 #@gmic : Insert shared buffers from (opt. points/rows/planes/channels of) selected images.
 #@gmic : Shared buffers cannot be returned by a command, nor a local environment.
 #@gmic : (eq. to '-sh').
-#@gmic : $ image.jpg -shared 1,1 -blur. 3 -remove.
+#@gmic : $ image.jpg -shared 1 -blur. 3 -remove.
 #@gmic : $ image.jpg -repeat {s} -shared 25%,75%,0,$> -mirror. x -remove. -done
 #@gmic : $$
 
@@ -4473,7 +4473,7 @@ mul_channels :
   -e[^-1] "Multiply channels of image$? by value sequence ($*)."
   -v - $=arg -repeat $#
     i=$> fact=${arg{1+($>%$#)}}
-    -repeat $! -if {$>,$i<s} -sh[$>] $i,$i -*. $fact -rm. -endif -done
+    -repeat $! -if {$>,$i<s} -sh[$>] $i -*. $fact -rm. -endif -done
   -done -v +
 
 #@gmic mul_complex : [multiplier_real,multiplier_imag]
@@ -4686,8 +4686,8 @@ eigen2tensor :
       -sh. --*... -1
       -sh[-5]     # v^2 -uv u^2
       -a[-3--1] c -a[-4--2] c
-      -sh... 0,0 -*[-3,-1]          # l1*(u^2;uv;v^2)
-      -sh... 1,1 -*[-2,-1]          # l2*(v^2;-uv;u^2)
+      -sh... 0 -*[-3,-1]          # l1*(u^2;uv;v^2)
+      -sh... 1 -*[-2,-1]          # l2*(v^2;-uv;u^2)
       -rm... -+[-2,-1]
     -elif {s==6} # 3d tensors.
       -s. c
@@ -5129,10 +5129,10 @@ _ac :
 _ac_all : _p="" _f="" _b="" _s=0,100%
 
 _ac_rgba : _p="-to_rgba" _f="" _b="" _s=0,3
-_ac_rgba_r : _p="-to_color" _f="" _b="" _s=0,0
-_ac_rgba_g : _p="-to_color" _f="" _b="" _s=1,1
-_ac_rgba_b : _p="-to_color" _f="" _b="" _s=2,2
-_ac_rgba_a : _p="-to_rgba" _f="" _b="" _s=3,3
+_ac_rgba_r : _p="-to_color" _f="" _b="" _s=0
+_ac_rgba_g : _p="-to_color" _f="" _b="" _s=1
+_ac_rgba_b : _p="-to_color" _f="" _b="" _s=2
+_ac_rgba_a : _p="-to_rgba" _f="" _b="" _s=3
 
 _ac_rgb : _p="-to_color" _f="" _b="" _s=0,2
 _ac_rgb_r : -_ac_rgba_r
@@ -5140,54 +5140,54 @@ _ac_rgb_g : -_ac_rgba_g
 _ac_rgb_b : -_ac_rgba_b
 
 _ac_lrgb : _p="-to_color" _f="-srgb2rgb" _b="-rgb2srgb" _s=0,2
-_ac_lrgb_r : _p="-to_color" _f="-srgb2rgb" _b="-rgb2srgb" _s=0,0
-_ac_lrgb_g : _p="-to_color" _f="-srgb2rgb" _b="-rgb2srgb" _s=1,1
-_ac_lrgb_b : _p="-to_color" _f="-srgb2rgb" _b="-rgb2srgb" _s=2,2
+_ac_lrgb_r : _p="-to_color" _f="-srgb2rgb" _b="-rgb2srgb" _s=0
+_ac_lrgb_g : _p="-to_color" _f="-srgb2rgb" _b="-rgb2srgb" _s=1
+_ac_lrgb_b : _p="-to_color" _f="-srgb2rgb" _b="-rgb2srgb" _s=2
 
 _ac_ycbcr : _p="-to_color" _f="-rgb2ycbcr" _b="-ycbcr2rgb" _s=0,2
-_ac_ycbcr_y : _p="-to_color" _f="-rgb2ycbcr" _b="-ycbcr2rgb" _s=0,0
+_ac_ycbcr_y : _p="-to_color" _f="-rgb2ycbcr" _b="-ycbcr2rgb" _s=0
 _ac_ycbcr_cbcr : _p="-to_color" _f="-rgb2ycbcr" _b="-ycbcr2rgb" _s=1,2
-_ac_ycbcr_cb : _p="-to_color" _f="-rgb2ycbcr" _b="-ycbcr2rgb" _s=1,1
-_ac_ycbcr_cr : _p="-to_color" _f="-rgb2ycbcr" _b="-ycbcr2rgb" _s=2,2
-_ac_ycbcr_cg : _p="-to_color" _f="-sh 0,1 -mirror. c -rm. -rgb2ycbcr" _b="-ycbcr2rgb -sh 0,1 -mirror. c -rm." _s=2,2
+_ac_ycbcr_cb : _p="-to_color" _f="-rgb2ycbcr" _b="-ycbcr2rgb" _s=1
+_ac_ycbcr_cr : _p="-to_color" _f="-rgb2ycbcr" _b="-ycbcr2rgb" _s=2
+_ac_ycbcr_cg : _p="-to_color" _f="-sh 0,1 -mirror. c -rm. -rgb2ycbcr" _b="-ycbcr2rgb -sh 0,1 -mirror. c -rm." _s=2
 
 _ac_lab : _p="-to_color" _f="-srgb2rgb -rgb2lab8" _b="-lab82rgb -rgb2srgb" _s=0,2
-_ac_lab_l : _p="-to_color" _f="-srgb2rgb -rgb2lab8" _b="-lab82rgb -rgb2srgb" _s=0,0
+_ac_lab_l : _p="-to_color" _f="-srgb2rgb -rgb2lab8" _b="-lab82rgb -rgb2srgb" _s=0
 _ac_lab_ab : _p="-to_color" _f="-srgb2rgb -rgb2lab8" _b="-lab82rgb -rgb2srgb" _s=1,2
-_ac_lab_a : _p="-to_color" _f="-srgb2rgb -rgb2lab8" _b="-lab82rgb -rgb2srgb" _s=1,1
-_ac_lab_b : _p="-to_color" _f="-srgb2rgb -rgb2lab8" _b="-lab82rgb -rgb2srgb" _s=2,2
+_ac_lab_a : _p="-to_color" _f="-srgb2rgb -rgb2lab8" _b="-lab82rgb -rgb2srgb" _s=1
+_ac_lab_b : _p="-to_color" _f="-srgb2rgb -rgb2lab8" _b="-lab82rgb -rgb2srgb" _s=2
 
 _ac_lch : _p="-to_color" _f="-srgb2rgb -rgb2lch8" _b="-lch82rgb -rgb2srgb" _s=0,2
 _ac_lch_l : -_ac_lab_l
 _ac_lch_ch : _p="-to_color" _f="-srgb2rgb -rgb2lch8" _b="-lch82rgb -rgb2srgb" _s=1,2
-_ac_lch_c : _p="-to_color" _f="-srgb2rgb -rgb2lch8" _b="-lch82rgb -rgb2srgb" _s=1,1
-_ac_lch_h : _p="-to_color" _f="-srgb2rgb -rgb2lch8" _b="-lch82rgb -rgb2srgb" _s=2,2
+_ac_lch_c : _p="-to_color" _f="-srgb2rgb -rgb2lch8" _b="-lch82rgb -rgb2srgb" _s=1
+_ac_lch_h : _p="-to_color" _f="-srgb2rgb -rgb2lch8" _b="-lch82rgb -rgb2srgb" _s=2
 
 _ac_hsv : _p="-to_color" _f="-rgb2hsv8" _b="-hsv82rgb" _s=0,2
-_ac_hsv_h : _p="-to_color" _f="-rgb2hsv8" _b="-hsv82rgb" _s=0,0
-_ac_hsv_s : _p="-to_color" _f="-rgb2hsv8" _b="-hsv82rgb" _s=1,1
-_ac_hsv_v : _p="-to_color" _f="-rgb2hsv8" _b="-hsv82rgb" _s=2,2
+_ac_hsv_h : _p="-to_color" _f="-rgb2hsv8" _b="-hsv82rgb" _s=0
+_ac_hsv_s : _p="-to_color" _f="-rgb2hsv8" _b="-hsv82rgb" _s=1
+_ac_hsv_v : _p="-to_color" _f="-rgb2hsv8" _b="-hsv82rgb" _s=2
 
 _ac_hsi : _p="-to_color" _f="-rgb2hsi8" _b="-hsi82rgb" _s=0,2
-_ac_hsi_h : _p="-to_color" _f="-rgb2hsi8" _b="-hsi82rgb" _s=0,0
-_ac_hsi_s : _p="-to_color" _f="-rgb2hsi8" _b="-hsi82rgb" _s=1,1
-_ac_hsi_i : _p="-to_color" _f="-rgb2hsi8" _b="-hsi82rgb" _s=2,2
+_ac_hsi_h : _p="-to_color" _f="-rgb2hsi8" _b="-hsi82rgb" _s=0
+_ac_hsi_s : _p="-to_color" _f="-rgb2hsi8" _b="-hsi82rgb" _s=1
+_ac_hsi_i : _p="-to_color" _f="-rgb2hsi8" _b="-hsi82rgb" _s=2
 
 _ac_hsl : _p="-to_color" _f="-rgb2hsl8" _b="-hsl82rgb" _s=0,2
-_ac_hsl_h : _p="-to_color" _f="-rgb2hsl8" _b="-hsl82rgb" _s=0,0
-_ac_hsl_s : _p="-to_color" _f="-rgb2hsl8" _b="-hsl82rgb" _s=1,1
-_ac_hsl_l : _p="-to_color" _f="-rgb2hsl8" _b="-hsl82rgb" _s=2,2
+_ac_hsl_h : _p="-to_color" _f="-rgb2hsl8" _b="-hsl82rgb" _s=0
+_ac_hsl_s : _p="-to_color" _f="-rgb2hsl8" _b="-hsl82rgb" _s=1
+_ac_hsl_l : _p="-to_color" _f="-rgb2hsl8" _b="-hsl82rgb" _s=2
 
 _ac_cmy : _p="-to_color" _f="-rgb2cmy" _b="-cmy2rgb" _s=0,2
-_ac_cmy_c : _p="-to_color" _f="-rgb2cmy" _b="-cmy2rgb" _s=0,0
-_ac_cmy_m : _p="-to_color" _f="-rgb2cmy" _b="-cmy2rgb" _s=1,1
-_ac_cmy_y : _p="-to_color" _f="-rgb2cmy" _b="-cmy2rgb" _s=2,2
+_ac_cmy_c : _p="-to_color" _f="-rgb2cmy" _b="-cmy2rgb" _s=0
+_ac_cmy_m : _p="-to_color" _f="-rgb2cmy" _b="-cmy2rgb" _s=1
+_ac_cmy_y : _p="-to_color" _f="-rgb2cmy" _b="-cmy2rgb" _s=2
 
 _ac_cmyk : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=0,3
-_ac_cmyk_c : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=0,0
-_ac_cmyk_m : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=1,1
-_ac_cmyk_y : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=2,2
-_ac_cmyk_k : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=3,3
+_ac_cmyk_c : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=0
+_ac_cmyk_m : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=1
+_ac_cmyk_y : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=2
+_ac_cmyk_k : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=3
 
 #@gmic autoindex : nb_colors>0,0<=_dithering<=1,_method={ 0=median-cut | 1=k-means }
 #@gmic : Index selected vector-valued images by adapted colormaps.
@@ -5292,7 +5292,7 @@ colormap : -check "isint($1) && $1>=0" -skip ${2=1},${3=1}
         # Start k-means iterations.
         -do
           -repeat {s}                                      # Estimate new colormap.
-            -sh[0] $>,$> --histogram. {$1*256},0,{$1*256-1} -rm..
+            -sh[0] $> --histogram. {$1*256},0,{$1*256-1} -rm..
             -i.. 256,1,1,1,'x' -r.. {w},1,1,1,0,2 -*.. [-1] -r[-2,-1] $1,1,1,1,2 -max. 0.01 -/[-2,-1]
           -done -a[2--1] c
           --.. [-1] -abs.. diff={{-2,is}/w} -rm..          # Compute colormap difference.
@@ -5315,7 +5315,7 @@ colormap : -check "isint($1) && $1>=0" -skip ${2=1},${3=1}
 _colormap : # Implementation of the median-cut algorithm.
   -repeat {$1-1}
     $!,{s} -repeat {$!-1} # Compute box variances along all axes and find highest one (without a single element).
-      n=$> -repeat {$n,s} -sh[$n] $>,$> -=.. {if(w>1,iv,-1)},$n,$> -rm. -done
+      n=$> -repeat {$n,s} -sh[$n] $> -=.. {if(w>1,iv,-1)},$n,$> -rm. -done
     -done
     c={C}
     b=${-arg\ 1,$c}  # Indice of the box with highest variance.
@@ -5332,8 +5332,8 @@ _colormap : # Implementation of the median-cut algorithm.
 compose_channels : -skip ${1="+"}
   -e[^-1] "Compose all channels of image$?, with operator '$1'."
   -v - -repeat $! -l[$>]
-    -sh 0,0
-    -repeat {{-2,s}-1} -sh.. {$>+1},{$>+1} -l[-2,-1] -$1 -endl -done
+    -sh 0
+    -repeat {{-2,s}-1} -sh.. {$>+1} -l[-2,-1] -$1 -endl -done
     -rm. -r 100%,100%,100%,1,-1
   -endl -done -v +
 
@@ -5374,7 +5374,7 @@ fill_color :
 _fill_color :
   -e[0--3] "Fill image"$_gmic_s" with color (${^0})."
   -v - -repeat $! -l[$>]
-    -repeat {s} -sh[0] $>,$> -f. {arg(1+$>,${^0})} -done -k[0]
+    -repeat {s} -sh[0] $> -f. {arg(1+$>,${^0})} -done -k[0]
   -nm {n} -endl -done -v +
 
 #@gmic gradient2rgb : _is_orientation={ 0 | 1 }
@@ -5419,7 +5419,7 @@ hsv82rgb :
 
 _hsx82rgb :
  -repeat $!
-   -sh[$>] 0,0 -/. 0.708333 -rm.
+   -sh[$>] 0 -/. 0.708333 -rm.
    -sh[$>] 1,2 -/. 255 -rm.
  -done
 
@@ -5448,9 +5448,9 @@ lab2lch :
 lab82rgb :
   -e[^-1] "Convert image$? from Lab8 to RGB color bases."
   -v - -repeat $!
-    -sh[$>] 0,0 -/. 2.55 -rm.
-    -sh[$>] 1,1 -/. 1.275 --. 100 -rm.
-    -sh[$>] 2,2 -/. 1.15909 --. 110 -rm.
+    -sh[$>] 0 -/. 2.55 -rm.
+    -sh[$>] 1 -/. 1.275 --. 100 -rm.
+    -sh[$>] 2 -/. 1.15909 --. 110 -rm.
   -done -lab2rgb -v +
 
 #@gmic lch2lab
@@ -5472,9 +5472,9 @@ lch2rgb :
 lch82rgb :
   -e[^-1] "Convert image$? from Lch8 to RGB color bases."
   -v - -repeat $!
-    -sh[$>] 0,0 -/. 2.55 -rm.
-    -sh[$>] 1,1 -/. 1.88889 -rm.
-    -sh[$>] 2,2 -/. 40.5845 --. 3.14159 -rm.
+    -sh[$>] 0 -/. 2.55 -rm.
+    -sh[$>] 1 -/. 1.88889 -rm.
+    -sh[$>] 2 -/. 40.5845 --. 3.14159 -rm.
   -done -lch2rgb -v +
 
 #@gmic luminance
@@ -5484,7 +5484,7 @@ luminance :
   -e[^-1] "Compute luminance of image$?."
   -v - -remove_opacity -srgb2rgb
   -repeat $! -l[$>]
-  -if {s==3} -sh 0,0 -sh[0] 1,1 -sh[0] 2,2 -*[1] 0.299 -*[2] 0.587 -*[3] 0.114 -+[1-3] -rm[1]
+  -if {s==3} -sh 0 -sh[0] 1 -sh[0] 2 -*[1] 0.299 -*[2] 0.587 -*[3] 0.114 -+[1-3] -rm[1]
   -elif {s!=1} -norm -n 0,255
   -endif -endl -done
   -channels 0 -rgb2srgb -v +
@@ -5620,7 +5620,7 @@ rgb2hsv8 :
 
 _rgb2hsx8 :
   -repeat $!
-    -sh[$>] 0,0 -*. 0.708333 -rm.
+    -sh[$>] 0 -*. 0.708333 -rm.
     -sh[$>] 1,2 -*. 255 -rm.
   -done
 
@@ -5635,9 +5635,9 @@ _rgb2hsx8 :
 rgb2lab8 :
   -e[^-1] "Convert image$? from RGB to Lab8 color bases."
   -v - -rgb2lab -repeat $!
-    -sh[$>] 0,0 -*. 2.55 -rm.
-    -sh[$>] 1,1 -+. 100 -*. 1.275 -rm.
-    -sh[$>] 2,2 -+. 110 -*. 1.15909 -rm.
+    -sh[$>] 0 -*. 2.55 -rm.
+    -sh[$>] 1 -+. 100 -*. 1.275 -rm.
+    -sh[$>] 2 -+. 110 -*. 1.15909 -rm.
   -done -v +
 
 #@gmic rgb2lch
@@ -5653,9 +5653,9 @@ rgb2lch :
 rgb2lch8 :
   -e[^-1] "Convert image$? from RGB to Lch8 color bases."
   -v - -rgb2lch -repeat $!
-    -sh[$>] 0,0 -*. 2.55 -rm.
-    -sh[$>] 1,1 -*. 1.88889 -rm.
-    -sh[$>] 2,2 -+. 3.14159 -*. 40.5845 -rm.
+    -sh[$>] 0 -*. 2.55 -rm.
+    -sh[$>] 1 -*. 1.88889 -rm.
+    -sh[$>] 2 -+. 3.14159 -*. 40.5845 -rm.
   -done -v +
 
 #@gmic rgb2luv
@@ -5697,9 +5697,9 @@ rgb2xyz :
 rgb2xyz8 :
   -e[^-1] "Convert image$? from RGB to XYZ8 color bases."
   -v - -rgb2xyz -repeat $!
-    -sh[$>] 0,0 -*. 255 -rm.
-    -sh[$>] 1,1 -*. 255 -rm.
-    -sh[$>] 2,2 -*. 231.8182 -rm.
+    -sh[$>] 0 -*. 255 -rm.
+    -sh[$>] 1 -*. 255 -rm.
+    -sh[$>] 2 -*. 231.8182 -rm.
   -done -v +
 
 #@gmic rgb2ycbcr
@@ -5708,7 +5708,7 @@ rgb2xyz8 :
 rgb2ycbcr :
   -e[^-1] "Convert image$? from RGB to YCbCr color bases."
   -v - -mix_rgb 66,129,25,-38,-74,112,112,-94,-18 -+ 128 -/ 256
-  -repeat $! -l[$>] -sh 0,0 -+. 16 -rm. -sh 1,2 -+. 128 -rm. -endl -done
+  -repeat $! -l[$>] -sh 0 -+. 16 -rm. -sh 1,2 -+. 128 -rm. -endl -done
   -v +
 
 #@gmic rgb2yuv
@@ -5724,9 +5724,9 @@ rgb2yuv :
 rgb2yuv8 :
   -e[^-1] "Convert image$? from RGB to YUV8 color bases."
   -v - -rgb2yuv -repeat $!
-    -sh[$>] 0,0 -*. 255 -rm.
-    -sh[$>] 1,1 -+. 0.44 -*. 289.773 -rm.
-    -sh[$>] 2,2 -+. 0.62 -*. 205.645 -rm.
+    -sh[$>] 0 -*. 255 -rm.
+    -sh[$>] 1 -+. 0.44 -*. 289.773 -rm.
+    -sh[$>] 2 -+. 0.62 -*. 205.645 -rm.
   -done -v +
 
 #@gmic remove_opacity
@@ -5789,7 +5789,7 @@ split_colors : -check "${1=0}>=0 && isint(${2=256}) && $2>0 && ${3=8}>=1"
     -r[^0] [0],[0],[0],{0,s+1}
     N={$!-1}
     -sh[^0] 0,{s-2} -*[-$N--1] [0] -rm[-$N--1]
-    -sh[^0] 100%,100% -*[-$N--1] 255 -rm[0,-$N--1]
+    -sh[^0] 100% -*[-$N--1] 255 -rm[0,-$N--1]
 
   -endl -done -v +
 
@@ -5807,7 +5807,7 @@ split_opacity :
 to_a :
   -e[^-1] "Force image$? to have an alpha channel."
   -v - -repeat $! -l[$>]
-    -if {s==1||s==3} -channels 0,{s} -sh. {s-1},{s-1} -f. 255 -rm. -endif
+    -if {s==1||s==3} -channels 0,{s} -sh. {s-1} -f. 255 -rm. -endif
   -endl -done -v +
 
 #@gmic to_color
@@ -5860,8 +5860,8 @@ to_graya :
   -v - -repeat $! -l[$>]
     -if {s>4} -error[] "Command '-to_graya': Image ["$>"] is not a G,GA,RGB or RGBA image ("{s}" channels)."
     -elif {s==4} --channels 3 -channels.. 0,2 -luminance.. -a c
-    -elif {s==3} -luminance -channels 0,1 -sh. 1,1 -f. 255 -rm.
-    -elif {s==1} -channels 0,1 -sh. 1,1 -f. 255 -rm.
+    -elif {s==3} -luminance -channels 0,1 -sh. 1 -f. 255 -rm.
+    -elif {s==1} -channels 0,1 -sh. 1 -f. 255 -rm.
     -endif
   -endl -done -v +
 
@@ -5903,9 +5903,9 @@ to_rgba :
    -e[^-1] "Force image$? to be in RGBA mode."
    -v - -repeat $! -l[$>]
      -if {s>4} -error[] "Command '-to_rgba': Image ["$>"] is not a G,GA,RGB or RGBA image ("{s}" channels)."
-     -elif {s==3} -channels 0,3 -sh. 3,3 -f. 255 -rm.
-     -elif {s==2} -r 100%,100%,100%,4 -sh. 2,2 -f. [-2] -rm.
-     -elif {s==1} -r 100%,100%,100%,4 -sh. 3,3 -f. 255 -rm.
+     -elif {s==3} -channels 0,3 -sh. 3 -f. 255 -rm.
+     -elif {s==2} -r 100%,100%,100%,4 -sh. 2 -f. [-2] -rm.
+     -elif {s==1} -r 100%,100%,100%,4 -sh. 3 -f. 255 -rm.
      -endif
    -endl -done -v +
 
@@ -5919,8 +5919,8 @@ transfer_colors : -skip ${1=0}
   -repeat $! -l[$>] -split_opacity -rgb2ycbcr[0] -a c -endl -done                  # Perform RGB[A] to YCbCr[A] conversion.
   -l[0] -s c -histogram_cumul 256,1,0,255 -a c -* 255 -endl                        # Compute channel-by-channel cumulative histogram of target image.
   -repeat {$!-1} -l[0,{$<+1}]
-    -if $1 -repeat 3 -sh[0,1] $>,$> -equalize. 256,0,255 -index. [-2],0,0 -rm[-2,-1] -done         # Transfer brightness + colors.
-    -else -repeat 2 -sh[0,1] {$>+1},{$>+1} -equalize. 256,0,255 -index. [-2],0,0 -rm[-2,-1] -done  # Transfer colors only.
+    -if $1 -repeat 3 -sh[0,1] $> -equalize. 256,0,255 -index. [-2],0,0 -rm[-2,-1] -done     # Transfer brightness + colors.
+    -else -repeat 2 -sh[0,1] {$>+1} -equalize. 256,0,255 -index. [-2],0,0 -rm[-2,-1] -done  # Transfer colors only.
     -endif
   -endl -done -rm[0]
   -repeat $! -l[$>] -split_opacity -ycbcr2rgb[0] -a c -endl -done    # Perform YCbCr[A] to RGB[A] conversion.
@@ -5940,16 +5940,16 @@ xyz2rgb :
 xyz82rgb :
   -e[^-1] "Convert image$? from XYZ8 to RGB color bases."
   -v - -repeat $!
-    -sh[$>] 0,0 -/. 255 -rm.
-    -sh[$>] 1,1 -/. 255 -rm.
-    -sh[$>] 2,2 -/. 231.8182 -rm.
+    -sh[$>] 0 -/. 255 -rm.
+    -sh[$>] 1 -/. 255 -rm.
+    -sh[$>] 2 -/. 231.8182 -rm.
   -done -xyz2rgb -v +
 
 #@gmic ycbcr2rgb
 #@gmic : Convert selected images from YCbCr to RGB colorbases.
 ycbcr2rgb :
   -e[^-1] "Convert image$? from YCbCr to RGB color bases."
-  -v - -repeat $! -l[$>] -sh 0,0 --. 16 -rm. -sh 1,2 --. 128 -rm. -endl -done
+  -v - -repeat $! -l[$>] -sh 0 --. 16 -rm. -sh 1,2 --. 128 -rm. -endl -done
   -mix_rgb 298,0,409,298,-100,-208,298,516,0 -+ 128 -/ 256 -c 0,255
   -v +
 
@@ -5964,9 +5964,9 @@ yuv2rgb :
 yuv82rgb :
   -e[^-1] "Convert image$? from YUV8 to RGB color bases."
   -v - -repeat $!
-    -sh[$>] 0,0 -/. 255 -rm.
-    -sh[$>] 1,1 -/. 289.773 --. 0.44 -rm.
-    -sh[$>] 2,2 -/. 205.645 --. 0.62 -rm.
+    -sh[$>] 0 -/. 255 -rm.
+    -sh[$>] 1 -/. 289.773 --. 0.44 -rm.
+    -sh[$>] 2 -/. 205.645 --. 0.62 -rm.
   -done -yuv2rgb -v +
 
 #---------------------------------
@@ -7565,7 +7565,7 @@ inpaint_holes : -check "${1=4}>=0 && ${2=0}>=0" -skip ${3=0}
   -v - -repeat $! -l[$>]
     100%,100%,100%
     area={if(${-is_percent\ $1},$1*w*h*d,$1)}
-    -repeat {0,s} -sh[0] $>,$> --area. $2,$3 -<=. $1 -|[1,-1] -rm. -done
+    -repeat {0,s} -sh[0] $> --area. $2,$3 -<=. $1 -|[1,-1] -rm. -done
     -if {im} -k[0] whd={w},{h},{d} -r 1,1,1,100%,2 -r $whd,100%
     -else -inpaint[0] [1],0,{2*!$2+!!$3} -k[0] -endif
   -endl -done -v +
@@ -8015,7 +8015,7 @@ syntexturize : -check "${1=100%}>0 && ${2=$1}>0"
   -v - -repeat $! -l[$>]
 
     # Prepare input image data.
-    mM={im},{iM} -repeat {s} -sh. $>,$> sum$>={is} var$>={iv} -rm. -done  # Retrieve some stats for post-normalization.
+    mM={im},{iM} -repeat {s} -sh. $> sum$>={is} var$>={iv} -rm. -done  # Retrieve some stats for post-normalization.
     nw={if(${-is_percent\ $1},$1*w,$1)}
     nh={if(${-is_percent\ $2},$2*h,$2)}
     -repeat {s} sum$>={${sum$>}*$nw*$nh/(w*h)} -done # Re-estimate output (0,0) frequency.
@@ -8047,7 +8047,7 @@ syntexturize : -check "${1=100%}>0 && ${2=$1}>0"
     # Get synthetized result and normalize it.
     -repeat {s} -=.. ${sum$>},0,0,0,$> -=. 0,0,0,0,$> -done
     -ifft -rm.
-    -repeat {s} -sh. $>,$> avg={ia} --. $avg -*. {sqrt(${var$>}/if(iv,iv,1))} -+. $avg -rm. -done
+    -repeat {s} -sh. $> avg={ia} --. $avg -*. {sqrt(${var$>}/if(iv,iv,1))} -+. $avg -rm. -done
     -c $mM
 
   -endl -done -v +
@@ -9063,7 +9063,7 @@ pack_sprites : -check "isint(${1=5}) && $1>=0 && ${2=25}>=0 && $2<=100 && isint(
     -repeat $N --l[{1+$>}]
       w={w*$ratio} h={h*$ratio}
       -if {$w<1||$h<1} -rm
-      -else -r $w,$h,1,100%,2 -sh. 100%,100% -!=. 0 area{1+$>}={is} -rm.
+      -else -r $w,$h,1,100%,2 -sh. 100% -!=. 0 area{1+$>}={is} -rm.
       -endif
     -endl -done
 
@@ -9075,7 +9075,7 @@ pack_sprites : -check "isint(${1=5}) && $1>=0 && ${2=25}>=0 && $2<=100 && isint(
       -if {$3==0} [$ind]
       -elif {$3==1} --rotate[$ind] {round(u)*180}
       -elif {$3==2} --rotate[$ind] {round(u(3))*90}
-      -else --rotate[$ind] {u*360} -sh. 100%,100% -!=. 0 area={is} -rm.
+      -else --rotate[$ind] {u*360} -sh. 100% -!=. 0 area={is} -rm.
       -endif
 
       # Get binary map of possible locations.
@@ -9132,9 +9132,9 @@ pack_sprites : -check "isint(${1=5}) && $1>=0 && ${2=25}>=0 && $2<=100 && isint(
       -rm... # Delete reference sprite.
 
       # Draw cloud and detect non-intersecting sprites.
-      [0] -sh. 100%,100% -f. 1 --. [-4]
+      [0] -sh. 100% -f. 1 --. [-4]
       -j3d.. [-3],0,0,0,1,2,0,0 -rm[-3,-1]
-      -sh. 100%,100% -area_fg. 0,1 -==. $area
+      -sh. 100% -area_fg. 0,1 -==. $area
       -*. [-3] -rm... -sh.. 0,{-2,s-2} -*. [-2] -rm.
 
       # Draw selected sprites on rendering image.
@@ -9394,7 +9394,7 @@ triangle_shade :
   -polygon[^-1] 3,${1-6},1,-65535 # Mask images with triangle.
   -repeat {$!-1} -l[$>,-1] -repeat {0,s}
     a={i(0,0,0,$>)} b={i(0,1,0,$>)} c={i(0,2,0,$>)}
-    -sh[0] $>,$> -f. 'if(i==-65535,$a*x+$b*y+$c,i)' -rm.
+    -sh[0] $> -f. 'if(i==-65535,$a*x+$b*y+$c,i)' -rm.
   -done -endl -done
   -rm. -v +
 
@@ -10399,9 +10399,9 @@ parametric3d : -skip "${1=(2+cos(b))*sin(a)}","${2=(2+cos(b))*cos(a)}","${3=sin(
   # Compute (x(a,b),y(a,b),z(a,b)) and normalize it.
   ($4,$5;$4,$5^$6,$6;$7,$7) -r. $8,$9,1,2,3 -channels. 0,2
   -f. "a=i(x,y,0,0);b=i(x,y,0,1);if(c==0,$1,if(c==1,$2,$3))"
-  -sh. 0,0 xmin={im} xmax={iM} -n. 16,{$10-17} -rm.
-  -sh. 1,1 ymin={im} ymax={iM} -n. 16,{$11-17} -rm.
-  -sh. 2,2 zmin={im} zmax={iM} -n. 16,{$12-17} -rm.
+  -sh. 0 xmin={im} xmax={iM} -n. 16,{$10-17} -rm.
+  -sh. 1 ymin={im} ymax={iM} -n. 16,{$11-17} -rm.
+  -sh. 2 zmin={im} zmax={iM} -n. 16,{$12-17} -rm.
   -r. {w*h},3,1,1,-1
 
   # Extract 3d surface.
@@ -12162,7 +12162,7 @@ ellipsionism : -check "${1=10}>0 && ${2=3}>0 && ${5=8}>0 && ${6=0.6}>0" -skip ${
 
     # Compute contour angle.
     --luminance -g. xy -a[-2,-1] c -b. $3 -orientation.
-    -sh. 0,0 -sh.. 1,1 -atan2. [-2] -*. {180/pi} -+. 90 -rm[-2,-1] -channels. 1,1
+    -sh. 0 -sh.. 1 -atan2. [-2] -*. {180/pi} -+. 90 -rm[-2,-1] -channels. 1,1
 
     # Render ellipses.
     [-2],[-2],1,[-2]
@@ -13055,9 +13055,9 @@ spread : -skip ${1=3},${2=$1},${3=0}
   -e[^-1] "Spread pixel of image$? randomly, with amplitudes ($1,$2,$3)."
   -v - -repeat $! -l[$>]
     100%,100%,100%,3
-    -sh. 0,0 -rand. {-$1},$1 -rm.
-    -sh. 1,1 -rand. {-$2},$2 -rm.
-    -sh. 2,2 -rand. {-$3},$3 -rm.
+    -sh. 0 -rand. {-$1},$1 -rm.
+    -sh. 1 -rand. {-$2},$2 -rm.
+    -sh. 2 -rand. {-$3},$3 -rm.
     -warp.. [-1],1 -rm.
   -endl -done -v +
 
@@ -13163,12 +13163,12 @@ blend : -skip ${1=alpha},${2=1},${3=1},${4=0}
       -if {s==2||s==4} # Mask has alpha.
         -sh[0,1] 0,{s-2} -_blend_$1[2,3] -rm[2,3]
         -if {$1'=='alpha} # Special blending code for alpha-mode.
-          -sh[0,1] 0,{{0,s}-2} -sh[0,1] 100%,100% -*[2,4] -*[3,4] -rm[2,3]
-          --channels[1] 100% -sh[1] 100%,100% -f[3] 255 -rm[3]
+          -sh[0,1] 0,{{0,s}-2} -sh[0,1] 100% -*[2,4] -*[3,4] -rm[2,3]
+          --channels[1] 100% -sh[1] 100% -f[3] 255 -rm[3]
           -j[0] [1],0,0,0,0,{max(0,min(1,$2))},[2],255 -rm[1,2]
-          -sh[0] 0,{s-2} -sh[0] 100%,100% -+[2] 1e-10 -/[1,2] -rm[1] -c 0,255
+          -sh[0] 0,{s-2} -sh[0] 100% -+[2] 1e-10 -/[1,2] -rm[1] -c 0,255
         -else
-          -sh[1] 0,{s-2} -sh[1] 100%,100% -j[0] [2],0,0,0,0,{max(0,min(1,$2))},[3],255 -rm[^0]
+          -sh[1] 0,{s-2} -sh[1] 100% -j[0] [2],0,0,0,0,{max(0,min(1,$2))},[3],255 -rm[^0]
         -endif
       -else # Mask has no alpha.
         -sh[0] 0,{{0,s}-2} -rv[1,2] -_blend_$1[1,2] -j[1] [2],0,0,0,0,{max(0,min(1,$2))} -rm[^0]
@@ -13176,7 +13176,7 @@ blend : -skip ${1=alpha},${2=1},${3=1},${4=0}
     -else # Target has no alpha.
       -if {s==2||s==4} # Mask has alpha.
         -sh[1] 0,{s-2} -_blend_$1[0,2] -rm[2]
-        -sh[1] 100%,100% -j[0] [1],0,0,0,0,{max(0,min(1,$2))},[2],255 -rm[^0]
+        -sh[1] 100% -j[0] [1],0,0,0,0,{max(0,min(1,$2))},[2],255 -rm[^0]
       -else # Mask has no alpha.
         -_blend_$1 -j[0] [1],0,0,0,0,{max(0,min(1,$2))} -rm[1]
       -endif
@@ -13214,7 +13214,7 @@ _blend_grainextract :
 _blend_grainmerge :
   -+[1] [0] --[1] 128 -c[1] 0,255
 _blend_green :
-  -sh[0] 0,0 -sh[0] 2,2 -j[1] [2] -j[1] [3],0,0,0,2 -rm[2,3]
+  -sh[0] 0 -sh[0] 2 -j[1] [2] -j[1] [3],0,0,0,2 -rm[2,3]
 _blend_hardlight :
   --*[0,1] -/[2] 127.5 --+[0,1] -*[3] 2 --[3] 255 --[3] [2] ->[1] 128
   -j[2] [3],0,0,0,0,1,[1] -rm[1,3] -c[1] 0,255
@@ -14141,8 +14141,8 @@ _autocrop1 : -skip $* -autocrop
 average_color :
   -v -
   res=""
-  -repeat {s-1} -sh. {1+$>},{1+$>} res=$res,{ia} -rm. -done
-  -sh. 0,0 -u {ia}$res -rm.
+  -repeat {s-1} -sh. {1+$>} res=$res,{ia} -rm. -done
+  -sh. 0 -u {ia}$res -rm.
   -v +
 
 #@gmic basename : file_path,_variable_name_for_folder
@@ -14888,7 +14888,7 @@ demo : -check "isint(${1=2}) && $1>=0 && $1<=2"
   # Pre-compute 3d objects.
   -ball[] 64,200,100,64 -n. 0,230 -s. c,-3 -rgb2hsv.. -*. 0.5 -a[-2,-1] c
   -repeat 6
-    -sh. 0,0 -f. {$>*360/6} -rm. --s. c,-3 -hsv2rgb.. -a[-2,-1] c
+    -sh. 0 -f. {$>*360/6} -rm. --s. c,-3 -hsv2rgb.. -a[-2,-1] c
     ({'CImg3d'}) (5,5) 3,5 (1,0;1,4) -r. 2,5,1,1,3 -round. 4,5 -y[-5--1] -a[-5--1] y
     -rv[-2,-1] -sprites3d.. [-1],1 -rm. -rv[-2,-1]
   -done -rm. -+3d[-6--1]
@@ -15293,7 +15293,7 @@ x_color_curves : -skip ${1=rgb}
 
     # Apply color curves on fullres image.
     -xcc_goto
-    -repeat {s} -function1d[] 1,${__xcc_C$>} -*. {255%} -r. 256,1,1,1,5 -c. 0,255 -sh[0] $>,$> -map. [-2] -rm[-2,-1] -done
+    -repeat {s} -function1d[] 1,${__xcc_C$>} -*. {255%} -r. 256,1,1,1,5 -c. 0,255 -sh[0] $> -map. [-2] -rm[-2,-1] -done
     -xcc_backto
 
   -endl -done
@@ -15457,12 +15457,12 @@ _x_colorize :
   w={w} h={h}
 
   -if $1 # Line-art.
-    -if {s==4} -sh. 3,3 -if {abs(im-iM)>64} --*. -1 -rm.. -+. 255 -else -rm. -sh. 0,0 -endif
-    -else -sh. 0,0
+    -if {s==4} -sh. 3 -if {abs(im-iM)>64} --*. -1 -rm.. -+. 255 -else -rm. -sh. 0 -endif
+    -else -sh. 0
     -endif
     -n 0,255
   -else # Regular image.
-    -if {s==1} -sh. 0,0
+    -if {s==1} -sh. 0
     -else --luminance.
     -endif
   -endif
@@ -16152,7 +16152,7 @@ x_jawbreaker : -check "${1=12}>0 && $1<20 && ${2=13}>0 && $2<20 && ${3=5}>0 && $
   -i[balls] 32,32,1,4 -_x_jawbreaker_ball. -autocrop. 0 -expand_xy. 1,0 -*. 1.5 -c. 0,255 -r. {{board,w}*w},{{board,h}*h},1,1,0,2 -/. 255
   -i[back] {w},{h},1,3 -l.
     -rand 0,255 -blur_xy 6,20 -equalize 100,0,255 -blur_xy 2,4
-    -sh 0,0 -sh.. 1,1 -sh... 2,2 -/... 4 -/.. 8 -/. 2 -rm[-3--1]
+    -sh 0 -sh.. 1 -sh... 2 -/... 4 -/.. 8 -/. 2 -rm[-3--1]
   -endl
   -i[visu] [back]
   score=0
@@ -16261,12 +16261,12 @@ x_jawbreaker : -check "${1=12}>0 && $1<20 && ${2=13}>0 && $2<20 && ${3=5}>0 && $
 
 _x_jawbreaker_ball :
   mwh={min(w,h)}
-  -sh 3,3 -f. 0 -rm.
+  -sh 3 -f. 0 -rm.
   -ellipse {0.5*$mwh},{0.5*$mwh},{0.5*$mwh-4},{0.5*$mwh-4},0,1,240,240,240,1
   -sh 0,2 -*. '($mwh+y-x)/(2*w)' -rm.
   -ellipse {$mwh*0.7},{$mwh*0.3},{min(30,$mwh*$mwh/512)},{min(30,$mwh*$mwh/512)},0,{min($mwh/64,1)},255,255,255,1
   -sh 0,2 -b. {0.02*$mwh} -rm.
-  -sh 3,3 -*.. [-1] -dilate. 3 -rm.
+  -sh 3 -*.. [-1] -dilate. 3 -rm.
   -sh 0,2 -+. 'if(i&&(!j(-1)||!j(1)||!j(0,-1)||!j(0,1)),240/6,0)' -rm.
 
 #@gmic x_landscape
@@ -16466,8 +16466,8 @@ x_light :
   # Create warping and color images.
   0 -t. "    G\47MIC\nLight effect",0,0,80,1,255 -expand_xy. 15,0 -b. 3
   [-1] -n.. 0,1 -r.. 100%,100%,1,3
-  -sh.. 0,0 -*. 120 -rm.
-  -sh.. 1,1 -*. 70 -rm.
+  -sh.. 0 -*. 120 -rm.
+  -sh.. 1 -*. 70 -rm.
   -sh.. 0,50%,0,2 -*. 120 -rm.
   25%,25%,1,1 -rand. -20,20 -smooth. 10,0,1,1,4 -r. [-2],3 -b. 3 -n. -100,100
   -+[-2,-1] -g. xy -a[-2,-1] c -n. -150,150
@@ -16659,12 +16659,12 @@ x_minesweeper : -check "${1=20}>=8 && $1<=30 && ${2=$1}>=8 && $2<=30"
     # Wait for user's selection.
     -wait -1
     -if $failed
-      0 -t. "Game\nOver!",3,3,38,1,255 -r. 100%,100%,1,4 -sh. 3,3 -dilate. 5 -/. 2 -rm.
+      0 -t. "Game\nOver!",3,3,38,1,255 -r. 100%,100%,1,4 -sh. 3 -dilate. 5 -/. 2 -rm.
       -drop_shadow. 5,5,1 -blend[canvas,-1] alpha
       0 -t. "Boom! You failed!",0,0,18,1,100,255,255 -r. {canvas,w},100%,1,3,0,0,0.5,0.5 -negative. -j[canvas] [-1],0,3 -rm.
       -do -w[canvas] {w},{h} -wait -while {{*}" && "!{*,ESC}" && "!{*,Q}}
     -elif $succeeded
-      0 -t. "Success!",3,3,38,1,255 -r. 100%,100%,1,4 -sh. 3,3 -dilate. 5 -/. 2 -rm.
+      0 -t. "Success!",3,3,38,1,255 -r. 100%,100%,1,4 -sh. 3 -dilate. 5 -/. 2 -rm.
       -drop_shadow. 5,5,1 -blend[canvas,-1] alpha
       0 -t. "Congratulations! ("{round($|-$tic)}" s)",0,0,18,1,255,100,255 -r. {canvas,w},100%,1,3,0,0,0.5,0.5
       -negative. -j[canvas] [-1],0,3 -rm.
@@ -17387,7 +17387,7 @@ x_quantize_rgb : -check "isint(${1=16}) && $1>1"
       # Estimate new centroids positions.
       -&[colors] 255 --index[colors] [centroids] -*. 256 -+[colors,-1]      # Estimate nearest centroids for all colors.
       -repeat {colors,s}                                                       # Recompute centroid positions.
-        -sh[colors] $>,$> --histogram. {centroids,w*256},0,{centroids,w*256-1} -rm..
+        -sh[colors] $> --histogram. {centroids,w*256},0,{centroids,w*256-1} -rm..
         -i.. 256,1,1,1,'x' -r.. {w},1,1,1,0,2 -*.. [-1] -r[-2,-1] {centroids,w},1,1,1,2 -max. 0.01 -/[-2,-1]
       -done -a[-{colors,s}--1] c
       -rm[centroids] -nm. centroids
@@ -17437,7 +17437,7 @@ x_reflection3d :
 
   # Render background.
   128,256,1,3 -rand. 0,255 -plasma. 1,100 -blur_xy. 30,2
-  -sh. 0,0 -n. 0,90 -rm. -sh. 1,1 -n. 0,60 -rm. -sh. 2,2 -n. 0,180 -rm.
+  -sh. 0 -n. 0,90 -rm. -sh. 1 -n. 0,60 -rm. -sh. 2 -n. 0,180 -rm.
   --mirror. x [-2,-1] -a[-4--1] x
   --luminance. -mirror. x -b. 2 -n. 0,255
 
@@ -17515,7 +17515,7 @@ x_rubber3d :
     -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {2*w},{2*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {w},{h} -endif
     -wait[0] 20
-    -sh[2] 2,2 --. 1 -&. {{1,d}-1} -rm.
+    -sh[2] 2 --. 1 -&. {{1,d}-1} -rm.
     frame={($frame-1)%{1,d}}
   -while {{*}" && "!{*,ESC}" && "!{*,Q}}
   -rm -w 0 -v +
@@ -18065,7 +18065,7 @@ x_select_palette : -skip ${1=xsp_variable},${2=0}
         -f. if(i>={'a'}&&i<={'z'},i+{'A'}-{'a'},i)
         -t... "HTML ""#"{t},8,{$wh-17},14,1,0 -rm.
       -endif
-      -sh[baseview] 3,3 -j... [-2],8,8,0,0,1,[-1] -rm[-2,-1]
+      -sh[baseview] 3 -j... [-2],8,8,0,0,1,[-1] -rm[-2,-1]
       -nm. view -w[view]
     -endif
 
@@ -18335,7 +18335,7 @@ x_tetris :
     -if $do_render
       -rm[curr_board,curr_render,curr_render_mask]
       -i[curr_board] [board] -j[curr_board] [m$n],{$x-int({m$n,w}/2)},$y,0,0,1,[m$n]
-      -i[curr_render] [render] -sh[s$n] 3,3 -j[curr_render] [s$n],{$fact*($x-int({m$n,w}/2))},{$fact*$y},0,0,1,[-1],255 -rm.
+      -i[curr_render] [render] -sh[s$n] 3 -j[curr_render] [s$n],{$fact*($x-int({m$n,w}/2))},{$fact*$y},0,0,1,[-1],255 -rm.
       --*[curr_board] 255 -r. [curr_render],[curr_render] -nm. curr_render_mask
       0 -t. "Score : "$score"    Next :",4,0,32,1,164 -r. 40%,40%,1,3,2 --!=. 0 -*. 255
       -j[curr_render] [-2],0,0,0,0,1,[-1],255 -j[curr_render_mask] [-1],0,0,0,0,1,[-1],255 -rm[-2,-1]
@@ -18837,7 +18837,7 @@ gimp_logo_version3 : -skip "${1=Plug-in for GIMP}"
   -a[-5--1] x
   -r. 100%,120%,1,4,0,0,0.5,1
   -ball 64,{255*$r3},{255*$g3},{255*$b3} -j.. [-1],450,5 -rm.
-  -sh. 100%,100% -dilate. 7 -rm. -autocrop.
+  -sh. 100% -dilate. 7 -rm. -autocrop.
   -drop_shadow. 10,10,1%,0.5
   0 -t. "$1",0,0,53,1,255 -frame. 4,4,0 [-1]x3 -dilate. 7 -a[-4--1] c
   -a[-2,-1] y,0.5
@@ -18854,7 +18854,7 @@ gimp_logo_version2 : -skip "${1=Plug-in for GIMP}"
   -expand_xy. 10,0 -b. 2 -r. 200%,200%,1,3,6 -sqr. -c. 0,60% -n. 0,255
   -warp_perspective. 0.5,0,1,50,50,0 -shift. 0,-10
   100%,100% -noise. 0.8,2 -*. 180 --blur_linear. 20,0,45,0 -*. 20 -max[-3--1]
-  -sh. 2,2 (0;128) -r. [-2],3 -+[-2,-1] -min. 255 -rm.
+  -sh. 2 (0;128) -r. [-2],3 -+[-2,-1] -min. 255 -rm.
   0 -t. "$1",0,0,13,1,1 --dilate. 3 -*.. 255 -r.. 100%,100%,1,3
   -j... [-2],{({-3,w}-w)/2},75%,0,0,1,[-1] -rm[-2,-1]
   -frame. 1,1,128 -mv. 0
@@ -18871,7 +18871,7 @@ gimp_logo_version1 : -skip "${1=Plug-in for GIMP}"
   0 -t. "$1",0,0,13,1,255,255,255 -j.. [-1],{({-2,w}-w)/2},75% -rm.
   -to_rgba -replace_color 0,0,0,0,0,255,0,0,0,0 -drop_shadow 6,6,2
   -i.. ${-fitratio_wh\ 230,120,$ratio},1,3
-  -rand.. 0,255 -sh.. 0,0 -/. 2 -rm.
+  -rand.. 0,255 -sh.. 0 -/. 2 -rm.
   -blur_radial.. 20 -sharpen.. 300
   -r. [-2],[-2],1,4,0,0,0.5,0.5 -blend alpha
 
@@ -20089,7 +20089,7 @@ gimp_puzzle :
           -r2dy {max(0.1,$10+$11*u(-1,1))}% -rotate {$12+$13*u(-1,1)}
           -if $15 -expand_xy 1,0 -endif
           cx={round(w/2)} cy={round(h/2)}
-          -sh 100%,100% -if $15 -dilate. 3 -endif
+          -sh 100% -if $15 -dilate. 3 -endif
           -i[0] $w,$h,1,4
           -j[0] [-2],{${x$<}-$cx},{${y$<}-$cy},0,0,1,[-1],255 -rm[-2,-1]
         -endl -done
@@ -20100,7 +20100,7 @@ gimp_puzzle :
           -r2dy. {max(0.1,$10+$11*u(-1,1))}% -rotate. {$12+$13*u(-1,1)}
           -if $15 -expand_xy. 1,0 -endif
           cx={round(w/2)} cy={round(h/2)}
-          -sh. 100%,100% -if $15 -dilate. 3 -endif
+          -sh. 100% -if $15 -dilate. 3 -endif
           -j[0] [-2],{${x$<}-$cx},{${y$<}-$cy},0,0,1,[-1],255 -rm[-2,-1]
         -done
       -endif
@@ -20325,7 +20325,7 @@ gimp_circle_abstraction :
 
         [0],[0],1,4,0
         -j3d. [-2],0,0,0,1,{1+$5},0,0
-        -sh. 3,3 -col3d... 255 -j3d. [-3],0,0,0,$3,{1+$5},0,0 -rm.
+        -sh. 3 -col3d... 255 -j3d. [-3],0,0,0,$3,{1+$5},0,0 -rm.
         -rm..
         -blend[2,-1] alpha
       -endif
@@ -21027,7 +21027,7 @@ gimp_bwrecolorize :
   -elif {$6==2} -r. 256,1,1,4,5 -c. 0,255
   -else -r. 256,1,1,4,6
   -endif
-  -if {$7==1} -sh. 0,2 -rgb2hsv. -sh. 2,2 -f. x/w -hsv2rgb.. -rm[-2,-1] -endif
+  -if {$7==1} -sh. 0,2 -rgb2hsv. -sh. 2 -f. x/w -hsv2rgb.. -rm[-2,-1] -endif
   -l[^-1] -luminance -apply_gamma {10^$1} -- 128 -* $2 -+ {$3+128} -c 0,255 -endl -map[^-1] [-1] -rm.
 
 gimp_bwrecolorize_preview :
@@ -21134,8 +21134,8 @@ gimp_hardsketchbw :
   -if {$7==4} -repeat $! -l[$>] --hardsketchbw $1,$2,$4,$5,$6 -blend hardlight -endl -done -return -endif
   -hardsketchbw $1,$2,$4,$5,$6
   -if {$7&1} -negative -endif
-  -if {$7==2} -r 100%,100%,1,4 -repeat $! -sh[$>] 3,3 -*. -2 -+. {2*255} -c. 0,255 -rm. -done
-  -elif {$7==3} -r 100%,100%,1,4 -repeat $! -sh[$>] 3,3 -*. 2 -c. 0,255 -rm. -done
+  -if {$7==2} -r 100%,100%,1,4 -repeat $! -sh[$>] 3 -*. -2 -+. {2*255} -c. 0,255 -rm. -done
+  -elif {$7==3} -r 100%,100%,1,4 -repeat $! -sh[$>] 3 -*. 2 -c. 0,255 -rm. -done
   -endif
 
 gimp_hardsketchbw_preview :
@@ -21155,8 +21155,8 @@ gimp_houghsketchbw :
   -if {$6==4} -repeat $! -l[$>] --houghsketchbw ${2-5} -blend hardlight -endl -done -return -endif
   -houghsketchbw ${2-5}
   -if {$6&1} -negative -endif
-  -if {$6==2} -r 100%,100%,1,4 -repeat $! -sh[$>] 3,3 -*. -2 -+. {2*255} -c. 0,255 -rm. -done
-  -elif {$6==3} -r 100%,100%,1,4 -repeat $! -sh[$>] 3,3 -*. 2 -c. 0,255 -rm. -done
+  -if {$6==2} -r 100%,100%,1,4 -repeat $! -sh[$>] 3 -*. -2 -+. {2*255} -c. 0,255 -rm. -done
+  -elif {$6==3} -r 100%,100%,1,4 -repeat $! -sh[$>] 3 -*. 2 -c. 0,255 -rm. -done
   -endif
 
 gimp_houghsketchbw_preview :
@@ -21259,8 +21259,8 @@ gimp_sketchbw :
   -if {$15==4} -repeat $! -l[$>] --sketchbw ${1-14} -blend hardlight -endl -done -return -endif
   -sketchbw ${1-14}
   -if {$15&1} -negative -endif
-  -if {$15==2} -r 100%,100%,1,4 -repeat $! -sh[$>] 3,3 -*. -2 -+. {2*255} -c. 0,255 -rm. -done
-  -elif {$15==3} -r 100%,100%,1,4 -repeat $! -sh[$>] 3,3 -*. 2 -c. 0,255 -rm. -done
+  -if {$15==2} -r 100%,100%,1,4 -repeat $! -sh[$>] 3 -*. -2 -+. {2*255} -c. 0,255 -rm. -done
+  -elif {$15==3} -r 100%,100%,1,4 -repeat $! -sh[$>] 3 -*. 2 -c. 0,255 -rm. -done
   -endif
 
 gimp_sketchbw_preview :
@@ -21404,7 +21404,7 @@ gimp_channels2layers :
       -i[0] 100%,100%,1,3,255 -nm[0] name($nm" "[base]),mode(difference)
     -else # HSV
       -rgb2hsv[0] -s[0] c,-2
-      -r[0] 100%,100%,1,3,0,0 -sh[0] 2,2 -f. 1 -rm. -nm[0] name($nm" "[color]),mode(normal)
+      -r[0] 100%,100%,1,3,0,0 -sh[0] 2 -f. 1 -rm. -nm[0] name($nm" "[color]),mode(normal)
       -r[1] 100%,100%,1,3,0,0,0,0,0,1 -nm[1] name($nm" "[value]),mode(value)
       -hsv2rgb[0,1] -rv[0,1]
     -endif
@@ -21661,9 +21661,9 @@ gimp_apply_RGBcurve : -skip $1
   -gimp_apply_RGBcurve_configfile
   -repeat {$!-1} -l[$>,-1]
     -to_colormode[0] {max(3,s)}
-    -sh[0] 0,0 -_gimp_apply_RGBcurve. {-2,[0-12]} -rm.
-    -sh[0] 1,1 -_gimp_apply_RGBcurve. {-2,[13-25]} -rm.
-    -sh[0] 2,2 -_gimp_apply_RGBcurve. {-2,[26-38]} -rm.
+    -sh[0] 0 -_gimp_apply_RGBcurve. {-2,[0-12]} -rm.
+    -sh[0] 1 -_gimp_apply_RGBcurve. {-2,[13-25]} -rm.
+    -sh[0] 2 -_gimp_apply_RGBcurve. {-2,[26-38]} -rm.
   -endl -done
   -rm.
 
@@ -21837,9 +21837,9 @@ gimp_apply_YCbCrcurve : -skip $1
   -gimp_apply_YCbCrcurve_configfile
   -repeat {$!-1} -l[$>,-1]
     -to_colormode[0] {max(3,s)} -sh[0] 0,2 -rgb2ycbcr. -rm.
-    -sh[0] 0,0 -_gimp_apply_YCbCrcurve. {-2,[0-12]} -rm.
-    -sh[0] 1,1 -_gimp_apply_YCbCrcurve. {-2,[13-25]} -rm.
-    -sh[0] 2,2 -_gimp_apply_YCbCrcurve. {-2,[26-38]} -rm.
+    -sh[0] 0 -_gimp_apply_YCbCrcurve. {-2,[0-12]} -rm.
+    -sh[0] 1 -_gimp_apply_YCbCrcurve. {-2,[13-25]} -rm.
+    -sh[0] 2 -_gimp_apply_YCbCrcurve. {-2,[26-38]} -rm.
     -sh[0] 0,2 -ycbcr2rgb. -rm.
   -endl -done
   -rm.
@@ -22015,9 +22015,9 @@ gimp_apply_Labcurve : -skip $1
   -gimp_apply_Labcurve_configfile
   -repeat {$!-1} -l[$>,-1]
     -to_colormode[0] {max(3,s)} -sh[0] 0,2 -rgb2lab. -rm.
-    -sh[0] 0,0 -*. 2.55 -_gimp_apply_Labcurve. {-2,[0-12]} -/. 2.55 -rm.
-    -sh[0] 1,1 -+. 86 -*. 1.38587 -_gimp_apply_Labcurve. {-2,[13-25]} -/. 1.38587 --. 86 -rm.
-    -sh[0] 2,2 -+. 108 -*. 1.25616 -_gimp_apply_Labcurve. {-2,[26-38]} -/. 1.25616 --. 108 -rm.
+    -sh[0] 0 -*. 2.55 -_gimp_apply_Labcurve. {-2,[0-12]} -/. 2.55 -rm.
+    -sh[0] 1 -+. 86 -*. 1.38587 -_gimp_apply_Labcurve. {-2,[13-25]} -/. 1.38587 --. 86 -rm.
+    -sh[0] 2 -+. 108 -*. 1.25616 -_gimp_apply_Labcurve. {-2,[26-38]} -/. 1.25616 --. 108 -rm.
     -sh[0] 0,2 -lab2rgb. -rm.
   -endl -done
   -rm.
@@ -22192,7 +22192,7 @@ gimp_detect_skin :
   -repeat $! -l[$>]
     -if $9  # Opaque/transparent skin.
       --_gimp_detect_skin -a c
-      -if {$9>1} -sh 100%,100% -*. -1 -+. 255 -rm. -endif
+      -if {$9>1} -sh 100% -*. -1 -+. 255 -rm. -endif
     -else -_gimp_detect_skin # Probability mask.
     -endif
   -endl -done
@@ -22466,10 +22466,10 @@ gimp_select_color :
     -select_color[1] $2%,$color
     -if $4 --area. 0,0 -<=. {round($4^1.5)} -inpaint.. [-1],0,3 -rm. -endif # Fill holes.
     -b[1] $3 -n[1] 0,255
-    -if {$9==0} -sh[0] 100%,100% -&. [1]                        # Selected colors.
-    -elif {$9==1} -rm[0]                                        # Selected mask.
-    -elif {$9==2} --[1] 255 -*[1] -1 -sh[0] 100%,100% -&. [1]   # Rejected colors.
-    -elif {$9==3} -rm[0] -- 255 -* -1                           # Rejected mask.
+    -if {$9==0} -sh[0] 100% -&. [1]                        # Selected colors.
+    -elif {$9==1} -rm[0]                                   # Selected mask.
+    -elif {$9==2} --[1] 255 -*[1] -1 -sh[0] 100% -&. [1]   # Rejected colors.
+    -elif {$9==3} -rm[0] -- 255 -* -1                      # Rejected mask.
     -else # Replaced color.
       -/[1] 255 --*[0,1] --*[1] $11 --*[1] $12 --*[1] $13 -*[1] $10 -a[1,-3--1] c --[1,2] -+
     -endif
@@ -22771,15 +22771,15 @@ gimp_extract_foreground :
     -nm "[G"{`39`}"MIC] Interactive foreground extraction"
     -if {$7==-1||$5!=w||$6!=h} _gimp_control_points= -else _gimp_control_points=${7--1} -endif
     status=${-x_segment\ $resolution}
-    -sh 3,3 -b. $1% -if {$2>0} -dilate. {1+2*$2} -elif {$2<0} -erode. {1-2*$2} -endif
+    -sh 3 -b. $1% -if {$2>0} -dilate. {1+2*$2} -elif {$2<0} -erode. {1-2*$2} -endif
     -rm.
-    -if {$3==1} -sh 3,3 -max. 1 -rm.
+    -if {$3==1} -sh 3 -max. 1 -rm.
     -elif {$3==2} -s c,-3 -r. 100%,100%,1,4 -rv -nm[0] name(Mask) -nm[1] name($nm)
     -elif {$3==3}
       [-1]
       -sh.. 0,2 --channels... 3,3 ->=. 3 -*[-2,-1] -rm.
       -sh. 0,2 --channels.. 3,3 -<=. {255-3} -*[-2,-1] -rm.
-      -sh. 3,3 -*. -1 -+. 255 -rm.
+      -sh. 3 -*. -1 -+. 255 -rm.
       -gimp_autocrop_layers[0]
       pos0=${-gimp_layer_pos[0]} pos1=${-gimp_layer_pos[1]}
       -nm[0] name($nm" [foreground]"),pos($pos0)
@@ -23082,11 +23082,11 @@ gimp_drop_water :
     -*[shadow] 255 -channels[shadow] -1,0 -mv[shadow] 1
     -nm[shadow] name($nm" [shadow]"),mode(alpha),opacity({$12*100})
 
-    -to_a[refraction] -sh[refraction] 100%,100% --b[shape] $15% -*[-2,-1] -rm.
+    -to_a[refraction] -sh[refraction] 100% --b[shape] $15% -*[-2,-1] -rm.
     -mv[refraction] 2
     -nm[refraction] name($nm" [refraction]"),mode(alpha)
 
-    -channels[spots] -1,0 -sh[spots] 0,0 -f. 1 -rm. -*[spots] 255
+    -channels[spots] -1,0 -sh[spots] 0 -f. 1 -rm. -*[spots] 255
     -nm[spots] name($nm" [specular spots]"),mode(alpha),opacity({$9*100})
 
     -rv[shape,grad] -a[grad,shape] c -*[grad] 255 -b[grad] $15%
@@ -24191,8 +24191,8 @@ __gimp_emulate_grain :
     --. 128 -*. $7 -+. 128 -+. $8 -c. 0,255  # B&W contrast and brightness.
     -if {$9||$10}
       -to_color. -rgb2hsv.
-      -sh. 0,0 -+. $9 -%. 360 -rm.
-      -sh. 1,1 -+. $10 -rm.
+      -sh. 0 -+. $9 -%. 360 -rm.
+      -sh. 1 -+. $10 -rm.
       -hsv2rgb.
     -endif
     -if $12 -k[0,-1] -rv
@@ -24556,8 +24556,8 @@ _gimp_emulate_film :
     --[0] 128 -*[0] $5 -+[0] 128 -+[0] $6 -c[0] 0,255  # B&W contrast and brightness.
     -if {$7||$8||$9}
       -rgb2hsv[0]
-      -sh[0] 0,0 -+. $7 -%. 360 -rm.
-      -sh[0] 1,1 -+. $8 -c. 0,1 -rm.
+      -sh[0] 0 -+. $7 -%. 360 -rm.
+      -sh[0] 1 -+. $8 -c. 0,1 -rm.
       -hsv2rgb[0]
       -if $9 -n[0] 0,255 -endif
     -endif
@@ -24743,14 +24743,14 @@ gimp_droste :
       x0={round($1*w/100)} y0={round($2*h/100)} x1={round($3*w/100)} y1={round($4*h/100)}
       x2={round($5*w/100)} y2={round($6*h/100)} x3={round($7*w/100)} y3={round($8*h/100)}
       100%,100%,1,2,-32767 -polygon. 4,$x0,$y0,$x1,$y1,$x2,$y2,$x3,$y3,1,-65535
-      -sh. 0,0 -f. 'if(i==-65535,x03=$x0+(y-$y0)/($y3-$y0)*($x3-$x0);x12=$x1+(y-$y1)/($y2-$y1)*($x2-$x1);(x-x03)/(x12-x03)*(w-1),i)' -rm.
-      -sh. 1,1 -f. 'if(i==-65535,y01=$y0+(x-$x0)/($x1-$x0)*($y1-$y0);y32=$y3+(x-$x3)/($x2-$x3)*($y2-$y3);(y-y01)/(y32-y01)*(h-1),i)' -rm.
+      -sh. 0 -f. 'if(i==-65535,x03=$x0+(y-$y0)/($y3-$y0)*($x3-$x0);x12=$x1+(y-$y1)/($y2-$y1)*($x2-$x1);(x-x03)/(x12-x03)*(w-1),i)' -rm.
+      -sh. 1 -f. 'if(i==-65535,y01=$y0+(x-$x0)/($x1-$x0)*($y1-$y0);y32=$y3+(x-$x3)/($x2-$x3)*($y2-$y3);(y-y01)/(y32-y01)*(h-1),i)' -rm.
       xshift={w*$10/100} yshift={h*$11/100} alpha={-$12*pi/180} ca={cos($alpha)/$13} sa={sin($alpha)/$13} w2={w/2} h2={h/2}
       -f. 'if(i==-32767,i,X=i(x,y,0,0)-$w2;Y=i(x,y,0,1)-$h2;if(c==0,$w2-$xshift+X*$ca-Y*$sa,$h2-$yshift+X*$sa+Y*$ca))'
-      -if {$14==0} -sh. 0,0 -f. 'if(i==-32767,x,i)' -rm. -sh. 1,1 -f. 'if(i==-32767,y,i)' -rm.
-      -elif {$14==1} -sh. 0,0 -f. 'if(i==-32767,x,w-1-i)' -rm. -sh. 1,1 -f. 'if(i==-32767,y,i)' -rm.
-      -elif {$14==2} -sh. 0,0 -f. 'if(i==-32767,x,i)' -rm. -sh. 1,1 -f. 'if(i==-32767,y,h-1-i)' -rm.
-      -else -sh. 0,0 -f. 'if(i==-32767,x,w-1-i)' -rm. -sh. 1,1 -f. 'if(i==-32767,y,h-1-i)' -rm.
+      -if {$14==0} -sh. 0 -f. 'if(i==-32767,x,i)' -rm. -sh. 1 -f. 'if(i==-32767,y,i)' -rm.
+      -elif {$14==1} -sh. 0 -f. 'if(i==-32767,x,w-1-i)' -rm. -sh. 1 -f. 'if(i==-32767,y,i)' -rm.
+      -elif {$14==2} -sh. 0 -f. 'if(i==-32767,x,i)' -rm. -sh. 1 -f. 'if(i==-32767,y,h-1-i)' -rm.
+      -else -sh. 0 -f. 'if(i==-32767,x,w-1-i)' -rm. -sh. 1 -f. 'if(i==-32767,y,h-1-i)' -rm.
       -endif
       -if {$16<2} -warp.. [-1],0,{$16==0},$15 -rm.
       -else
@@ -24803,7 +24803,7 @@ gimp_frame_blur :
     -z[1] {$3/2}%,{$3/2}%,{100-$3/2}%,{100-$3/2}%
     -to_rgba[1]
 
-    -if $5 r={1+1/$5} -sh[1] 100%,100% -f. '1-(abs(x/w-0.5)^$r+abs(y/h-0.5)^$r)^(1/$r)'
+    -if $5 r={1+1/$5} -sh[1] 100% -f. '1-(abs(x/w-0.5)^$r+abs(y/h-0.5)^$r)^(1/$r)'
       v={min(i(w/2,0),i(w-1,h/2),i(w/2,h-1),i(0,h/2))}
       -c. $v,{$v+0.5/max(w,h)} -n. 0,255 -rm. -endif
 
@@ -24811,7 +24811,7 @@ gimp_frame_blur :
     -r[1] {w+$s},{h+$s},1,4,0,0,0.5,0.5
     -i[1] 100%,100%,1,3 -fc[1] ${12-14} -blend[1,2] alpha -to_a.
 
-    -if $5 -sh[1] 100%,100% -f. '1-(abs(x/w-0.5)^$r+abs(y/h-0.5)^$r)^(1/$r)'
+    -if $5 -sh[1] 100% -f. '1-(abs(x/w-0.5)^$r+abs(y/h-0.5)^$r)^(1/$r)'
       v={min(i(w/2,0),i(w-1,h/2),i(w/2,h-1),i(0,h/2))}
       -c. $v,{$v+0.5/max(w,h)} -n. 0,255 -rm. -endif
     -rotate[1] $21,1,0
@@ -25528,7 +25528,7 @@ gimp_light_leaks :
     -rotate. $2,1,1,50%,50%
     -if {$3>1" || "$4>1} -f. 'w2=w/2;h2=h/2;X=x-w2;Y=y-h2;i(w2+X/$3,h2+Y/$4,0,c,1,0)' -endif
     -c. 0,255
-    -if $5 -rgb2hsv. -sh. 0,0 -+. $5 -rm. -hsv2rgb. -endif
+    -if $5 -rgb2hsv. -sh. 0 -+. $5 -rm. -hsv2rgb. -endif
     -if $8
       nm=${-gimp_layer_name[1]}
       -nm. name($nm),opacity({$6*100}),mode($mode) -rv[-2,-1]
@@ -25599,26 +25599,26 @@ gimp_shadow_patch :
 #@gimp : Activate slice 1 = bool(1)
 #@gimp : Starting value = int(0,0,255)
 #@gimp : Ending value = int(64,0,255)
-#@gimp : Starting ramp = int(0,0,255)
-#@gimp : Ending ramp = int(0,0,255)
+#@gimp : Starting feathering = int(0,0,255)
+#@gimp : Ending feathering = int(0,0,255)
 #@gimp : sep = separator(), note = note{"<small><b>Slice 2</b> (low midtones):</small>"}
 #@gimp : Activate slice 2 = bool(1)
 #@gimp : Starting value = int(64,0,255)
 #@gimp : Ending value = int(128,0,255)
-#@gimp : Starting ramp = int(0,0,255)
-#@gimp : Ending ramp = int(0,0,255)
+#@gimp : Starting feathering = int(0,0,255)
+#@gimp : Ending feathering = int(0,0,255)
 #@gimp : sep = separator(), note = note{"<small><b>Slice 3</b> (high midtones):</small>"}
 #@gimp : Activate slice 3 = bool()
 #@gimp : Starting value = int(128,0,255)
 #@gimp : Ending value = int(192,0,255)
-#@gimp : Starting ramp = int(0,0,255)
-#@gimp : Ending ramp = int(0,0,255)
+#@gimp : Starting feathering = int(0,0,255)
+#@gimp : Ending feathering = int(0,0,255)
 #@gimp : sep = separator(), note = note{"<small><b>Slice 4</b> (highlights):</small>"}
 #@gimp : Activate slice 4 = bool()
 #@gimp : Starting value = int(192,0,255)
 #@gimp : Ending value = int(255,0,255)
-#@gimp : Starting ramp = float(0,0,255)
-#@gimp : Ending ramp = float(0,0,255)
+#@gimp : Starting feathering = float(0,0,255)
+#@gimp : Ending feathering = float(0,0,255)
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>09/22/2015</i>.</small>")
 gimp_slice_luminosity :
   -remove_opacity -repeat $! -l[$<] -to_rgb
@@ -25732,10 +25732,10 @@ gimp_crystal :
     sigma=0.2
     -do
       --b. $sigma sigma={$sigma*(1+$2)}
-      -sh[0,-1] $s,$s -max. [-2] -rm[-2,-1]
+      -sh[0,-1] $s -max. [-2] -rm[-2,-1]
       -f. 'W=i(x,y,z,$s);if(W<0.001||W>=1,0,if(c<$s,i/W,1))'
       -if {!iM} -rm[1] -break -endif
-      -sh. $s,$s
+      -sh. $s
       -j[0] [1],0,0,0,0,1,[2] -k[0]
     -while 1
     -channels 0,{$s-1}
@@ -25845,7 +25845,7 @@ gimp_mineral_mosaic :
     -area. 0 --<=. {$2^2} -inpaint.. [-1] -rm. -label.
     --f[0] 'if(c==0,x,y)' --blend[-2,-1] shapeaverage,1,1
     --[-2,-1] -rm[0,2] -channels. 0,1
-    alpha={$5*pi/180} -sh. 0,0 -*. {cos($alpha)} -rm. -sh. 1,1 -*. {sin($alpha)} -rm. -compose_channels. +
+    alpha={$5*pi/180} -sh. 0 -*. {cos($alpha)} -rm. -sh. 1 -*. {sin($alpha)} -rm. -compose_channels. +
     -normalize_local. 1000 -n. -$4,$4
     -+ -c 0,255
   -endl -done
@@ -26826,7 +26826,7 @@ gimp_blocks3d :
     f3d={0.5*w/tan($7*pi/360)} -f3d $f3d
     -l3d {$10*$f3d},{$11*$f3d},{$12*$f3d} -sl3d $13 -ss3d $14
     -j3d. [0],$8%,$9%,0,1,{if($15,3,2)},0,1
-    -sh. 100%,100% -+. 1 -*. 255 -rm.
+    -sh. 100% -+. 1 -*. 255 -rm.
 
     # Render object outline
     -if $20
@@ -26834,9 +26834,9 @@ gimp_blocks3d :
       -j3d. [0],$8%,$9%,0,1,3,0,1 -rm[0]
       -g. xy,1 -+[-2,-1] -norm. -!=. 0
       --r. 100%,100%,1,3
-      -sh. 0,0 -*. $17 -rm.
-      -sh. 1,1 -*. $18 -rm.
-      -sh. 2,2 -*. $19 -rm.
+      -sh. 0 -*. $17 -rm.
+      -sh. 1 -*. $18 -rm.
+      -sh. 2 -*. $19 -rm.
       -j[0] [-1],0,0,0,0,{$20/255},[-2] -rm[-2,-1]
     -else -rm[0]
     -endif
@@ -26873,7 +26873,7 @@ gimp_coloredobject3d :
   -_gimp_coloredobject3d "_",${1-4,6-8}
   -repeat {$!-1}
     --gimp_render3d. {$>,w},{$>,h},$6,${9--1}
-    -sh. 3,3 -*. {$5/255} -rm.
+    -sh. 3 -*. {$5/255} -rm.
     -blend[$>,-1] alpha
   -done
   -rm.
@@ -26882,7 +26882,7 @@ gimp_coloredobject3d_preview :
   -_gimp_coloredobject3d "_preview_",${1-4,6-8}
   -repeat {$!-1}
     --gimp_render3d. {$>,w},{$>,h},$6,${9--1}
-    -sh. 3,3 -*. {$5/255} -rm.
+    -sh. 3 -*. {$5/255} -rm.
     -blend[$>,-1] alpha
   -done -rm.
 
@@ -27559,10 +27559,10 @@ gimp_lissajous :
     -col3d. 1 -j3d.. [-1],50%,50%,0,1,1,0,0 -rm.
     -distance. 1 ->. $14% -*.. [-1] -==. 0
     -r. 100%,100%,1,4
-    -sh. 0,0 -*. $15 -rm.
-    -sh. 1,1 -*. $16 -rm.
-    -sh. 2,2 -*. $17 -rm.
-    -sh. 3,3 -*. $18 -rm.
+    -sh. 0 -*. $15 -rm.
+    -sh. 1 -*. $16 -rm.
+    -sh. 2 -*. $17 -rm.
+    -sh. 3 -*. $18 -rm.
     -+[-2,-1]
   -endl -done
 
@@ -27669,7 +27669,7 @@ gimp_rainbow :
     -distance. 0 -c. 0,255 -n. 0,{$5*255}
     -rainbow_lut --luminance. -c. 0,{min(100,200-$6)}% -n. 0,255 -a[-2,-1] c
     -map.. [-1] -rm.
-    -if {$6<100} -sh. 3,3 -*. {$6/100} -rm. -endif
+    -if {$6<100} -sh. 3 -*. {$6/100} -rm. -endif
     -blend alpha
   -endl -done
 
@@ -27775,10 +27775,10 @@ gimp_superformula :
     -col3d. 1 -j3d.. [-1],50%,50%,0,1,1,0,0 -rm.
     -distance. 1 ->. $11% -*.. [-1] -==. 0
     -r. 100%,100%,1,4
-    -sh. 0,0 -*. $12 -rm.
-    -sh. 1,1 -*. $13 -rm.
-    -sh. 2,2 -*. $14 -rm.
-    -sh. 3,3 -*. $15 -rm.
+    -sh. 0 -*. $12 -rm.
+    -sh. 1 -*. $13 -rm.
+    -sh. 2 -*. $14 -rm.
+    -sh. 3 -*. $15 -rm.
     -+[-2,-1]
   -endl -done
 
@@ -28712,7 +28712,7 @@ gmicol_adjust_colors :
     -if {$3!=1} -apply_gamma {10^$3} -endif
     -if {$4%360}
       -to_colormode {max(3,s)+1-s%2} -split_opacity -l[0]
-        -rgb2hsv -sh 0,0 -+. $4 -%. 360 -rm. -hsv2rgb
+        -rgb2hsv -sh 0 -+. $4 -%. 360 -rm. -hsv2rgb
       -endl
     -a c -endif
   -endl -done -c 0,255
