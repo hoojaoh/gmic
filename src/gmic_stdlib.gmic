@@ -25591,6 +25591,64 @@ gimp_shadow_patch :
     -ac "-shadow_patch $1",$2
   -endl -a c -endl -done
 
+#@gimp Slice luminosity : gimp_slice_luminosity, gimp_slice_luminosity_preview
+#@gimp : Luminosity type = choice(1,"Average RGB","Luminance","Lightness","Value")
+#@gimp : Output as = _choice(1,"Mask","Masked image")
+#@gimp : Preview type = choice(2,"Mask","Mask + background","Image","Image + background")
+#@gimp : sep = separator(), note = note{"<small><b>Slice 1</b> (shadows):</small>"}
+#@gimp : Activate slice 1 = bool(1)
+#@gimp : Starting value = int(0,0,255)
+#@gimp : Ending value = int(64,0,255)
+#@gimp : Starting ramp = int(0,0,255)
+#@gimp : Ending ramp = int(0,0,255)
+#@gimp : sep = separator(), note = note{"<small><b>Slice 2</b> (low midtones):</small>"}
+#@gimp : Activate slice 2 = bool(1)
+#@gimp : Starting value = int(64,0,255)
+#@gimp : Ending value = int(128,0,255)
+#@gimp : Starting ramp = int(0,0,255)
+#@gimp : Ending ramp = int(0,0,255)
+#@gimp : sep = separator(), note = note{"<small><b>Slice 3</b> (high midtones):</small>"}
+#@gimp : Activate slice 3 = bool()
+#@gimp : Starting value = int(128,0,255)
+#@gimp : Ending value = int(192,0,255)
+#@gimp : Starting ramp = int(0,0,255)
+#@gimp : Ending ramp = int(0,0,255)
+#@gimp : sep = separator(), note = note{"<small><b>Slice 4</b> (highlights):</small>"}
+#@gimp : Activate slice 4 = bool()
+#@gimp : Starting value = int(192,0,255)
+#@gimp : Ending value = int(255,0,255)
+#@gimp : Starting ramp = float(0,0,255)
+#@gimp : Ending ramp = float(0,0,255)
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>09/22/2015</i>.</small>")
+gimp_slice_luminosity :
+  -remove_opacity -repeat $! -l[$<] -to_rgb
+    -_gimp_slice_luminosity $*
+    -if $2 -i[0] [0] -a[-2,-1] c -endif
+    -rv
+  -endl -done
+
+gimp_slice_luminosity_preview :
+  -remove_opacity  -repeat $! -l[$>] -to_rgb
+    -_gimp_slice_luminosity $*
+    -if {$3==0} -rm[0] -channels {s-1}
+    -elif {$3==1} 100%,100%,1,1,128 -a[0,-1] c -r. 100%,100%,1,4 -blend alpha
+    -elif {$3==2} -a c
+    -else -+. 96 -c. 0,255 -a c
+    -endif
+  -endl -done
+
+_gimp_slice_luminosity :
+  -if {$1==0} --compose_channels + -/. 3
+  -elif {$1==1} --luminance
+  -elif {$1==2} --srgb2rgb -rgb2lab8. -channels. 0
+  -else --compose_channels max
+  -endif
+  -if $4 --apply_curve[1] 0,{$5-$7-0.1},0,$5,255,$6,255,{$6+$8+0.1},0,512,0 -endif
+  -if $9 --apply_curve[1] 0,{$10-$12-0.1},0,$10,255,$9,255,{$11+$13+0.1},0,512,0 -endif
+  -if $14 --apply_curve[1] 0,{$15-$17-0.1},0,$15,255,$16,255,{$16+$18+0.1},0,512,0 -endif
+  -if $19 --apply_curve[1] 0,{$20-$22-0.1},0,$20,255,$21,255,{$21+$23+0.1},0,512,0 -endif
+  -rm[1] -max[^0]
+
 #@gimp _<b>Patterns</b>
 #----------------------
 
