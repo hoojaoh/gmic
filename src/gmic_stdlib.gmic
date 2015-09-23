@@ -1298,7 +1298,7 @@ _display_array : -check ${1=13}>0" && "${2=$1}>0
   -endl -done -v +
 
 __display_array :
-  -round.. 1 -c.. 0,999 -r. 100%,100%,1,3,{if(s==1,1,0)}
+  -round.. 1 -c.. 0,999 -r. 100%,100%,1,3,{s==1}
   --luminance. -r.. {$1*24},{$2*24} -grid.. {100/$1}%,{100/$2}%,0,0,1,0
   xb={24*int($1/2)} yb={24*int($2/2)} xe={$xb+24} ye={$yb+24}
   -rectangle.. $xb,$yb,$xe,$ye,1,0xFFFFFFFF,$3,$4,$5
