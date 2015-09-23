@@ -664,7 +664,7 @@ _help_usage :
 \n       . '"${c}"if(condition,expr_then,_expr_else)"$n"': return value of '"${c}"expr_then"$n"' or '"${c}"expr_else"$n"',
 \n          depending on the value of '"${c}"condition"$n"' "${g}"(0=false, other=true)"$n". '"${c}"expr_else"$n"' can be
 \n          omitted in which case 0 is returned if the condition does not hold. Using the ternary operator
-\n          '"${c}"condition?expr_then:expr_else"$n"' gives an equivalent expression.
+\n          '"${c}"condition?expr_then[:expr_else]"$n"' gives an equivalent expression.
 \n          For instance, "${-GMIC}" commands '"${c}"-fill if(x%10==0,255,i)"$n"' and '"${c}"-fill x%10?i:255"$n"' both draw blank
 \n          vertical lines on every 10th column of an image.
 \n       . '"${c}"dowhile(expression,_condition)"$n"' repeats the evaluation of '"${c}"expression"$n"' until '"${c}"condition"$n"'
