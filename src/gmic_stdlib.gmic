@@ -661,11 +661,12 @@ _help_usage :
 \n       . '"${c}"i[offset,_boundary]"$n"' returns the value of the pixel located at "${g}"specified offset"$n" in the
 \n          associated image buffer (or 0 if offset is out-of-bounds).
 \n       . '"${c}"j[offset,_boundary]"$n"' does the same for an offset relative to the current pixel "$g"(x,y,z,c)"$n".
-\n       . '"${c}"if(condition,expr_then,expr_else)"$n"': return value of '"${c}"expr_then"$n"' or '"${c}"expr_else"$n"',
-\n          depending on the value of '"${c}"condition"$n"' "${g}"(0=false, other=true)"$n". Using the ternary
-\n          operator '"${c}"condition?expr_then:expr_else"$n"' gives an equivalent expression. For instance,
-\n          "${-GMIC}" commands '"${c}"-fill if(x%10==0,255,i)"$n"' and '"${c}"-fill x%10?i:255"$n"' both draw blank
-\n           vertical lines on every 10th column of an image.
+\n       . '"${c}"if(condition,expr_then,_expr_else)"$n"': return value of '"${c}"expr_then"$n"' or '"${c}"expr_else"$n"',
+\n          depending on the value of '"${c}"condition"$n"' "${g}"(0=false, other=true)"$n". '"${c}"expr_else"$n"' can be
+\n          omitted in which case 0 is returned if the condition does not hold. Using the ternary operator
+\n          '"${c}"condition?expr_then:expr_else"$n"' gives an equivalent expression.
+\n          For instance, "${-GMIC}" commands '"${c}"-fill if(x%10==0,255,i)"$n"' and '"${c}"-fill x%10?i:255"$n"' both draw blank
+\n          vertical lines on every 10th column of an image.
 \n       . '"${c}"dowhile(expression,_condition)"$n"' repeats the evaluation of '"${c}"expression"$n"' until '"${c}"condition"$n"'
 \n           vanishes (or until '"${c}"expression"$n"' vanishes if no '"${c}"condition"$n"' is specified). For instance,
 \n           the expression: '"${c}"if(N<2,N,n=N-1;F0=0;F1=1;dowhile(F2=F0+F1;F0=F1;F1=F2,n=n-1))"$n"' returns
@@ -20672,13 +20673,13 @@ _gimp_shapeism7 : # Custom
 gimp_vector_painting :
   -repeat $! -l[$>]
     --luminance -b. {10-$1}%,1,1
-    -f. "dmax=-1; nmax=0;
-            for(n=0,(n=n+1)<=8,
-              p=arg(n,-1,0,1,-1,1,-1,0,1);
-              q=arg(n,-1,-1,-1,0,0,1,1,1);
-              d=(j(p,q,0,0,0,1)-i)^2;
-              if(d>dmax,dmax=d;nmax=n,nmax)
-            )"
+    -f. "dmax = -1; nmax = 0;
+         for (n = 0, ++n<=8,
+           p = arg(n,-1,0,1,-1,1,-1,0,1);
+           q = arg(n,-1,-1,-1,0,0,1,1,1);
+           d = (j(p,q,0,0,0,1) - i)^2;
+           if (d>dmax,dmax = d; nmax = n,nmax)
+         )"
     -blend shapeaverage
   -endl -done
 
