@@ -18801,12 +18801,13 @@ gimp_autocrop_layers :
 # #@gimp : Best regards,\n\n <i>The G'MIC team.</i>"}
 
 
+#@gimp _<b>About</b>
+#-------------------
+
+
 #----------------------
 # English translations
 #----------------------
-
-#@gimp _<b>About</b>
-#-------------------
 
 #@gimp_en About G'MIC : _none_, gimp_logo_en
 #@gimp_en : note = note{"
@@ -18943,6 +18944,28 @@ gimp_logo_ca :
   -else
     -gimp_logo_version{round(u(0.5,3.49))} "per al GIMP\n  "[" "${-strver}" "]
   -endif
+
+#----------------------
+# Japanese translations
+#----------------------
+
+#@gimp_ja About G'MIC : _none_, gimp_logo_en
+#@gimp_ja : note = note{"
+#@gimp_ja : <span foreground="purple">( <b>G</b>REYC's <b>M</b>agic for <b>I</b>mage <b>C</b>omputing )</span>\n\nis proposed to you by"}
+#@gimp_ja : note = link("David Tschumperl\303\251","http://tschumperle.users.greyc.fr/")
+#@gimp_ja : note = link{"( IMAGE Team / GREYC Laboratory - CNRS UMR 6072 )","http://www.greyc.fr/node/36"}
+#@gimp_ja : note = note{"
+#@gimp_ja : This plug-in is based on our open-source libraries <b>G'MIC</b> and <b>CImg</b> (C++ Template Image Processing Library),
+#@gimp_ja : available at:"}
+#@gimp_ja : note = link("http://gmic.eu/")
+#@gimp_ja : note = note{"and"}
+#@gimp_ja : note = link("http://cimg.eu/")
+#@gimp_ja : note = note{"\n
+#@gimp_ja : If you appreciate <b>G'MIC</b>, you are welcome to send us a nice postcard from your place, at:\n\n
+#@gimp_ja : <small><tt>David Tschumperl&#233;,\n Laboratoire GREYC (CNRS UMR 6072), Equipe Image,\n
+#@gimp_ja :  6 Bd du Mar&#233;chal Juin,\n 14050 Caen Cedex / France.</tt></small>\n\n
+#@gimp_ja : Postcards senders automatically enter the <i>Friends Hall of Fame</i> :) !
+#@gimp_ja : "}
 
 #----------------------
 # Untranslated filters
