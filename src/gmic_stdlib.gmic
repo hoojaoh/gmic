@@ -3851,7 +3851,7 @@ update_tutorial_html :
   -add_page technical-notes/trigometric-and-inverse-trigometric-commands,2500
   -add_page technical-notes/wavelet-analysis-and-synthesis-in-gmic,5000
   -add_page gimp-filters,1500
-  -add_page gimp-filters/blur-by-color-filter,22500
+  -add_page gimp-filters/blur-by-color-filter,23500
   -add_page gimp-filters/hedcut-filter,2000
   -add_page gimp-filters/the-fingerpainting-filter,2200
   -add_page gimp-filters/the-hairlock-filter,8500
