@@ -3429,6 +3429,7 @@ update_server : -skip ${1=$_version},${2=1}
   -load_gmic ${HOME}/work/src/gmic-community/photocomix.gmic
   -load_gmic ${HOME}/work/src/gmic-community/ronounours.gmic
   -load_gmic ${HOME}/work/src/gmic-community/tomkeil.gmic
+  -load_gmic ${HOME}/work/src/gmic-community/translation_ja.gmic
   -load_gmic ${HOME}/work/src/gmic-community/samj.gmic
   -load_gmic ${HOME}/work/src/gmic-community/zonder.gmic
 
