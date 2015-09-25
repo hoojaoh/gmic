@@ -19088,24 +19088,24 @@ _gimp_download_all_data :
      _n={$_n+1}
    -done
 
-#@gimp Filter sources : gimp_manage_filter_sources, gimp_manage_filter_sources_preview
-#@gimp : note = note{"<small>Here, you can enable some external filter sources, adding then new filters to your <b>G'MIC</b> plug-in.
-#@gimp : Once you have made your selection, click on the <b>Apply</b> or <b>OK</b> buttons below to validate it.
-#@gimp : Click then on the <b>Update</b> button to download and make these new filters appear in the filter tree.
-#@gimp : </small>"}
-#@gimp : note = note{"\n<small><b><span color=\"red\">        Use those additional filters at your own risk!</span></b></small>\n"}
-#@gimp : note = note{"<small>These filters have been done by various contributors and are hosted in their own server.
-#@gimp : The G'MIC team <b>cannot be held responsible for any damage</b> due to the use of these external filters.
-#@gimp : Of course, as far as we know, there shouldn't be any issues in using them.
-#@gimp : </small>"}
-#@gimp : sep = separator()
-#@gimp : note = note{"Enable filters from:"}
-#@gimp : note = note{"<b>No external sources to activate yet</b>"}
-##@gimp : Jayprich = _bool(0)
-##@gimp : Zonderr = _bool(0)
-#@gimp : sep = separator()
-#@gimp : Select/unselect all = button()
-#@gimp : first_time = const(0)
+# #@gimp Filter sources : gimp_manage_filter_sources, gimp_manage_filter_sources_preview
+# #@gimp : note = note{"<small>Here, you can enable some external filter sources, adding then new filters to your <b>G'MIC</b> plug-in.
+# #@gimp : Once you have made your selection, click on the <b>Apply</b> or <b>OK</b> buttons below to validate it.
+# #@gimp : Click then on the <b>Update</b> button to download and make these new filters appear in the filter tree.
+# #@gimp : </small>"}
+# #@gimp : note = note{"\n<small><b><span color=\"red\">        Use those additional filters at your own risk!</span></b></small>\n"}
+# #@gimp : note = note{"<small>These filters have been done by various contributors and are hosted in their own server.
+# #@gimp : The G'MIC team <b>cannot be held responsible for any damage</b> due to the use of these external filters.
+# #@gimp : Of course, as far as we know, there shouldn't be any issues in using them.
+# #@gimp : </small>"}
+# #@gimp : sep = separator()
+# #@gimp : note = note{"Enable filters from:"}
+# #@gimp : note = note{"<b>No external sources to activate yet</b>"}
+# ##@gimp : Jayprich = _bool(0)
+# ##@gimp : Zonderr = _bool(0)
+# #@gimp : sep = separator()
+# #@gimp : Select/unselect all = button()
+# #@gimp : first_time = const(0)
 gimp_manage_filter_sources :
   -l[]
     -_gimp_manage_filter_sources
