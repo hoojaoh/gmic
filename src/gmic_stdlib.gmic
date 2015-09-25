@@ -19298,8 +19298,8 @@ gimp_friends :
 _heart80x73 :
   40,73,1,1,0 -ellipse 22,22,20,20,0,1,1 -polygon 3,7,37,42,72,42,27,1,1 --mirror x -a x
 
-#@gimp Gmicky / Roddy : gimp_gmicky, gimp_gmicky_preview
-#@gimp : Mascot image = choice("Gmicky","Gmicky & Wilber","Roddy")
+#@gimp Gmicky - Roddy : gimp_gmicky, gimp_gmicky_preview
+#@gimp : Mascot image = choice("Gmicky","Gmicky &amp; Wilber","Roddy")
 #@gimp : sep = separator()
 #@gimp : note = note{"<b><i>Gmicky</i></b> is the name of the <b>G'MIC</b> mascot. He is a small and cute tiger who knows how to do magic.
 #@gimp : <b><i>Gmicky</i></b> is a tiger, i.e. fast, agile and elegant, just as the <b>G'MIC</b> code is :).
@@ -19434,6 +19434,7 @@ gimp_search_filters : -skip "${1=}"
       -y -f 'if(y==0&&i>=97&&i<=122,i-32,i)'
       -i[^0,-1] ({'"- "'}) -y -a y
     -endif
+    -replace_str. "&","&amp;"
     -u "{\"$1\"}{$2}{$3}{"{t}"}"
     -rm
   -endl
@@ -20915,7 +20916,7 @@ gimp_colorize_comics_preview :
   -gimp_colorize_comics $1,0,$3,$4
 
 #@gimp Colorize [interactive] : gimp_colorize_interactive, gimp_colorize_interactive_preview
-#@gimp : Input type = _choice("B&W photograph","Lineart")
+#@gimp : Input type = _choice("B&amp;W photograph","Lineart")
 #@gimp : Output type = _choice{"Colorized image (1 layer)","Colors only (1 layer)","Image + Colors (2 layers)","Image + Colors (multi-layers)"}
 #@gimp : View resolution = _choice{1,"Small (faster)","Medium","High (slower)","Very high (even slower)"}
 #@gimp : 1st additional palette (.gpl file) = _file("")
@@ -21201,7 +21202,7 @@ gimp_houghsketchbw_preview :
 #@gimp : Smoother Edge Protection = float(0.54,0,1)
 #@gimp : Smoother Softness = float(2.25,0,10)
 #@gimp : sep = separator()
-#@gimp : Stretch Contrast = choice("None","Automatic","Automatic & Contrast Mask","Manual Controls")
+#@gimp : Stretch Contrast = choice("None","Automatic","Automatic &amp; Contrast Mask","Manual Controls")
 #@gimp : note = note ("To activate the sliders below chose 'Manual Controls'")
 #@gimp :sep = separator()
 #@gimp : LN Amplititude = float(2,0,60)
@@ -21374,7 +21375,7 @@ gimp_boost_chroma_preview :
 #@gimp : Contrast = float(1,0,4)
 #@gimp : Brightness = float(0,-255,255)
 #@gimp : Smoothness = float(0,0,10)
-#@gimp : Value action = choice("None","Cut","Cut & Normalize","Normalize","Threshold")
+#@gimp : Value action = choice("None","Cut","Cut &amp; Normalize","Normalize","Threshold")
 #@gimp : Low value = float(0,0,100)
 #@gimp : High value = float(100,0,100)
 #@gimp : Quantization = int(256,1,256)
@@ -22463,7 +22464,7 @@ gimp_mix_cmyk_preview :
   -gimp_split_preview "-gimp_mix_cmyk $*",$-1
 
 #@gimp Select-replace color : gimp_select_color, gimp_select_color_preview(0)
-#@gimp : Similarity space = choice(0,"RGB[A]","RGB","YCbCr","Red","Green","Blue","Opacity","Luminance","Blue & Red chrominances","Hue","Saturation")
+#@gimp : Similarity space = choice(0,"RGB[A]","RGB","YCbCr","Red","Green","Blue","Opacity","Luminance","Blue &amp; Red chrominances","Hue","Saturation")
 #@gimp : Tolerance = float(20,0,100)
 #@gimp : Smoothness = float(0,0,10)
 #@gimp : Fill holes = int(0,0,256)
@@ -24531,7 +24532,7 @@ gimp_emulate_film_userdefined :
   -_gimp_emulate_film 0,1,${3--1}
 
 #@gimp Various : gimp_emulate_film_various, gimp_emulate_film_various_preview(1)+
-#@gimp : Preset = choice{"None","60's","60's (faded)","60's (faded alt)","Black & White","Color (rich)","Faded","Faded (alt)","Faded (analog)","Faded (extreme)","Faded (vivid)",
+#@gimp : Preset = choice{"None","60's","60's (faded)","60's (faded alt)","Black &amp; White","Color (rich)","Faded","Faded (alt)","Faded (analog)","Faded (extreme)","Faded (vivid)",
 #@gimp : "Hong Kong","Light (blown)","Lomo","Natural (vivid)","Nostalgic","Purple","Retro",
 #@gimp : "Summer","Summer (alt)","Sunny","Sunny (alt)","Sunny (warm)","Sunny (rich)","Super warm","Super warm (rich)","Sutro FX","Vibrant","Vibrant (alien)",
 #@gimp : "Vintage","Vintage (alt)","Vintage (brighter)","Warm","Warm (yellow)"}
@@ -25896,7 +25897,7 @@ gimp_mosaic_preview :
 #@gimp : Zoom factor = _int(2,1,8)
 #@gimp : Minimal size = float(5,0,150)
 #@gimp : Maximal size = float(90,0,150)
-#@gimp : Stencil type = choice(0,"Black & white","RGB","Color")
+#@gimp : Stencil type = choice(0,"Black &amp; white","RGB","Color")
 #@gimp : Allow angle = choice("0 deg.","90 deg.","180 deg.")
 #@gimp : Negative = bool(1)
 #@gimp : Antialiasing = bool(1)
@@ -26121,7 +26122,7 @@ gimp_syntexturize_preview :
 #@gimp Rorschach : gimp_rorschach, gimp_rorschach
 #@gimp : Scale = float(3,0,10)
 #@gimp : Mirror = choice(1,"None","x-axis","y-axis","xy-axes")
-#@gimp : Stencil type = choice(2,"Black & White","RGB","Color")
+#@gimp : Stencil type = choice(2,"Black &amp; White","RGB","Color")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>03/12/2011</i>.</small>")
 gimp_rorschach :
   -repeat $! -remove_opacity -l[$>]
@@ -26225,7 +26226,7 @@ gimp_stars :
 #@gimp : Smoothness = float(0,0,30)
 #@gimp : Iterations = int(8,1,100)
 #@gimp : Aliasing = float(0,0,5)
-#@gimp : Stencil type = choice(2,"Black & White","RGB","Color")
+#@gimp : Stencil type = choice(2,"Black &amp; White","RGB","Color")
 #@gimp : Transparency = bool(0)
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
@@ -26688,7 +26689,7 @@ gimp_smooth_skin_preview :
 #@gimp : Interpolation = choice(0,"Nearest neighbor","Linear","Runge-Kutta")
 #@gimp : Fast approximation = bool(1)
 #@gimp : Iterations = int(1,1,10)
-#@gimp : Channel(s) = choice("RGB","Luminance","Blue & Red chrominances","Blue chrominance","Red chrominance")
+#@gimp : Channel(s) = choice("RGB","Luminance","Blue &amp; Red chrominances","Blue chrominance","Red chrominance")
 #@gimp : sep = separator(), Parallel processing = choice("Auto","One thread","Two threads","Four threads","Eight threads","Sixteen threads"), Spatial overlap = int(24,0,256)
 #@gimp : note = note{"\n<small><b>Note: </b>This set of anisotropic smoothing parameters has been suggested by PhotoComiX.</small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>PhotoComiX</i>.      Latest update: <i>12/26/2010</i>.</small>")
