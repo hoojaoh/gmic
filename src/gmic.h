@@ -149,6 +149,9 @@ namespace cimg_library {
 #endif // #ifdef _MSC_VER
 
 #include <locale>
+#ifdef cimg_version
+#error "CImg.h was included before gmic.h"
+#endif
 #define cimg_plugin "gmic.cpp"
 
 #ifdef cimg_use_abort
