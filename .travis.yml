@@ -53,8 +53,8 @@ matrix:
   fast_finish: true
 
 # Travis CI has 1.5 cores per VM, take advantage of it
-env:
-  - MAKEFLAGS="-j 2"
+#env:
+#  - MAKEFLAGS="-j 2"
 
 before_install:
   - date -u
@@ -84,7 +84,7 @@ script:
       echo "Don't build on coverty_scan branch.";
       exit 0;
     fi
-  - make -C src NO_SRIPDLIB=1 cli lib zart;
+  - make -C src NO_SRIPDLIB=1 CC="${CXX}" cli lib zart;
 
 addons:
   coverity_scan:
