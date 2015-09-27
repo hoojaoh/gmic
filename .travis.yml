@@ -87,7 +87,11 @@ script:
       echo "Don't build on coverty_scan branch.";
       exit 0;
     fi
-  - make -C src NO_SRIPDLIB=1 CC="${CXX}" cli lib zart;
+  - if [ "$CC" = "gcc" ]; then
+        make -C src NO_SRIPDLIB=1 CC="${CXX}" cli lib zart;
+    else
+        make -C src NO_SRIPDLIB=1 CC="${CXX}" OPENMP_CFLAGS="" OPENMP_LIBS="" cli lib zart;
+    fi
 
 addons:
   coverity_scan:
