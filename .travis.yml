@@ -56,6 +56,8 @@ matrix:
 #env:
 #  - MAKEFLAGS="-j 2"
 
+# linux: opencv is in kubuntu-ppa/backports
+# osx: opencv is in homebrew/science
 before_install:
   - date -u
   - uname -a
@@ -65,6 +67,7 @@ before_install:
         sudo apt-get update;
     fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+        brew tap homebrew/science
         brew update;
         brew upgrade;
     fi
