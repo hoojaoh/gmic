@@ -3,7 +3,7 @@ env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "az4QH6KOKwa7UCQBEslcDQkm2yedGAoaGpJQ5UjO3I+W467GpuJm9iPEbKZAwz+Geo/QfLOWVA5w3wfwl8LTrOlI+vKTwbgjV2PkqTaHWzFF31v0p7NUoLDPpidHbs7sX/09q0XbBjdlvgCjs4+mbeGm5hPjk6bIcWX2MD8Wi4g="
+   - secure: "Off2w7QqHIO2lCZTD64VYKSiIe8scMKgKrlIJXIL7TBkRKoE9mVB+uFtZG53q+IZPICHpB37/5tUBLFw6LUAq7kCv+Hwr67g/CZ6BtO8l25gy0DjrHH3J51NDDMsJsZbISSe+46IAxP0JXOhCP2Xjsx02E05C/62QX9mAfXtdxqLU7nG/vYalfGLZpt3Fg6Q1UYbCdshQXysHWVktQzf3UWh0Aur3qbdfoUhfuCb7Do0BFZONo8PM5Epb5aIOb2hp5ghNKPliiTVA12E3jGt5uAJMXtg1WJg740EvIHPCYdWORmYMLQY0xc07lj0vgXp+1sKn7KD4ndZF55ur4x0U/4LklaO3QPVYXjBsve9WY/IYF2Fl1NZk+KOo7QWNtwWmJHFcdqnE91xaYxLFMoOTvmpz7QvFofJXeqBp/tvBAfPDRIyY90aBJbfyGge90nylbcjNxPRkyrPXXKU5yh+oBFX5J1x9EvFIYFjLqRhZw+Sauji7GmRH/xHWqr8mRxNyjDAbZX1VwE7akIVLMWnoxXCPMzMkB7dlbhwdLxyn2lAuxbXsdKdTZU7pAuzaMvldZfdBElRioCGeTwyCAZ8iwdmbKzLDzJMcSLGRGGjOreOxHtIj00cRj/nDCN0g9xJJxFeiGWivJ4iLKWKsbsyz+g/QIP196jeldUo+dghOV0="
    # Coverity run condition (avoid matrix multiple runs), need customized
    # build script. Need an update if new matrix cases.
    - coverity_scan_run_condition='"$CC" = gcc -a "$TRAVIS_OS_NAME" != osx'
@@ -42,7 +42,7 @@ addons:
     - libpng-dev
     - libjpeg-dev
     - libtiff-dev
-    - libcurl-dev
+    - libcurl4-openssl-dev
     - libgimp2.0-dev
     - libqt4-dev
 
@@ -64,7 +64,7 @@ before_install:
   - sudo apt-get update
 
 install:
-  - sudo apt-get install libcv-dev libcvaux-dev libhighgui-dev libopencv-dev libfftw3-dev zlib1g-dev libpng-dev libjpeg-dev libtiff-dev libcurl-dev libx11-dev libgimp2.0-dev libqt4-dev
+  - sudo apt-get install libcv-dev libcvaux-dev libhighgui-dev libopencv-dev libfftw3-dev zlib1g-dev libpng-dev libjpeg-dev libtiff-dev libcurl4-openssl-dev libx11-dev libgimp2.0-dev libqt4-dev
   
 script:
   - if [[ ${COVERITY_SCAN_BRANCH} == 1 ]];
