@@ -76,19 +76,15 @@ install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         brew install opencv fftw libpng jpeg libtiff curl qt;
     fi
- 
+
+# don't build the gimp plugin (requires a recent gimp version)
 script:
   - if [[ ${COVERITY_SCAN_BRANCH} == 1 ]];
     then
       echo "Don't build on coverty_scan branch.";
       exit 0;
     fi
-  - if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux" ]; then
-        make -C src NO_SRIPDLIB=1;
-    fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-        make -C src NO_SRIPDLIB=1 cli lib zart;
-    fi
+    make -C src NO_SRIPDLIB=1 cli lib zart;
 
 addons:
   coverity_scan:
@@ -105,6 +101,6 @@ addons:
     #build_command_prepend: ./configure
     # This command will be added as an argument to "cov-build" to compile
     # the project for analysis
-    build_command: "make -C src NO_SRIPDLIB=1"
+    build_command: "make -C src NO_SRIPDLIB=1 cli lib zart"
     # Pattern to match selecting branches that will run analysis
     branch_pattern: coverity_scan
