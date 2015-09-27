@@ -60,20 +60,20 @@ before_install:
   - date -u
   - uname -a
   - make -C src CImg.h gmic_stdlib.h 
-  - if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux"]; then
+  - if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux" ]; then
         sudo add-apt-repository -y ppa:kubuntu-ppa/backports;
         sudo apt-get update;
     fi
-  - if [ "$TRAVIS_OS_NAME" = "osx"]; then
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         brew update;
         brew upgrade;
     fi
 
 install:
-  - if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux"]; then
+  - if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux" ]; then
         sudo apt-get install libcv-dev libcvaux-dev libhighgui-dev libopencv-dev libfftw3-dev zlib1g-dev libpng-dev libjpeg-dev libtiff-dev libcurl4-openssl-dev libx11-dev libgimp2.0-dev libqt4-dev;
     fi
-  - if [ "$TRAVIS_OS_NAME" = "osx"]; then
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         brew install opencv fftw libpng jpeg libtiff curl qt;
     fi
  
@@ -83,10 +83,10 @@ script:
       echo "Don't build on coverty_scan branch.";
       exit 0;
     fi
-  - if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux"]; then
+  - if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux" ]; then
         make -C src NO_SRIPDLIB=1;
     fi
-  - if [ "$TRAVIS_OS_NAME" = "osx"]; then
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         make -C src NO_SRIPDLIB=1 cli lib zart;
     fi
 
