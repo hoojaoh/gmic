@@ -92,7 +92,7 @@ install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         brew install opencv fftw libpng jpeg libtiff curl qt;
         if [ "$CC" = "gcc" ]; then
-            brew install gcc`echo $GCC_VERSION|sed -e s/\\.//`
+            brew install gcc`echo $GCC_VERSION|sed -e s/\\.//`;
         fi;
     fi;
 
@@ -104,7 +104,7 @@ script:
       exit 0;
     fi;
   # if GCC_VERSION is not defined, we assume it is GCC 4.6.3, which does not accept -std=c++11
-  - if [ "$CC" = "clang" -o -z "$GCC_VERSION" ]; then
+  - if [ "$CC" = "clang" -o -z "$GCC_VERSION" -o "$GCC_VERSION" = "4.6" ]; then
         CXX11FLAGS="NO_SRIPDLIB=1"
     fi;
     if [ "$CC" = "clang" ]; then
