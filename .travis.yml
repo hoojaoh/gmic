@@ -3,13 +3,17 @@ env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "Off2w7QqHIO2lCZTD64VYKSiIe8scMKgKrlIJXIL7TBkRKoE9mVB+uFtZG53q+IZPICHpB37/5tUBLFw6LUAq7kCv+Hwr67g/CZ6BtO8l25gy0DjrHH3J51NDDMsJsZbISSe+46IAxP0JXOhCP2Xjsx02E05C/62QX9mAfXtdxqLU7nG/vYalfGLZpt3Fg6Q1UYbCdshQXysHWVktQzf3UWh0Aur3qbdfoUhfuCb7Do0BFZONo8PM5Epb5aIOb2hp5ghNKPliiTVA12E3jGt5uAJMXtg1WJg740EvIHPCYdWORmYMLQY0xc07lj0vgXp+1sKn7KD4ndZF55ur4x0U/4LklaO3QPVYXjBsve9WY/IYF2Fl1NZk+KOo7QWNtwWmJHFcdqnE91xaYxLFMoOTvmpz7QvFofJXeqBp/tvBAfPDRIyY90aBJbfyGge90nylbcjNxPRkyrPXXKU5yh+oBFX5J1x9EvFIYFjLqRhZw+Sauji7GmRH/xHWqr8mRxNyjDAbZX1VwE7akIVLMWnoxXCPMzMkB7dlbhwdLxyn2lAuxbXsdKdTZU7pAuzaMvldZfdBElRioCGeTwyCAZ8iwdmbKzLDzJMcSLGRGGjOreOxHtIj00cRj/nDCN0g9xJJxFeiGWivJ4iLKWKsbsyz+g/QIP196jeldUo+dghOV0="
+   - secure: "WpaF9B2i6/h1pLbDd+9Mxhc9f3B+fw0fIzVfw5VmPhUgUHvhEvWwuhJmBsD/4Ivy7Z3iUxnKWD8qeQvV+qjCiqESd2pzRmbvosiIo4MO4QhrUP/jVD+RQ79CGWM/axyqpXcU1CWaIQfjx+1LAZpzF2eA5sOehfWLJYfu+BduKDs3rCZvjUABwvQCM771vLVsbhqaWrmah7OCMm5WKces4gpZHVIkv1KA8qwI4pGD9ZaP1GGxmkwuieeHXk+LLcx2YXVTPOgOm6omPjVVx+XW9yEUwISJPMifNRJgFu7gD0e7dnXIPsA6lfPkGPvR5MEE6Sn2NfKze04n64fEwqJa1ExKTGQHlkA+R15c1q/e9wySd0T5bKxBmTkYFO+Hok3Fn8W5KcNdF+MZiZhuTTGul0ecVbKh6tZOs0PmL1EEV0a4vkFpc/IkmTMq4bIy+aGf/c/ZGxeddiLySu0TLxhmGWjpUby8hcnyfTuxQGzn338liB068lxeeErGmOTknii6PIXnmB6iS/EWQVsxpFXv6SWlakolseRDbVEHwWsbiCfLVLqh14zdhMJTzwcpOy4bs3NS+8gmp8c+XM+5QrriNTJQnTu0QUNinE7RMjDspG1bBV7ueumHD1vHtn33i0jbfFcUalED9KfGD8Y5fS7iVKWQx2SA98OkujNGOl1wISQ="
    # Coverity run condition (avoid matrix multiple runs), need customized
    # build script. Need an update if new matrix cases.
    - coverity_scan_run_condition='"$CC" = gcc -a "$TRAVIS_OS_NAME" != osx'
    # Coverity script test mode (if true no uploading, avoid reaching the quota)
    # usual processing: false.
    - coverity_scan_script_test_mode=false
+   # We build both with the base gcc version , and with gcc 4.9
+   matrix:
+   - GCC_VERSION=
+   - GCC_VERSION=4.9
 
 os:
   - linux
@@ -63,10 +67,6 @@ matrix:
 #env:
 #  - MAKEFLAGS="-j 2"
 
-# We build both with the base gcc version , and with gcc 4.9
-env:
-  - GCC_VERSION=
-  - GCC_VERSION=4.9
 
 # linux: opencv is in kubuntu-ppa/backports
 # osx: opencv is in homebrew/science
@@ -115,10 +115,7 @@ script:
       exit 0;
     fi;
   # if GCC_VERSION is not defined, we assume it is GCC 4.6.3, which does not accept -std=c++11
-  - if [ "$CC" = "clang" -o -z "$GCC_VERSION" ]; then
-        CXX11FLAGS="NO_SRIPDLIB=1";
-    fi;
-    if [ "$CC" = "clang" ]; then
+  - if [ "$CC" = "clang" ]; then
         OMPFLAGS="OPENMP_CFLAGS= OPENMP_LIBS=";
     fi;
     if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux" ]; then
@@ -128,7 +125,7 @@ script:
         CXX="${CXX}-${GCC_VERSION}";
     fi;
     ${CXX} --version;
-    make -C src $CXX11FLAGS $OMPFLAGS CC="${CXX}" $GIMP cli lib zart;
+    make -C src $CXX11FLAGS $OMPFLAGS NO_SRIPDLIB=1 CC="${CXX}" OPT_CFLAGS=-O0 $GIMP cli lib zart;
 
 addons:
   coverity_scan:
