@@ -32,6 +32,8 @@ addons:
     - xorg-edgers-ppa
     # ubuntu-toolchain-r/test contains recent versions of gcc
     - ubuntu-toolchain-r-test
+    # add-apt-repository ppa:otto-kesselgulasch/gimp
+    - otto-kesselgulasch-gimp
     packages:
     - libcv-dev
     - libcvaux-dev
@@ -64,10 +66,11 @@ before_install:
   - make -C src CImg.h gmic_stdlib.h 
   - if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux" ]; then
         sudo add-apt-repository -y ppa:kubuntu-ppa/backports;
+        sudo add-apt-repository -y ppa:otto-kesselgulasch/gimp;
         sudo apt-get update;
     fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-        brew tap homebrew/science
+        brew tap homebrew/science;
         brew update;
         brew upgrade;
     fi
@@ -88,7 +91,11 @@ script:
       exit 0;
     fi
   - if [ "$CC" = "gcc" ]; then
-        make -C src NO_SRIPDLIB=1 CC="${CXX}" cli lib zart;
+        if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux" ]; then
+            make -C src NO_SRIPDLIB=1 CC="${CXX}" gimp cli lib zart;
+        else
+            make -C src NO_SRIPDLIB=1 CC="${CXX}" cli lib zart;
+        fi;
     else
         make -C src NO_SRIPDLIB=1 CC="${CXX}" OPENMP_CFLAGS="" OPENMP_LIBS="" cli lib zart;
     fi
