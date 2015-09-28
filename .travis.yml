@@ -1,11 +1,14 @@
 # This is the http://travis-ci.org configuration file for G'MIC
 #
+# To configure coverity_scan (which does not work because gmic crashes coverity):
+# - get the COVERITY_SCAN_TOKEN from the project page on scan.coverity.com
+# - fill in the notification_email below
 
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "WpaF9B2i6/h1pLbDd+9Mxhc9f3B+fw0fIzVfw5VmPhUgUHvhEvWwuhJmBsD/4Ivy7Z3iUxnKWD8qeQvV+qjCiqESd2pzRmbvosiIo4MO4QhrUP/jVD+RQ79CGWM/axyqpXcU1CWaIQfjx+1LAZpzF2eA5sOehfWLJYfu+BduKDs3rCZvjUABwvQCM771vLVsbhqaWrmah7OCMm5WKces4gpZHVIkv1KA8qwI4pGD9ZaP1GGxmkwuieeHXk+LLcx2YXVTPOgOm6omPjVVx+XW9yEUwISJPMifNRJgFu7gD0e7dnXIPsA6lfPkGPvR5MEE6Sn2NfKze04n64fEwqJa1ExKTGQHlkA+R15c1q/e9wySd0T5bKxBmTkYFO+Hok3Fn8W5KcNdF+MZiZhuTTGul0ecVbKh6tZOs0PmL1EEV0a4vkFpc/IkmTMq4bIy+aGf/c/ZGxeddiLySu0TLxhmGWjpUby8hcnyfTuxQGzn338liB068lxeeErGmOTknii6PIXnmB6iS/EWQVsxpFXv6SWlakolseRDbVEHwWsbiCfLVLqh14zdhMJTzwcpOy4bs3NS+8gmp8c+XM+5QrriNTJQnTu0QUNinE7RMjDspG1bBV7ueumHD1vHtn33i0jbfFcUalED9KfGD8Y5fS7iVKWQx2SA98OkujNGOl1wISQ="
+   - secure: "****visit the project page on scan.coverity.com to get the token****"
    # Coverity run condition (avoid matrix multiple runs), need customized
    # build script. Need an update if new matrix cases.
    - coverity_scan_run_condition='"$CC" = gcc -a "$TRAVIS_OS_NAME" != osx'
@@ -58,7 +61,7 @@ addons:
     project:
       name: $TRAVIS_REPO_SLUG
     # Where email notification of build analysis results will be sent
-    notification_email: frederic.devernay@m4x.org
+    #notification_email: scan_notifications@example.com
     # Commands to prepare for build_command
     #build_command_prepend: ./configure
     # This command will be added as an argument to "cov-build" to compile
