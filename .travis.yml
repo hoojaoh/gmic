@@ -44,10 +44,9 @@ addons:
     - libgimp2.0-dev
     - libqt4-dev
 
+# clang on linux goes over the Travis 3GB memory limit
 matrix:
   exclude:
-    - os: osx
-      compiler: gcc
     - os: linux
       compiler: clang
   fast_finish: true
@@ -71,14 +70,14 @@ before_install:
         sudo add-apt-repository -y ppa:kubuntu-ppa/backports;
         if [ "$CC" = "gcc" ]; then
             sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
-        fi
+        fi;
         sudo add-apt-repository -y ppa:otto-kesselgulasch/gimp;
         sudo apt-get update;
-    fi
+    fi;
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         brew tap homebrew/science;
         brew update;
-    fi
+    fi;
 
 # we don't "apt-get upgrade" or "brew upgrade", because it takes up too much time
 install:
@@ -88,11 +87,14 @@ install:
             sudo apt-get install gcc-${GCC_VERSION} g++-${GCC_VERSION};
             sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VERSION} 90;
             sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VERSION} 90;
-        fi
-    fi
+        fi;
+    fi;
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         brew install opencv fftw libpng jpeg libtiff curl qt;
-    fi
+        if [ "$CC" = "gcc" ]; then
+            brew install gcc`echo $GCC_VERSION|sed -e s/\\.//`
+        fi;
+    fi;
 
 # don't build the gimp plugin (requires a recent gimp version)
 script:
@@ -100,16 +102,16 @@ script:
     then
       echo "Don't build on coverty_scan branch.";
       exit 0;
-    fi
+    fi;
   - if [ "$CC" = "gcc" ]; then
         if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux" ]; then
             make -C src CC="${CXX}" gimp cli lib zart;
         else
-            make -C src NO_SRIPDLIB=1 CC="${CXX}" cli lib zart;
+            make -C src CC="${CXX}-${GCC_VERSION}" cli lib zart;
         fi;
     else
         make -C src NO_SRIPDLIB=1 CC="${CXX}" OPENMP_CFLAGS="" OPENMP_LIBS="" cli lib zart;
-    fi
+    fi;
 
 addons:
   coverity_scan:
