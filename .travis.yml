@@ -106,13 +106,13 @@ script:
     fi;
   # if GCC_VERSION is not defined, we assume it is GCC 4.6.3, which does not accept -std=c++11
   - if [ "$CC" = "clang" -o -z "$GCC_VERSION" -o "$GCC_VERSION" = "base" ]; then
-        CXX11FLAGS="NO_SRIPDLIB=1"
+        CXX11FLAGS="NO_SRIPDLIB=1";
     fi;
     if [ "$CC" = "clang" ]; then
-        OMPFLAGS="OPENMP_CFLAGS= OPENMP_LIBS="
+        OMPFLAGS="OPENMP_CFLAGS= OPENMP_LIBS=";
     fi;
     if [ -z "$TRAVIS_OS_NAME" -o "$TRAVIS_OS_NAME" = "linux" ]; then
-        GIMP=gimp
+        GIMP=gimp;
     fi;
     if [ "$CC" = "gcc" -a ! -z "$GCC_VERSION" -a ! "$GCC_VERSION" = "base" ]; then
         CXX="${CXX}-${GCC_VERSION}";
