@@ -13,7 +13,7 @@ env:
    # usual processing: false.
    - coverity_scan_script_test_mode=false
    # We build both with the base gcc version , and with gcc 4.9
-   matrix:
+  matrix:
    - GCC_VERSION=
    - GCC_VERSION=4.9
 
@@ -49,6 +49,23 @@ addons:
     - libcurl4-openssl-dev
     - libgimp2.0-dev
     - libqt4-dev
+  coverity_scan:
+    # customized build script URL
+    # TRAVIS_REPO_SLUG: owner_name/repo_name of repository currently being built
+    # TRAVIS_BRANCH: name of the branch currently being built
+    build_script_url: https://raw.githubusercontent.com/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH/.travis-coverity-scan-build.sh
+    # project metadata
+    project:
+      name: $TRAVIS_REPO_SLUG
+    # Where email notification of build analysis results will be sent
+    notification_email: frederic.devernay@m4x.org
+    # Commands to prepare for build_command
+    #build_command_prepend: ./configure
+    # This command will be added as an argument to "cov-build" to compile
+    # the project for analysis
+    build_command: "make -C src NO_SRIPDLIB=1 gimp cli lib zart"
+    # Pattern to match selecting branches that will run analysis
+    branch_pattern: coverity_scan
 
 matrix:
   exclude:
@@ -129,21 +146,3 @@ script:
     ${CXX} --version;
     make -C src $CXX11FLAGS $OMPFLAGS NO_SRIPDLIB=1 CC="${CXX}" OPT_CFLAGS=-O0 $GIMP cli lib zart;
 
-addons:
-  coverity_scan:
-    # customized build script URL
-    # TRAVIS_REPO_SLUG: owner_name/repo_name of repository currently being built
-    # TRAVIS_BRANCH: name of the branch currently being built
-    build_script_url: https://raw.githubusercontent.com/$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH/.travis-coverity-scan-build.sh
-    # project metadata
-    project:
-      name: $TRAVIS_REPO_SLUG
-    # Where email notification of build analysis results will be sent
-    notification_email: frederic.devernay@m4x.org
-    # Commands to prepare for build_command
-    #build_command_prepend: ./configure
-    # This command will be added as an argument to "cov-build" to compile
-    # the project for analysis
-    build_command: "make -C src NO_SRIPDLIB=1 gimp cli lib zart"
-    # Pattern to match selecting branches that will run analysis
-    branch_pattern: coverity_scan
