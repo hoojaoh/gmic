@@ -51,7 +51,7 @@ matrix:
       compiler: clang
     # base gcc on osx does not exist (it is clang, actually)
     - os: osx
-      compiler: clang
+      compiler: gcc
       env: GCC_VERSION=
     # we only test the base version of clang
     - compiler: clang
