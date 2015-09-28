@@ -4756,6 +4756,7 @@ int82float :
 #@gmic : Default values: 'dithering=0' and 'map_palette=0'.
 #@gmic : $ image.jpg --index 1,1,1
 #@gmic : $ image.jpg (0;255;255^0;128;255^0;0;255) --index.. [-1],1,1
+#@gmic : $$
 
 #@gmic ir : eq. to '-inrange'.
 ir :
@@ -4786,6 +4787,7 @@ _inrange :
 #@gmic : Default value: 'boundary=0'.
 #@gmic : $ image.jpg --luminance -map. 3
 #@gmic : $ image.jpg --rgb2ycbcr -split. c (0,255,0) -resize. 256,1,1,1,3 -map[-4] [-1] -remove. -append[-3--1] c -ycbcr2rgb.
+#@gmic : $$
 
 #@gmic map_clut : [clut]
 #@gmic : Map specified RGB color LUT to selected images.
