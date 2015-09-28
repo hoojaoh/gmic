@@ -150,7 +150,7 @@ namespace cimg_library {
 
 #include <locale>
 #ifdef cimg_version
-#error "CImg.h was included before gmic.h"
+#error "[gmic] *** Error *** File 'CImg.h' has been already included (should have been done first in file 'gmic.h')."
 #endif
 #define cimg_plugin "gmic.cpp"
 
