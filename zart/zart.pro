@@ -99,6 +99,8 @@ SOURCES	+= \
     src/ConstParameter.cpp
 
 RESOURCES = zart.qrc
+DEPENDPATH += $$PWD/images
+
 FORMS = ui/MainWindow.ui ui/DialogAbout.ui ui/DialogLicense.ui \
     ui/FullScreenWidget.ui
 
