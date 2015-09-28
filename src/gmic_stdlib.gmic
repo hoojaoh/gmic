@@ -3742,119 +3742,121 @@ update_tutorial_html :
   -use_vt100
 
   # Init list of pages to retrieve.
-  -add_page /,1700,index,_index
-  -add_page basics,4000
+  # -add_page /,1700,index,__index
+  # -add_page basics,4000
 
-  -add_page beginners-cookbook,1000
-  -add_page beginners-cookbook/cauldron,3500
-  -add_page beginners-cookbook/dyidiffusion,1000
-  -add_page beginners-cookbook/dyidiffusion/graduated-blurs,3800
-  -add_page beginners-cookbook/dyidiffusion/variations-on-a-theme,3800
-  -add_page beginners-cookbook/dyidiffusion/eigenvalues-and-eigenvectors,2300
-  -add_page beginners-cookbook/dyidiffusion/directional-blurring,3500
-  -add_page beginners-cookbook/dyidiffusion/tensors-for-the-tonsorially-challenged,8500
-  -add_page beginners-cookbook/dyidiffusion/eigen-thingys,4800
-  -add_page beginners-cookbook/dyidiffusion/fake-depth-of-field,7600
-  -add_page beginners-cookbook/fingerpainting,12000
-  -add_page beginners-cookbook/ramps,1200
-  -add_page beginners-cookbook/ramps/applying-a-curve,600
-  -add_page beginners-cookbook/ramps/blurring,600
-  -add_page beginners-cookbook/ramps/general-ramps,2500
-  -add_page beginners-cookbook/ramps/input-and-fill,1200
-  -add_page beginners-cookbook/ramps/one-dimensional-functions,800
-  -add_page beginners-cookbook/ramps/remapping-space,2200
-  -add_page beginners-cookbook/ramps/resizing,600
-  -add_page beginners-cookbook/ramps/warp,800
-  -add_page beginners-cookbook/road-systems,2500
-  -add_page beginners-cookbook/stained-glass,4000
-  -add_page beginners-cookbook/spectral-art,1500
-  -add_page beginners-cookbook/spectral-art/the-spatial-and-the-spectral,2000
-  -add_page beginners-cookbook/spectral-art/the-spectral-course,2000
-  -add_page beginners-cookbook/spectral-art/the-spectral-domain,2000
-  -add_page beginners-cookbook/spectral-art/the-complex-number-field,3300
-  -add_page beginners-cookbook/spectral-art/painting-with-waves-part-one,2200
-  -add_page beginners-cookbook/spectral-art/painting-with-waves-part-two,2200
-  -add_page beginners-cookbook/spectral-art/a-revised-map,1500
-  -add_page beginners-cookbook/spectral-art/intermezzo-spectral-editing,1500
-  -add_page beginners-cookbook/spectral-art/a-wave-painting-workflow,2000
-  -add_page beginners-cookbook/spectral-art/tiletex,5000
-  -add_page beginners-cookbook/spectral-art/coefficient-values,3000
-  -add_page beginners-cookbook/spectral-art/coefficient-values-part-two,4500
-  -add_page beginners-cookbook/spectral-art/coefficient-values-part-three,2500
-  -add_page beginners-cookbook/spectral-art/cheat-sheet,9000
-  -add_page beginners-cookbook/spectral-art/appendix,2500
+  # -add_page beginners-cookbook,1000
+  # -add_page beginners-cookbook/cauldron,3500
+  # -add_page beginners-cookbook/dyidiffusion,1000
+  # -add_page beginners-cookbook/dyidiffusion/graduated-blurs,3800
+  # -add_page beginners-cookbook/dyidiffusion/variations-on-a-theme,3800
+  # -add_page beginners-cookbook/dyidiffusion/eigenvalues-and-eigenvectors,2300
+  # -add_page beginners-cookbook/dyidiffusion/directional-blurring,3500
+  # -add_page beginners-cookbook/dyidiffusion/tensors-for-the-tonsorially-challenged,8500
+  # -add_page beginners-cookbook/dyidiffusion/eigen-thingys,4800
+  # -add_page beginners-cookbook/dyidiffusion/fake-depth-of-field,7600
+  # -add_page beginners-cookbook/fingerpainting,12000
+  # -add_page beginners-cookbook/ramps,1200
+  # -add_page beginners-cookbook/ramps/applying-a-curve,600
+  # -add_page beginners-cookbook/ramps/blurring,600
+  # -add_page beginners-cookbook/ramps/general-ramps,2500
+  # -add_page beginners-cookbook/ramps/input-and-fill,1200
+  # -add_page beginners-cookbook/ramps/one-dimensional-functions,800
+  # -add_page beginners-cookbook/ramps/remapping-space,2200
+  # -add_page beginners-cookbook/ramps/resizing,600
+  # -add_page beginners-cookbook/ramps/warp,800
+  # -add_page beginners-cookbook/road-systems,2500
+  # -add_page beginners-cookbook/stained-glass,4000
+  # -add_page beginners-cookbook/spectral-art,1500
+  # -add_page beginners-cookbook/spectral-art/the-spatial-and-the-spectral,2000
+  # -add_page beginners-cookbook/spectral-art/the-spectral-course,2000
+  # -add_page beginners-cookbook/spectral-art/the-spectral-domain,2000
+  # -add_page beginners-cookbook/spectral-art/the-complex-number-field,3300
+  # -add_page beginners-cookbook/spectral-art/painting-with-waves-part-one,2200
+  # -add_page beginners-cookbook/spectral-art/painting-with-waves-part-two,2200
+  # -add_page beginners-cookbook/spectral-art/a-revised-map,1500
+  # -add_page beginners-cookbook/spectral-art/intermezzo-spectral-editing,1500
+  # -add_page beginners-cookbook/spectral-art/a-wave-painting-workflow,2000
+  # -add_page beginners-cookbook/spectral-art/tiletex,5000
+  # -add_page beginners-cookbook/spectral-art/coefficient-values,3000
+  # -add_page beginners-cookbook/spectral-art/coefficient-values-part-two,4500
+  # -add_page beginners-cookbook/spectral-art/coefficient-values-part-three,2500
+  # -add_page beginners-cookbook/spectral-art/cheat-sheet,9000
+  # -add_page beginners-cookbook/spectral-art/appendix,2500
 
-  -add_page command-decorations,3500
-  -add_page images,2000
-  -add_page images/conjuring-images,1000
-  -add_page images/images-as-datasets,3500
-  -add_page images/images-have-edges,1200
-  -add_page command-guide,5500
+  # -add_page command-decorations,3500
+  # -add_page images,2000
+  # -add_page images/conjuring-images,1000
+  # -add_page images/images-as-datasets,3500
+  # -add_page images/images-have-edges,1200
+  # -add_page command-guide,5500
 
-  -add_page command-guide/color-manipulation/-compose_channels,1000,,,commands-colors-manipulation
-  -add_page command-guide/color-manipulation/-direction2rgb,1000,,,commands-colors-manipulation
-  -add_page command-guide/color-manipulation/-gradient2rgb,1000,,,commands-colors-manipulation
-  -add_page command-guide/color-manipulation/-mix_rgb,4000,,,commands-colors-manipulation
-  -add_page command-guide/color-manipulation/-select_color,3000,,,commands-colors-manipulation
+  # -add_page command-guide/color-manipulation/-compose_channels,1000,,,commands-colors-manipulation
+  # -add_page command-guide/color-manipulation/-direction2rgb,1000,,,commands-colors-manipulation
+  # -add_page command-guide/color-manipulation/-gradient2rgb,1000,,,commands-colors-manipulation
+  # -add_page command-guide/color-manipulation/-mix_rgb,4000,,,commands-colors-manipulation
+  # -add_page command-guide/color-manipulation/-select_color,3000,,,commands-colors-manipulation
 
-  -add_page command-guide/feature-extraction/-distance,9500,,,commands-features-extraction
-  -add_page command-guide/feature-extraction/-area,2000,,,commands-features-extraction
-  -add_page command-guide/feature-extraction/-label,1300,,,commands-features-extraction
+  # -add_page command-guide/feature-extraction/-distance,9500,,,commands-features-extraction
+  # -add_page command-guide/feature-extraction/-area,2000,,,commands-features-extraction
+  # -add_page command-guide/feature-extraction/-label,1300,,,commands-features-extraction
 
-  -add_page command-guide/filtering/-bandpass,5000,,,commands-filtering
-  -add_page command-guide/filtering/-blur,2000,,,commands-filtering
-  -add_page command-guide/filtering/-blur_angular,700,,,commands-filtering
-  -add_page command-guide/filtering/-blur_linear,700,,,commands-filtering
-  -add_page command-guide/filtering/-blur_radial,700,,,commands-filtering
-  -add_page command-guide/filtering/-blur_selective,3500,,,commands-filtering
-  -add_page command-guide/filtering/-blur_x,700,,,commands-filtering
-  -add_page command-guide/filtering/-blur_xy,700,,,commands-filtering
-  -add_page command-guide/filtering/-blur_xyz,700,,,commands-filtering
-  -add_page command-guide/filtering/-blur_y,700,,,commands-filtering
-  -add_page command-guide/filtering/-blur_z,2500,,,commands-filtering
-  -add_page command-guide/filtering/-convolve,3500,,,commands-filtering
-  -add_page command-guide/filtering/-dct-and-idct,1500,,,commands-filtering
-  -add_page command-guide/filtering/-deriche,1500,,,commands-filtering
-  -add_page command-guide/filtering/-diffusiontensors,7200,,,commands-filtering
-  -add_page command-guide/filtering/-fft,6300,,,commands-filtering
-  -add_page command-guide/filtering/-gradient,3000,,,commands-filtering
-  -add_page command-guide/filtering/-gradient_norm,1300,,,commands-filtering
-  -add_page command-guide/filtering/-gradient_orientation,3300,,,commands-filtering
-  -add_page command-guide/filtering/-haar,2000,,,commands-filtering
-  -add_page command-guide/filtering/-smooth,4300,,,commands-filtering
-  -add_page command-guide/filtering/-structuretensors,3300,,,commands-filtering
+  # -add_page command-guide/filtering/-bandpass,5000,,,commands-filtering
+  # -add_page command-guide/filtering/-blur,2000,,,commands-filtering
+  # -add_page command-guide/filtering/-blur_angular,700,,,commands-filtering
+  # -add_page command-guide/filtering/-blur_linear,700,,,commands-filtering
+  # -add_page command-guide/filtering/-blur_radial,700,,,commands-filtering
+  # -add_page command-guide/filtering/-blur_selective,3500,,,commands-filtering
+  # -add_page command-guide/filtering/-blur_x,700,,,commands-filtering
+  # -add_page command-guide/filtering/-blur_xy,700,,,commands-filtering
+  # -add_page command-guide/filtering/-blur_xyz,700,,,commands-filtering
+  # -add_page command-guide/filtering/-blur_y,700,,,commands-filtering
+  # -add_page command-guide/filtering/-blur_z,2500,,,commands-filtering
+  # -add_page command-guide/filtering/-convolve,3500,,,commands-filtering
+  # -add_page command-guide/filtering/-dct-and-idct,1500,,,commands-filtering
+  # -add_page command-guide/filtering/-deriche,1500,,,commands-filtering
+  # -add_page command-guide/filtering/-diffusiontensors,7200,,,commands-filtering
+  # -add_page command-guide/filtering/-fft,6300,,,commands-filtering
+  # -add_page command-guide/filtering/-gradient,3000,,,commands-filtering
+  # -add_page command-guide/filtering/-gradient_norm,1300,,,commands-filtering
+  # -add_page command-guide/filtering/-gradient_orientation,3300,,,commands-filtering
+  # -add_page command-guide/filtering/-haar,2000,,,commands-filtering
+  # -add_page command-guide/filtering/-smooth,4300,,,commands-filtering
+  # -add_page command-guide/filtering/-structuretensors,3300,,,commands-filtering
 
-  -add_page command-guide/geometry-manipulation/-warp,5000,,,commands-geometry-manipulation
+  # -add_page command-guide/geometry-manipulation/-warp,5000,,,commands-geometry-manipulation
 
-  -add_page command-guide/image-drawing/-gaussian,2000,,,commands-image-drawing
-  -add_page command-guide/image-drawing/-plasma,4500,,,commands-image-drawing
-  -add_page command-guide/image-drawing/-turbulence,5500,,,commands-image-drawing
+  # -add_page command-guide/image-drawing/-gaussian,2000,,,commands-image-drawing
+  # -add_page command-guide/image-drawing/-plasma,4500,,,commands-image-drawing
+  # -add_page command-guide/image-drawing/-turbulence,5500,,,commands-image-drawing
 
-  -add_page command-guide/inputs-outputs/-display,2000,,,commands-inputs-outputs
-  -add_page command-guide/inputs-outputs/-display_tensors,1500,,,commands-inputs-outputs
-  -add_page command-guide/inputs-outputs/-input,7500,,,commands-inputs-outputs
-  -add_page command-guide/inputs-outputs/-shared,2000,,,commands-inputs-outputs
+  # -add_page command-guide/inputs-outputs/-display,2000,,,commands-inputs-outputs
+  # -add_page command-guide/inputs-outputs/-display_tensors,1500,,,commands-inputs-outputs
+  # -add_page command-guide/inputs-outputs/-input,7500,,,commands-inputs-outputs
+  # -add_page command-guide/inputs-outputs/-shared,2000,,,commands-inputs-outputs
 
-  -add_page command-guide/matrix-computation/-eigen,2000,,,commands-matrix-computation
+  # -add_page command-guide/matrix-computation/-eigen,2000,,,commands-matrix-computation
 
-  -add_page command-guide/program-control/-local,3500,,,commands-program-control
-  -add_page command-guide/program-control/-do,6500,,,commands-program-control
-  -add_page command-guide/program-control/-if,3500,,,commands-program-control
-  -add_page command-guide/program-control/-repeat,2000,,,commands-program-control
+  # -add_page command-guide/program-control/-local,3500,,,commands-program-control
+  # -add_page command-guide/program-control/-do,6500,,,commands-program-control
+  # -add_page command-guide/program-control/-if,3500,,,commands-program-control
+  # -add_page command-guide/program-control/-repeat,2000,,,commands-program-control
 
-  -add_page command-guide/values-manipulation/-eigen2tensor,5500,,,commands-values-manipulation
-  -add_page command-guide/values-manipulation/-norm,700,,,commands-values-manipulation
-  -add_page command-guide/values-manipulation/-normalize,1700,,,commands-values-manipulation
-  -add_page command-guide/values-manipulation/-orientation,5000,,,commands-values-manipulation
-  -add_page command-guide/values-manipulation/-threshold,1500,,,commands-values-manipulation
+  # -add_page command-guide/values-manipulation/-eigen2tensor,5500,,,commands-values-manipulation
+  -add_page command-guide/values-manipulation/-index,3500,,,commands-values-manipulation
+  -add_page command-guide/values-manipulation/-map,3500,,,commands-values-manipulation
+  # -add_page command-guide/values-manipulation/-norm,700,,,commands-values-manipulation
+  # -add_page command-guide/values-manipulation/-normalize,1700,,,commands-values-manipulation
+  # -add_page command-guide/values-manipulation/-orientation,5000,,,commands-values-manipulation
+  # -add_page command-guide/values-manipulation/-threshold,1500,,,commands-values-manipulation
 
-  -add_page technical-notes/trigometric-and-inverse-trigometric-commands,2500
-  -add_page technical-notes/wavelet-analysis-and-synthesis-in-gmic,5000
-  -add_page gimp-filters,1500
-  -add_page gimp-filters/blur-by-color-filter,23500
-  -add_page gimp-filters/hedcut-filter,2000
-  -add_page gimp-filters/the-fingerpainting-filter,2200
-  -add_page gimp-filters/the-hairlock-filter,8500
+  # -add_page technical-notes/trigometric-and-inverse-trigometric-commands,2500
+  # -add_page technical-notes/wavelet-analysis-and-synthesis-in-gmic,5000
+  # -add_page gimp-filters,1500
+  # -add_page gimp-filters/blur-by-color-filter,23500
+  # -add_page gimp-filters/hedcut-filter,2000
+  # -add_page gimp-filters/the-fingerpainting-filter,2200
+  # -add_page gimp-filters/the-hairlock-filter,8500
 
   # Prepare folder structure.
   -v + -e[] "\n  * Prepare folder structure." -v -
@@ -4754,6 +4756,7 @@ int82float :
 #@gmic : Default values: 'dithering=0' and 'map_palette=0'.
 #@gmic : $ image.jpg --index 1,1,1
 #@gmic : $ image.jpg (0;255;255^0;128;255^0;0;255) --index.. [-1],1,1
+#@gmic : $$
 
 #@gmic ir : eq. to '-inrange'.
 ir :
@@ -4784,6 +4787,7 @@ _inrange :
 #@gmic : Default value: 'boundary=0'.
 #@gmic : $ image.jpg --luminance -map. 3
 #@gmic : $ image.jpg --rgb2ycbcr -split. c (0,255,0) -resize. 256,1,1,1,3 -map[-4] [-1] -remove. -append[-3--1] c -ycbcr2rgb.
+#@gmic : $$
 
 #@gmic map_clut : [clut]
 #@gmic : Map specified RGB color LUT to selected images.
