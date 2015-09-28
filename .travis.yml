@@ -144,5 +144,5 @@ script:
         CXX="${CXX}-${GCC_VERSION}";
     fi;
     ${CXX} --version;
-    make -C src $OMPFLAGS NO_SRIPDLIB=1 NO_STDLIB=1 CC="${CXX}" OPT_CFLAGS=-O0 $GIMP cli lib zart;
+    travis_wait make -C src $OMPFLAGS NO_SRIPDLIB=1 NO_STDLIB=1 CC="${CXX}" OPT_CFLAGS=-O0 $GIMP cli lib zart;
 
