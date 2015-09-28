@@ -66,7 +66,7 @@ USR = /usr/local
 else
 USR = /opt/local
 endif
-WGET = curl --silent -o
+WGET = curl -L --silent -o
 else
 PLUGINDIR = `gimptool-2.0 --gimpplugindir`/plug-ins
 USR = /usr
