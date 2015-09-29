@@ -3656,11 +3656,9 @@ update_server : -skip ${1=$_version},${2=1}
     -else 0
     -endif
     -repeat {w}
-       -_update_server_upload[] /tmp/gimp_update$1.gmic,cli_update{i[$>]}.gmic
-       -_update_server_upload[] /tmp/gimp_update$1.gmic,gimp_update{i[$>]}.gmic
-       -done -rm.
-     -endif
-
+      -_update_server_upload[] /tmp/gimp_update$1.gmic,cli_update{i[$>]}.gmic
+      -_update_server_upload[] /tmp/gimp_update$1.gmic,gimp_update{i[$>]}.gmic
+    -done -rm.
     -rm -endl
   -endif
 
