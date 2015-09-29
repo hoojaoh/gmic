@@ -3651,13 +3651,11 @@ update_server : -skip ${1=$_version},${2=1}
     -_update_server_upload[] /tmp/gimp_update$1.gmic
     -_update_server_upload[] /tmp/update$1.gmic,update.gmic
 
-    -if {$1==1652}
-      (1650,1651,1652) -repeat {w}
-       -_update_server_upload[] /tmp/gimp_update$1.gmic,cli_update{i[$>]}.gmic
-       -_update_server_upload[] /tmp/gimp_update$1.gmic,gimp_update{i[$>]}.gmic
-       -done -rm.
-    -elif {$1==1662}
-      (1661) -repeat {w}
+    -if {$1==1652} (1650,1651,1652)
+    -elif {$1==1662} (1661)
+    -else 0
+    -endif
+    -repeat {w}
        -_update_server_upload[] /tmp/gimp_update$1.gmic,cli_update{i[$>]}.gmic
        -_update_server_upload[] /tmp/gimp_update$1.gmic,gimp_update{i[$>]}.gmic
        -done -rm.
