@@ -3736,6 +3736,55 @@ _update_server_upload : -skip "${2=""}"
     -x "lftp ftp://"$GMIC_LOGIN":"$GMIC_PASSWD"@ftp.gmic.eu -e \"put -O /www/gmic/ \\\"$1\\\" -o \\\""$out"\\\"; quit\" >/dev/null"
   -endif
 
+# Upload released binaries on the G'MIC web server.
+# $1=version number (e.g "1.6.6.1_pre")
+_update_server_binaries :
+  -e[^-1] "Upload released binaries ($1) on the G'MIC web server."
+  -v -
+  is_pre=${"-strcontains $1,_pre"}
+  file0=gmic_$1_debian_jessie_amd64.deb
+  file1=gmic_$1_debian_jessie_i386.deb
+  file2=gmic_$1_debian_wheezy_amd64.deb
+  file3=gmic_$1_debian_wheezy_i386.deb
+  file4=gmic_$1_ubuntu_trusty_amd64.deb
+  file5=gmic_$1_ubuntu_trusty_i386.deb
+  file6=gmic_$1_win32.zip
+  file7=gmic_$1_win64.zip
+  file8=gmic_gimp_$1_linux32.zip
+  file9=gmic_gimp_$1_linux64.zip
+  file10=gmic_gimp_$1_win32.exe
+  file11=gmic_gimp_$1_win32.zip
+  file12=gmic_gimp_$1_win64.exe
+  file13=gmic_gimp_$1_win64.zip
+  file14=gmic_static_$1_linux32.zip
+  file15=gmic_static_$1_linux64.zip
+  N=16
+  t0=$|
+  -v + -e[] "- Waiting for binary files to be build." -v -
+  -do
+    -repeat 16
+      file=${file$>}
+      -if $file
+        -strreplace $file,_$1_,_
+        file_latest=${}
+        -v + -e[] "- Upload file '"$file"' to 'http://gmic.eu/files/latest/"$file_latest -v -
+        -_update_server_upload $file,"files/latest/"$file_latest
+        -if {!$is_pre}
+          is_win=${-strcontains[]" "$file,win}
+          -if $is_win folder="windows" -else folder="linux" -endif
+          -v + -e[] "- Upload file '"$file"' to 'http://gmic.eu/files/"$folder/$file -v -
+          -_update_server_upload $file,"files/"$folder/$file
+        -endif
+        file$>= N={$N-1}
+      -endif
+    -done
+    -if $N -wait 5000 -endif
+  -while {$N" && "$|<$t0+60*120}
+  -v +
+  -if $N -e[] "- Partial uploads done (timeout reached)."
+  -else -e[] "- All uploads done !"
+  -endif
+
 # Convert G'MIC tutorial from Garry Osgood's blog (http://www.particularart.com), into the G'MIC web look.
 update_tutorial_html :
   -e[^-1] "Convert G\47MIC tutorial from Garry Osgood\47s blog (http://www.particularart.com), for the G\47MIC web page."
@@ -14769,6 +14818,11 @@ strcat :
 #@gmic : Return 1 if the two strings are equal, 0 otherwise.
 strcmp :
   -v - (0,{'"$1"'}) ({w},{'"$2"'}) -=.. {w} --[-2,-1] -abs. -u {!{is}} -rm. -v +
+
+#@gmic strcontains : string1,string2
+#@gmic : Return 1 if the first string contains the second one.
+strcontains :
+  -v - -l[] ({'"$1"'}) -s +,{'"$2"'} -u {$!>1} -rm -endl -v +
 
 #@gmic strlen : string1
 #@gmic : Return the length of specified string argument.
