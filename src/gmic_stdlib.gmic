@@ -14831,13 +14831,17 @@ strlen :
 
 #@gmic strreplace : string,search,replace
 #@gmic : Search and replace substrings in an input string.
-strreplace :
+strreplace : -skip "${3=}"
   -v -
-  ls=${-strlen\ "$2"}
-  lr={${-strlen\ "$3"}-1}
-  -l[] ({'"$1"'}) -s +,{'"$2"'} -s y,-$ls
-  -repeat $! -if {{$>,t}'=='"$2"} -rows[$>] 0,$lr -f[$>] {'"$3"'} -endif -done
-  -a y -u {t} -rm -endl
+  -if {narg("$3")}
+    ls=${-strlen\ "$2"}
+    lr={${-strlen\ "$3"}-1}
+    -l[] ({'"$1"'}) -s +,{'"$2"'} -s y,-$ls
+    -repeat $! -if {{$>,t}'=='"$2"} -rows[$>] 0,$lr -f[$>] {'"$3"'} -endif -done
+    -a y -u {t} -rm -endl
+  -else
+    -l[] ({'"$1"'}) -s -,{'"$2"'} -a y -u {t} -rm -endl
+  -endif
   -v +
 
 #@gmic struncase : string
