@@ -8511,6 +8511,16 @@ patches : -check "isint($1) && $1>0 && isint($2) && $2>0 && isint($3) && $3>0"
   -repeat $! -l[$<] -s y,$H -s x,$W -k[0-{$N-1}] -endl -done
   -v +
 
+#@gmic patchmatch : [target_image],patch_size>=1,nb_iterations>=0,nb_randoms>=0,_output_score={ 0 | 1 } : (+)
+#@gmic : Estimate correspondence map between selected images and specified target image, using
+#@gmic : the patchmatch algorithm, as described in the paper :
+#@gmic : "PatchMatch: A Randomized Correspondence Algorithm for Structural Image Editing", by
+#@gmic : Connelly Barnes, Eli Shechtman, Adam Finkelstein, Dan B Goldman(2009).
+#@gmic : Each pixel of the returned correspondence map gives the location (p,q) of the closest patch in
+#@gmic : the specified target image. If 'output_score=1', the third channel gives the corresponding
+#@gmic : matching score for each patch as well.
+#@gmic : Default values: 'nb_iterations=4', 'nb_randoms=4' and 'output_score=0'.
+
 #@gmic plot2value
 #@gmic : Retrieve values from selected 2d graph plots.
 #@gmic : $ 400,300,1,1,'if(y>300*abs(cos(x/10+2*u)),1,0)' --plot2value --display_graph. 400,300
