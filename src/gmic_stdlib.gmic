@@ -8511,7 +8511,7 @@ patches : -check "isint($1) && $1>0 && isint($2) && $2>0 && isint($3) && $3>0"
   -repeat $! -l[$<] -s y,$H -s x,$W -k[0-{$N-1}] -endl -done
   -v +
 
-#@gmic patchmatch : [target_image],patch_width>=1,patch_height>=1,patch_depth>=1,nb_iterations>=0,nb_randoms>=0,_output_score={ 0 | 1 } : (+)
+#@gmic patchmatch : [target_image],patch_width>=1,_patch_height>=1,patch_depth>=1,nb_iterations>=0,nb_randoms>=0,_output_score={ 0 | 1 } : (+)
 #@gmic : Estimate correspondence map between selected images and specified target image, using
 #@gmic : the patchmatch algorithm, as described in the paper :
 #@gmic : "PatchMatch: A Randomized Correspondence Algorithm for Structural Image Editing", by
@@ -8519,7 +8519,7 @@ patches : -check "isint($1) && $1>0 && isint($2) && $2>0 && isint($3) && $3>0"
 #@gmic : Each pixel of the returned correspondence map gives the location (p,q) of the closest patch in
 #@gmic : the specified target image. If 'output_score=1', the third channel gives the corresponding
 #@gmic : matching score for each patch as well.
-#@gmic : Default values: 'patch_depth=1', 'nb_iterations=4', 'nb_randoms=4' and 'output_score=0'.
+#@gmic : Default values: 'patch_height=patch_width', 'patch_depth=1', 'nb_iterations=4', 'nb_randoms=4' and 'output_score=0'.
 #@gmic : $ image.jpg -testimage2d 320 --patchmatch[0] [1],3 --warp.. [-1],0
 
 #@gmic plot2value
