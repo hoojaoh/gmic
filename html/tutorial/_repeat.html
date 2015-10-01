@@ -16,19 +16,20 @@ hs.wrapperClassName = 'wide-border';
 
 
 <h1 id="Repeat">-repeat&nbsp;&hellip;&nbsp;-done</h1>
-<div id="FigureOne" style="float: left; width: 326px; height: 400px; border: none; padding: 0in;"><img src="img/_repeat_twirl.jpg" title="twirly.png" class="img_block" style="margin: 3px; border: 0px solid #808080;" height="300" width="300" />
+<div id="FigureOne" style="float: left; width: 326px; height: 400px; border: none; padding: 0in;"><img src="img/_repeat_twirl.jpg" title="twirly.png" class="img_block" style="margin: 3px; border: 0px solid #808080;" width="300" height="300" />
 <p style="font-size: 10pt; line-height: 100%;"><i>Figure 1: The 1911 Goudy Bookletter&nbsp; ampersand Compact Disc.</i></p>
 </div>
 <p>The <tt>-repeat &hellip; -done</tt> block executes any code within its precinct over a number of cycles given by <tt>-repeat's</tt> numeric argument.</p>
 <p>The format of the command is:</p>
-<p><code>-repeat <i>iterations</i>&nbsp;&hellip;&nbsp;-done</code></p>
+<p><code>-repeat <i>iterations,loop_variable</i> &hellip;&nbsp;-done</code></p>
 <p>'Iteration' may take any integer value, but <tt>-repeat</tt> does not act upon zero and negative arguments, furnishing an implicit conditional test should<tt>-repeat's</tt> argument stem from computations that may produce non-positive values.</p>
+<p>'loop_variable', an optional argument, establishes a label for a local (within the loop) variable; it holds the current loop count. Do not use the '$' substitution signet when defining the variable label, but do use '$' with the variable label in the body of the loop to reference the current count.</p>
 <p>A programmer can terminate a <tt>-repeat &hellip; -done</tt> iteration prematurely by executing a <tt>-break</tt> command anywhere in the body of the block. Usually one embeds the <tt>-break</tt> command in a <tt>-if &hellip; -endif</tt> block. Similarly, a <tt>-continue</tt> command within the <tt>-repeat &hellip; -done</tt> block terminates the current iteration; <tt>-repeat</tt> decrements its loop count and, if that is still positive, restarts execution with the initial command in the body of the <tt>-repeat &hellip; -done</tt> block.</p>
 <h2 id="ListIterationWithLocalEndlocal">List Iteration with -local &hellip; -endlocal</h2>
 <p>It is a common G'MIC idiom to nest a <tt><a target="_parent" href="_local.shtml">-local</a>&hellip;<a target="_parent" href="_local.shtml">-endlocal</a></tt> block within a <tt>-repeat &hellip; -done</tt> block; The construct creates an image list iterator, a form that many G'MIC commands take. In this construct, the argument to <tt>-repeat</tt> is frequently the image list size substitution sequence, <tt>'$!'</tt>. As <tt>-repeat</tt> iterates from zero to the size of the image list, less one, another substitution sequence '<tt>$&gt;</tt>' assumes the loop count, incrementing by one with each iteration. This becomes the argument to <tt>-local</tt>, constituting the inner block of the iterator. This induces <tt>-local</tt> to create a 'local list' consisting of just the image indexed by <tt>$&gt;</tt>. The body of the command resides in the <tt><a target="_parent" href="_local.shtml">-local</a>&hellip;<a target="_parent" href="_local.shtml">-endlocal</a></tt> block, where the effects of its operations are restricted to the one image on the local list. In the larger scheme of things, the image iterator 'visits' each image in turn and during the course of the iteration the effects of its operations are limited to that one image. &nbsp;</p>
 <h2 id="Example">Example</h2>
 <p>We set our course upon transforming the 1911 Goudy Bookletter ampersand into a compact disc (approximately), a desire that has been burning in our hearts since early childhood, perhaps.</p>
-<table style="border-color: #808080; border-width: 0px; border-style: solid;" rules="all" class="table table-striped" border="0" align="center">
+<table style="border-color: #808080; border-width: 0px; border-style: solid;" rules="all" class="table table-striped" align="center" border="0">
 <tbody>
 <tr>
 <td><tt>$ gmic -input <a target="_parent" href="http://www.particularart.com/static/media/uploads/command_reference/repeat/ampersand_goudybl1911.svg">ampersand_goudybl1911.svg</a> \<br />-negative[-1] \<br />-blur[-1] 3,1,0</tt></td>

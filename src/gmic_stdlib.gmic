@@ -3893,8 +3893,8 @@ update_tutorial_html :
   # -add_page command-guide/program-control/-repeat,2000,,,commands-program-control
 
   # -add_page command-guide/values-manipulation/-eigen2tensor,5500,,,commands-values-manipulation
-  -add_page command-guide/values-manipulation/-index,3500,,,commands-values-manipulation
-  -add_page command-guide/values-manipulation/-map,3500,,,commands-values-manipulation
+  # -add_page command-guide/values-manipulation/-index,3500,,,commands-values-manipulation
+  # -add_page command-guide/values-manipulation/-map,3500,,,commands-values-manipulation
   # -add_page command-guide/values-manipulation/-norm,700,,,commands-values-manipulation
   # -add_page command-guide/values-manipulation/-normalize,1700,,,commands-values-manipulation
   # -add_page command-guide/values-manipulation/-orientation,5000,,,commands-values-manipulation
@@ -28976,6 +28976,7 @@ gmicol_rotate :
 #@gmicol : Sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
 #@gmicol : Sep = separator(), note = note("<small>Authors: <i>Lyle Kroll</i> and <i>David Tschumperl&#233;</i>.      Latest update: <i>03/13/2015</i>.</small>")
 
+#@gmicol clone("Freaky B&amp;W")
 #@gmicol clone("Hard sketch")
 #@gmicol clone("Hough sketch")
 #@gmicol clone("Ink wash")
