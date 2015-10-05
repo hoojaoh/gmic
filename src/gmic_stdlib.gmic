@@ -866,7 +866,7 @@ __help_header_ascii :
   -v + -_e[] $str -v -
 
 _help_section_ascii :
-  _section={$_section+1}
+  _section+=1
   {narg({'"$1"'})},1,1,1,{'-'}
   -v +
   -e[] "\n "$_gmic_m$_gmic_b$_section". $1"
@@ -958,7 +958,7 @@ _help_header_html :
 -_help_section "Usage"
 
 _help_section_html :
-  _section={$_section+1}
+  _section+=1
   -v +
   -e[] "<h2><a href=\"#toc\"><img alt=\"\" border=\"0\" src=\"img/back_top.png\" />&nbsp;&nbsp;</a><a id=\"section"$_section"\">$1</a></h2>"
   -v -
@@ -1087,7 +1087,7 @@ _help_header_man :
   -_help_section "Usage"
 
 _help_section_man :
-  _section={$_section+1}
+  _section+=1
   {narg({'"$1"'})},1,1,1,{'-'}
   -v +
   -e[] "\n \\fB"$_section". $1"
@@ -1177,7 +1177,7 @@ display0 :
 _display0 :
   -v -
   w=0 h=0 d=0 s=0
-  -repeat $! -l[$>] w={$w+w} h={max($h,h)} d={max($d,d)} s={max($s,s)} -endl -done
+  -repeat $! -l[$>] w+={w} h={max($h,h)} d={max($d,d)} s={max($s,s)} -endl -done
   -if {$!==1} -w -1,-1,0,0,-1,-1,{0,n}\ ($wx$hx$dx$s)
   -elif {$!==2} -w -1,-1,0,0,-1,-1,{0,n},{n}\ ($wx$hx$dx$s)
   -else -w -1,-1,0,0,-1,-1,{0,n},..,{n}\ ($wx$hx$dx$s)
@@ -1541,15 +1541,15 @@ _display_polar : -check "${1=500}>32 && ${2=$1}>32" -skip ${3=1},${4=200},${5=$4
     # Render graph image.
     {$1-32},{$2-32},1,3,255
     L={0.1*max($1,$2)} -grid. $L,$L,0,0,0.25,0xCCCCCCCC,0  # Draw background grid.
-    -if {"$4>=0 && $5>=0 && $6>=0"}                           # Draw curve filling.
+    -if {"$4>=0 && $5>=0 && $6>=0"}                        # Draw curve filling.
       -j3d. [_plot_polar_fill],50%,50%,0,1,2,1,0
       -rm[_plot_polar_fill]
     -endif
     -if $3
-      -if {$3>=0}                                             # Draw curve outline.
+      -if {$3>=0}                                          # Draw curve outline.
         -j3d. [_plot_polar_outline],50%,50%,0,1,1,0,0
       -endif
-      -if {$3!=0}                                             # Draw curve vertices.
+      -if {$3!=0}                                          # Draw curve vertices.
         -if {abs($3)>1} -circles3d[_plot_polar_outline] {abs($3)} -endif
         -j3d. [_plot_polar_outline],50%,50%,0,0.2,2,0,0
       -endif
@@ -1673,7 +1673,7 @@ document_gmic : -skip ${1="ascii"},${2=""},${3=1}
     -if {i!={':'}}
 
       # Reached line as '#@gmic Command : Arguments_line1 : Arguments_line2 : (qualifier)'.
-      _command={$_command+1}
+      _command+=1
       -s -,{'": "'} -autocrop {'" "'}
       -_document_gmic_declaration_$1
 
@@ -1682,7 +1682,7 @@ document_gmic : -skip ${1="ascii"},${2=""},${3=1}
       -if {i=={':'}}
 
         # Reached line as '#@gmic :: Subsection name'.
-        _subsection={$_subsection+1}
+        _subsection+=1
         -rows 1,100% -autocrop {'" "'} # Discard ':' character.
         -_document_gmic_subsection_$1
 
@@ -1693,7 +1693,7 @@ document_gmic : -skip ${1="ascii"},${2=""},${3=1}
           # Reached line as '#@gmic : $ Example of use'.
           -rows 1,100% -autocrop {'" "'} # Discard '$' character.
           _is_example=1
-          -if {i!={'$'}} _example={$_example+1} -endif # Reached '#@gmic : $$' for announcing available tutorial page.
+          -if {i!={'$'}} _example+=1 -endif # Reached '#@gmic : $$' for announcing available tutorial page.
           _filename=$_path$_name$_example.jpg
           -_document_gmic_example_$1
 
@@ -1724,7 +1724,7 @@ _document_gmic_declaration_ascii :
     _shortcut$_shortcut={0,t}
     _shortcutlink$_shortcut={t}
     _shortcutqualifier$_shortcut=$qualifier
-    _shortcut={$_shortcut+1}
+    _shortcut+=1
   -else                                         # Declaration of a regular command.
     -v + -e[] "\n    "$_gmic_m${_gmic_b}"-"{0,t}${qualifier}":"$_gmic_n -v - -rm[0]
     -if $!
@@ -1802,10 +1802,10 @@ _document_gmic_example_bash :
 
 _document_gmic_declaration_bash :
   _opts$_nbopts=-{0,t}" "--{0,t}
-  _nbopts={$_nbopts+1}
+  _nbopts+=1
 
   _coms$_nbcoms={0,t}
-  _nbcoms={$_nbcoms+1}
+  _nbcoms+=1
 
   -if {{{0,t}'=='"input"}" || "{{0,t}'=='"i"}" || "\ # Manage special commands (remove arguments).
        {{0,t}'=='"output"}" || "{{0,t}'=='"o"}" || "\
@@ -1816,7 +1816,7 @@ _document_gmic_declaration_bash :
     _shortcut$_shortcut={0,t}
     _shortcutlink$_shortcut=${-str2hex\ {1,t}}
     -rm.
-    _shortcut={$_shortcut+1}
+    _shortcut+=1
   -elif {$!>1} # Command is regular and has arguments.
     _command$_argcommand={0,t}
     -if {{0,t}'=='"help"} _argument$_argcommand="$coms\" -- \"$cur"  # Manage help command.
@@ -1826,7 +1826,7 @@ _document_gmic_declaration_bash :
       _argument$_argcommand={1,t}
     -endif
     _argumentlink${-str2hex\ {0,t}}=${_argument$_argcommand}
-    _argcommand={$_argcommand+1}
+    _argcommand+=1
   -endif
 
 _document_gmic_footer_bash : -skip $1
@@ -1932,7 +1932,7 @@ _document_gmic_declaration_html :
     _shortcut$_shortcut={0,t}
     _shortcutlink$_shortcut={t}
     _shortcutqualifier$_shortcut=$qualifier
-    _shortcut={$_shortcut+1}
+    _shortcut+=1
   -else                                         # Declaration of a regular command.
     _command_name={0,t}
     -v +
@@ -1991,7 +1991,7 @@ _document_gmic_example_html :
 
 _document_gmic_footer_html : -skip $1
   -if $_shortcut # Document shortcuts.
-    _subsection={$_subsection+1}
+    _subsection+=1
     ({'"Commands shortcuts"'}) -_document_gmic_subsection_html. -rm.
     -v + -e[] "<p style=\"margin-left:20px\">"
     -repeat $_shortcut
@@ -2105,7 +2105,7 @@ _document_gmic_declaration_latex :
     _shortcut$_shortcut={0,t}
     _shortcutlink$_shortcut={t}
     _shortcutqualifier$_shortcut=$qualifier
-    _shortcut={$_shortcut+1}
+    _shortcut+=1
   -else                                         # Declaration of a regular command.
     -_document_gmic_replace_latex[0]
     _command_name={0,t}
@@ -2217,7 +2217,7 @@ _document_gmic_declaration_man :
     _shortcut$_shortcut={0,t}
     _shortcutlink$_shortcut={t}
     _shortcutqualifier$_shortcut=$qualifier
-    _shortcut={$_shortcut+1}
+    _shortcut+=1
   -else                                         # Declaration of a regular command.
     -v + -e[] "\n    "${_gmic_b}"-"{0,t}${qualifier}":"$_gmic_n -v - -rm[0]
     -if $!
@@ -2856,7 +2856,7 @@ update_film_emulation_html :
   -repeat {narg($categories)}
     category=${-arg\ {1+$>},$categories}
     presets=${-_gimp_emulate_film_$category}
-    nb_presets={$nb_presets+narg($presets)}
+    nb_presets+={narg($presets)}
   -done
 
   -v + -e[] "\n > Update film emulation pages, for "$!" image samples and "$nb_presets" presets." -v -
@@ -2932,7 +2932,7 @@ update_film_emulation_html :
 
       -rm.
 
-      ind_preset={$ind_preset+1}
+      ind_preset+=1
     -done
 
   -done
@@ -3236,7 +3236,7 @@ update_gallery_html :
   -_update_gallery_html "-kuwahara 10 -noise 30 -smooth 100,0,1,3,3 -sharpen 400 -n 0,255 -equalize 256"
   -_update_gallery_html "-frame 4,4,0 -array_mirror 1,3"
 
-  _nb_coms={$_nb_coms+1}
+  _nb_coms+=1
 
   # Generate gallery HTML header.
   ({'"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n\
@@ -3300,7 +3300,7 @@ update_gallery_html :
         ({'"<td width=\""${width$>}"\"><center><font size=\"1\">gmic "{$>,b}.{$>,x}" "${displayed_com$>}"</font></center></td>\n"'})
       -done
       ({'"</tr>\n"'})
-      row={$row+1}
+      row+=1
     -endif
 
   -done
@@ -3317,7 +3317,7 @@ update_gallery_html :
   -v + -e[^-1] "All done !"
 
 _update_gallery_html :
-  _nb_coms={$_nb_coms+1} _com$_nb_coms="$1"
+  _nb_coms+=1 _com$_nb_coms="$1"
 
 __update_gallery_html :
   ${1--1}
@@ -3372,7 +3372,7 @@ update_server : -skip ${1=$_version},${2=1}
   -m "_max : ({'\"$""1\"'}) ({'\"$""2\"'}) -f[-2,-1] 'if(i>=97&&i<=122,i-32,i)' -r[-2,-1] {max(w,{-2,w})},1,1,1,0 --[-2,-1] -autocrop. 0 "\
      "-u {i>0} -rm." # Command to compare two strings (eq. to strcasecmp).
   -m "load_gmic : "\
-     "_nb_sources={$_nb_sources+1} filename=${\"-basename $""1\"} "\
+     "_nb_sources+=1 filename=${\"-basename $""1\"} "\
      "-v + -e[] \"  \"$_nb_sources\". \"$filename\"  \" -v - "\
      "-l[] "\
      "  -i raw:$""1,char -nm {0,b} -v + -e[] \"      [retrieved from source '$""1']\" -v - "\
@@ -3476,7 +3476,7 @@ update_server : -skip ${1=$_version},${2=1}
             -calibrate_name[0] --replace[0] 32,{'~'}
             name=$path{t} -rm.
             merge_request=1
-            nb_filters={$nb_filters+1}
+            nb_filters+=1
             -i[0,1] (32) -a y
             -v + -e[] "  "$nb_filters". "$name" ("{round($>*$progress_factor)}"%)." -v -
 
@@ -3514,8 +3514,8 @@ update_server : -skip ${1=$_version},${2=1}
 
     -if {$merge_request" && "$ind>0} # Merge previous lines.
       -a[$merge_start-{$ind-1}] y
-      offset={$offset+$ind-$merge_start-1}
-      merge_start={$merge_start+1}
+      offset+={$ind-$merge_start-1}
+      merge_start+=1
       merge_request=0
     -endif
 
@@ -3563,9 +3563,9 @@ update_server : -skip ${1=$_version},${2=1}
       -do
         nc=${"-nb_levels[] "$basis}
         nn=${"-nb_levels[] "$nbasis}
-        -if {$nc>$nn} basis=${"-parent[] "$basis} nb_up={$nb_up+1}
-        -elif {$nn>$nc} nbasis=${"-parent[] "$nbasis} nb_down={$nb_down+1}
-        -elif {$nbasis'!='$basis} basis=${"-parent[] "$basis} nb_up={$nb_up+1} nbasis=${"-parent[] "$nbasis} nb_down={$nb_down+1}
+        -if {$nc>$nn} basis=${"-parent[] "$basis} nb_up+=1
+        -elif {$nn>$nc} nbasis=${"-parent[] "$nbasis} nb_down+=1
+        -elif {$nbasis'!='$basis} basis=${"-parent[] "$basis} nb_up+=1 nbasis=${"-parent[] "$nbasis} nb_down+=1
         -endif
       -while {$nbasis'!='$basis}
 
@@ -3715,9 +3715,9 @@ _update_server_sort :
     pivot={$mid,n}
     i=$1 j=$2
     -do
-      -if ${"-_max[] "$pivot,{$i,n}} -do i={$i+1} -while ${"-_max[] "$pivot,{$i,n}} -endif
-      -if ${"-_max[] "{$j,n},$pivot} -do j={$j-1} -while ${"-_max[] "{$j,n},$pivot} -endif
-      -if {$i<=$j} -rv[$i,$j] i={$i+1} j={$j-1} -endif
+      -if ${"-_max[] "$pivot,{$i,n}} -do i+=1 -while ${"-_max[] "$pivot,{$i,n}} -endif
+      -if ${"-_max[] "{$j,n},$pivot} -do j-=1 -while ${"-_max[] "{$j,n},$pivot} -endif
+      -if {$i<=$j} -rv[$i,$j] i+=1 j-=1 -endif
     -while {$i<=$j}
     -if {$1<$j} -_update_server_sort $1,$j -endif
     -if {$i<$2} -_update_server_sort $i,$2 -endif
@@ -3725,7 +3725,7 @@ _update_server_sort :
 
 _update_server_move :
   -if {!narg($_nbm)} _nbm=0 -endif
-  _to_move${_nbm}="$1" _move_to${_nbm}="$2" _nbm={$_nbm+1}
+  _to_move${_nbm}="$1" _move_to${_nbm}="$2" _nbm+=1
 
 _update_server_upload : -skip "${2=""}"
   -if {narg("$2")} out="$2" -else -basename "$1" out=${} -endif
@@ -3774,7 +3774,7 @@ _update_server_binaries :
           -v + -e[] "- Upload file '"$file"' to 'http://gmic.eu/files/"$folder/$file -v -
           -_update_server_upload $file,"files/"$folder/$file
         -endif
-        file$>= N={$N-1}
+        file$>= N-=1
       -endif
     -done
     -if $N -wait 5000 -endif
@@ -3971,7 +3971,7 @@ __update_tutorial_html : -skip ${3=""},${4=""},${5=""}
   -else _output_shtml$_N=$output_base.shtml _output_html$_N=$output_base.html _img_prefix$_N=$output_base
   -endif
   -if {narg("$4")} _output_html$_N="$4".html -endif
-  _N={$_N+1}
+  _N+=1
 
 # Retrieve one html page and convert it.
 _update_tutorial_html :
@@ -4253,7 +4253,7 @@ remove_duplicates :
       comp={$base+1+$>-$off}
       -if {$comp>=$!} -break -endif
       ---[$base,$comp] -abs. is_duplicate={!is} -rm.
-      -if $is_duplicate -rm[$comp] off={$off+1} -endif
+      -if $is_duplicate -rm[$comp] off+=1 -endif
     -done
   -done -v +
 
@@ -4951,11 +4951,11 @@ otsu : -check "isint(${1=256}) && $1>0"
     --*. 'x' sum={is} -rm.
     sumB=0 wB=0 wF=0 varMax=0 threshold=0
     -repeat $1
-      wB={$wB+{[$>]}}
+      wB+={[$>]}
       -if {$wB==0} -continue -endif
       wF={$total-$wB}
       -if {$wF==0} -break -endif
-      sumB={$sumB+$>*{[$>]}}
+      sumB+={$>*{[$>]}}
       mB={$sumB/$wB}
       mF={($sum-$sumB)/$wF}
       varBetween={$wB*$wF*($mB-$mF)^2}
@@ -6078,7 +6078,7 @@ append_tiles : -check "isint(${1=0}) && isint(${2=0}) && ${3=0.5}>=0 && $3<=1 &&
     # Resize to best match for each column and row.
     $MN,1,1,2 -repeat $MN -point. $>,0,0,1,{$>,w},{$>,h} -done -r. $M,$N,1,2,-1
     -s. c -l.. -s y -max -endl -l. -s x -max -endl
-    i=0 -repeat $N y=$> -repeat $M -r[$i] {-2,[$>]},{[$y]},100%,100%,0,0,$3,$4 i={$i+1} -done -done
+    i=0 -repeat $N y=$> -repeat $M -r[$i] {-2,[$>]},{[$y]},100%,100%,0,0,$3,$4 i+=1 -done -done
     -rm[-2,-1]
 
     # Append images together.
@@ -6314,13 +6314,13 @@ montage : -check "isval(${2=2}) && $2>=0 && $2<=3" -skip "${1=X}",${3=0},"${4=}"
 _montage :
   -if {$_p>$_lcode} -error "Command '-montage': Incomplete layout code '"$_scode"'." -endif
   c={arg($_p,$_code)}
-  -if {$c>=0} _p={$_p+1} -u $c # Single indice.
+  -if {$c>=0} _p+=1 -u $c # Single indice.
   -elif {$c==-4} # Mirror.
-    _p={$_p+1} l=${-_montage} -f[$l] 'a=i(5,y)%2;if((x==7&&a)||(x==6&&!a),!i,if(x==1,i(3,0)-i(3,y)-i,i))' -u $l
+    _p+=1 l=${-_montage} -f[$l] 'a=i(5,y)%2;if((x==7&&a)||(x==6&&!a),!i,if(x==1,i(3,0)-i(3,y)-i,i))' -u $l
   -elif {$c==-3} # Rotation.
-    _p={$_p+1} l=${-_montage} -l[$l] -s x -+[2] [4] -rv[1,2] -*[1] -1 -+[1] {4,[0]} -rv[3,4] -+[5] 1 -a x -endl -u $l
+    _p+=1 l=${-_montage} -l[$l] -s x -+[2] [4] -rv[1,2] -*[1] -1 -+[1] {4,[0]} -rv[3,4] -+[5] 1 -a x -endl -u $l
   -else # Merge.
-    _p={$_p+1}
+    _p+=1
     l=${-_montage} lw={$l,[3]} lh={$l,[4]}
     r=${-_montage} rw={$r,[3]} rh={$r,[4]}
 
@@ -6570,9 +6570,9 @@ rotate_tileable : -check ${2=8}>=0
 
   # Reduce angle to known fraction.
   angle={$1%360}
-  -if {$angle>=270} -rotate 270 angle={$angle-270}
-  -elif {$angle>=180} -rotate 180 angle={$angle-180}
-  -elif {$angle>=90} -rotate 90 angle={$angle-90}
+  -if {$angle>=270} -rotate 270 angle-=270
+  -elif {$angle>=180} -rotate 180 angle-=180
+  -elif {$angle>=90} -rotate 90 angle-=90
   -endif
   (0,1;1,8;1,7;1,6;1,5;1,4;1,5;1,3;2,5;1,2;2,5;3,5;2,3;3,4;4,5;1,1;5,4;7,5;3,2;8,5;9,5;2,1;3,1;4,1;5,1;6,1;7,1;8,1) # List of known fractions.
   -s. x,2 --/[-2,-1] -atan. -*. {180/pi}   # Compute corresponding angles.
@@ -7043,7 +7043,7 @@ curvature :
 #@gmic : $$ _dct-and-idct
 dct : -skip ${1=0}
   -v - ({'"$1"'})
-  is_axes={im>={'x'}&&iM<={'z'}}
+  is_axes={im>={'x'}" && "iM<={'z'}}
   -if $is_axes
     -v + -e[0--3] "Compute discrete cosine transform of image$? along axes '$1'." -v -
     -repeat {w}
@@ -8000,7 +8000,7 @@ solidify_linear : -check "${1=1.5}>=1 && ${2=1}>=1 && ${3=0.5}>=0 && $3<=1"
         --dilate.. {v=round((1/3-$N/6)*$3+$N/2);max(3,v+1-(v%2))}
         --... [-1] -*.. [-3] -rm...
         --[-3,-2]
-        sigma={$sigma*$2}
+        sigma*=2
       -while {!im}
      -rm.
    -endif
@@ -8073,7 +8073,7 @@ syntexturize : -check "${1=100%}>0 && ${2=$1}>0"
     mM={im},{iM} -repeat {s} -sh. $> sum$>={is} var$>={iv} -rm. -done  # Retrieve some stats for post-normalization.
     nw={if(${-is_percent\ $1},$1*w,$1)}
     nh={if(${-is_percent\ $2},$2*h,$2)}
-    -repeat {s} sum$>={${sum$>}*$nw*$nh/(w*h)} -done # Re-estimate output (0,0) frequency.
+    -repeat {s} sum$>*={$nw*$nh/(w*h)} -done # Re-estimate output (0,0) frequency.
 
     -if {$nw>w||$nh>h} # Spot extension required when rendering on bigger image.
       -periodize_poisson
@@ -8137,7 +8137,7 @@ unsharp_octave : -check "${1=4}>0 && ${3=2}>=0" -skip ${2=1},${4=0}
     --f 0 weight=0
     -repeat $1
       --unsharp[0] {$2*2^-$<},$3,$4 -*. {2^-$>}
-      weight={$weight+2^-$>}
+      weight+={2^-$>}
       -+[1,-1]
     -done
     -rm[0] -/ $weight
@@ -8478,14 +8478,14 @@ minimal_path : -check "$1>=0 && $2>=0 && $3>=0" -skip ${7=0}
     ($x;$y;$z)
     -do
       p={0,i($x,$y,$z)}
-      -if {$p&1} x={$x-1}
-      -elif {$p&2} x={$x+1}
+      -if {$p&1} x-=1
+      -elif {$p&2} x+=1
       -endif
-      -if {$p&4} y={$y-1}
-      -elif {$p&8} y={$y+1}
+      -if {$p&4} y-=1
+      -elif {$p&8} y+=1
       -endif
-      -if {$p&16} z={$z-1}
-      -elif {$p&32} z={$z+1}
+      -if {$p&16} z-=1
+      -elif {$p&32} z+=1
       -endif
       ($x;$y;$z)
     -while $p
@@ -8734,7 +8734,7 @@ axes : -check "isint(${5=14}) && $5>=0 && ${6=1}>=0" -skip ${7=0},${8=0}
       -rm[-2,-1]
 
       i=0 -do
-        val={_$offx+$i*$deltax} i={$i+1}
+        val={_$offx+$i*$deltax} i+=1
         -if {$val>=$mx" && "$val<=$Mx}
           x={v=($val-$mx)*$w1/($Mx-$mx);if($2>=$1,v,$w1-v)}
           -line $x,{$y0-1},$x,{$y0+1},$6,$pattern,$color
@@ -8761,7 +8761,7 @@ axes : -check "isint(${5=14}) && $5>=0 && ${6=1}>=0" -skip ${7=0},${8=0}
       -rm[-2,-1]
 
       i=0 -do
-        val={_$offy+$i*$deltay} i={$i+1}
+        val={_$offy+$i*$deltay} i+=1
         -if {$val>=$my" && "$val<=$My}
           y={v=($val-$my)*$h1/($My-$my);if($4>=$3,v,$h1-v)}
           -line {$x0-1},$y,{$x0+1},$y,$6,$pattern,$color
@@ -9035,7 +9035,7 @@ _generate_maze :
   # Start opening walls.
   -do
     x={-2,[-2]} y={-2,[-1]} # Coords of the current cell.
-    -=. 1,$x,$y,0,1      # Mark current cell as visited.
+    -=. 1,$x,$y,0,1         # Mark current cell as visited.
 
     # Check for neighboring cells that are candidate for opening wall, and select one random.
     is_candidate=0
@@ -9207,7 +9207,7 @@ pack_sprites : -check "isint(${1=5}) && $1>=0 && ${2=25}>=0 && $2<=100 && isint(
       -if {iM} -j[0] [-2],0,0,0,0,1,[-1] -rm[-2,-1]
       -else
         -rm[-2,-1]
-        nb_attempts={$nb_attempts+1}
+        nb_attempts+=1
         -if {$nb_attempts>$5} -break -else -continue -endif
       -endif
 
@@ -9229,7 +9229,7 @@ piechart : -check $1>=0
       xe={0.5*{-2,w}*(1+cos($theta))}
       ye={0.5*{-2,h}*(1+sin($theta))}
       -line.. 50%,50%,$xe,$ye
-      theta={$theta-2*pi*i($>)}
+      theta-={2*pi*i($>)}
     -done -endif
     theta=0
     -repeat {w} -if {i($>)}
@@ -9426,7 +9426,7 @@ spline : -skip ${9=256},${10=1},${11=0}
 #@gmic : Specifying an empty target image resizes it to new dimensions such that the image contains
 #@gmic : the entire text string.
 #@gmic : Default values: 'opacity=1' and 'color1=0'.
-#@gmic : $ image.jpg -resize2dy 600 y=0 -repeat 30 -text {2*$>}" : This is a nice text, isn't it ?",10,$y,{2*$>},0.9,255 y={$y+2*$>} -done
+#@gmic : $ image.jpg -resize2dy 600 y=0 -repeat 30 -text {2*$>}" : This is a nice text, isn't it ?",10,$y,{2*$>},0.9,255 y+={2*$>} -done
 #@gmic : $ 0 -text "G'MIC",0,0,23,1,255
 
 #@gmic text_outline : text,_x[%],_y[%],_font_height>0,_outline>=0,_opacity,_color1,..
@@ -9595,12 +9595,12 @@ animate3d : -skip ${1=640},${2=480},${3=0},${4=1},${5=0},"${7=""}" -check ${6=1}
     ax=0 ay=0 az=0 frame=0
     -do
        --r3d 1,0,0,$ax -r3d. 0,1,0,$ay -r3d. 0,0,1,$az
-       ax={$ax+$3} ay={$ay+$4} az={$az+$5}
+       ax+=$3 ay+=$4 az+=$5
        $1,$2,1,3,-1 -j3d. [-2],50%,50%,0,1
        -if {narg("$7")}
          -to_rgba. -replace_color. 0,0,-1,-1,-1,255,64,64,64,0
          -if $is_multi filename=${-filename\ "$7",$>,$frame} -else filename=${-filename\ "$7",$frame} -endif
-         -o. $filename frame={$frame+1}
+         -o. $filename frame+=1
        -else
          -replace. -1,64
        -endif
@@ -9645,19 +9645,19 @@ array3d : -check "isint($1) && $1>0 && isint(${2=1}) && $2>0 && isint(${3=1}) &&
     # Duplicate along X.
     off=0 -repeat {int(log2($1))}
       --+3d. {2^$>*$dx} -+3d. [-2]
-      -if {!($1&(2^$>))} -rm.. -else -+3d.. $off off={$off+2^$>*$dx} -endif
+      -if {!($1&(2^$>))} -rm.. -else -+3d.. $off off+={2^$>*$dx} -endif
     -done -+3d. $off -+3d
 
     # Duplicate along Y.
     off=0 -repeat {int(log2($2))}
       --+3d. 0,{2^$>*$dy} -+3d. [-2]
-      -if {!($2&(2^$>))} -rm.. -else -+3d.. 0,$off off={$off+2^$>*$dy} -endif
+      -if {!($2&(2^$>))} -rm.. -else -+3d.. 0,$off off+={2^$>*$dy} -endif
     -done -+3d. 0,$off -+3d
 
     # Duplicate along Z.
     off=0 -repeat {int(log2($3))}
       --+3d. 0,0,{2^$>*$dz} -+3d. [-2]
-      -if {!($3&(2^$>))} -rm.. -else -+3d.. 0,0,$off off={$off+2^$>*$dz} -endif
+      -if {!($3&(2^$>))} -rm.. -else -+3d.. 0,0,$off off+={2^$>*$dz} -endif
     -done -+3d. 0,0,$off -+3d
   -endl -done -v +
 
@@ -9674,7 +9674,7 @@ arrow3d : -check "${7=5%}>=0 && ${8=25%}>=0 && ${9=15%}>=0"
   R={if(${-is_percent\ $7},$7*$L,$7)}
   l={if(${-is_percent\ $8},$8*$L,$8)}
   r={if(${-is_percent\ $9},$9*$L,$9)}
-  L={$L-$l} -cylinder3d $R,$L -cone3d $r,$l -+3d. 0,0,$L -+3d[-2,-1]
+  L-=$l -cylinder3d $R,$L -cone3d $r,$l -+3d. 0,0,$L -+3d[-2,-1]
 
   # Compute rotation matrix for arrow orientation.
   ({$4-$1}^{$5-$2}^{$6-$3}) (0.01^-0.02^0.03) -orientation[-2,-1]
@@ -11587,7 +11587,7 @@ _frame_painting : # Add color + texture to each frame part.
   -repeat $! -l[$>]
     --*. $2 --*.. $3 -*... $1 -a[-3--1] c
     100%,100%
-    i=0 -do -rand. 0,1 -remove_pixels. {100-$5}% -b. $6 ->=. 50% i={$i+1} -while {"m=$5/200;(ia<m-0.2 || ia>m+0.2) && "$i"<10"}
+    i=0 -do -rand. 0,1 -remove_pixels. {100-$5}% -b. $6 ->=. 50% i+=1 -while {"m=$5/200;(ia<m-0.2 || ia>m+0.2) && "$i"<10"}
     -b. $7 -g. -+[-2,-1] -n. -$4,$4
     -+[-2,-1] -c. 0,255
   -endl -done
@@ -12092,7 +12092,7 @@ boxfitting : -check "isint(${1=3}) && $1>=1 && isint(${2=0}) && $2>=0 && ${3=0.1
       # Discard new squares that intersect something.
       -dilate. $min_size -area_fg. 0,1 -==. {($min_size)^2}
       --dilate.. 3 -==. 0 -*[-2,-1] -area_fg. 0,1 -==. {($min_size)^2}
-      -if {!iM} nb_attempts={$nb_attempts+1} -if {$nb_attempts>$4} -rm. -break -endif # If no new squares have been placed.
+      -if {!iM} nb_attempts+=1 -if {$nb_attempts>$4} -rm. -break -endif # If no new squares have been placed.
       -else nb_attempts=0 -endif
       -+[-2,-1]
 
@@ -13556,12 +13556,12 @@ animate : -skip ${1=30},${2=0},${3=""},${4=10},${5=1},"${6=}"
     -w[$frame] ${-fitscreen[]\ {$frame,w},{$frame,h}},1,0,-1,-1,{$frame,b}.{$frame,x}
     -do
       -w[$frame] -1,-1,1,0,-1,-1,{$frame,b}.{$frame,x}
-      frame={$frame+$direction}
+      frame+=$direction
       -if $2
         -if {$frame==-1} frame=0 direction=1
         -elif {$frame==$!} frame={$!-1} direction=-1
         -endif
-      -else frame={$frame%$!}
+      -else frame%=$!
       -endif
       -wait $speed
       -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,D}} -w[] {{*,w}*1.5},{{*,h}*1.5} -wait -1 -endif # Increase window size.
@@ -13598,7 +13598,7 @@ apply_camera : -skip "${1=},${4=}" -check "${2=0}>=0 && ${3=0}>=0"
   -e[^-1] "Apply command '$1' on camera stream ""#$2, with $3 frames skip and output filename '$4'." -v -
   -l[] i=0 -do
     -camera $2,1,$3 $1 -w. -1,-1,"(Camera ""#$2, "{w}x{h}")"
-    -if {narg("$4")} -o. ${-filename\ "$4",$i} i={$i+1} -endif
+    -if {narg("$4")} -o. ${-filename\ "$4",$i} i+=1 -endif
     -if {*,S} -o. gmic_camera.png -endif
     -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,D}} -w[] {{*,w}*1.5},{{*,h}*1.5} -wait -1 -endif # Increase window size.
     -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,C}} -w[] {{*,w}/1.5},{{*,h}/1.5} -wait -1 -endif # Decrease window size.
@@ -13641,9 +13641,9 @@ apply_video : -skip "${1=},${2=},${3=}" -check "isint(${4=0}) && $4>=0 && isint(
       -i "$2",$frame
       -if $!
         $1 -w -1,-1,"(Video '"$basename"', "{w}x{h}")"
-        frame={$frame+$6}
+        frame+=$6
         -if {$5>=0" && "$frame>$5} frame=$4 -endif
-        -if {narg("$3")" && "$i>=0} -o. ${-filename\ "$3",$i} i={$i+1} -endif
+        -if {narg("$3")" && "$i>=0} -o. ${-filename\ "$3",$i} i+=1 -endif
         -if {*,S} -o. gmic_video.png -endif
         -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,D}} -w[] {{*,w}*1.5},{{*,h}*1.5} -wait -1 -endif # Increase window size.
         -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,C}} -w[] {{*,w}/1.5},{{*,h}/1.5} -wait -1 -endif # Decrease window size.
@@ -13665,13 +13665,13 @@ average_video : -check "isint(${2=0}) && $2>=0 && isint(${3=-1}) && ($3>=0 || $3
       -l[] -i "$1",$frame
         -if $!
           -v + -e[] "\r  > Frame ""#"$frame -v -
-          frame={$frame+$4} N={$N+1}
+          frame+=$4 N+=1
         -else stopflag=1
         -endif
       -onfail stopflag=1
       -endl # Read one new video frame.
       -if {$!>1} -+ -endif
-      -if {narg("$5")} --/. $N -c. 0,255 -o. ${-filename\ "$5",$i} -rm. i={$i+1} -endif
+      -if {narg("$5")} --/. $N -c. 0,255 -o. ${-filename\ "$5",$i} -rm. i+=1 -endif
       -if {*}
         --n 0,255 -w. -1,-1,0,"Frame ""#"$frame
         -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,D}} -w[] {{*,w}*1.5},{{*,h}*1.5} -wait -1 -endif # Increase window size.
@@ -13799,9 +13799,9 @@ transition3d : -check "isint(${1=10}) && $1>=2 && isint(${2=3}) && $2>0 && isint
       -repeat $2
         lw={$i,w} lh={$i,h}
         -imageplane3d[$i] -imageplane3d[$N] -r3d[$N] ${rot$i},-180 -c3d[$i,$N] -+3d[$i,$N]
-        x$i=$x y$i=$y x={$x+$lw} i={$i+1}
+        x$i=$x y$i=$y x+=$lw i+=1
       -done
-      y={$y+$lh}
+      y+=$lh
     -done
 
     # Generate intermediate animation frames.
@@ -13822,7 +13822,7 @@ transition3d : -check "isint(${1=10}) && $1>=2 && isint(${2=3}) && $2>0 && isint
     -done
     -rm[0-{$N-1}]
     -nm[1--2] {0,n}
-    off={$off+$1-2}
+    off+={$1-2}
   -endl -done
   -v +
 
@@ -13839,7 +13839,7 @@ video2files : -check "isint(${3=0}) && $3>=0 && isint(${4=-1}) && ($4>=0 || $4==
     -if $!
       -o ${"-filename \"$2\","$frame} -rm
       -v + -e[] "\r  > Frame ""#"$frame -v -
-      frame={$frame+$5}
+      frame+=$5
     -else stopflag=1
     -endif
   -onfail stopflag=1
@@ -14346,7 +14346,7 @@ _dec2oct : -check isint($1)
 #@gmic fact : value
 #@gmic : Return the factorial of the specified value.
 fact : -check isint($1)
-  -v - res=1 -repeat $1 res={$res*($>+1)} -done -u $res -v +
+  -v - res=1 -repeat $1 res*={($>+1)} -done -u $res -v +
 
 #@gmic fibonacci : N>=0
 #@gmic : Return the Nth number of the Fibonacci sequence.
@@ -14442,7 +14442,7 @@ fps :
     dt={$|-$_fps_time}
     -if {$dt>1} _fps_fps={round($_fps_nbframes/$dt)} _fps_time=$| _fps_nbframes=0 -endif
     -u $_fps_fps
-    _fps_nbframes={$_fps_nbframes+1}
+    _fps_nbframes+=1
   -else _fps_nbframes=0 _fps_time=$| _fps_fps=-1 -u -1
   -endif
   -v +
@@ -15002,8 +15002,8 @@ demo : -check "isint(${1=2}) && $1>=0 && $1<=2"
     -endif
 
     # Manage ball animation.
-    -if {$|-$time0>5} alpha={$alpha+0.03} -endif
-    -if {$alpha>1} alpha={$alpha-1} cfx=$nfx cfy=$nfy cfz=$nfz nfx={g} nfy={g} nfz={g} time0={$|-u*3} -endif
+    -if {$|-$time0>5} alpha+=0.03 -endif
+    -if {$alpha>1} alpha-=1 cfx=$nfx cfy=$nfy cfz=$nfz nfx={g} nfy={g} nfz={g} time0={$|-u*3} -endif
   -while {{*}" && "!{*,ESC}" && "!{*,Q}}
   -rm -w 0 -endl -v 0 -e[] ""
 
@@ -15142,11 +15142,11 @@ x_2048 :
           -repeat {h}
             x={i[$>]&3} y={(i[$>]>>2)&3} n={i[$>]>>4}
             -if {$x>0" && "{0,i($x-1,$y)}==$n}
-              -=[0] 0,$x,$y -=[0] {$n+1},{$x-1},$y -=.. 0,$x,$y insert_new=1 dscore={$dscore+2^($n+1)}
+              -=[0] 0,$x,$y -=[0] {$n+1},{$x-1},$y -=.. 0,$x,$y insert_new=1 dscore+={2^($n+1)}
             -else -=. -1,0,$>
             -endif
           -done
-          score={$score+$dscore}
+          score+=$dscore
 
           -if {iM<0} -rm[-2,-1]
           -else # At least one tile fusions.
@@ -15281,19 +15281,19 @@ x_bouncing :
       bw={$>,w} bh={$>,h}
       y={${h$>}*abs(cos(${t$>}*pi/60))-$bh/2}
       dt=1
-      -if {$y<0} d={-$y} y=0 bh={$bh-$d} bw={$bw+$d} dt={max(0.2,1-($d/$bh)^2)} -else dt=1 -endif
+      -if {$y<0} d={-$y} y=0 bh-=$d bw+=$d dt={max(0.2,1-($d/$bh)^2)} -else dt=1 -endif
       -if {${x$>}+$bw/2>w}
-        d={${x$>}+$bw/2-w} bw={$bw-$d} bh={$bh+0.5*$d}
+        d={${x$>}+$bw/2-w} bw-=$d bh+={0.5*$d}
         -if {${x$>}+$bw/4>w} vx$>={-${vx$>}} -endif
       -endif
       -if {${x$>}-$bw/2<0}
-        d={$bw/2-${x$>}} bw={$bw-$d} bh={$bh+0.5*$d}
+        d={$bw/2-${x$>}} bw-=$d bh+={0.5*$d}
         -if {${x$>}-$bw/4<0} vx$>={-${vx$>}} -endif
       -endif
       --r[$>] $bw,$bh,1,4,3 -s. c,-3
       -j... [-2],{max(0,min({$N,w-$bw},${x$>}-$bw/2))},{{$N,h}-{h}-$y-70},0,0,1,[-1],255 -rm[-2,-1]
-      t$>={${t$>}+$dt}
-      x$>={${x$>}+$dt*${vx$>}}
+      t$>+=$dt
+      x$>+={$dt*${vx$>}}
     -done
 
     --rows. {h-2*70},{h-1-70} -mirror. y -*. [{$N+1}]
@@ -15587,13 +15587,13 @@ _x_colorize :
       fdim=${-fitscreen[]\ $w,$h} ww={arg(1,$fdim)} wh={arg(2,$fdim)}
       x0=0 y0=0 x1={$w-1} y1={$h-1}
     -elif {($is_shift" && "$o<0)" || "{*,ARROWLEFT}} # Go left.
-      dx={($x1-$x0)/6} x0={$x0-$dx} x1={$x1-$dx}
+      dx={($x1-$x0)/6} x0-=$dx x1-=$dx
     -elif {($is_shift" && "$o>0)" || "{*,ARROWRIGHT}} # Go right.
-      dx={($x1-$x0)/6} x0={$x0+$dx} x1={$x1+$dx}
+      dx={($x1-$x0)/6} x0+=$dx x1+=$dx
     -elif {($is_ctrl" && "$o>0)" || "({*,ARROWUP}" && "!$is_ctrl)} # Go up.
-      dy={($y1-$y0)/6} y0={$y0-$dy} y1={$y1-$dy}
+      dy={($y1-$y0)/6} y0-=$dy y1-=$dy
     -elif {($is_ctrl" && "$o<0)" || "({*,ARROWDOWN}" && "!$is_ctrl)} # Go down.
-      dy={($y1-$y0)/6} y0={$y0+$dy} y1={$y1+$dy}
+      dy={($y1-$y0)/6} y0+=$dy y1+=$dy
     -elif {$o>0" || "($is_ctrl" && "{*,ARROWUP})} # Zoom in.
       -if {$x1-$x0>16" && "$y1-$y0>16}
         cx={if($x>=0" && "!{*,ARROWUP},$x,($x0+$x1)/2)}
@@ -15609,14 +15609,14 @@ _x_colorize :
         x0={$cx+($x0-$cx)/0.75} y0={$cy+($y0-$cy)/0.75}
         x1={$cx+($x1-$cx)/0.75} y1={$cy+($y1-$cy)/0.75}
         dx={$zfactor^2*($w-$x0-$x1)/2} dy={$zfactor^2*($h-$y0-$y1)/2}
-        x0={$x0+$dx} x1={$x1+$dx} y0={$y0+$dy} y1={$y1+$dy}
+        x0+=$dx x1+=$dx y0+=$dy y1+=$dy
       -else
         dx={($w-$x0-$x1)/2} dy={($h-$y0-$y1)/2}
-        x0={$x0+$dx} x1={$x1+$dx} y0={$y0+$dy} y1={$y1+$dy}
+        x0+=$dx x1+=$dx y0+=$dy y1+=$dy
       -endif
     -elif {$b&4" && "!$is_mouseout} # Pan.
       -if {$panx<0" && "$pany<0} panx=$x pany=$y
-      -else dx={round($panx-$x)} dy={round($pany-$y)} x0={$x0+$dx} y0={$y0+$dy} x1={$x1+$dx} y1={$y1+$dy}
+      -else dx={round($panx-$x)} dy={round($pany-$y)} x0+=$dx y0+=$dy x1+=$dx y1+=$dy
       -endif
     -else panx=-1 pany=-1
     -endif
@@ -15659,10 +15659,10 @@ _x_colorize :
 
     # Manage zoomed view bounds.
     w2={round(($x1-$x0)/2)} h2={round(($y1-$y0)/2)}
-    -if {$x0<-$w2} x1={$x1-$x0-$w2} x0=-$w2 -endif
-    -if {$y0<-$h2} y1={$y1-$y0-$h2} y0=-$h2 -endif
-    -if {$x1>=$w+$w2} x0={$w-1+$w2-$x1+$x0} x1={$w-1+$w2} -endif
-    -if {$y1>=$h+$h2} y0={$h-1+$h2-$y1+$y0} y1={$h-1+$h2} -endif
+    -if {$x0<-$w2} x1-={$x0+$w2} x0=-$w2 -endif
+    -if {$y0<-$h2} y1-={$y0+$h2} y0=-$h2 -endif
+    -if {$x1>=$w+$w2} x0+={$w-1+$w2-$x1} x1={$w-1+$w2} -endif
+    -if {$y1>=$h+$h2} y0+={$h-1+$h2-$y1} y1={$h-1+$h2} -endif
 
     # Render color map.
     -if {!narg($colors)}
@@ -15811,7 +15811,7 @@ x_fire : -skip "${1=G\47MIC}"
     --r3d[3] 0,1,0,$angle -j3d.. [-1],50%,50%,0,1,5,0,0      # Draw 3d object.
     -*3d. 0.25,0.16,1 -j3d[0] [-1],50%,50%,0,1,3,0,0
     -rm.
-    angle={$angle+3}                                                 # Update 3d angle.
+    angle+=3                                                 # Update 3d angle.
     fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-22},16,1,0.7 -endif
     -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {2*w},{2*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {w},{h} -endif
@@ -15840,7 +15840,7 @@ x_fireworks :
   -w. {1.5*w},{1.5*h},0,"[G"{`39`}"MIC] Fireworks"  # Display window.
   time=0
   -do                                               # Start animation loop.
-    time={$time-1}
+    time-=1
     -if {$!==2\ ||\ $time<0} # Insert new rocket.
       -i[0] ({u(w)},\        # X-position
              {h},\           # Y-position
@@ -15870,7 +15870,7 @@ x_fireworks :
         -done
         to_be_removed=1
       -endif
-      -if $to_be_removed -rm[$i] -else i={$i+1} -endif  # If processed rocket has to be removed.
+      -if $to_be_removed -rm[$i] -else i+=1 -endif  # If processed rocket has to be removed.
     -done
     fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",3,{h-20},14,1,0.5 -endif
     -w. -wait 20  # Display rendered frame.
@@ -16303,7 +16303,7 @@ x_jawbreaker : -check "${1=12}>0 && $1<20 && ${2=13}>0 && $2<20 && ${3=5}>0 && $
           -rows[board] -1,100% -f[board] "if(y==0,if(i(x,h-1),x,w),i)" -sort[board] +,x -rows[board] 1,100%
 
           # Update score.
-          score={$score+int((is-1)^2)}
+          score+={int((is-1)^2)}
 
         -endif
         -rm. # Remove selection mask.
@@ -16486,7 +16486,7 @@ x_life :
     -endif
 
     --. [0] -*. -1                                              # Compute difference between consecutive states.
-    stock={$stock-2*(min(0,int(is/16*$score/150)))}             # Increment available cells if the evolution is fast.
+    stock-={2*(min(0,int(is/16*$score/150)))}                   # Increment available cells if the evolution is fast.
     -+[1] [0]                                                   # Increment generation counter for still existing cells.
     -min. 0 -+. 1 -*[1,-1]                                      # Reset generation counter for died cells.
 
@@ -16518,7 +16518,7 @@ x_life :
 
     -if {!($iteration%10)} score={0,is} bestscore={max($score,$bestscore)} -endif  # Re-compute current and best scores, every 10th iterations.
     -wait 60
-    iteration={$iteration+1}
+    iteration+=1
   -while {{*}" && "!{*,ESC}" && "!{*,Q}}
 
   # End game and quit properly.
@@ -16566,7 +16566,7 @@ x_light :
     -else
       X={round((w-{-2,w}*(1+cos(2*$t)))/2)}
       Y={round((h-{-2,h}*(1+sin(2.5*$t)))/2)}
-      t={$t+0.02}
+      t+=0.02
     -endif
     -if {{*,b}&1} light={min(200,$light+10)} -gaussian. $light -n. 0,255 -endif
     -if {{*,b}&2} light={max(10,$light-10)} -gaussian. $light -n. 0,255 -endif
@@ -16832,7 +16832,7 @@ x_minimal_path :
             --text_outline[0] "Processing...",5,5,13,1,1,255,255,255 -w. -rm.
             --minimal_path[1] $P0,$P1,1
             -pointcloud. 0 -*. 255 -r. 100%,100%,1,[0],0,0,0,0,0,0.5 -r. [0],0 -|[0,-1]
-            P0=$P1 p={$p+1}
+            P0=$P1 p+=1
           -endif
         -endif
       -while {{*}" && "!{*,ESC}" && "!{*,Q}}
@@ -16948,7 +16948,7 @@ x_pacman :
       -done
       -if $dying_pacman
         -_pacman_pacman_gfx {$dying_pacman/2} -rotate[-2,-1] {90*(abs($dp)-1)} -j... [-2],$xp,{24+$yp},0,0,1,[-1],255 -rm[-2,-1]
-        dying_pacman={$dying_pacman+1}
+        dying_pacman+=1
         -if {$dying_pacman>64}
           -if {$lives!=1} -rm. -break -endif
           -j. [game_over],{(w-{game_over,w})/2},{12+(h-{game_over,h})/2},0,0,{min(1,($dying_pacman-64)/50)},[game_overm],255
@@ -16963,7 +16963,7 @@ x_pacman :
         -j. [level_N],{(w-{level_N,w})/2},{12+(h-1.5*{level_N,h})/2},0,0,1,[levelm_N]
         -if {int($|*4)%2} -j. [get_ready],{(w-{get_ready,w})/2},{24+(h+{get_ready,h})/2},0,0,1,[get_readym],255 -endif
       -endif
-      -if {$oscore>0} -j. [score$nscore],$xscore,$yscore,0,0,$oscore,[scorem$nscore],255 oscore={$oscore-0.04} yscore={$yscore-1} -endif
+      -if {$oscore>0} -j. [score$nscore],$xscore,$yscore,0,0,$oscore,[scorem$nscore],255 oscore-=0.04 yscore-=1 -endif
       -j. [gate],158,223,0,0,0.6
       -w.
       -if {{*,CTRLLEFT}&&{*,D}} -w[] {2*w},{2*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {w},{h} -endif
@@ -16976,13 +16976,13 @@ x_pacman :
         -if {max(abs($xg-$xp),abs($yg-$yp))<=8}            # Test collision between ghost and pacman.
           -if {$mg==0" && "!$dying_pacman} dying_pacman=1  # Was in normal mode -> dying pacman.
             xscore=$xp yscore={$yp+12} oscore=1 nscore=4
-          -elif {$mg==1} mg=2 mg$>=$mg score={$score+100}  # Was in invicibility mode -> dying ghost.
+          -elif {$mg==1} mg=2 mg$>=$mg score+=100          # Was in invicibility mode -> dying ghost.
             xscore=$xp yscore={$yp+12} oscore=1 nscore=1
           -endif
         -endif
         -if {$mg>=2" && "($xg>>4)==$mw2" && "($yg>>4)==$mh2} # Check if dying ghost has returned to home.
-          mg={$mg+0.01}
-          -if {$mg>=3} mg=0 xg={$xg&-2} yg={$yg&-2} -endif
+          mg+=0.01
+          -if {$mg>=3} mg=0 xg&=-2 yg&=-2 -endif
           mg$>=$mg
         -endif
 
@@ -17011,9 +17011,9 @@ x_pacman :
         d={if({*,ARROWRIGHT},1,if({*,ARROWDOWN},2,if({*,ARROWLEFT},3,if({*,ARROWUP},4,$dp))))}
         -if {!($xp&15)" && "!($yp&15)}
           i={map,i({$xp>>4},{$yp>>4})}
-          -if {$i==2} score={$score+10} pacdots={$pacdots-1} # Pacdot eaten.
+          -if {$i==2} score+=10 pacdots-=1 # Pacdot eaten.
           -elif {$i==3} pacgum_timer=$| -repeat 4 -if {!${mg$>}} mg$>=1 dg$>={(${dg$>}+2)%4} -endif -done  # Pacgum eaten.
-          -elif {$i>=4} score={$score+${score{$i-4}}} xscore=$xp yscore={$yp+12} oscore=1 nscore={$i-4} # Fruit eaten.
+          -elif {$i>=4} score+={${score{$i-4}}} xscore=$xp yscore={$yp+12} oscore=1 nscore={$i-4} # Fruit eaten.
           -endif
           -=[map] 0,{$xp>>4},{$yp>>4}
           16,16,1,3 -j[visu] [-1],$xp,{24+$yp} -rm.
@@ -17029,7 +17029,7 @@ x_pacman :
         yp={($yp+2*$v)%(16*$mh)}
 
         -if {$pacgum_timer>=0" && "$|>$pacgum_timer+10} # Check if pacgum still has some effect.
-          -repeat 4 xg$>={${xg$>}&-2} yg$>={${yg$>}&-2} mg$>={if(${mg$>}==1,0,${mg$>})} -done
+          -repeat 4 xg$>&=-2 yg$>&=-2 mg$>={if(${mg$>}==1,0,${mg$>})} -done
           pacgum_timer=-1
         -endif
 
@@ -17048,7 +17048,7 @@ x_pacman :
 
     -if $is_quit -break         # Player asked to quit.
     -elif $pacdots              # Player lost a life.
-      lives={$lives-1}
+      lives-=1
     -else                       # Player achieved level.
       level={-$level-1} -wait[0] -1
       -rm[map0,map,can_go,path]
@@ -17328,7 +17328,7 @@ x_plasma :
     -j... [-1],0,0,0,0,1,[-2],255 -rm.
     -j.. [-1],-2,-2,0,0,1,[-1],255 -rm.
 
-    tt={$tt+max(2,($|-$tic)*250)} # Animate scrolling.
+    tt+={max(2,($|-$tic)*250)} # Animate scrolling.
     -if {$tt>=$M} tt={-1.5*{0,w}} -endif
 
     # Display rendered frame.
@@ -17556,7 +17556,7 @@ x_reflection3d :
     -if {{*,CTRLLEFT}&&{*,D}} -w[] 800,800 -elif {{*,CTRLLEFT}&&{*,C}} -w[] 400,400 -endif
     xb={($xb+6)&255}
     xl={($xl-6)&255}
-    anim={$anim+1}
+    anim+=1
     -r3d[-2,-1] {sin(0.5*$|)},{cos($|)},1,{($|-$tic)*33}
     -r3d... -1,0.3,0.8,{($|-$tic)*100}
     -wait 20
@@ -17668,13 +17668,13 @@ x_segment : -check "${1=1024}==0 || $1>=128"
         fdim=${-fitscreen[]\ $w,$h} ww={arg(1,$fdim)} wh={arg(2,$fdim)}
         x0=0 y0=0 x1={$w-1} y1={$h-1}
       -elif {($is_shift" && "$o<0)" || "{*,ARROWLEFT}} # Go left.
-        dx={($x1-$x0)/6} x0={$x0-$dx} x1={$x1-$dx}
+        dx={($x1-$x0)/6} x0-=$dx x1-=$dx
       -elif {($is_shift" && "$o>0)" || "{*,ARROWRIGHT}} # Go right.
-        dx={($x1-$x0)/6} x0={$x0+$dx} x1={$x1+$dx}
+        dx={($x1-$x0)/6} x0+=$dx x1=+$dx
       -elif {($is_ctrl" && "$o>0)" || "({*,ARROWUP}" && "!$is_ctrl)} # Go up.
-        dy={($y1-$y0)/6} y0={$y0-$dy} y1={$y1-$dy}
+        dy={($y1-$y0)/6} y0-=$dy y1-=$dy
       -elif {($is_ctrl" && "$o<0)" || "({*,ARROWDOWN}" && "!$is_ctrl)} # Go down.
-        dy={($y1-$y0)/6} y0={$y0+$dy} y1={$y1+$dy}
+        dy={($y1-$y0)/6} y0+=$dy y1+=$dy
       -elif {$o>0" || "($is_ctrl" && "{*,ARROWUP})} # Zoom in.
         -if {$x1-$x0>16" && "$y1-$y0>16}
           cx={if($x>=0" && "!{*,ARROWUP},$x,($x0+$x1)/2)}
@@ -17690,14 +17690,14 @@ x_segment : -check "${1=1024}==0 || $1>=128"
           x0={$cx+($x0-$cx)/0.75} y0={$cy+($y0-$cy)/0.75}
           x1={$cx+($x1-$cx)/0.75} y1={$cy+($y1-$cy)/0.75}
           dx={$zfactor^2*($w-$x0-$x1)/2} dy={$zfactor^2*($h-$y0-$y1)/2}
-          x0={$x0+$dx} x1={$x1+$dx} y0={$y0+$dy} y1={$y1+$dy}
+          x0+=$dx x1+=$dx y0+=$dy y1+=$dy
         -else
           dx={($w-$x0-$x1)/2} dy={($h-$y0-$y1)/2}
-          x0={$x0+$dx} x1={$x1+$dx} y0={$y0+$dy} y1={$y1+$dy}
+          x0+=$dx x1+=$dx y0+=$dy y1+=$dy
         -endif
       -elif {$b&4" && "!$is_mouseout} # Pan.
         -if {$panx<0" && "$pany<0} panx=$x pany=$y
-        -else dx={round($panx-$x)} dy={round($pany-$y)} x0={$x0+$dx} y0={$y0+$dy} x1={$x1+$dx} y1={$y1+$dy}
+        -else dx={round($panx-$x)} dy={round($pany-$y)} x0+=$dx y0+=$dy x1+=$dx y1+=$dy
         -endif
       -else panx=-1 pany=-1
       -endif
@@ -17732,10 +17732,10 @@ x_segment : -check "${1=1024}==0 || $1>=128"
 
       # Manage zoomed view bounds.
       w2={round(($x1-$x0)/2)} h2={round(($y1-$y0)/2)}
-      -if {$x0<-$w2} x1={$x1-$x0-$w2} x0=-$w2 -endif
-      -if {$y0<-$h2} y1={$y1-$y0-$h2} y0=-$h2 -endif
-      -if {$x1>=$w+$w2} x0={$w-1+$w2-$x1+$x0} x1={$w-1+$w2} -endif
-      -if {$y1>=$h+$h2} y0={$h-1+$h2-$y1+$y0} y1={$h-1+$h2} -endif
+      -if {$x0<-$w2} x1-={$x0+$w2} x0=-$w2 -endif
+      -if {$y0<-$h2} y1-={$y0+$h2} y0=-$h2 -endif
+      -if {$x1>=$w+$w2} x0+={$w-1+$w2-$x1} x1={$w-1+$w2} -endif
+      -if {$y1>=$h+$h2} y0+={$h-1+$h2-$y1} y1={$h-1+$h2} -endif
 
       # Render labels.
       -if {!narg($labels)}
@@ -18166,10 +18166,10 @@ x_select_palette : -skip ${1=xsp_variable},${2=0}
       -if {$b&1" && "$x>=0" && "$y>=0}  # Select color.
         -if {baseview,i($x-8,$y-8,0,4)} selected={baseview,i($x-8,$y-8,0,4)-1} -else selected=-1 -endif
         -rm[view] -wait -1
-      -elif {{*,ARROWUP}" && "$selected>=$M} selected={$selected-$M} -rm[view] -wait -1
-      -elif {{*,ARROWDOWN}" && "$selected<{0,w-$M}} selected={$selected+$M} -rm[view] -wait -1
-      -elif {{*,ARROWRIGHT}" && "$selected<{0,w-1}} selected={$selected+1} -rm[view] -wait -1
-      -elif {{*,ARROWLEFT}" && "$selected>0} selected={$selected-1} -rm[view] -wait -1
+      -elif {{*,ARROWUP}" && "$selected>=$M} selected-=$M -rm[view] -wait -1
+      -elif {{*,ARROWDOWN}" && "$selected<{0,w-$M}} selected+=$M -rm[view] -wait -1
+      -elif {{*,ARROWRIGHT}" && "$selected<{0,w-1}} selected+=1 -rm[view] -wait -1
+      -elif {{*,ARROWLEFT}" && "$selected>0} selected-=1 -rm[view] -wait -1
       -endif
     -endif
 
@@ -18192,7 +18192,7 @@ x_shadebobs :
 
   # Start animation loop.
   -do
-    t={$t+0.015}
+    t+=0.015
     -if {$t>4*pi" || "{*,b}} # Reset motions variables if necessary.
       rx={u(-1,1)} ry={u(-1,1)} rz={u(-1,1)} rt={u(-1,1)} rcx={u(-0.6*0.6)} t=0
       N={20+round(u(80))} R={(2+round(u(40)))*min({*,w},{*,h})/300}
@@ -18283,14 +18283,14 @@ x_spline :
     -w. -rm[3,4,-1] -wait
 
     # Handle key events.
-    -if {*,SPACE} visuflags={$visuflags+if($visuflags&1,-1,1)} -wait -1 -endif  # Show/hide spline.
-    -if {*,P} visuflags={$visuflags+if($visuflags&2,-2,2)} -wait -1 -endif      # Show/hide points.
-    -if {*,ENTER} visuflags={$visuflags+if($visuflags&4,-4,4)} -wait -1 -endif  # Show/hide polygon.
-    -if {*,T} visuflags={$visuflags+if($visuflags&8,-8,8)} -wait -1 -endif      # Show/hide tangents.
-    -if {*,I} visuflags={$visuflags+if($visuflags&16,-16,16)} -wait -1 -endif   # Show/hide indices.
-    -if {{*,C}" && "!{*,CTRLLEFT}" && "!{*,CTRLRIGHT}} visuflags={$visuflags+if($visuflags&32,-32,32)} -wait -1 -endif # Show/hide coordinates.
-    -if {{*,PADADD}" && "$roundness<1} roundness={$roundness*1.1} -wait -1 -endif    # Increase roundness.
-    -if {{*,PADSUB}" && "$roundness>0.1} roundness={$roundness*0.9} -wait -1 -endif  # Decrease roundness.
+    -if {*,SPACE} visuflags+={if($visuflags&1,-1,1)} -wait -1 -endif  # Show/hide spline.
+    -if {*,P} visuflags+={if($visuflags&2,-2,2)} -wait -1 -endif      # Show/hide points.
+    -if {*,ENTER} visuflags+={if($visuflags&4,-4,4)} -wait -1 -endif  # Show/hide polygon.
+    -if {*,T} visuflags+={if($visuflags&8,-8,8)} -wait -1 -endif      # Show/hide tangents.
+    -if {*,I} visuflags+={if($visuflags&16,-16,16)} -wait -1 -endif   # Show/hide indices.
+    -if {{*,C}" && "!{*,CTRLLEFT}" && "!{*,CTRLRIGHT}} visuflags+={if($visuflags&32,-32,32)} -wait -1 -endif # Show/hide coordinates.
+    -if {{*,PADADD}" && "$roundness<1} roundness*=1.1 -wait -1 -endif    # Increase roundness.
+    -if {{*,PADSUB}" && "$roundness>0.1} roundness*=0.9 -wait -1 -endif  # Decrease roundness.
     -if {{*,R}" && "!{*,CTRLLEFT}" && "!{*,CTRLRIGHT}} -rm. -i[1] 1 -wait -1 -endif  # Reset curve.
     -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,D}} -w[] {{*,w}*1.5},{{*,h}*1.5} -endif # Increase window size.
     -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,C}} -w[] {{*,w}/1.5},{{*,h}/1.5} -endif # Decrease window size.
@@ -18404,7 +18404,7 @@ x_tetris :
     # Check for completed lines and select new random triomino.
     -if {$n<0}
       -l[board] -s y i=-1 -repeat $! -if {$<,im} i=$<,$i -endif -done
-      0 -rm[$i] -a y score={$score+2^(narg($i)-1)-1} -r $W,$H,1,1,0,0,0,1 -nm board -endl
+      0 -rm[$i] -a y score+={2^(narg($i)-1)-1} -r $W,$H,1,1,0,0,0,1 -nm board -endl
       -if {narg($i)>1} -l[render] -s y,$H 0 -rm[$i] -a y -r {$fact*$W},{$fact*$H},1,3,0,0,0,1 -nm render -endl -endif
       n=$nn nn={round(u(0,$N-1))} x={$W/2} y=0 do_render=1 fall_mode=0
     -endif
@@ -18437,7 +18437,7 @@ x_tetris :
     -endif
 
     -if {{*,ARROWDOWN}" || "$|-$time>0.9^int($score/2)" || "$fall_mode}   # Piece goes down.
-      y={$y+1}
+      y+=1
       --j[board] [m$n],{$x-int({m$n,w}/2)},$y,0,0,-1,[m$n]
       -if {{iM}>1" || "$y+{m$n,h}>$H}
         -if {$y<=1} gameover=1 -endif  # Game over!
@@ -18500,7 +18500,7 @@ x_tictactoe :
                {"130*"$tmp2" + 15+u(-5,5)"},0,0,1,[-1]
     -rm[-2--1]                                                                # Delete the sprite and the mask (not needed anymore).
     -w.                                                                       # Update display window.
-    state={$state+(1+$player)*$tmp1}                                          # Update the board state.
+    state+={(1+$player)*$tmp1}                                                # Update the board state.
 
     # Check for a winning configuration.
     (21,1344,86016,4161,16644,66576,65793,4368;\                              # The list of winning configurations.
@@ -18523,7 +18523,7 @@ x_tictactoe :
     -rm.                                                                      # Delete winning configuration data.
 
     player={($player+1)%2}                                                  # Select next player.
-    counter={$counter+1}                                                    # Increment turn counter.
+    counter+=1                                                              # Increment turn counter.
   -while {$counter<9}                                                       # Loop to next move until all positions have been filled.
 
   # Here, the game has been ended without winners.
@@ -18643,7 +18643,7 @@ x_whirl : -check ${1=0.2}>=0
   -do
     -rand... 0,255 -j.. [-3],$xc,$yc,0,0
     -rotate.. {8*sin($tangle)},0,0,{w/2+u(-2,2)},{h/2},{1.03+0.02*sin($tzoom)}
-    tangle={$tangle+0.001} tzoom={$tzoom+0.02}
+    tangle+=0.001 tzoom+=0.02
     -j. [-2],0,0,0,0,$1 -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {3*w},{3*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {1.5*w},{1.5*h} -endif
     -wait 20
@@ -19161,7 +19161,7 @@ _gimp_download_all_data :
      -v + -e[] "Download "$filename -v -
      -if {$2" || "!isfile(${-path_rc}${_prefix_$1}$filename)} -l[] ${_url_$1}/$filename -o ${-path_rc}${_prefix_$1}$filename -rm -onfail -endl -endif
      -progress {100*$_n/$_N}
-     _n={$_n+1}
+     _n+=1
    -done
 
 # #@gimp Filter sources : gimp_manage_filter_sources, gimp_manage_filter_sources_preview
@@ -19220,9 +19220,9 @@ gimp_manage_filter_sources_preview :
     -gimp_filter_sources
     msg= i=1 -rm[0,1]
     -if $! -repeat $!
-      -if {${-head[$>]\ 4}'=='{'http'}} -basename {$>,t} msg=$msg"\n["$i"] "${} i={$i+1}
+      -if {${-head[$>]\ 4}'=='{'http'}} -basename {$>,t} msg=$msg"\n["$i"] "${} i+=1
       -else
-        -if ${-path_rc}{$>,t} msg=$msg"\n["$i"] "{$>,t}" (local user file)" i={$i+1} -endif
+        -if ${-path_rc}{$>,t} msg=$msg"\n["$i"] "{$>,t}" (local user file)" i+=1 -endif
       -endif
     -done -else msg="[None]" -endif
   -rm -endl
@@ -19591,7 +19591,7 @@ survey :
     --replace. {'" "'},{'~'} -z. 0,32 -z.. 34,100%
     -if {{[100%]}=={'0'}" || "{[100%]}=={'1'}}
       -v + -e[] "["{1+$N}"] "{-2,t} -v -
-      -__survey {t} N={$N+1}
+      -__survey {t} N+=1
     -endif
     -rm 0
   -endl -done
@@ -19689,7 +19689,7 @@ _survey_choice :
       0 -t. [$val%],0,0,20,1,${RGB$>},255
       -r[-2,-1] 100%,${-max_h[-2,-1]},1,4,0,0,0,0.5
       -mv[-2,-1] -3
-      i={$i+1}
+      i+=1
     -endif -done
     -rm.
     -r[0--1:2] ${-max_w[0--1:2]},100%,1,4,0,1
@@ -19707,7 +19707,7 @@ _survey_choice :
       parg1=$parg1,$i,{i[$>]},${RGB$>}
       -if {$val>10} parg2=$parg2,"\n\n"$val%,{i[$>]},0,0,0
       -else parg2=$parg2," ",{i[$>]},0,0,0 -endif
-      i={$i+1}
+      i+=1
     -endif -done
     512,512,1,3,255 -piechart. $parg1
     512,512,1,3 -piechart. $parg2
@@ -25892,7 +25892,7 @@ gimp_crystal :
     --norm -neq. 0 -a c
     sigma=0.2
     -do
-      --b. $sigma sigma={$sigma*(1+$2)}
+      --b. $sigma sigma*={(1+$2)}
       -sh[0,-1] $s -max. [-2] -rm[-2,-1]
       -f. 'W=i(x,y,z,$s);if(W<0.001||W>=1,0,if(c<$s,i/W,1))'
       -if {!iM} -rm[1] -break -endif
@@ -27862,7 +27862,7 @@ gimp_shadebobs :
         cy={(1+$9*sin($ax)+$r*sin($a))*h/2}
         -ellipse. $cx,$cy,$2%,$2%,0,-1,1
       -done
-      t={$t+$4/100}
+      t+={$4%}
     -done
   -endl -done
   -& 255 -if $10 -map {$10-1} -endif
@@ -28651,17 +28651,17 @@ gimp_intarsia :
         im={im} -compress_rle 0,0 -rows 6,100%
         ({'"<tr><td valign=\"top\"><b>"$label" "{1+$>}"</b></td><td valign=\"top\">"${dir$dir}"</td><td>\n"'})
         i=0 n=0 -do
-          val={0,i[$i]} i={$i+1}
+          val={0,i[$i]} i+=1
           -if {$val>=0} occ=1
           -else
             occ={-$val}
             val={0,i[$i]}
-            -if {$val<0} val=0 -else i={$i+1} -endif
+            -if {$val<0} val=0 -else i+=1 -endif
           -endif
-          val={$val+$im}
+          val+=$im
           ({'"colour:<b>"$val"</b> "$occ'})
           -if {0,$i<h} ({'", "'}) -endif
-          n={$n+1}
+          n+=1
           -if {!($n%8)} ({'"<br/>\n"'}) -endif
         -while {0,$i<h}
         ({'"</td></tr>\n"'})
