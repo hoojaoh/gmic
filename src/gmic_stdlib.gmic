@@ -14875,10 +14875,12 @@ tic :
 
 #@gmic toc
 #@gmic : Display elapsed time of the tic-toc timer since the last call to '-tic'.
+#@gmic : This command returns the elapsed time in the status value.
 #@gmic : Use it in conjunction with '-tic'.
 toc :
   -v - _ticpos={$_ticpos-1} -v +
-  -e[^-1] "Elapsed time: "{_$|-${_tic$_ticpos}}" s".
+  -u {_$|-${_tic$_ticpos}}
+  -e[^-1] "Elapsed time: "${}" s".
 
 #@gmic std_noise
 #@gmic : Return the estimated noise standard deviation of the last selected image.
