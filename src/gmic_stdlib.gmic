@@ -632,6 +632,9 @@ _help_usage :
 \n          image, if any (0 otherwise).
 \n       . '"${c}"xM"$n"','"${c}"yM"$n"','"${c}"zM"$n"','"${c}"cM"$n"': The pixel coordinates of the maximum value in the
 \n          associated image, if any (0 otherwise).
+\n       . You may add '"${c}"#ind"$n"' to a variable name to retrieve the information for any numbered image
+\n          "${g}"[ind]"$n" of the list (when this makes sense). For instance '"${c}"ia#0"$n"' denotes the average
+\n          value of the first image).
 \n
 \n    _ "${g}"Special operators"$n" can be used:
 \n       . '"$c";"$n"': expression separator. The returned value is always the last encountered
@@ -661,6 +664,9 @@ _help_usage :
 \n       . '"${c}"i[offset,_boundary]"$n"' returns the value of the pixel located at "${g}"specified offset"$n" in the
 \n          associated image buffer (or 0 if offset is out-of-bounds).
 \n       . '"${c}"j[offset,_boundary]"$n"' does the same for an offset relative to the current pixel "$g"(x,y,z,c)"$n".
+\n       . '"${c}"i(#ind,_a,_b,_c,_d,_interpolation,_boundary)"$n"', '"${c}"j(#ind,_dx,_dy,_dz,_dc,_interpolation,_boundary)"$n"',
+\n          '"${c}"i[#ind,offset,_boundary]"$n"' and '"${c}"i[offset,_boundary]"$n"' are similar expressions used to access
+\n          pixel values for any numbered image "${g}"[ind]"$n" of the list.
 \n       . '"${c}"if(condition,expr_then,_expr_else)"$n"': return value of '"${c}"expr_then"$n"' or '"${c}"expr_else"$n"',
 \n          depending on the value of '"${c}"condition"$n"' "${g}"(0=false, other=true)"$n". '"${c}"expr_else"$n"' can be
 \n          omitted in which case 0 is returned if the condition does not hold. Using the ternary operator
@@ -695,10 +701,11 @@ _help_usage :
 \n    - Starting an expression with '"$c"*"$n"' forces the multiple evaluations that required for an image
 \n       to be run in parallel.
 \n
-\n    _ Expressions '"${c}"i(x,_y,_z,_c)=value"$n"', '"${c}"j(x,_y,_z,_c)=value"$n"', '"${c}"i[offset]=value"$n"' and '"${c}"j[offset]=value"$n"' allow
-\n       to set pixel values at different locations than the current one in the associated image, either
-\n       with global coordinates/offsets (with '"${c}"i(...)"$n"' and '"${c}"i[...]"$n"') or relatively to the current
-\n       position "${g}"(x,y,z,c)"$n" (with '"${c}"j(...)"$n"' and '"${c}"j[...]"$n"'). These expressions always return '"${c}"value"$n"'.
+\n    _ Expressions '"${c}"i(_#ind,x,_y,_z,_c)=value"$n"', '"${c}"j(_#ind,x,_y,_z,_c)=value"$n"', '"${c}"i[_#ind,offset]=value"$n"' and
+\n       '"${c}"j[_#ind,offset]=value"$n"' set a pixel value at a different location than the running one in the
+\n       image "${g}"[ind]"$n" (or in the associated image if argument '"${c}"#ind"$n"' is omitted), either with global
+\n       coordinates/offsets (with '"${c}"i(...)"$n"' and '"${c}"i[...]"$n"'), or relatively to the current position "${g}"(x,y,z,c)"$n"
+\n       (with '"${c}"j(...)"$n"' and '"${c}"j[...]"$n"'). These expressions always return '"${c}"value"$n"'.
 \n
 \n  - The last image of the list is always associated to the evaluations of '"$c"{expressions}"$n"',
 \n     e.g. "${-GMIC}" sequence '"${c}"256,128 -f {w}"$n"' will create a 256x128 image filled with value 256."
