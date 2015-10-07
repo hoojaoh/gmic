@@ -347,7 +347,12 @@ _help_usage :
 \n     by any command invoked outside the current command scope (global variable).
 \n  - If a variable name starts with two underscores '"${g}"__"$n"', the global variable is also shared
 \n     among different threads and can be read/set by commands running in parallel (see command
-\n     '"${c}"-parallel"$n"'). Otherwise, it remains local to the thread that defined it."
+\n     '"${c}"-parallel"$n"'). Otherwise, it remains local to the thread that defined it.
+\n  - Numerical variables can be updated with the use of these special operators:
+\n    '"${g}"+="$n"' (addition), '"${g}"-="$n"' (subtraction), '"${g}"*="$n"' (multiplication), '"${g}"/="$n"' (division), '"${g}"%="$n"' (modulo),
+\n    '"${g}"&="$n"' (bitwise and), '"${g}"|="$n"' (bitwise or), '"${g}"^="$n"' (power), '"${g}"<<="$n"' and '"${g}">>="$n"' (bitwise left
+\n    and right shifts). As in: '"${c}"foo=1 foo+=3"$n"'.
+"
 
   -_help_section "Command items and selections"
 
