@@ -124,7 +124,7 @@
       <a href="img/zart.jpg" class="highslide" onclick="return hs.expand(this)"><b>ZArt</b></a><div class="highslide-caption">Screenshot of <b>ZArt</b> in action.</div> on a fresh installation of <i>Debian (or Ubuntu)</i>.
       It should not be much harder for other distros. First you need to install all the required tools and libraries:
       <pre style="font-family:monospace;">
-        $ sudo apt-get install git build-essential libgimp2.0-dev libcv-dev \
+        $ sudo apt-get install git build-essential libgimp2.0-dev libcv-dev libopencv-dev \
         libhighgui-dev libcurl4-openssl-dev libfftw3-dev
       </pre>
       Then, get the <b><font color="#000066">G'MIC</font></b> sources from the <i>git</i> repository:
