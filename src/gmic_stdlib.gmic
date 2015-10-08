@@ -356,8 +356,8 @@ _help_usage :
 
   -_help_section "Command items and selections"
 
-  -_help_paragraph "  - A "${-GMIC}" item starting by '"$g"-"$n"' designates a "${g}"command"$n", most of the time. Generally, commands
-\n     perform image processing operations on one or several available images of the list.
+  -_help_paragraph "  - A "${-GMIC}" item starting by a hyphen '"$g"-"$n"' designates a "${g}"command"$n", most of the time. Generally,
+\n     commands perform image processing operations on one or several available images of the list.
 \n  - Reccurent commands have two equivalent names ("${g}"regular"$n" and "${g}"short"$n"). For instance, command
 \n     names '"$c"-resize"$n"' and '"$c"-r"$n"' refer to the same image resizing action.
 \n  - A "${-GMIC}" command may have mandatory or optional "${g}"arguments"$n". Command arguments must be
@@ -387,7 +387,7 @@ _help_usage :
 \n    These shortcuts work only for command selections, not for command arguments.
 \n  - "${-GMIC}" commands invoked without '"$c"[selection]"$n"' are applied on "${g}"all images"$n" of the list, i.e. the
 \n     default selection is '"$c"[0--1]"$n"' (except for command '"$c"-input"$n"' whose default selection is '"$c"[-1]"$n"').
-\n  - A "${-GMIC}" command starting with a double dash '"$g"--"$n"' (instead of a single dash '"$g"-"$n"') does not act
+\n  - A "${-GMIC}" command starting with a double hyphen '"$g"--"$n"' (instead of a single hyphen '"$g"-"$n"') does not act
 \n     'in-place' but inserts its result as one or several new images at the end of the image list.
 \n  - There are two different types of commands that can be run by the "${-GMIC}" interpreter:
 \n    . "${g}"Native commands"$n", are the hard-coded functionalities in the interpreter core.
@@ -564,7 +564,7 @@ _help_usage :
 \n       . '"${g}"m"$n"': boolean telling if the instant display has been moved recently.
 \n       . Any other '"${g}"feature"$n"' stands for a "${g}"keycode name"$n" (in capital letters), and is substituted
 \n          by a boolean describing the current key state "$c"{ 0=pressed | 1=released }"$n".
-\n       . You can also prepend a dash '"$c"-"$n"' to a '"${g}"feature"$n"' (that supports it) to flush the
+\n       . You can also prepend a hyphen '"$c"-"$n"' to a '"${g}"feature"$n"' (that supports it) to flush the
 \n          corresponding event immediately after reading its state (works for keys, mouse
 \n          and window events).
 \n
@@ -3778,7 +3778,9 @@ _update_server_binaries :
     -repeat 16
       file=${file$>}
       -if $file
-        -strreplace $file,_$1_,_
+        -if $is_pre $file,_$1_,_pre_
+        -else -strreplace $file,_$1_,_
+        -endif
         file_latest=${}
         -v + -e[] "- Upload file '"$file"' to 'http://gmic.eu/files/latest/"$file_latest -v -
         -_update_server_upload $file,"files/latest/"$file_latest
