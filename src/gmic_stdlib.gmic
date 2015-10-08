@@ -3778,7 +3778,7 @@ _update_server_binaries :
     -repeat 16
       file=${file$>}
       -if $file
-        -if $is_pre $file,_$1_,_pre_
+        -if $is_pre -strreplace $file,_$1_,_pre_
         -else -strreplace $file,_$1_,_
         -endif
         file_latest=${}
