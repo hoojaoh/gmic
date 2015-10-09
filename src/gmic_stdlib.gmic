@@ -22717,7 +22717,7 @@ gimp_sepia_preview :
 gimp_transfer_rgb :
   -to_rgb
   ref={if($4,0,-1)}
-  -trgb[^$ref] [$ref],0.25,$1,$2,{2^(4+$3)},$5
+  -trgb[^$ref] [$ref],0.25,$1,$2,{2^(4+$3)},$5,0
 
 gimp_transfer_rgb_preview :
   -if {$!<2} -gimp_print_preview "Warning:",,"This filter requires at least two input layers to work properly." -return -endif
@@ -22793,13 +22793,14 @@ trgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -skip ${6
         N+=1
       -while {*}
       -if $N -a[-$N--1] x -permute. xczy -nm. constraints -endif
+
  #      -o[constraints] constraints.cimgz
       -rm[$visu,$both] -w 0
     -endif
 
     # Estimate warping field.
     -if $constraints
-      --pointcloud. 0 -r. 64,64,64,3,0 --compose_channels. + -a[-2,-1] c
+      --pointcloud. 0 -r. [-3],[-3],[-3],3,0 --compose_channels. + -a[-2,-1] c
       -displacement[fsource] [ftarget],0.001,5,0,10000,1,[-1] -rm[ftarget,constraints,-1]
     -else
       -displacement[fsource] [ftarget],0.005 -rm[ftarget]
