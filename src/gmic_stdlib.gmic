@@ -6007,7 +6007,7 @@ _transfer_colors :  # Check transfer_colors performance.
 #@gmic : 'color_constraints' tells if luminosity constraints must be applied on non-confident matched colors.
 #@gmic : 'generate_video' tells if the video of the RGB cube warping must be output.
 #@gmic : Default values: 'gamma=0.3','regularization=8', 'luminosity_constraints=0.1', 'rgb_resolution=64'.
-transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -skip ${6=0}
+transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0 && isint(${6=0})"
   sigma=1.5
 
   -repeat $! -pass$1 0 -l[$>,-1]
