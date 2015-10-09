@@ -6000,6 +6000,150 @@ transfer_colors : -skip ${1=0}
 _transfer_colors :  # Check transfer_colors performance.
   -repeat $! -l[$>] -rgb2ycbcr -s c -histogram 256,0,255 -a c -dg 300,200 -endl -done
 
+#@gmic transfer_rgb : [target],_gamma>=0,_regularization>=0,_luminosity_constraints>=0,_rgb_resolution>=0,_constraints_type={ 0=none | 1=chroma | 2=rgb }
+#@gmic : Transfer colors from selected source images to selected reference image (given as argument).
+#@gmic : 'gamma' determines the importance of color occurences in the matching process (0=none to 1=huge).
+#@gmic : 'regularization' determines the number of guided filter iterations to remove quantization effects.
+#@gmic : 'color_constraints' tells if luminosity constraints must be applied on non-confident matched colors.
+#@gmic : 'generate_video' tells if the video of the RGB cube warping must be output.
+#@gmic : Default values: 'gamma=0.3','regularization=8', 'luminosity_constraints=0.1', 'rgb_resolution=64'.
+transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -skip ${6=0}
+  sigma=1.5
+
+  -repeat $! -pass$1 0 -l[$>,-1]
+    nm_from={0,b} nm_to={1,b}
+    -nm[0] source -nm[1] target
+
+    # Generate matching functions from 3d RGB features.
+    --_transfer_rgb[source,target] $2,$sigma,$5
+    -nm.. fsource -nm. ftarget
+    -n[fsource,ftarget] 0,255
+
+    # Manage color constraints.
+    -if $6
+      h0={2*{*,v}/3} ws0={source,max(1,w*$h0/h)} wt0={target,max(1,w*$h0/h)}
+      w1={2*{*,u}/3} hs1={source,max(1,h*$w1/w)} ht1={target,max(1,h*$w1/w)}
+      -if {abs($ws0+$wt0-$w1)<abs($hs1+$ht1-$h0)} # Append along X.
+        --r2dy[source,target] $h0 --b[-2,-1] 0.5% -a[-4,-3] x -a[-2,-1] x
+      -else # Append along Y.
+        --r2dx[source,target] $w1 --b[-2,-1] 0.5% -a[-4,-3] y -a[-2,-1] y
+      -endif
+      -if {w>$w1} -r2dx[-2,-1] $w1 -endif
+      -if {h>$h0} -r2dy[-2,-1] $h0 -endif
+      -nm.. visu -nm. both
+
+      -w[visu] -1,-1
+      N=0 -do
+        -w[] -1,-1,"[G'MIC] Add color guide (constraint ""#"{1+$N}")"
+        --select[$visu] 1 -if {i==-1} -rm. -break -endif
+        -line[$visu] {i[0]},{i[1]},{i[3]},{i[4]},1,0xF0F0F0F0,0
+        -line[$visu] {i[0]},{i[1]},{i[3]},{i[4]},1,0x0F0F0F0F,255
+        -circle[$visu] {i[0]},{i[1]},5,1,0,0,0 -circle[$visu] {i[0]},{i[1]},3,1,255,0,0
+        -circle[$visu] {i[3]},{i[4]},5,1,0,0,0 -circle[$visu] {i[3]},{i[4]},3,1,0,255,0
+        -s. y,2 -rows[-2,-1] 0,1 -a[-2,-1] x -permute. xczy
+        --warp[$both] [-1],0,0 -rm..
+        -*. {$5/256} -s. x,2
+        --. [-2] -*. -1 -a[-2,-1] c
+        N+=1
+      -while {*}
+      -if $N -a[-$N--1] x -permute. xczy -nm. constraints -endif
+
+ #      -o[constraints] constraints.cimgz
+      -rm[$visu,$both] -w 0
+    -endif
+
+    # Estimate warping field.
+    -if $constraints
+      --pointcloud. 0 -r. [-3],[-3],[-3],3,0 --compose_channels. + -a[-2,-1] c
+      -displacement[fsource] [ftarget],0.001,5,0,10000,1,[-1] -rm[ftarget,constraints,-1]
+    -else
+      -displacement[fsource] [ftarget],0.005 -rm[ftarget]
+    -endif
+    -nm[fsource] displacement
+#    -o[displacement] displacement.cimgz
+
+    # Generate video of matching.
+    # -if videos
+    #   N=$!
+    #   [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
+    #   --_transfer_rgb[source] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
+    #   --_transfer_rgb[source] 0,$sigma,{w} -a[-2,-1] c
+
+    #   [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
+    #   --_transfer_rgb[target] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
+    #   --_transfer_rgb[target] 0,$sigma,{w} -a[-2,-1] c
+    #   -warp. [displacement],1,1,1,48
+
+    #   -l[$N--1]
+    #     -f3d 1200
+    #     -ap "-s. c,-3 -view_func. 6,[-2] -rm.."
+    #     -ap "-makefig"
+    #     -append[^0] [0],x -rm[0]
+    #     -r2dx 1024
+    #     [-1]x20
+    #     -o videos/video_${nm_from}_to_${nm_to}.avi,10
+    #     -rm
+    #   -endl
+    # -endif
+
+    # Estimate confidence of the color mapping.
+    --_transfer_rgb[target] 0,$sigma,{displacement,w}
+    -warp. [displacement],1,1,1 -c. 0,100% -nm. fconfidence
+    --map_clut[source] [-1] -nm. confidence
+#    -if confidences
+#      --*. 255 -o. confidences/confidence_${nm_from}_to_${nm_to}.png -rm.
+#    -endif
+
+    # Generate transfer CLUT.
+    [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
+    --_transfer_rgb[target] 0,0,{w} -*.. [-1]
+    -warp[-2,-1] [displacement],1,0,1
+    -distance. 1 -*. -1 -watershed.. [-1] -rm. --. 1
+    -nm. clut
+    -b[clut] $sigma%
+#    -if cluts
+#      -o[clut] cluts/clut_${nm_from}_to_${nm_to}.cimgz
+#    -endif
+
+    # Enforce luminosity constraint for non-confident colors.
+    -if {$4>0}
+      -pow[fconfidence] {$4/10} -*[fconfidence] -1 -+[fconfidence] 1
+      --f[fconfidence] x --f. y --f. z -a[-3--1] c -*. {256/w}
+      -rgb2hsv[clut,-1] -channels. 100%
+      -j[clut] [-1],0,0,0,2,1,[fconfidence] -rm.
+      -hsv2rgb[clut]
+    -endif
+
+    # Map CLUT to get result.
+    --map_clut[source] [clut] -nm. res_noregul
+
+    # Apply guided smoothing to remove quantization artefacts.
+    -if {!$3}
+      -nm[res_noregul] res
+    -else
+      -l[source,res_noregul]
+        -rgb2ycbcr  # Perform regularization in YCbCr to avoid creation of false colors.
+        ---[1] [0] -repeat $3 -guided. [0],5,5 -done -+. [0] -c. 0,255
+        -ycbcr2rgb
+      -endl
+      -nm. res
+      -j[res] [res_noregul],0,0,0,0,1,[confidence]
+      -rm[res_noregul]
+    -endif
+
+    -k[res]
+  -endl -done
+
+# _transfer_rgb : _gamma>=0,_smoothness>=0,_resolution>0
+# Convert selected images into 3d volumetric scalar function for color matching.
+_transfer_rgb : -v - -l[] -check "${1=0}>=0 && ${2=1.5}>=0 && ${3=128}>0" gamma=$1 smoothness=$2 res=$3 -onfail -noarg gamma=0 smoothness=1.5 res=128 -endl -v +
+  -e[^-1] "Convert image$? as 3d volumetric scalar functions for color matching, with gamma "$gamma", smoothness "$smoothness" and resolution "$res"."
+  -v - -to_rgb -repeat $! -l[$>]
+    -b 0.3%
+    -r {w*h},3,1,1,-1 -* {$res/256} -c 0,{$res-1}
+    -pointcloud 1,$res,$res,$res -f 'if(i,i^$gamma,0)' -b $smoothness% -n 0,1
+  -endl -done -v +
+
 #@gmic xyz2rgb
 #@gmic : Convert selected images from XYZ to RGB colorbases.
 xyz2rgb :
@@ -22717,7 +22861,7 @@ gimp_sepia_preview :
 gimp_transfer_rgb :
   -to_rgb
   ref={if($4,0,-1)}
-  -trgb[^$ref] [$ref],0.25,$1,$2,{2^(4+$3)},$5,0
+  -transfer_rgb[^$ref] [$ref],0.25,$1,$2,{2^(4+$3)},$5,0
 
 gimp_transfer_rgb_preview :
   -if {$!<2} -gimp_print_preview "Warning:",,"This filter requires at least two input layers to work properly." -return -endif
@@ -22734,151 +22878,6 @@ gimp_transfer_rgb_preview :
     -endif
     -rm.
   -endl -done -endif
-
-#@gmic trgb_img2func : _gamma>=0,_smoothness>=0,_resolution>0
-#@gmic : Convert selected images into 3d volumetric scalar function for color matching.
-#@gmic : Default values: 'gamma=0', 'smoothness=1.5' and 'resolution=128'.
-trgb_img2func : -v - -l[] -check "${1=0}>=0 && ${2=1.5}>=0 && ${3=128}>0" gamma=$1 smoothness=$2 res=$3 -onfail -noarg gamma=0 smoothness=1.5 res=128 -endl -v +
-  -e[^-1] "Convert image$? as 3d volumetric scalar functions for color matching, with gamma "$gamma", smoothness "$smoothness" and resolution "$res"."
-  -v - -to_rgb -repeat $! -l[$>]
-    -b 0.3%
-    -r {w*h},3,1,1,-1 -* {$res/256} -c 0,{$res-1}
-    -pointcloud 1,$res,$res,$res -f 'if(i,i^$gamma,0)' -b $smoothness% -n 0,1
-  -endl -done -v +
-
-#@gmic trgb : [target],_gamma>=0,_regularization>=0,_luminosity_constraints>=0,_rgb_resolution>=0,_constraints_type={ 0=none | 1=chroma | 2=rgb }
-#@gmic : Transfer colors from selected source images to selected reference image (given as argument).
-#@gmic : 'gamma' determines the importance of color occurences in the matching process (0=none to 1=huge).
-#@gmic : 'regularization' determines the number of guided filter iterations to remove quantization effects.
-#@gmic : 'color_constraints' tells if luminosity constraints must be applied on non-confident matched colors.
-#@gmic : 'generate_video' tells if the video of the RGB cube warping must be output.
-#@gmic : Default values: 'gamma=0.3','regularization=8', 'luminosity_constraints=0.1', 'rgb_resolution=64'.
-trgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -skip ${6=0}
-  sigma=1.5
-
-  -repeat $! -pass$1 0 -l[$>,-1]
-    nm_from={0,b} nm_to={1,b}
-    -nm[0] source -nm[1] target
-
-    # Generate matching functions from 3d RGB features.
-    --trgb_img2func[source,target] $2,$sigma,$5
-    -nm.. fsource -nm. ftarget
-    -n[fsource,ftarget] 0,255
-
-    # Manage color constraints.
-    -if $6
-      h0={2*{*,v}/3} ws0={source,max(1,w*$h0/h)} wt0={target,max(1,w*$h0/h)}
-      w1={2*{*,u}/3} hs1={source,max(1,h*$w1/w)} ht1={target,max(1,h*$w1/w)}
-      -if {abs($ws0+$wt0-$w1)<abs($hs1+$ht1-$h0)} # Append along X.
-        --r2dy[source,target] $h0 --b[-2,-1] 0.5% -a[-4,-3] x -a[-2,-1] x
-      -else # Append along Y.
-        --r2dx[source,target] $w1 --b[-2,-1] 0.5% -a[-4,-3] y -a[-2,-1] y
-      -endif
-      -if {w>$w1} -r2dx[-2,-1] $w1 -endif
-      -if {h>$h0} -r2dy[-2,-1] $h0 -endif
-      -nm.. visu -nm. both
-
-      -w[visu] -1,-1
-      N=0 -do
-        -w[] -1,-1,"[G'MIC] Add color guide ""#"{1+$N}
-        --select[$visu] 1 -if {i==-1} -rm. -break -endif
-        -line[$visu] {i[0]},{i[1]},{i[3]},{i[4]},1,0xF0F0F0F0,0
-        -line[$visu] {i[0]},{i[1]},{i[3]},{i[4]},1,0x0F0F0F0F,255
-        -circle[$visu] {i[0]},{i[1]},5,1,0,0,0 -circle[$visu] {i[0]},{i[1]},3,1,255,0,0
-        -circle[$visu] {i[3]},{i[4]},5,1,0,0,0 -circle[$visu] {i[3]},{i[4]},3,1,0,255,0
-        -s. y,2 -rows[-2,-1] 0,1 -a[-2,-1] x -permute. xczy
-        --warp[$both] [-1],0,0 -rm..
-        -*. {$5/256} -s. x,2
-        --. [-2] -*. -1 -a[-2,-1] c
-        N+=1
-      -while {*}
-      -if $N -a[-$N--1] x -permute. xczy -nm. constraints -endif
-
- #      -o[constraints] constraints.cimgz
-      -rm[$visu,$both] -w 0
-    -endif
-
-    # Estimate warping field.
-    -if $constraints
-      --pointcloud. 0 -r. [-3],[-3],[-3],3,0 --compose_channels. + -a[-2,-1] c
-      -displacement[fsource] [ftarget],0.001,5,0,10000,1,[-1] -rm[ftarget,constraints,-1]
-    -else
-      -displacement[fsource] [ftarget],0.005 -rm[ftarget]
-    -endif
-    -nm[fsource] displacement
-#    -o[displacement] displacement.cimgz
-
-    # Generate video of matching.
-    # -if videos
-    #   N=$!
-    #   [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
-    #   --trgb_img2func[source] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
-    #   --trgb_img2func[source] 0,$sigma,{w} -a[-2,-1] c
-
-    #   [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
-    #   --trgb_img2func[target] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
-    #   --trgb_img2func[target] 0,$sigma,{w} -a[-2,-1] c
-    #   -warp. [displacement],1,1,1,48
-
-    #   -l[$N--1]
-    #     -f3d 1200
-    #     -ap "-s. c,-3 -view_func. 6,[-2] -rm.."
-    #     -ap "-makefig"
-    #     -append[^0] [0],x -rm[0]
-    #     -r2dx 1024
-    #     [-1]x20
-    #     -o videos/video_${nm_from}_to_${nm_to}.avi,10
-    #     -rm
-    #   -endl
-    # -endif
-
-    # Estimate confidence of the color mapping.
-    --trgb_img2func[target] 0,$sigma,{displacement,w}
-    -warp. [displacement],1,1,1 -c. 0,100% -nm. fconfidence
-    --map_clut[source] [-1] -nm. confidence
-#    -if confidences
-#      --*. 255 -o. confidences/confidence_${nm_from}_to_${nm_to}.png -rm.
-#    -endif
-
-    # Generate transfer CLUT.
-    [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
-    --trgb_img2func[target] 0,0,{w} -*.. [-1]
-    -warp[-2,-1] [displacement],1,0,1
-    -distance. 1 -*. -1 -watershed.. [-1] -rm. --. 1
-    -nm. clut
-    -b[clut] $sigma%
-#    -if cluts
-#      -o[clut] cluts/clut_${nm_from}_to_${nm_to}.cimgz
-#    -endif
-
-    # Enforce luminosity constraint for non-confident colors.
-    -if {$4>0}
-      -pow[fconfidence] {$4/10} -*[fconfidence] -1 -+[fconfidence] 1
-      --f[fconfidence] x --f. y --f. z -a[-3--1] c -*. {256/w}
-      -rgb2hsv[clut,-1] -channels. 100%
-      -j[clut] [-1],0,0,0,2,1,[fconfidence] -rm.
-      -hsv2rgb[clut]
-    -endif
-
-    # Map CLUT to get result.
-    --map_clut[source] [clut] -nm. res_noregul
-
-    # Apply guided smoothing to remove quantization artefacts.
-    -if {!$3}
-      -nm[res_noregul] res
-    -else
-      -l[source,res_noregul]
-        -rgb2ycbcr  # Perform regularization in YCbCr to avoid creation of false colors.
-        ---[1] [0] -repeat $3 -guided. [0],5,5 -done -+. [0] -c. 0,255
-        -ycbcr2rgb
-      -endl
-      -nm. res
-      -j[res] [res_noregul],0,0,0,0,1,[confidence]
-      -rm[res_noregul]
-    -endif
-
-    -k[res]
-  -endl -done
 
 #@gimp Transfer colors [basic] : gimp_transfer_colors, gimp_transfer_colors
 #@gimp : Transfer brighness = bool(0)
