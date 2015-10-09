@@ -8300,11 +8300,11 @@ detect_skin : -check "${1=0.5}>=0 && $1<=1" -skip ${2=-1},${3=-1},${4=-1}
   -endif
   -v +
 
-#@gmic displacement : [source_image],_smoothness,_precision>=0,_nb_scales>=0,_iteration_max>=0,is_backward={ 0 | 1 },_[initialization] : (+)
+#@gmic displacement : [source_image],_smoothness,_precision>=0,_nb_scales>=0,_iteration_max>=0,is_backward={ 0 | 1 },_[guide] : (+)
 #@gmic : Estimate displacement field between specified source and selected target images.
 #@gmic : If 'smoothness>=0', regularization type is set to isotropic, else to anisotropic.
 #@gmic : If 'nbscales==0', the number of needed scales is estimated from the image size.
-#@gmic : Default values: 'smoothness=0.1', 'precision=7', 'nb_scales=0', 'iteration_max=10000', 'is_backward=1' and '[initialization]=(unused)'.
+#@gmic : Default values: 'smoothness=0.1', 'precision=5', 'nb_scales=0', 'iteration_max=10000', 'is_backward=1' and '[guide]=(unused)'.
 #@gmic : $ image.jpg --rotate 3,1,0,50%,50%,0.9 --displacement. [-2] -quiver. [-1],15,-20,1,1,{1.5*iM}
 
 #@gmic distance : isovalue[%],_metric : isovalue[%],[metric],_method : (+)
@@ -8524,7 +8524,7 @@ patches : -check "isint($1) && $1>0 && isint($2) && $2>0 && isint($3) && $3>0"
   -repeat $! -l[$<] -s y,$H -s x,$W -k[0-{$N-1}] -endl -done
   -v +
 
-#@gmic patchmatch : [patch_image],patch_width>=1,_patch_height>=1,patch_depth>=1,nb_iterations>=0,nb_randoms>=0,_output_score={ 0 | 1 },_[initialization] : (+)
+#@gmic patchmatch : [patch_image],patch_width>=1,_patch_height>=1,patch_depth>=1,nb_iterations>=0,nb_randoms>=0,_output_score={ 0 | 1 },_[guide] : (+)
 #@gmic : Estimate correspondence map between selected images and specified patch image, using
 #@gmic : the patchmatch algorithm, as described in the paper :
 #@gmic : "PatchMatch: A Randomized Correspondence Algorithm for Structural Image Editing", by
@@ -8532,7 +8532,7 @@ patches : -check "isint($1) && $1>0 && isint($2) && $2>0 && isint($3) && $3>0"
 #@gmic : Each pixel of the returned correspondence map gives the location (p,q) of the closest patch in
 #@gmic : the specified patch image. If 'output_score=1', the third channel gives the corresponding
 #@gmic : matching score for each patch as well.
-#@gmic : Default values: 'patch_height=patch_width', 'patch_depth=1', 'nb_iterations=5', 'nb_randoms=5', 'output_score=0' and 'initialization=(undefined)'.
+#@gmic : Default values: 'patch_height=patch_width', 'patch_depth=1', 'nb_iterations=5', 'nb_randoms=5', 'output_score=0' and 'guide=(undefined)'.
 #@gmic : $ image.jpg -testimage2d 320 --patchmatch[0] [1],3 --warp.. [-1],0
 
 #@gmic plot2value
