@@ -8300,13 +8300,11 @@ detect_skin : -check "${1=0.5}>=0 && $1<=1" -skip ${2=-1},${3=-1},${4=-1}
   -endif
   -v +
 
-#@gmic displacement : [source_image],_smoothness,_precision>=0,_nb_scales>=0,iteration_max>=0,is_backward={ 0 | 1 },_[constraints] : (+)
+#@gmic displacement : [source_image],_smoothness,_precision>=0,_nb_scales>=0,_iteration_max>=0,is_backward={ 0 | 1 },_[initialization] : (+)
 #@gmic : Estimate displacement field between specified source and selected target images.
 #@gmic : If 'smoothness>=0', regularization type is set to isotropic, else to anisotropic.
 #@gmic : If 'nbscales==0', the number of needed scales is estimated from the image size.
-#@gmic : When specified, an image of constraints is a Nx4 or Nx6 image that contains N ground-truth values for the estimated displacement field,
-#@gmic : each column encoding a position and its value as (x,y,ux,uy) (for a 2d field), or (x,y,z,ux,uy,uz) (for a 3d field).
-#@gmic : Default values: 'smoothness=0.1', 'precision=7', 'nb_scales=0', 'iteration_max=10000', 'is_backward=1' and '[constraints]=(unused)'.
+#@gmic : Default values: 'smoothness=0.1', 'precision=7', 'nb_scales=0', 'iteration_max=10000', 'is_backward=1' and '[initialization]=(unused)'.
 #@gmic : $ image.jpg --rotate 3,1,0,50%,50%,0.9 --displacement. [-2] -quiver. [-1],15,-20,1,1,{1.5*iM}
 
 #@gmic distance : isovalue[%],_metric : isovalue[%],[metric],_method : (+)
