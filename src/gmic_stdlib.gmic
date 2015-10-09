@@ -22715,14 +22715,12 @@ gimp_sepia_preview :
 #@gimp : </small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>04/04/2015</i>.</small>")
 gimp_transfer_rgb :
-  -_gimp_transfer_rgb[]
   -to_rgb
   ref={if($4,0,-1)}
-  -transfer_rgb[^$ref] [$ref],0.25,$1,$2,{2^(4+$3)},$5
+  -trgb[^$ref] [$ref],0.25,$1,$2,{2^(4+$3)},$5
 
 gimp_transfer_rgb_preview :
   -if {$!<2} -gimp_print_preview "Warning:",,"This filter requires at least two input layers to work properly." -return -endif
-  -_gimp_transfer_rgb[]
   ref={if($4,0,-1)}
   pf=${-path_tmp}gmic_tmp -o[$ref] $pf
   -gimp_split_preview[^$ref] "-i "$pf" -gimp_transfer_rgb $1,$2,0,0,0 -rm.",$-1
@@ -22737,18 +22735,25 @@ gimp_transfer_rgb_preview :
     -rm.
   -endl -done -endif
 
-_gimp_transfer_rgb :
-    -hex2str 696d673266756e63203a202d636865636b2022247b313d307d3e3d3020262620247b323d312e357d3e3d3020262620247b333d3132387d3e30220a2d76202d202d746f5f726762202d726570656174202421202d6c5b243e5d0a2d6220302e33250a2d72207b772a687d2c332c312c312c2d31202d2a207b24332f3235367d202d6320302c7b24332d317d0a2d706f696e74636c6f756420312c24332c24332c2433202d662027696628692c695e24312c302927202d6220243225202d6e20302c310a2d656e646c202d646f6e65202d76202b0a7472616e736665725f726762203a202d636865636b2022247b323d302e337d3e3d3020262620247b333d387d3e3d3020262620247b343d302e31357d3e3d3020262620247b353d36347d3e3d3022202d736b697020247b363d307d0a2d76202d3235360a53493d312e350a2d726570656174202421202d7061737324312030202d6c5b243e2c2d315d0a6e6d5f66726f6d3d7b302c627d206e6d5f746f3d7b312c627d0a2d6e6d5b305d20534f202d6e6d5b315d2054410a2d2d696d673266756e635b534f2c54415d2024322c2453492c24350a2d6e6d5b2d325d2066534f202d6e6d5b2d315d206654410a2d6e5b66534f2c6654415d20302c3235350a2d646973706c6163656d656e745b66534f5d205b6654415d2c302e303035202d6e6d5b66534f5d204449202d726d5b6654415d0a2d2d696d673266756e635b54415d20302c2453492c7b44492c777d0a2d776172705b2d315d205b44495d2c312c312c31202d635b2d315d20302c31303025202d6e6d5b2d315d2066434f0a2d2d6d61705f636c75745b534f5d205b2d315d202d6e6d5b2d315d20434f0a5b44495d2c5b44495d2c5b44495d2c312c78202d2d665b2d315d2079202d2d665b2d315d207a202d615b2d332d2d315d2063202d2a5b2d315d207b3235362f777d202d2b5b2d315d20310a2d2d696d673266756e635b54415d20302c302c7b777d202d2a5b2d325d205b2d315d0a2d776172705b2d322c2d315d205b44495d2c312c302c310a2d64697374616e63655b2d315d2031202d2a5b2d315d202d31202d7761746572736865645b2d325d205b2d315d202d726d5b2d315d202d2d5b2d315d20310a2d6e6d5b2d315d20636c75740a2d625b636c75745d20245349250a2d6966207b24343e307d0a2d706f775b66434f5d207b24342f31307d202d2a5b66434f5d202d31202d2b5b66434f5d20310a2d2d665b66434f5d2078202d2d665b2d315d2079202d2d665b2d315d207a202d615b2d332d2d315d2063202d2a5b2d315d207b3235362f777d0a2d726762326873765b636c75742c2d315d202d6368616e6e656c735b2d315d20313030250a2d6a5b636c75745d205b2d315d2c302c302c302c322c312c5b66434f5d202d726d5b2d315d0a2d687376327267625b636c75745d0a2d656e6469660a2d2d6d61705f636c75745b534f5d205b636c75745d202d6e6d5b2d315d20524e0a2d6966207b2124337d0a2d6e6d5b524e5d2052450a2d656c73650a2d6c5b534f2c524e5d0a2d7267623279636263720a2d2d2d5b315d205b305d202d726570656174202433202d6775696465645b2d315d205b305d2c352c35202d646f6e65202d2b5b2d315d205b305d202d635b2d315d20302c3235350a2d7963626372327267620a2d656e646c0a2d6e6d5b2d315d2052450a2d6a5b52455d205b524e5d2c302c302c302c302c312c5b434f5d0a2d726d5b524e5d0a2d656e6469660a2d6b5b52455d0a2d656e646c202d646f6e65
-    -m ${}
+#@gmic trgb_img2func : _gamma>=0,_smoothness>=0,_resolution>0
+#@gmic : Convert selected images into 3d volumetric scalar function for color matching.
+#@gmic : Default values: 'gamma=0', 'smoothness=1.5' and 'resolution=128'.
+trgb_img2func : -v - -l[] -check "${1=0}>=0 && ${2=1.5}>=0 && ${3=128}>0" gamma=$1 smoothness=$2 res=$3 -onfail -noarg gamma=0 smoothness=1.5 res=128 -endl -v +
+  -e[^-1] "Convert image$? as 3d volumetric scalar functions for color matching, with gamma "$gamma", smoothness "$smoothness" and resolution "$res"."
+  -v - -to_rgb -repeat $! -l[$>]
+    -b 0.3%
+    -r {w*h},3,1,1,-1 -* {$res/256} -c 0,{$res-1}
+    -pointcloud 1,$res,$res,$res -f 'if(i,i^$gamma,0)' -b $smoothness% -n 0,1
+  -endl -done -v +
 
-#@gmic transfer_rgb : [target],_gamma>=0,_regularization>=0,_luminosity_constraints>=0,_rgb_resolution>=0,_constraints_type={ 0=none | 1=chroma | 2=rgb }
+#@gmic trgb : [target],_gamma>=0,_regularization>=0,_luminosity_constraints>=0,_rgb_resolution>=0,_constraints_type={ 0=none | 1=chroma | 2=rgb }
 #@gmic : Transfer colors from selected source images to selected reference image (given as argument).
 #@gmic : 'gamma' determines the importance of color occurences in the matching process (0=none to 1=huge).
 #@gmic : 'regularization' determines the number of guided filter iterations to remove quantization effects.
 #@gmic : 'color_constraints' tells if luminosity constraints must be applied on non-confident matched colors.
 #@gmic : 'generate_video' tells if the video of the RGB cube warping must be output.
 #@gmic : Default values: 'gamma=0.3','regularization=8', 'luminosity_constraints=0.1', 'rgb_resolution=64'.
-transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -skip ${6=0}
+trgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -skip ${6=0}
   sigma=1.5
 
   -repeat $! -pass$1 0 -l[$>,-1]
@@ -22756,7 +22761,7 @@ transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -
     -nm[0] source -nm[1] target
 
     # Generate matching functions from 3d RGB features.
-    --img2func[source,target] $2,$sigma,$5
+    --trgb_img2func[source,target] $2,$sigma,$5
     -nm.. fsource -nm. ftarget
     -n[fsource,ftarget] 0,255
 
@@ -22806,12 +22811,12 @@ transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -
     # -if videos
     #   N=$!
     #   [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
-    #   --img2func[source] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
-    #   --img2func[source] 0,$sigma,{w} -a[-2,-1] c
+    #   --trgb_img2func[source] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
+    #   --trgb_img2func[source] 0,$sigma,{w} -a[-2,-1] c
 
     #   [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
-    #   --img2func[target] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
-    #   --img2func[target] 0,$sigma,{w} -a[-2,-1] c
+    #   --trgb_img2func[target] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
+    #   --trgb_img2func[target] 0,$sigma,{w} -a[-2,-1] c
     #   -warp. [displacement],1,1,1,48
 
     #   -l[$N--1]
@@ -22827,7 +22832,7 @@ transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -
     # -endif
 
     # Estimate confidence of the color mapping.
-    --img2func[target] 0,$sigma,{displacement,w}
+    --trgb_img2func[target] 0,$sigma,{displacement,w}
     -warp. [displacement],1,1,1 -c. 0,100% -nm. fconfidence
     --map_clut[source] [-1] -nm. confidence
 #    -if confidences
@@ -22836,7 +22841,7 @@ transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -
 
     # Generate transfer CLUT.
     [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
-    --img2func[target] 0,0,{w} -*.. [-1]
+    --trgb_img2func[target] 0,0,{w} -*.. [-1]
     -warp[-2,-1] [displacement],1,0,1
     -distance. 1 -*. -1 -watershed.. [-1] -rm. --. 1
     -nm. clut
