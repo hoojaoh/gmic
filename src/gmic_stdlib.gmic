@@ -22741,6 +22741,139 @@ _gimp_transfer_rgb :
     -hex2str 696d673266756e63203a202d636865636b2022247b313d307d3e3d3020262620247b323d312e357d3e3d3020262620247b333d3132387d3e30220a2d76202d202d746f5f726762202d726570656174202421202d6c5b243e5d0a2d6220302e33250a2d72207b772a687d2c332c312c312c2d31202d2a207b24332f3235367d202d6320302c7b24332d317d0a2d706f696e74636c6f756420312c24332c24332c2433202d662027696628692c695e24312c302927202d6220243225202d6e20302c310a2d656e646c202d646f6e65202d76202b0a7472616e736665725f726762203a202d636865636b2022247b323d302e337d3e3d3020262620247b333d387d3e3d3020262620247b343d302e31357d3e3d3020262620247b353d36347d3e3d3022202d736b697020247b363d307d0a2d76202d3235360a53493d312e350a2d726570656174202421202d7061737324312030202d6c5b243e2c2d315d0a6e6d5f66726f6d3d7b302c627d206e6d5f746f3d7b312c627d0a2d6e6d5b305d20534f202d6e6d5b315d2054410a2d2d696d673266756e635b534f2c54415d2024322c2453492c24350a2d6e6d5b2d325d2066534f202d6e6d5b2d315d206654410a2d6e5b66534f2c6654415d20302c3235350a2d646973706c6163656d656e745b66534f5d205b6654415d2c302e303035202d6e6d5b66534f5d204449202d726d5b6654415d0a2d2d696d673266756e635b54415d20302c2453492c7b44492c777d0a2d776172705b2d315d205b44495d2c312c312c31202d635b2d315d20302c31303025202d6e6d5b2d315d2066434f0a2d2d6d61705f636c75745b534f5d205b2d315d202d6e6d5b2d315d20434f0a5b44495d2c5b44495d2c5b44495d2c312c78202d2d665b2d315d2079202d2d665b2d315d207a202d615b2d332d2d315d2063202d2a5b2d315d207b3235362f777d202d2b5b2d315d20310a2d2d696d673266756e635b54415d20302c302c7b777d202d2a5b2d325d205b2d315d0a2d776172705b2d322c2d315d205b44495d2c312c302c310a2d64697374616e63655b2d315d2031202d2a5b2d315d202d31202d7761746572736865645b2d325d205b2d315d202d726d5b2d315d202d2d5b2d315d20310a2d6e6d5b2d315d20636c75740a2d625b636c75745d20245349250a2d6966207b24343e307d0a2d706f775b66434f5d207b24342f31307d202d2a5b66434f5d202d31202d2b5b66434f5d20310a2d2d665b66434f5d2078202d2d665b2d315d2079202d2d665b2d315d207a202d615b2d332d2d315d2063202d2a5b2d315d207b3235362f777d0a2d726762326873765b636c75742c2d315d202d6368616e6e656c735b2d315d20313030250a2d6a5b636c75745d205b2d315d2c302c302c302c322c312c5b66434f5d202d726d5b2d315d0a2d687376327267625b636c75745d0a2d656e6469660a2d2d6d61705f636c75745b534f5d205b636c75745d202d6e6d5b2d315d20524e0a2d6966207b2124337d0a2d6e6d5b524e5d2052450a2d656c73650a2d6c5b534f2c524e5d0a2d7267623279636263720a2d2d2d5b315d205b305d202d726570656174202433202d6775696465645b2d315d205b305d2c352c35202d646f6e65202d2b5b2d315d205b305d202d635b2d315d20302c3235350a2d7963626372327267620a2d656e646c0a2d6e6d5b2d315d2052450a2d6a5b52455d205b524e5d2c302c302c302c302c312c5b434f5d0a2d726d5b524e5d0a2d656e6469660a2d6b5b52455d0a2d656e646c202d646f6e65
     -m ${}
 
+#@gmic transfer_rgb : [target],_gamma>=0,_regularization>=0,_luminosity_constraints>=0,_rgb_resolution>=0,_constraints_type={ 0=none | 1=chroma | 2=rgb }
+#@gmic : Transfer colors from selected source images to selected reference image (given as argument).
+#@gmic : 'gamma' determines the importance of color occurences in the matching process (0=none to 1=huge).
+#@gmic : 'regularization' determines the number of guided filter iterations to remove quantization effects.
+#@gmic : 'color_constraints' tells if luminosity constraints must be applied on non-confident matched colors.
+#@gmic : 'generate_video' tells if the video of the RGB cube warping must be output.
+#@gmic : Default values: 'gamma=0.3','regularization=8', 'luminosity_constraints=0.1', 'rgb_resolution=64'.
+transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0" -skip ${6=0}
+  sigma=1.5
+
+  -repeat $! -pass$1 0 -l[$>,-1]
+    nm_from={0,b} nm_to={1,b}
+    -nm[0] source -nm[1] target
+
+    # Generate matching functions from 3d RGB features.
+    --img2func[source,target] $2,$sigma,$5
+    -nm.. fsource -nm. ftarget
+    -n[fsource,ftarget] 0,255
+
+    # Manage color constraints.
+    -if $6
+      h0={2*{*,v}/3} ws0={source,max(1,w*$h0/h)} wt0={target,max(1,w*$h0/h)}
+      w1={2*{*,u}/3} hs1={source,max(1,h*$w1/w)} ht1={target,max(1,h*$w1/w)}
+      -if {abs($ws0+$wt0-$w1)<abs($hs1+$ht1-$h0)} # Append along X.
+        --r2dy[source,target] $h0 --b[-2,-1] 0.5% -a[-4,-3] x -a[-2,-1] x
+      -else # Append along Y.
+        --r2dx[source,target] $w1 --b[-2,-1] 0.5% -a[-4,-3] y -a[-2,-1] y
+      -endif
+      -if {w>$w1} -r2dx[-2,-1] $w1 -endif
+      -if {h>$h0} -r2dy[-2,-1] $h0 -endif
+      -nm.. visu -nm. both
+
+      -w[visu] -1,-1
+      N=0 -do
+        -w[] -1,-1,"[G'MIC] Add color guide ""#"{1+$N}
+        --select[$visu] 1 -if {i==-1} -rm. -break -endif
+        -line[$visu] {i[0]},{i[1]},{i[3]},{i[4]},1,0xF0F0F0F0,0
+        -line[$visu] {i[0]},{i[1]},{i[3]},{i[4]},1,0x0F0F0F0F,255
+        -circle[$visu] {i[0]},{i[1]},5,1,0,0,0 -circle[$visu] {i[0]},{i[1]},3,1,255,0,0
+        -circle[$visu] {i[3]},{i[4]},5,1,0,0,0 -circle[$visu] {i[3]},{i[4]},3,1,0,255,0
+        -s. y,2 -rows[-2,-1] 0,1 -a[-2,-1] x -permute. xczy
+        --warp[$both] [-1],0,0 -rm..
+        -*. {$5/256} -s. x,2
+        --. [-2] -*. -1 -a[-2,-1] c
+        N+=1
+      -while {*}
+      -if $N -a[-$N--1] x -permute. xczy -nm. constraints -endif
+ #      -o[constraints] constraints.cimgz
+      -rm[$visu,$both] -w 0
+    -endif
+
+    # Estimate warping field.
+    -if $constraints
+      --pointcloud. 0 -r. 64,64,64,3,0 --compose_channels. + -a[-2,-1] c
+      -displacement[fsource] [ftarget],0.001,5,0,10000,1,[-1] -rm[ftarget,constraints,-1]
+    -else
+      -displacement[fsource] [ftarget],0.005 -rm[ftarget]
+    -endif
+    -nm[fsource] displacement
+#    -o[displacement] displacement.cimgz
+
+    # Generate video of matching.
+    # -if videos
+    #   N=$!
+    #   [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
+    #   --img2func[source] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
+    #   --img2func[source] 0,$sigma,{w} -a[-2,-1] c
+
+    #   [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
+    #   --img2func[target] 0,$sigma,{w} -*.. [-1] -distance. 1 -*. -1 -watershed.. [-1] -rm.
+    #   --img2func[target] 0,$sigma,{w} -a[-2,-1] c
+    #   -warp. [displacement],1,1,1,48
+
+    #   -l[$N--1]
+    #     -f3d 1200
+    #     -ap "-s. c,-3 -view_func. 6,[-2] -rm.."
+    #     -ap "-makefig"
+    #     -append[^0] [0],x -rm[0]
+    #     -r2dx 1024
+    #     [-1]x20
+    #     -o videos/video_${nm_from}_to_${nm_to}.avi,10
+    #     -rm
+    #   -endl
+    # -endif
+
+    # Estimate confidence of the color mapping.
+    --img2func[target] 0,$sigma,{displacement,w}
+    -warp. [displacement],1,1,1 -c. 0,100% -nm. fconfidence
+    --map_clut[source] [-1] -nm. confidence
+#    -if confidences
+#      --*. 255 -o. confidences/confidence_${nm_from}_to_${nm_to}.png -rm.
+#    -endif
+
+    # Generate transfer CLUT.
+    [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
+    --img2func[target] 0,0,{w} -*.. [-1]
+    -warp[-2,-1] [displacement],1,0,1
+    -distance. 1 -*. -1 -watershed.. [-1] -rm. --. 1
+    -nm. clut
+    -b[clut] $sigma%
+#    -if cluts
+#      -o[clut] cluts/clut_${nm_from}_to_${nm_to}.cimgz
+#    -endif
+
+    # Enforce luminosity constraint for non-confident colors.
+    -if {$4>0}
+      -pow[fconfidence] {$4/10} -*[fconfidence] -1 -+[fconfidence] 1
+      --f[fconfidence] x --f. y --f. z -a[-3--1] c -*. {256/w}
+      -rgb2hsv[clut,-1] -channels. 100%
+      -j[clut] [-1],0,0,0,2,1,[fconfidence] -rm.
+      -hsv2rgb[clut]
+    -endif
+
+    # Map CLUT to get result.
+    --map_clut[source] [clut] -nm. res_noregul
+
+    # Apply guided smoothing to remove quantization artefacts.
+    -if {!$3}
+      -nm[res_noregul] res
+    -else
+      -l[source,res_noregul]
+        -rgb2ycbcr  # Perform regularization in YCbCr to avoid creation of false colors.
+        ---[1] [0] -repeat $3 -guided. [0],5,5 -done -+. [0] -c. 0,255
+        -ycbcr2rgb
+      -endl
+      -nm. res
+      -j[res] [res_noregul],0,0,0,0,1,[confidence]
+      -rm[res_noregul]
+    -endif
+
+    -k[res]
+  -endl -done
+
 #@gimp Transfer colors [basic] : gimp_transfer_colors, gimp_transfer_colors
 #@gimp : Transfer brighness = bool(0)
 #@gimp : Revert layers = bool(0)
