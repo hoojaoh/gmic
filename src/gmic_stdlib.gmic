@@ -22839,7 +22839,7 @@ gimp_sepia_preview :
 #@gimp : Preserve luminance = float(0.2,0,1)
 #@gimp : Precision = _choice(1,"Low","Normal","High","Very high")
 #@gimp : Reference colors = choice("Bottom layer","Top layer")
-#@gimp : User-defined constraints = _bool(0)
+#@gimp : Add user-defined constraints (interactive) = _bool(0)
 #@gimp : sep = separator()
 #@gimp : Preview reference = choice(1,"None","Up-left","Up-right","Bottom-left","Bottom-right")
 #@gimp : Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
