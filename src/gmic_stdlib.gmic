@@ -6000,13 +6000,13 @@ transfer_colors : -skip ${1=0}
 _transfer_colors :  # Check transfer_colors performance.
   -repeat $! -l[$>] -rgb2ycbcr -s c -histogram 256,0,255 -a c -dg 300,200 -endl -done
 
-#@gmic transfer_rgb : [target],_gamma>=0,_regularization>=0,_luminosity_constraints>=0,_rgb_resolution>=0,_constraints_type={ 0=none | 1=chroma | 2=rgb }
+#@gmic transfer_rgb : [target],_gamma>=0,_regularization>=0,_luminosity_constraints>=0,_rgb_resolution>=0,_is_constraints={ 0 | 1 }
 #@gmic : Transfer colors from selected source images to selected reference image (given as argument).
 #@gmic : 'gamma' determines the importance of color occurences in the matching process (0=none to 1=huge).
 #@gmic : 'regularization' determines the number of guided filter iterations to remove quantization effects.
-#@gmic : 'color_constraints' tells if luminosity constraints must be applied on non-confident matched colors.
-#@gmic : 'generate_video' tells if the video of the RGB cube warping must be output.
-#@gmic : Default values: 'gamma=0.3','regularization=8', 'luminosity_constraints=0.1', 'rgb_resolution=64'.
+#@gmic : 'luminosity_constraints' tells if luminosity constraints must be applied on non-confident matched colors.
+#@gmic : 'is_constraints' tells if additional hard color constraints must be set (opens an interactive window).
+#@gmic : Default values: 'gamma=0.3','regularization=8', 'luminosity_constraints=0.1', 'rgb_resolution=64' and 'is_constraints=0'.
 transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0 && isint(${6=0})"
   sigma=1.5
 
@@ -6047,8 +6047,6 @@ transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0 &&
         N+=1
       -while {*}
       -if $N -a[-$N--1] x -permute. xczy -nm. constraints -endif
-
- #      -o[constraints] constraints.cimgz
       -rm[$visu,$both] -w 0
     -endif
 
@@ -6060,7 +6058,6 @@ transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0 &&
       -displacement[fsource] [ftarget],0.005 -rm[ftarget]
     -endif
     -nm[fsource] displacement
-#    -o[displacement] displacement.cimgz
 
     # Generate video of matching.
     # -if videos
@@ -6090,9 +6087,6 @@ transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0 &&
     --_transfer_rgb[target] 0,$sigma,{displacement,w}
     -warp. [displacement],1,1,1 -c. 0,100% -nm. fconfidence
     --map_clut[source] [-1] -nm. confidence
-#    -if confidences
-#      --*. 255 -o. confidences/confidence_${nm_from}_to_${nm_to}.png -rm.
-#    -endif
 
     # Generate transfer CLUT.
     [displacement],[displacement],[displacement],1,x --f. y --f. z -a[-3--1] c -*. {256/w} -+. 1
@@ -6101,9 +6095,6 @@ transfer_rgb : -check "${2=0.3}>=0 && ${3=8}>=0 && ${4=0.15}>=0 && ${5=64}>=0 &&
     -distance. 1 -*. -1 -watershed.. [-1] -rm. --. 1
     -nm. clut
     -b[clut] $sigma%
-#    -if cluts
-#      -o[clut] cluts/clut_${nm_from}_to_${nm_to}.cimgz
-#    -endif
 
     # Enforce luminosity constraint for non-confident colors.
     -if {$4>0}
@@ -22848,7 +22839,7 @@ gimp_sepia_preview :
 #@gimp : Preserve luminance = float(0.2,0,1)
 #@gimp : Precision = _choice(1,"Low","Normal","High","Very high")
 #@gimp : Reference colors = choice("Bottom layer","Top layer")
-#@gimp : User-defined constraints = _choice("None","Chromaticities","Colors")
+#@gimp : User-defined constraints = _bool(0)
 #@gimp : sep = separator()
 #@gimp : Preview reference = choice(1,"None","Up-left","Up-right","Bottom-left","Bottom-right")
 #@gimp : Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
