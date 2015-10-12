@@ -22845,7 +22845,6 @@ gimp_sepia_preview :
 #@gimp : Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
 #@gimp : sep = separator(), note = note{"<small><b>Instructions:</b>\n
 #@gimp : - This filter transfers the colors of one layer to all the others.\n
-#@gimp : - This filter may not work correctly unless you run the latest G'MIC <b>pre-release</b>.\n
 #@gimp : - This is a <b>highly</b> experimental filter, it may be unstable or particularly long to render.\n
 #@gimp : - Don't forget to set the <i>Input layers...</i> option on the left to manage your input layers.\n
 #@gimp : </small>"}
