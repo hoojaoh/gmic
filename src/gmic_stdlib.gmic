@@ -9607,7 +9607,7 @@ text_outline : -skip ${2=2},${3=2},${4=13},${5=2},${6=1},${7=255}
   -else -t "$1",${2-4},${6--1}
   -endif -v +
 
-#@gmic triangle_shade : x0,y0,x1,y0,x2,y2,R0,G0,B0,...,R1,G1,B1,...,R2,G2,B2,....
+#@gmic triangle_shade : x0,y0,x1,y1,x2,y2,R0,G0,B0,...,R1,G1,B1,...,R2,G2,B2,....
 #@gmic : Draw triangle with interpolated colors on selected images.
 #@gmic : $ image.jpg -triangle_shade 20,20,400,100,120,200,255,0,0,0,255,0,0,0,255
 triangle_shade :
