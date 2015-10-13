@@ -13469,15 +13469,13 @@ _blend_saturation :
 _blend_screen :
   ---[0] 255 --[1] 255 -*[1,2] -/[1] 255 -*[1] -1 -+[1] 255
 _blend_shapeaverage :
-  -norm[1] -label[1] N={iM+1}
-  -repeat {0,s} --channels[0] $> m={im} M={iM} -n. 0,{1-1/256} -+. [1] -histogram. {$N*256},0,{$N-1/256}
-  -i.. 256,1,1,1,'x*($M-$m)/255+$m' -r.. [-1],0,2 -*.. [-1] -r[-2,-1] $N,1,1,1,2 -+. 1e-8 -/[-2,-1] -done
-  -a[2--1] c -map[1] [2] -rm[2]
-_blend_shapeaverage0 : # Same as shapeaverage except that background values (i.e. 0) are kept to black.
-  -norm[1] --!=[1] 0 -label[1] N={1,iM+1}
-  -repeat {0,s} --channels[0] $> m={im} M={iM} -n. 0,{1-1/256} -+. [1] -histogram. {$N*256},0,{$N-1/256}
-  -i.. 256,1,1,1,'x*($M-$m)/255+$m' -r.. [-1],0,2 -*.. [-1] -r[-2,-1] $N,1,1,1,2 -+. 1e-8 -/[-2,-1] -done
-  -a[3--1] c -map[1] [3] -rm[3] -*[1,2]
+  -norm[1] -label[1] 0 {iM+1},1,1,{0,s}
+  -f[0] ">i(#2,i(#1,x,y,z,0),0,0,c)+=i;i"
+  --histogram[1] {w},0,{w-1} -/[-2,-1] -map[1] [-1] -rm.
+_blend_shapeaverage0 : # Same as shapeaverage except that zero pixels in foreground layer are kept to black.
+  -norm[1] -label_fg[1] 0 {iM+1},1,1,{0,s}
+  -f[0] ">i(#2,i(#1,x,y,z,0),0,0,c)+=i;i"
+  --histogram[1] {w},0,{w-1} -/[-2,-1] -point. 0,0,0,1,0 -map[1] [-1] -rm.
 _blend_softburn :
   ---[0] 255.1 -^[2] -1 -*[2] [1] -*[2] -127.5 ---[0] 255 --+[1] 0.1 -/[3,4] -*[3] 127.5 -+[3] 255 -+[1] [0] ->[1] 255
   -j[2] [3],0,0,0,0,1,[1] -rm[1,3] -c[1] 0,255
