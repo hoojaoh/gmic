@@ -26151,8 +26151,8 @@ gimp_mineral_mosaic :
   -repeat $! -l[$>] -to_rgb
     --b $3 -segment_watershed. $1 --norm.
     -area. 0 --<=. {$2^2} -inpaint.. [-1] -rm. -label.
-    --f[0] 'if(c==0,x,y)' --blend[-2,-1] shapeaverage,1,1
-    --[-2,-1] -rm[0,2] -channels. 0,1
+    --f[0] 'if(c==0,x,y)' -rv[-2,-1] --blend[-2,-1] shapeaverage,1,1
+    --[-3,-1] -rm[0,-2] -channels. 0,1
     alpha={$5*pi/180} -sh. 0 -*. {cos($alpha)} -rm. -sh. 1 -*. {sin($alpha)} -rm. -compose_channels. +
     -normalize_local. 1000 -n. -$4,$4
     -+ -c 0,255
