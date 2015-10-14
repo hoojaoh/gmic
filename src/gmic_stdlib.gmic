@@ -9604,7 +9604,7 @@ text_outline : -skip ${2=2},${3=2},${4=13},${5=2},${6=1},${7=255}
 triangle_shade :
   -e[^-1] "Draw triangle ($1,$2)-($3,$4)-($5,$6) with interpolated colors on image$?."
   -v -
-  # Find mapping coefficients for each color.
+  # Find color mapping coefficients for each vertex.
   -l[] ($1,$2,1;$3,$4,1;$5,$6,1) (${7--1}) -r. {w/3},3,1,1,-1 -s. x -solve[^0] [0] -rm[0] -a c -endl
 
   # Pre-compute coefs to test point inside triangle.
