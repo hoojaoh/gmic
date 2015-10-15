@@ -7450,8 +7450,14 @@ dog : -check "${1=2%}>=0 && ${2=3%}>=0"
 diffusiontensors : -check "${1=0.7}>=0 && ${2=0.3}>=0 && $2<=1" -skip ${3=0.6},${4=1.1},${5=0}
   -e[^-1] "Compute diffusion tensors for image$?, with sharpness $1, anisotropy $2, alpha $3 and sigma $4."
   -v -
+  -v 0
   p1={if($5,0.5,1)*max($1,1e-5)}
-  p2={$p1/(1e-7+1-$2)}
+
+#  -repeat 1
+#  -e {$p1/(1e-7+1-$2)}
+#  -done
+
+  p2={debug($p1/(1e-7+1-$2))}
   -b $3 -n 0,255 -structuretensors 2 -b $4
   -repeat $! -l[$>]
     -eigen -max.. 0
