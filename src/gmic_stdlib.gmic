@@ -1170,7 +1170,7 @@ v : # Allow 'gmic --v' to get the version number.
 
 #@gmic d : eq. to '-display'. : (+)
 
-#@gmic display : _X,_Y,_Z : (+)
+#@gmic display : _X,_Y,_Z,_exit_on_anykey={ 0 | 1 } : (+)
 #@gmic : Display selected images in an interactive viewer (use the instant display window [0] if opened).
 #@gmic : Arguments 'X','Y','Z' determine the initial selection view, for 3d volumetric images.
 #@gmic : (eq. to '-d').
@@ -1199,10 +1199,10 @@ _display0 :
 
 #@gmic d3d : eq. to '-display3d'. : (+)
 
-#@gmic display3d : _[background_image] : (+)
+#@gmic display3d : _[background_image],_exit_on_anykey={ 0 | 1 } : _exit_on_anykey={ 0 | 1 } : (+)
 #@gmic : Display selected 3d objects in an interactive viewer (use the instant display window [0] if opened).
 #@gmic : (eq. to '-d3d').
-#@gmic : Default value: '[background_image]=(default)'.
+#@gmic : Default values: '[background_image]=(default)' and 'exit_on_anykey=0'.
 
 #@gmic da : eq. to '-display_array'.
 da :
@@ -2558,12 +2558,12 @@ _outputx :
 #@gmic : Default value: 'shared_state=2'.
 #@gmic : $ -command "average : -pass$""1 -add[^-1] [-1] -remove. -div 2" -testimage2d 512 --mirror y --average[0] [1]
 
-#@gmic plot : _plot_type,_vertex_type,_xmin,_xmax,_ymin,_ymax : 'formula',_resolution>=0,_plot_type,_vertex_type,_xmin,xmax,_ymin,_ymax : (+)
+#@gmic plot : _plot_type,_vertex_type,_xmin,_xmax,_ymin,_ymax,_exit_on_anykey={ 0 | 1 } : 'formula',_resolution>=0,_plot_type,_vertex_type,_xmin,xmax,_ymin,_ymax,_exit_on_anykey={ 0 | 1 } : (+)
 #@gmic : Display selected image or formula in an interactive viewer (use the instant display window [0] if opened).
 #@gmic : 'plot_type' can be { 0=none | 1=lines | 2=splines | 3=bar }.
 #@gmic : 'vertex_type' can be { 0=none | 1=points | 2,3=crosses | 4,5=circles | 6,7=squares }.
 #@gmic : 'xmin','xmax','ymin','ymax' set the coordinates of the displayed xy-axes.
-#@gmic : Default values: 'plot_type=1', 'vertex_type=1' and 'xmin=xmax=ymin=ymax=0 (auto)'.
+#@gmic : Default values: 'plot_type=1', 'vertex_type=1', 'xmin=xmax=ymin=ymax=0 (auto)' and 'exit_on_anykey=0'.
 
 #@gmic p : eq. to '-print'. : (+)
 
