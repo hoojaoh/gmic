@@ -725,6 +725,7 @@ _help_usage :
 \n    . "${g}"CTRL+D"$n": Increase window size.
 \n    . "${g}"CTRL+C"$n": Decrease window size.
 \n    . "${g}"CTRL+R"$n": Reset window size.
+\n    . "${g}"CTRL+W"$n": Close window.
 \n    . "${g}"CTRL+F"$n": Toggle fullscreen mode.
 \n    . "${g}"CTRL+S"$n": Save current window snapshot as numbered file 'gmic_xxxx.bmp'.
 \n    . "${g}"CTRL+O"$n": Save current instance of the viewed data, as numbered file 'gmic_xxxx.cimgz'.
