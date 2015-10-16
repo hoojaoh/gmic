@@ -732,9 +732,9 @@ _help_usage :
 \n    . "${g}"CTRL+A"$n": Switch cursor mode.
 \n    . "${g}"CTRL+P"$n": Play z-stack of frames as a movie (for volumetric 3d images).
 \n    . "${g}"CTRL+V"$n": Show/hide 3D view (for volumetric 3d images).
-\n    . "${g}"CTRL+(mousewheel)"$n": Zoom in/out.
+\n    . "${g}"(mousewheel)"$n": Zoom in/out.
+\n    . "${g}"CTRL+(mousewheel)"$n": Go up/down.
 \n    . "${g}"SHIFT+(mousewheel)"$n": Go left/right.
-\n    . "${g}"ALT+(mousewheel)"$n": Go up/down.
 \n    . "${g}"Numeric PAD"$n": Zoom in/out (+/-) and move through zoomed image (digits).
 \n    . "${g}"BACKSPACE"$n": Reset zoom scale.
 \n
