@@ -2616,13 +2616,14 @@ roddy :
   -endif
   -nm. [roddy] -v +
 
-#@gmic select : feature_type,_X,_Y,_Z : (+)
+#@gmic select : feature_type,_X,_Y,_Z,_exit_on_anykey={ 0 | 1 } : (+)
 #@gmic : Interactively select a feature from selected images (use the instant display window [0] if opened).
 #@gmic : 'feature_type' can be { 0=point | 1=segment | 2=rectangle | 3=ellipse }.
 #@gmic : Arguments 'X','Y','Z' determine the initial selection view, for 3d volumetric images.
 #@gmic : The retrieved feature is returned as a 3d vector (if 'feature_type==0') or as a 6d vector
 #@gmic : (if 'feature_type!=0') containing the feature coordinates.
 #@gmic : The coordinates of the last selected features are also returned as the status value.
+#@gmic : Default values: 'X=Y=Z=(undefined)' and 'exit_on_anykey=0'.
 
 #@gmic serialize : _datatype,_is_compressed={ 0 | 1 },_store_names={ 0 | 1 } : (+)
 #@gmic : Serialize selected list of images into a single image, optionnally in a compressed form.
