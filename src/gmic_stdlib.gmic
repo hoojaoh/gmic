@@ -721,6 +721,7 @@ _help_usage :
 \n     (command '"$c"-plot"$n"'), 1d/2d/3d images (command '"$c"-display"$n"') and 3d objects
 \n     (command '"$c"-display3d"$n"'). It enables an interactive view of the selected image data.
 \n  - The following keyboard shortcuts are available in the interactive viewers:
+\n    . "${g}"(mousewheel)"$n": Zoom in/out.
 \n    . "${g}"CTRL+D"$n": Increase window size.
 \n    . "${g}"CTRL+C"$n": Decrease window size.
 \n    . "${g}"CTRL+R"$n": Reset window size.
@@ -732,7 +733,6 @@ _help_usage :
 \n    . "${g}"CTRL+A"$n": Switch cursor mode.
 \n    . "${g}"CTRL+P"$n": Play z-stack of frames as a movie (for volumetric 3d images).
 \n    . "${g}"CTRL+V"$n": Show/hide 3D view (for volumetric 3d images).
-\n    . "${g}"(mousewheel)"$n": Zoom in/out.
 \n    . "${g}"CTRL+(mousewheel)"$n": Go up/down.
 \n    . "${g}"SHIFT+(mousewheel)"$n": Go left/right.
 \n    . "${g}"Numeric PAD"$n": Zoom in/out (+/-) and move through zoomed image (digits).
@@ -742,7 +742,6 @@ _help_usage :
 \n    . "$g"(mouse)+(left mouse button)"$n": Rotate 3d object.
 \n    . "$g"(mouse)+(right mouse button)"$n": Zoom 3d object.
 \n    . "$g"(mouse)+(middle mouse button)"$n": Shift 3d object.
-\n    . "$g"(mousewheel)"$n": Zoom in/out.
 \n    . "${g}"CTRL+F1 .. CTRL+F6"$n": Toggle between different 3d rendering modes.
 \n    . "${g}"CTRL+Z"$n": Enable/disable z-buffered rendering.
 \n    . "${g}"CTRL+A"$n": Show/hide 3d axes.
