@@ -3857,6 +3857,7 @@ update_tutorial_html :
   # -add_page command-guide,5500
 
   # -add_page command-guide/color-manipulation/-compose_channels,1000,,,commands-colors-manipulation
+  -add_page command-guide/color-manipulation/-colormap,1000,,,commands-colors-manipulation
   # -add_page command-guide/color-manipulation/-direction2rgb,1000,,,commands-colors-manipulation
   # -add_page command-guide/color-manipulation/-gradient2rgb,1000,,,commands-colors-manipulation
   # -add_page command-guide/color-manipulation/-mix_rgb,4000,,,commands-colors-manipulation
@@ -3917,6 +3918,10 @@ update_tutorial_html :
 
   # -add_page technical-notes/trigometric-and-inverse-trigometric-commands,2500
   # -add_page technical-notes/wavelet-analysis-and-synthesis-in-gmic,5000
+  -add_page technical-notes/gmic-color-mapping,1000
+  -add_page technical-notes/gmic-color-mapping/median-cut-algorithm,4000
+  -add_page technical-notes/gmic-color-mapping/k-means-algorithm,3000
+
   # -add_page gimp-filters,1500
   # -add_page gimp-filters/blur-by-color-filter,23500
   # -add_page gimp-filters/hedcut-filter,2000
@@ -4082,7 +4087,7 @@ _update_tutorial_html :
          0 -nm. $link ext={x} -rm.
          -if {narg($ext)} ext=${-struncase\ $ext} -endif
          -if {{$ext'=='png}||{$ext'=='jpg}||{$ext'=='jpeg}}  # Check for an image link.
-           relink=img/$5_${-basename\ $link} 0 -nm. $relink relink={f}{b}.jpg -rm.
+           -basename $link relink=img/$5_${} 0 -nm. $relink relink={f}{b}.jpg -rm.
            -if $relink -v + -e[] "    > External image link '"$link"' relinked to '"$relink"'." -v -
            -else
              -l[] -i $link -k[0] is_opaque=0
