@@ -3921,7 +3921,7 @@ update_tutorial_html :
   -add_page technical-notes/trigometric-and-inverse-trigometric-commands,2500
   -add_page technical-notes/wavelet-analysis-and-synthesis-in-gmic,5000
   -add_page technical-notes/gmic-color-mapping,1000
-  -add_page technical-notes/gmic-color-mapping/median-cut-algorithm,4000
+  -add_page technical-notes/gmic-color-mapping/median-cut-algorithm,5500
   -add_page technical-notes/gmic-color-mapping/k-means-algorithm,10000
 
   -add_page gimp-filters,1500
