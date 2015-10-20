@@ -16,7 +16,7 @@ hs.wrapperClassName = 'wide-border';
 
 
 <h1>-distance</h1>
-<p><img src="img/_distance_dist_example.jpg" title="Distance from black" class="img_block" style="float: left; margin: 3px; border: 0px solid #808080;" height="300" width="300" />This command measures the distances of input pixels from benchmarks with a particular <em>isovalue</em> and creates a data set of displacements, each entry similarly positioned as the input pixel and measuring its distance to the isovalue.</p>
+<p><img src="img/_distance_dist_example.jpg" title="Distance from black" class="img_block" style="float: left; margin: 3px; border: 0px solid #808080;" width="300" height="300" />This command measures the distances of input pixels from benchmarks with a particular <em>isovalue</em> and creates a data set of displacements, each entry similarly positioned as the input pixel and measuring its distance to the isovalue.</p>
 <p>Suppose the isovalue is zero. Then a non-zero pixel from the input at least twenty seven pixels away from one with zero will correspond to a data set entry with the same coordinates as the input pixel but with a value of twenty seven. Pixels in an input image with the isovalue will always be zero in the data set since they are no distance at all from themselves.</p>
 <p>Since isovalues are simple scalar values, the command operates primarily on single channel (gray scale) images. Colors, being vectors, cannot be isovalues. If the -distance command has a multi-spectral operand, it will treat each image channel independently, producing a like multi-spectral image with each channel an independent distance data set of measurements to isovalues.</p>
 <p>Usually, operands for -distance arise from logic commands (<a target="_parent" href="http://gmic.eu/reference.shtml#lt">-lt</a>, -<a target="_parent" href="http://gmic.eu/reference.shtml#eq">eq</a>,...) and are single channel bi-valued (0, 1) images. The logic command presumably identifies pixels meeting some criterion and produces the immediate operand with identified pixels set to one and failing pixels set to zero. When given an isovalue of one, the -distance command determines how far away the failing pixels are from those which are not. It then generates an output image dimensioned as the operand but with pixels shaded to reflect the distances that their counterparts are from the nearest isovalues.</p>
@@ -43,50 +43,50 @@ hs.wrapperClassName = 'wide-border';
 </ol></li>
 </ol>
 <p>The Return Maps cited in methods (d) and (e) are control word datasets, the control words correspond to each pixel in the operand image and are intended to direct some abstract pointer or cursor. G'MIC images exhibit three degrees of independent movement along width, height and depth axes, giving each pixel as many as twenty six distinct neighbors to which an abstract cursor sitting on the pixel may move. The control words are so composed to either direct the cursor one step toward the nearest isovalue, where it is to read the next control word, or stay in place because the pixel upon which it is situated is an isovalue. Other G'MIC commands such as <a target="_parent" href="http://gmic.eu/reference.shtml#minimal_path">-minimal_path</a> implement cursors that read these Return Maps.</p>
-<h2>Metric Functions</h2>
+<h2 id="MetricFunctions">Metric Functions</h2>
 <p>A <a target="_parent" href="http://en.wikipedia.org/wiki/Metric_space"><em>metric space</em></a> is a set of points associated with a <em>metric,</em> a function that takes a pair of points from the set and returns the distance separating them. The metric space with which we are most familar, Euclidean space, uses the <a target="_parent" href="http://en.wikipedia.org/wiki/Pythagorean_formula">Pythagorean Formula</a> as a metric, but other spaces exist which use different metrics. Of particular interest are those metrics that are cheap to compute, but which give rise to spaces sufficiently like a Euclidean one to serve most purposes. We should not be too alarmed if the distances in these spaces seem strange (or just plain wrong) to our Euclidean trained minds. For many purposes, all that we ask of a metric is to consistently distinguish near points from far points, and to do so as cheaply as possible. With this frame of mind, we are usually disposed to avoid the (expensive!) square root operation of the Pythagorean Formula.</p>
 <p>The following series of images each illustrate one of the four metric spaces supported by the -distance command. The antecedent image is everywhere black except for the upper left hand pixel, which has been set to an intensity of one. We invoke the&nbsp; -distance command four times to measure distances to this isovalue, specifying different metrics each time.</p>
 <p>To help visualize distances, we harness the -map command to encode distance with color. Here, red &mdash; rgb(255, 0, 0) &mdash; maps to a distance of zero and reddish violet to the maximum distance in the dataset. Pixels with similar colors are at a similar distance to the reference point under the given metric. There is no loss in generality if we simply regard these images as unit squares, sides equal to one, as that is a simple rescaling from whatever number of pixels these images are in this page.</p>
 <p>We can succinctly generate the illustrations with the following G'MIC pipeline:</p>
-<p><code>$ gmic 100,100,1,1 -set[-1] 1,0,0,0 <br /> &nbsp;&nbsp;-repeat 4 [0] -distance[-1] 1,'${&gt;}' <br /> &nbsp;&nbsp;-map[-1] 1 -normalize[-1] 0,255 -o[-1] dis_'${&gt;}'.png<br /> &nbsp;&nbsp;-rm[-1] -done -rm[0]</code></p>
+<p><code>$ gmic 256,256,1,1 -set[-1] 1,0,0,0 <br /> &nbsp;&nbsp;-repeat 4,mapid [0] -distance[-1] 1,'$mapid' <br /> &nbsp; -map[-1] 1,1 -normalize[-1] 0,255 -o[-1] dis_'$mapid'.png<br /> &nbsp; -rm[-1] -done -rm[0]<br /></code></p>
 <table style="border-color: #7f7f7f; border-width: 1px; border-style: solid;" rules="all" class="table table-striped" border="1" cellpadding="2">
 <tbody>
 <tr>
-<td width="256"><img src="img/_distance_dist_0.jpg" title="chebyshev" height="200" width="200" /></td>
+<td width="256"><img src="img/_distance_dist_0.jpg" title="chebyshev" width="200" height="200" /></td>
 <td>
 <h3>chebyshev</h3>
 <p>The chebyshev metric (_metric=0) defines the distance between any two points in the space as the largest of their differences along any spatial dimension.</p>
-<p><img src="img/_distance_chebyshev.jpg" title="chebyshev metric" height="40" width="213" /></p>
+<p><img src="img/_distance_chebyshev.jpg" title="chebyshev metric" width="213" height="40" /></p>
 <p>Construct a rectangle (a cuboid in three dimensions) on the line segment connecting the two points. In a space with a chebyshev metric, the separating distance is just the longest side of that geometric. the locus of points at a particular distance from the reference point form a square centered on the reference point.</p>
 <p>In this metric space, the length of the diagnonal is the same as the longest side. Indeed, in the square image on the left, the distance from the reference point to any point on either of the opposite sides is the same, which makes no sense to anyone grounded in the Euclidean metric. That oddity notwithstanding, the chebyshev metric furnishes a consistent reporting of distances between points&nbsp; &mdash; and it is exceedingly cheap to compute.</p>
 </td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_dist_1.jpg" title="manhattan" height="200" width="200" /></td>
+<td width="256"><img src="img/_distance_dist_1.jpg" title="manhattan" width="200" height="200" /></td>
 <td>
 <h3>manhattan</h3>
 <p>The manhattan metric (_metric=1) defines the distance between any two points as the sum of the absolutes of differences along each spatial dimension:</p>
-<p><img src="img/_distance_manhattan.jpg" title="manhattan metric" height="43" width="150" /></p>
+<p><img src="img/_distance_manhattan.jpg" title="manhattan metric" width="150" height="43" /></p>
 <p>We construct a rectangle (or cuboid) on the segment connecting the two points and add up the components along each dimension. The distance is exactly that of a taxi constrained to travel along the streets of a square grid such as in Manhattan, New York City (more or less).The locus of points at a particular distance from the reference form a diamond centered on the reference point.</p>
 <p>At the price of a little extra computation, at least with respect to the chebyshev metric, distances are fairly akin to those obtained with the Pythagorean Theorem. In the image at the left, diagonals of squares are longer than the sides, akin to what one would find with the Euclidean metric, though values differ. With the manhattan metric, the diagonal of the square image on the left is two, not the square root of two, for sides equal to one.</p>
 </td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_dist_2.jpg" title="Euclidean" height="200" width="200" /></td>
+<td width="256"><img src="img/_distance_dist_2.jpg" title="Euclidean" width="200" height="200" /></td>
 <td>
 <h3>euclidean</h3>
 <p>The euclidean metric (_metric=2, default) defines the distance between any two points using the Pythagorean Formula:</p>
-<p><img src="img/_distance_euclidean.jpg" title="euclidean metric" height="43" width="150" /></p>
+<p><img src="img/_distance_euclidean.jpg" title="euclidean metric" width="150" height="43" /></p>
 <p>It is the "ordinary" distance which would be obtained with a ruler measuring the line segment between a given pair of points. The locus of points at a particular distance from the reference form a circle centered on the reference point.</p>
 <p>This is the&nbsp; natural, "common-sense" distance which most of us associate with the space around us and is the default method of the -distance command. It is computationally expensive compared to the other metrics, but renders the distance that one expects.</p>
 </td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_dist_3.jpg" title="Squared Euclidean" height="200" width="200" /></td>
+<td width="256"><img src="img/_distance_dist_3.jpg" title="Squared Euclidean" width="200" height="200" /></td>
 <td>
 <h3>squared-euclidean</h3>
 <p>The squared-euclidean metric (_metric=3) is simply the euclidean metric without the square root operation:</p>
-<p><img src="img/_distance_sqreuclidean.jpg" height="40" width="150" /></p>
+<p><img src="img/_distance_sqreuclidean.jpg" width="150" height="40" /></p>
 <p>Usually, the square root operation is the most expensive; its elimination gives rise to a metric space that behaves very much like a Euclidean one, differing only in that distances between points grow quadratically as points separate instead of linearly. Usefully, distances which sort in a particular order with a euclidean metric would sort to the same order with the squared-euclidean metric. This stems from the fact that the locus of points at a particular distance from the reference still forms a circle centered on the reference point, like the euclidean metric.</p>
 </td>
 </tr>
@@ -103,32 +103,32 @@ hs.wrapperClassName = 'wide-border';
 <tr><th>Metric Map</th><th>Distance data set</th><th>Comment</th></tr>
 <tr>
 <td>None</td>
-<td width="256"><img src="img/_distance_dmap_0.jpg" title="Triangle vertices in a Euclidean Metric Space" class="img_block" style="margin: 3px; border: 0px solid #808080;" height="256" width="256" /></td>
+<td width="256"><img src="img/_distance_dmap_0.jpg" title="Triangle vertices in a Euclidean Metric Space" class="img_block" style="margin: 3px; border: 0px solid #808080;" width="256" height="256" /></td>
 <td>For comparison, this distance map arises from the application of <code>-distance 1,2</code>, harnessing the Euclidean metric. The vertices of the triangle have isovalues of 1 in the operand image. There is no metric map so all pixels in the operand were considered to be unit size. Unsurprisingly, points equidistant from vertex pairs form line segments. This is a &ldquo;typical&rdquo; distance data set.</td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_mmap_1.jpg" title="Vertices on a plasma-generated terrain." height="256" width="256" /></td>
-<td width="256"><img src="img/_distance_dmap_1.jpg" title="Distances accounting for cost of travel on a plasma domain" height="256" width="256" /></td>
+<td width="256"><img src="img/_distance_mmap_1.jpg" title="Vertices on a plasma-generated terrain." width="256" height="256" /></td>
+<td width="256"><img src="img/_distance_dmap_1.jpg" title="Distances accounting for cost of travel on a plasma domain" width="256" height="256" /></td>
 <td>We have applied a metric map, a gradient norm of a plasma, which tells the distance command about steep gradients situated among the isovalues. Observe the equal distance loci (lightest grays) which formed line segments in the previous dataset, but here are jagged, reflecting the varying expense of traversing pixels, altering the <em>de facto</em> distances among isovalues.</td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_mmap_2.jpg" title="Walled City Metic Map" height="256" width="256" /></td>
-<td width="256"><img src="img/_distance_dmap_2.jpg" height="256" width="256" /></td>
+<td width="256"><img src="img/_distance_mmap_2.jpg" title="Walled City Metic Map" width="256" height="256" /></td>
+<td width="256"><img src="img/_distance_dmap_2.jpg" width="256" height="256" /></td>
 <td>The metric map reflects an elaborate system of walls which partition the intervening regions between vertices. The effective distance to a vertex is fairly constant for large areas; the cost of traveling within walls is nearly free. The expense climbing over walls is reflected by abrupt changes in cost.</td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_mmap_3.jpg" height="256" width="256" /></td>
-<td width="256"><img src="img/_distance_dmap_3.jpg" height="256" width="256" /></td>
+<td width="256"><img src="img/_distance_mmap_3.jpg" width="256" height="256" /></td>
+<td width="256"><img src="img/_distance_dmap_3.jpg" width="256" height="256" /></td>
 <td>Vertices are surrounded by rectangular regions of expensive travel, these just touching at corners. We generated the dataset on the near left with a low-connectivity metric, so that the regions just surrounding each vertex are disconnected from the outside. Compare the shade of gray of pixels in the middle of this dataset with those of the following set.</td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_mmap_4.jpg" height="256" width="256" /></td>
-<td width="256"><img src="img/_distance_dmap_4.jpg" height="256" width="256" /></td>
+<td width="256"><img src="img/_distance_mmap_4.jpg" width="256" height="256" /></td>
+<td width="256"><img src="img/_distance_dmap_4.jpg" width="256" height="256" /></td>
 <td>This set differs from the previous only in that a high-connectivity metric was used, so that regions just touching at corners are considered &ldquo;connected.&rdquo; The middle pixels are darker &ndash; in effect less distant than &ndash; middle pixels in the previous set because now there are corner-crossing bridges, effectively shrinking the distance (or cost of travel) from the middle to the vertices.</td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_mmap_5.jpg" height="256" width="256" /></td>
-<td width="256"><img src="img/_distance_dmap_5.jpg" height="256" width="256" /></td>
+<td width="256"><img src="img/_distance_mmap_5.jpg" width="256" height="256" /></td>
+<td width="256"><img src="img/_distance_dmap_5.jpg" width="256" height="256" /></td>
 <td>The metric map in this example places a high cost of travel from nearly every point, with the exception of a network of roads where travel is nearly free. Points very close to vertices &ldquo;as the crow flies&rdquo; are, in effect, extremely distant from a cost-of-travel viewpoint. Every point on a &ldquo;road&rdquo; is more proximate to isovalues than the off-road pixel.</td>
 </tr>
 </tbody>
@@ -143,7 +143,7 @@ hs.wrapperClassName = 'wide-border';
 <table class="table striped" border="0">
 <tbody>
 <tr>
-<td width="256"><img src="img/_distance_wizard_gamut-warn.jpg" style="margin: 3px; border: 0px solid #808080;" height="467" width="350" /></td>
+<td width="256"><img src="img/_distance_wizard_gamut-warn.jpg" style="margin: 3px; border: 0px solid #808080;" width="350" height="467" /></td>
 <td>
 <h3>1</h3>
 <p><code>gmic -input wizard_gamut-warn.png 'fn={0,n}'</code></p>
@@ -154,7 +154,7 @@ hs.wrapperClassName = 'wide-border';
 </td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_oog_0.jpg" style="margin: 3px; border: 0px solid #808080;" height="467" width="350" /></td>
+<td width="256"><img src="img/_distance_oog_0.jpg" style="margin: 3px; border: 0px solid #808080;" width="350" height="467" /></td>
 <td>
 <h3>2</h3>
 <p><code><a target="_parent" href="_select_color.shtml">-select_color</a> 0,255,0,127 </code></p>
@@ -162,7 +162,7 @@ hs.wrapperClassName = 'wide-border';
 </td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_oog_1.jpg" style="margin: 3px; border: 0px solid #808080;" height="467" width="350" /></td>
+<td width="256"><img src="img/_distance_oog_1.jpg" style="margin: 3px; border: 0px solid #808080;" width="350" height="467" /></td>
 <td>
 <h3>3</h3>
 <p><code>-distance[-1] 1</code></p>
@@ -171,7 +171,7 @@ hs.wrapperClassName = 'wide-border';
 </td>
 </tr>
 <tr>
-<td width="256"><img src="img/_distance_oog_2.jpg" style="margin: 3px; border: 0px solid #808080;" height="467" width="350" /></td>
+<td width="256"><img src="img/_distance_oog_2.jpg" style="margin: 3px; border: 0px solid #808080;" width="350" height="467" /></td>
 <td>
 <h3>4</h3>
 <p><code>-ge[-1] 4 -if '{iM&gt;0}' -output[-1] 'bad-${fn}' -endif</code></p>

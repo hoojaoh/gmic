@@ -27,9 +27,9 @@ hs.wrapperClassName = 'wide-border';
 <p>A programmer can terminate a <tt>-repeat &hellip; -done</tt> iteration prematurely by executing a <tt>-break</tt> command anywhere in the body of the block. Usually one embeds the <tt>-break</tt> command in a <tt>-if &hellip; -endif</tt> block. Similarly, a <tt>-continue</tt> command within the <tt>-repeat &hellip; -done</tt> block terminates the current iteration; <tt>-repeat</tt> decrements its loop count and, if that is still positive, restarts execution with the initial command in the body of the <tt>-repeat &hellip; -done</tt> block.</p>
 <h2 id="ListIterationWithLocalEndlocal">List Iteration with -local &hellip; -endlocal</h2>
 <p>It is a common G'MIC idiom to nest a <tt><a target="_parent" href="_local.shtml">-local</a>&hellip;<a target="_parent" href="_local.shtml">-endlocal</a></tt> block within a <tt>-repeat &hellip; -done</tt> block; The construct creates an image list iterator, a form that many G'MIC commands take. In this construct, the argument to <tt>-repeat</tt> is frequently the image list size substitution sequence, <tt>'$!'</tt>. As <tt>-repeat</tt> iterates from zero to the size of the image list, less one, another substitution sequence '<tt>$&gt;</tt>' assumes the loop count, incrementing by one with each iteration. This becomes the argument to <tt>-local</tt>, constituting the inner block of the iterator. This induces <tt>-local</tt> to create a 'local list' consisting of just the image indexed by <tt>$&gt;</tt>. The body of the command resides in the <tt><a target="_parent" href="_local.shtml">-local</a>&hellip;<a target="_parent" href="_local.shtml">-endlocal</a></tt> block, where the effects of its operations are restricted to the one image on the local list. In the larger scheme of things, the image iterator 'visits' each image in turn and during the course of the iteration the effects of its operations are limited to that one image. &nbsp;</p>
-<h2 id="Example">Example</h2>
+<h2 id="Example">Examples</h2>
 <p>We set our course upon transforming the 1911 Goudy Bookletter ampersand into a compact disc (approximately), a desire that has been burning in our hearts since early childhood, perhaps.</p>
-<table style="border-color: #808080; border-width: 0px; border-style: solid;" rules="all" class="table table-striped" align="center" border="0">
+<table style="border-color: #808080; border-width: 0px; border-style: solid;" rules="all" class="table table-striped" align="center" border="0"><colgroup> <col width="40%" /> <col width="60%" /> </colgroup>
 <tbody>
 <tr>
 <td><tt>$ gmic -input <a target="_parent" href="http://www.particularart.com/static/media/uploads/command_reference/repeat/ampersand_goudybl1911.svg">ampersand_goudybl1911.svg</a> \<br />-negative[-1] \<br />-blur[-1] 3,1,0</tt></td>
@@ -41,7 +41,7 @@ hs.wrapperClassName = 'wide-border';
 </tr>
 <tr>
 <td><tt>-expand_x {{w}/2}</tt></td>
-<td>Pad horizontally. In G'MIC, you do math within curly braces. The substitution sequences which fetch metrics about the last image on the stack also harness curly braces, giving rise, perhaps,&nbsp; to a bemusement of curly braces. The commercal 'at' symbol followed by curly braces is one of a family of substitution sequences which fetches various metrics about other images on the list. This particular substitution sequence fetches the width of the last image on the list &ndash; observe '-1' an index representing the last index on the list,and 'w', requesting its width.</td>
+<td>Pad horizontally. In G'MIC, you do math within curly braces. The substitution sequences which fetch metrics about the last image on the stack also harness curly braces, giving rise, perhaps,&nbsp; to a bemusement of curly braces. This particular substitution sequence fetches the width of the last image on the list.</td>
 </tr>
 <tr>
 <td><tt>100%,100%,100%,100% -append[-2,-1] y</tt></td>
@@ -63,8 +63,8 @@ hs.wrapperClassName = 'wide-border';
 <td>We duplicate the original ampersand and rotate the copy in one swell foop - observe the <a target="_parent" href="command-decorations.shtml">double hyphen lefthand decoration</a></td>
 </tr>
 <tr>
-<td><tt>&nbsp;&nbsp;-apply_channels[-1] "-add" {$k},11</tt></td>
-<td>&nbsp;What goes on here? In one swell foop, -<a target="_parent" href="http://gmic.eu/reference.shtml#apply_channels">apply channels</a> converts the image into the HSV color space and lets us rotate the color by the current increment, $k. That done, -apply channels brings us back to RGB space.</td>
+<td><tt>&nbsp;-apply_channels[-1] "-add "$k,hsl_h<br /></tt></td>
+<td>&nbsp;What goes on here? In one swell foop, -<a target="_parent" href="http://gmic.eu/reference.shtml#apply_channels">apply channels</a> converts the image into the HSL color space and lets us rotate the hue angle by the current increment, $k. That done, -apply channels brings us back to RGB space.</td>
 </tr>
 <tr>
 <td><tt>&nbsp;&nbsp;-blend[-2,-1] negation,0.7</tt></td>

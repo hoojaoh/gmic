@@ -15,7 +15,7 @@ hs.wrapperClassName = 'wide-border';
 
 
 
-<h1><img class="img_left" src="img/command-decorations_select.jpg" style="margin: 3px; float: left;" title="Command Selections" height="300" width="400" />Command Decorations</h1>
+<h1><img class="img_left" src="img/command-decorations_select.jpg" style="margin: 3px; float: left;" title="Command Selections" width="400" height="300" />Command Decorations</h1>
 <p>By default, commands operate on <em>all </em>images in the stack. Often that is not what we want.</p>
 <p>The image list can, and often will, contain many items. As we <a target="_parent" href="_input.shtml">-input</a> or otherwise <a target="_parent" href="conjuring-images.shtml" title="Conjuring Images and Other Generators">conjure images</a>, the interpreter places them in sequence, assigning indices to them starting from zero as it goes along.</p>
 <p>Non-negative indices designate images with respect to the beginning of the stack. That is, 0, 1, 3 designate the first, second and fourth image.</p>
@@ -91,9 +91,9 @@ hs.wrapperClassName = 'wide-border';
 <li><strong>-blur[0,2,5] 7</strong> blur the first, third, and sixth image on the stack with a standard deviation of 7</li>
 <li><strong>-blur[^3] 6</strong> blur all images on the stack <em>except</em> the fourth one with a standard deviation of 6</li>
 </ol>
-<h2>Isolated Selections: Implied Copy Command</h2>
-<p>Selections in isolation, apparently not modifying any command, imply '-copy'. The images designated by the selector are duplicated and the interpreter places the copies at the end of the pipeline, in the same relative order as their antecedents. Thus [0,3,5] by itself copies the first, fourth and sixth images; the copy of the first image becomes -3, the copy of the fourth becomes -2 and the copy of the sixth becomes -1. The implicit presence of the <a target="_parent" href="_input.shtml">-input</a> command </p>
-<h2>Lefthand Decorations: Replace or Append</h2>
+<h2 id="IsolatedSelectionsImpliedCopyCommand">Isolated Selections: Implied Copy Command</h2>
+<p>Selections in isolation, apparently not modifying any command, imply '-copy'. The images designated by the selector are duplicated and the interpreter places the copies at the end of the pipeline, in the same relative order as their antecedents. Thus [0,3,5] by itself copies the first, fourth and sixth images; the copy of the first image becomes -3, the copy of the fourth becomes -2 and the copy of the sixth becomes -1. The implicit presence of the <a target="_parent" href="_input.shtml">-input</a> command</p>
+<h2 id="LefthandDecorations">Lefthand Decorations: Replace or Append</h2>
 <p>Items may be decorated on the lefthand side, which we have already seen: hyphens distinguish commands from other items. Apart from identifying commands, hyphens also have a copy/replace meaning.This matters with transformation commands, those that take selected images as inputs and then produce output images. Commands may be decorated on the left hand side with one or two hyphens, expressing <em>replace</em> or <em>preserve</em> semantics.</p>
 <ol>
 <li>single hyphen commands will <em>replace</em> the selected images with the output images.</li>
@@ -110,9 +110,31 @@ hs.wrapperClassName = 'wide-border';
 <li>'-<a target="_parent" href="_normalize.shtml">normalize</a>[^0], single hyphen, replaces all images in the stack <em>except the first</em> with corresponding versions where the intensity range of each channel is remapped to the range 0 &ndash; 255. The stack still has four images. Had we decorated this command with two hyphens, the stack would have had seven images, the second, third and fourth images followed by their normalized versions in positions five, six and seven.</li>
 </ol>
 <p>The four images on the stack look like this:</p>
-<h2><img alt="Four images resulting from a series of commands on an initially empty pipeline." src="img/command-decorations_pipeline.jpg" title="Four Image Pipeline" height="171" width="683" /></h2>
+<p><img alt="Four images resulting from a series of commands on an initially empty pipeline." src="img/command-decorations_pipeline.jpg" title="Four Image Pipeline" width="683" height="171" /></p>
 <p><a target="_parent" align="center" border="0" name="idiomata"></a></p>
-<h2>Common Idiomata</h2>
+<h2 id="ShorthandSelectionNotation">Shorthand Selection Notation</h2>
+<p>It is very common to operate on the last, penultimate, and third-from-last images on the stack. Righthand command decorations such as [-1], [-2] and [-3] are so prevalent that they have an alternate shorthand form: one, two and three 'pips':</p>
+<table border="0">
+<tbody>
+<tr>
+<td><tt>-foo[-1]</tt></td>
+<td><tt>-foo.</tt></td>
+<td><tt>-foo</tt> operates on the last image on the list.</td>
+</tr>
+<tr>
+<td><tt>-foo[-2]</tt></td>
+<td><tt>-foo..</tt></td>
+<td><tt>-foo</tt> operates on the penultimate image on the list.</td>
+</tr>
+<tr>
+<td><tt>-foo[-3]</tt></td>
+<td><tt>-foo...</tt></td>
+<td><tt>-foo</tt> operates on the third-from-last image on the list.</td>
+</tr>
+</tbody>
+</table>
+<p>G'MIC supports this shorthand notation <em>only</em> as a command decoration, not in any other place where a selection might be used, as an implied copy or as an argument to another command. Nor do pips work in selection expressions. The fictive command <tt>-foo[0,...]</tt> will not operate on the first and third-from-last image.</p>
+<h2 id="CommandIdiomata">Common Idiomata</h2>
 <p><a target="_parent" align="center" border="0" name="idiomata"></a></p>
 <p>It is not uncommon to see these repeating idiomata:</p>
 <table class="table-striped"><colgroup> <col width="30%" /> <col width="70%" /> </colgroup>
