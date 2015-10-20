@@ -5351,6 +5351,7 @@ cmyk2rgb :
 #@gmic : Set 'nb_levels==0' to extract all existing colors of an image.
 #@gmic : Default value: 'method=1' and 'sort_vectors=1'.
 #@gmic : $ image.jpg --colormap[0] 4 --colormap[0] 8 --colormap[0] 16
+#@gmic : $$
 colormap : -check "isint($1) && $1>=0" -skip ${2=1},${3=1}
   -if $1
     -e[0--3] "Estimate colormap with $1 entries for image$?, by "${-arg\ 1+!$2,k-means,median-cut}" method."
