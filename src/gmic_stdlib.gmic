@@ -15377,7 +15377,7 @@ x_blobs :
       -b. 15
       --norm. -->=. 50 -<=.. 40 -*[-3,-1]
       --*[0,-1] -rm.. -rv[-2,-1] -*. 1.6 -c. 0,255 -+[-2,-1]
-      -if {$fps>0} -text_outline. $fps" fps",5,{h-29},24,2,0.5 -endif
+      -if {$fps>0} -text_outline. $fps" fps",5,{h-29},24,2,0.2 -endif
       -w.
       -if {{*,CTRLLEFT}&&{*,D}} -w[] {2*w},{2*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {w},{h} -endif
       -rm.
@@ -15461,7 +15461,7 @@ x_bouncing :
 
     --rows. {h-2*70},{h-1-70} -mirror. y -*. [{$N+1}]
     -j.. [-1],0,{-2,h-71},0,0,0.5 -rm.
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-29},24,2,0.5 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-29},24,2,0.2 -endif
     -w.
 
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {2*w},{2*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {w},{h} -endif
@@ -15975,7 +15975,7 @@ x_fire : -skip "${1=G\47MIC}"
     -*3d. 0.25,0.16,1 -j3d[0] [-1],50%,50%,0,1,3,0,0
     -rm.
     angle+=3                                                 # Update 3d angle.
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-22},16,1,0.7 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-22},16,1,0.2 -endif
     -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {2*w},{2*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {w},{h} -endif
     -rm. -wait 40
@@ -16035,7 +16035,7 @@ x_fireworks :
       -endif
       -if $to_be_removed -rm[$i] -else i+=1 -endif  # If processed rocket has to be removed.
     -done
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",3,{h-20},14,1,0.5 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",3,{h-20},14,1,0.2 -endif
     -w. -wait 20  # Display rendered frame.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {3*w},{3*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {1.5*w},{1.5*h} -endif
   -while {{*}" && "!{*,ESC}" && "!{*,Q}}
@@ -16597,7 +16597,7 @@ x_landscape :
     -endif
 
     -r. {*,w},{*,h},1,3
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,5,24,2,0.5 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,5,24,2,0.2 -endif
     -w. -1,-1,0 -rm.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] 720,600 -elif {{*,CTRLLEFT}&&{*,C}} -w[] 520,400 -endif
     -wait 20
@@ -16742,7 +16742,7 @@ x_light :
     --z. $X,$Y,{$X+{-2,w}-1},{$Y+{-2,h}-1}
     -warp. [-3],1,0,1
     -r. 100%,100%,1,3 -+. [-4] -c. 0,255
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,5,16,1,0.7 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,5,16,1,0.2 -endif
     -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {3*w},{3*h}
     -elif {{*,CTRLLEFT}&&{*,C}} -w[] {1.5*w},{1.5*h} -endif
@@ -16840,7 +16840,7 @@ x_metaballs3d :
       --dilate. 3 --j[0] [-2],5,3,0,0,1,[-1],255 -mv. 1 -rm[2,-2,-1]
     -endif
     --j3d[1] [-2],50%,50%,0,1,{if(!$mode,3,$mode)},0,0,300,0,0,-500,0.1,1.5
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-22},16,2,0.5 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-22},16,2,0.2 -endif
     -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {2*w},{2*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {w},{h} -endif
     -rm[-3--1] -wait 20
@@ -17500,7 +17500,7 @@ x_plasma :
     -if {$tt>=$M} tt={-1.5*{0,w}} -endif
 
     # Display rendered frame.
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,5,16,1,0.25 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,5,16,1,0.2 -endif
     -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {3*w},{3*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {1.5*w},{1.5*h} -endif
     -rm. -wait 20
@@ -17718,7 +17718,7 @@ x_reflection3d :
     -j3d. [-4],$xf%,$yf%,0,1,4,0,0
 
     # Display frame and update animation variables.
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-19},13,1,0.5 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-19},13,1,0.2 -endif
     -w. -rm.
 
     -if {{*,CTRLLEFT}&&{*,D}} -w[] 800,800 -elif {{*,CTRLLEFT}&&{*,C}} -w[] 400,400 -endif
@@ -17757,7 +17757,7 @@ x_rubber3d :
     {w},{h},1,3 -fc. 16,32,32 -j3d. [0],50%,50%,0,1,3,0,0 -j[1] [-1],0,0,$frame -rm.
     -r3d[0] 0.1,1,0.6,{3*cos($|*1.25)} -r3d[0] 1,0.2,0.6,-1
     --warp[1] [2],0,0 -*[3] 0.8 -*. 0.2 -+[3] [-1] -rm.
-    -if {$fps>0} -text_outline. $fps" fps",5,{h-29},24,2,0.3 -endif
+    -if {$fps>0} -text_outline. $fps" fps",5,{h-29},24,2,0.2 -endif
     -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {2*w},{2*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {w},{h} -endif
     -wait[0] 20
@@ -18772,7 +18772,7 @@ x_waves :
     --3d. {$w/2},{$w/2} -*3d. {0,0.9*max(w,h)/$w} # Center and scale 3d object.
     -r3d. 0,0,1,{if({*,b}&2,-{*,x}*360/{*,w},$|*30)} -r3d. 1,0,0,-120 # Get rotated 3d object.
     --j3d[0] [-1],50%,65%,30,1,3,0,0
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-22},16,2,0.5 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,{h-22},16,2,0.2 -endif
     -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {2.25*w},{2.25*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {1.25*w},{1.25*h}
     -elif {{*,CTRLLEFT}&&{*,F}}
