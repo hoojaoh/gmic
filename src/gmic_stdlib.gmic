@@ -17499,7 +17499,7 @@ x_plasma :
     -if {$tt>=$M} tt={-1.5*{0,w}} -endif
 
     # Display rendered frame.
-    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,5,16,1,0.7 -endif
+    fps=${-fps} -if {$fps>0} -text_outline. $fps" fps",5,5,16,1,0.25 -endif
     -w.
     -if {{*,CTRLLEFT}&&{*,D}} -w[] {3*w},{3*h} -elif {{*,CTRLLEFT}&&{*,C}} -w[] {1.5*w},{1.5*h} -endif
     -rm. -wait 20
