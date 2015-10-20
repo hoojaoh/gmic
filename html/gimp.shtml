@@ -96,27 +96,27 @@
       <tr>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_win64.exe"><img alt="" src="img/download_win64.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_win64.exe"><font size="3">Download G'MIC plug-in for GIMP (Windows 64 bits).</font></a><br/>
-          (installer, alternative: <a href="http://gmic.eu/files/latest/gmic_gimp_win64.zip">zip file</a>)<br/><br/></td>
+          installer, alternative: <a href="http://gmic.eu/files/latest/gmic_gimp_win64.zip">zip file</a><br/><br/></td>
       </tr>
       <tr>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_win32.exe"><img alt="" src="img/download_win32.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_win32.exe"><font size="3">Download G'MIC plug-in for GIMP (Windows 32 bits).</font></a><br/>
-          (installer, alternative: <a href="http://gmic.eu/files/latest/gmic_gimp_win32.zip">zip file</a>)<br/><br/></td>
+          installer, alternative: <a href="http://gmic.eu/files/latest/gmic_gimp_win32.zip">zip file</a><br/><br/></td>
       </tr>
       <tr>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux64.zip"><img alt="" src="img/download_linux64.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux64.zip"><font size="3">Download G'MIC plug-in for GIMP (Linux 64 bits).</font></a><br/>
-          (zip file)<br/><br/></td>
+          zip file<br/><br/></td>
       </tr>
       <tr>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux32.zip"><img alt="" src="img/download_linux32.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux32.zip"><font size="3">Download G'MIC plug-in for GIMP (Linux 32 bits).</font></a><br/>
-          (zip file)<br/><br/></td>
+          zip file<br/><br/></td>
       </tr>
       <tr>
-        <td><a href="http://gmic.eu/files/macosx/"><img alt="" src="img/download_macosx.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
-        <td><a href="http://gmic.eu/files/macosx/"><font size="3">Download G'MIC plug-in for GIMP (Mac Intel)</font></a><br/>
-          (dmg file)</td>
+        <td><a href="http://karo03.bplaced.de/gmic/release/"><img alt="" src="img/download_macosx.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
+        <td><a href="http://karo03.bplaced.de/gmic/release/"><font size="3">Download G'MIC plug-in for GIMP (Mac Intel)</font></a><br/>
+          dmg file</td>
       </tr>
     </table>
   </div>
