@@ -5270,9 +5270,9 @@ _ac_cmyk_k : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=3
 
 #@gmic autoindex : nb_colors>0,0<=_dithering<=1,_method={ 0=median-cut | 1=k-means }
 #@gmic : Index selected vector-valued images by adapted colormaps.
-#@gmic : Default values: 'dithering=0' and 'method=0'.
+#@gmic : Default values: 'dithering=0' and 'method=1'.
 #@gmic : $ image.jpg --autoindex[0] 4 --autoindex[0] 8 --autoindex[0] 16
-autoindex : -check "isint($1) && $1>0 && ${2=0}>=0" -skip ${3=0}
+autoindex : -check "isint($1) && $1>0 && ${2=0}>=0" -skip ${3=1}
   -e[^-1] "Index colors in images$? by adapted colormap with $1 entries, dithering level $2 and "\
           ${-arg\ 1+!$3,k-means,median-cut}" method."
   -v - -repeat $! -l[$>]
