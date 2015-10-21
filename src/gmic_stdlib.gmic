@@ -18634,7 +18634,7 @@ x_tictactoe :
 ---- symbols. Close window to exit game.\n
 ----\n
 -----------------------------------------"
-  -v -                            # Become quiet.
+  -v -                         # Become quiet.
 
   # Allocate variables.
   message=0                    # [-7] : State message.
@@ -18689,7 +18689,9 @@ x_tictactoe :
         -if {($state&$tmp1)==$tmp1} -w.. -1,-1,0,"Tic-Tac-Toe (X won!)"
         -else -w.. -1,-1,0,"Tic-Tac-Toe (O won!)"                             # Update display window.
         -endif
-        -do -wait -w[] {*,w},{*,h} -while {{*}" && "!{*,ESC}" && "!{*,Q}}     # Wait for the window to be closed.
+        -do -wait
+          -if {*} -w[] {*,w},{*,h} -endif
+        -while {{*}" && "!{*,ESC}" && "!{*,Q}}                                # Wait for the window to be closed.
         -rm -w[] 0 -v + -return                                               # And return properly.
       -endif
     -done                                                                     # Go on until all configurations have been checked.
@@ -18701,7 +18703,9 @@ x_tictactoe :
 
   # Here, the game has been ended without winners.
   -w[] -1,-1,0,0,"Tic-Tac-Toe (Tied game!)"                                 # Change window title.
-  -do -wait -w[] {*,w},{*,h} -while {{*}" && "!{*,ESC}" && "!{*,Q}}      # Wait for the window to be closed.
+  -do -wait
+    -if {*} -w[] {*,w},{*,h} -endif
+  -while {{*}" && "!{*,ESC}" && "!{*,Q}}                                    # Wait for the window to be closed.
   -w[] 0 -rm -v +                                                           # Return properly.
 
 # Generate Tic-Tac-Toe graphics.
