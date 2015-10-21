@@ -2261,9 +2261,9 @@ _document_gmic_footer_man : -skip $1
 
 # Generate a single image from a list of images, for the reference documentation.
 _document_gmic :
-  -repeat $! -l[$>] W$>={w} H$>={h} D$>={d} S$>={s} IS_3D$>=${-is_3d} -endl -done
+  -repeat $! -l[$>] W$>={w} H$>={h} D$>={d} S$>={s} IS_3D$>=${-_is_3d} -endl -done
   -repeat $! -l[$>]
-    -if ${-is_3d} -r3d 1,1,0,-80 -r3d 0,1,0,80 -snapshot3d 400
+    -if ${IS_3D$>} -r3d 1,1,0,-80 -r3d 0,1,0,80 -snapshot3d 400
     -else -if {w>8192} -z 0,8191 -elif {h>8192} -rows 0,8191 -endif -n 0,255
     -endif -endl -done
   --append_tiles , -if {w>900} r={round(900*100/w,0.1)} -r[^-1] $r%,$r%,1,100%,2 -endif -rm.
@@ -10748,7 +10748,7 @@ pointcloud3d :
 #@gmic : $ -torus3d 100,20 -pose3d 0.152437,1.20666,-0.546366,0,-0.535962,0.559129,1.08531,0,1.21132,0.0955431,0.548966,0,0,0,-206,1 -snapshot3d 400
 pose3d :
   -e[^-1] "Apply 3d pose matrix [ $1,$2,$3,$4; $5,$6,$7,$8; $9,$10,$11,$12 ] to 3d object$?."
-  -v - -repeat $! -l[$>] -if ${-is_3d}
+  -v - -repeat $! -l[$>] -if ${-_is_3d}
     -s3d -r[2] 3,{2,h/3},1,1,-1 -i[3] 1,{2,h},1,1,1 -a[2,3] x
     -i[3] ($1,$5,$9;$2,$6,$10;$3,$7,$11;$4,$8,$12) -**[2,3]
     -r[2] 1,{2,3*h},1,1,-1 -a y
@@ -14701,6 +14701,10 @@ hex2img8 :
 #@gmic : Return 1 if all of the selected image are 3d objects, 0 otherwise.
 is_3d :
   -v - -u 1 -l -check3d 1 -onfail -u 0 -endl -v +
+
+# Faster version.
+_is_3d :
+  -v - -u {"h>6 && int(i[0])==67 && int(i[1])==73 && int(i[2])==109 && int(i[3])==103 && int(i[4])==51 && int(i[5])==100"} -v +
 
 #@gmic is_image_arg : string
 #@gmic : Return 1 if specified string looks like '[ind]'.
