@@ -3763,21 +3763,22 @@ _update_server_binaries :
   file3=gmic_$1_debian_wheezy_i386.deb
   file4=gmic_$1_ubuntu_trusty_amd64.deb
   file5=gmic_$1_ubuntu_trusty_i386.deb
-  file6=gmic_$1_win32.zip
-  file7=gmic_$1_win64.zip
-  file8=gmic_gimp_$1_linux32.zip
-  file9=gmic_gimp_$1_linux64.zip
-  file10=gmic_gimp_$1_win32.exe
-  file11=gmic_gimp_$1_win32.zip
-  file12=gmic_gimp_$1_win64.exe
-  file13=gmic_gimp_$1_win64.zip
-  file14=gmic_static_$1_linux32.zip
-  file15=gmic_static_$1_linux64.zip
-  N=16
+  file6=gmic_$1_ubuntu_vivid_amd64.deb
+  file7=gmic_$1_win32.zip
+  file8=gmic_$1_win64.zip
+  file9=gmic_gimp_$1_linux32.zip
+  file10=gmic_gimp_$1_linux64.zip
+  file11=gmic_gimp_$1_win32.exe
+  file12=gmic_gimp_$1_win32.zip
+  file13=gmic_gimp_$1_win64.exe
+  file14=gmic_gimp_$1_win64.zip
+  file15=gmic_static_$1_linux32.zip
+  file16=gmic_static_$1_linux64.zip
+  N=17
   t0=$|
   -v + -e[] "- Waiting for binary files to be build." -v -
   -do
-    -repeat 16
+    -repeat 17
       file=${file$>}
       -if $file
         -if $is_pre -strreplace $file,_$1_,_ # -strreplace $file,_$1_,_pre_
