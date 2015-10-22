@@ -26519,8 +26519,8 @@ gimp_syntexturize_preview :
 #@gimp : Width = int(512,32,8192)
 #@gimp : Height = int(512,32,8192)
 #@gimp : Number of scales = int(0,0,16)
-#@gimp : Patch size = int(5,1,16)
-#@gimp : Blending size = int(5,1,16)
+#@gimp : Patch size = int(7,1,32)
+#@gimp : Blending size = int(5,1,24)
 #@gimp : Precision = float(1,0,5)
 #@gimp : sep = separator()
 #@gimp : note = note{"<small><b>Note:</b> This filter tries to re-synthetize an input texture image onto a bigger output image (with an arbitrary size).
@@ -26528,7 +26528,7 @@ gimp_syntexturize_preview :
 #@gimp : sep = separator(), note = note("<small>Authors: <i>David Tschumperl&#233;</i>.      Latest update: <i>10/22/2015</i>.</small>")
 gimp_syntexturize_patch_preview :
   -repeat $! -l[$>] w={w} h={h}
-    -syntexturize_patch 75%,75%,${3--1}
+    -syntexturize_patch 100%,100%,${3--1}
     -to_rgba -r $w,$h,1,4,0,0,0.5,0.5
   -endl -done
 
