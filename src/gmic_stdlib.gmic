@@ -8273,7 +8273,7 @@ syntexturize : -check "${1=100%}>0 && ${2=$1}>0"
 #@gmic : If 'nbscales==0', the number of scales used is estimated from the image size.
 #@gmic : Default values: 'width=height=100%', 'nb_scales=0', 'patch_size=11', 'blending_size=5' and 'precision=3'.
 #@gmic : $ image.jpg -crop 2,282,50,328 --syntexturize_patch 320,320
-syntexturize_patch : -check "${1=100%}>0 && ${2=100%}>0 && isint(${3=0}) && $3>=0 && isint(${4=11}) && $4>0 && ${5=5}>=0 && ${6=3}>=0"
+syntexturize_patch : -check "${1=100%}>0 && ${2=$1}>0 && isint(${3=0}) && $3>=0 && isint(${4=11}) && $4>0 && ${5=5}>=0 && ${6=3}>=0"
   -e[^-1] "Resynthetize $1x$2 version(s) of texture$? using a patch-matching algorithm with "${"-if $3 -u \"$3 \" -else -u auto- -endif"}"scales, $4x$4 patches, blending size $5 and precision $6."
   -v - -repeat $! -l[$>]
     nb_scales={round(log2(min(w,h)/16),1,1)}
@@ -8316,9 +8316,10 @@ syntexturize_patch : -check "${1=100%}>0 && ${2=100%}>0 && isint(${3=0}) && $3>=
       -endif
 
       # Synthesis.
+      psize={min(w,$4)}
       -repeat {1+$6*$<}
         --_syntexturize_patch.. [-1],{int(max(3,$5*$scale%))},1
-        -patchmatch. [-3],$4,$4,1,4,4,0,[-2] -rm..
+        -patchmatch. [-3],$psize,$psize,1,4,4,0,[-2] -rm..
       -done
       -rm..
 
@@ -26500,7 +26501,7 @@ gimp_polka_dots :
 gimp_color_ellipses :
   -color_ellipses $1,$2,$3
 
-#@gimp Resynthetize texture : syntexturize, gimp_syntexturize_preview(1)
+#@gimp Resynthetize texture [fft] : syntexturize, gimp_syntexturize_preview(1)
 #@gimp : Width = int(1024,32,8192)
 #@gimp : Height = int(1024,32,8192)
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
@@ -26513,6 +26514,23 @@ gimp_color_ellipses :
 #@gimp : sep = separator(), note = note("<small>Authors: <i>David Tschumperl&#233;</i> and <i>J&#233;rome Boulanger</i>.      Latest update: <i>04/09/2014</i>.</small>")
 gimp_syntexturize_preview :
   -gimp_split_preview "-syntexturize 100%",$-1
+
+#@gimp Resynthetize texture [patch-based] : syntexturize_patch, gimp_syntexturize_patch_preview(1)
+#@gimp : Width = int(512,32,8192)
+#@gimp : Height = int(512,32,8192)
+#@gimp : Number of scales = int(0,0,16)
+#@gimp : Patch size = int(5,1,16)
+#@gimp : Blending size = int(5,1,16)
+#@gimp : Precision = float(1,0,5)
+#@gimp : sep = separator()
+#@gimp : note = note{"<small><b>Note:</b> This filter tries to re-synthetize an input texture image onto a bigger output image (with an arbitrary size).
+#@gimp : Beware, this filter is quite slow to compute!</small>"}
+#@gimp : sep = separator(), note = note("<small>Authors: <i>David Tschumperl&#233;</i>.      Latest update: <i>10/22/2015</i>.</small>")
+gimp_syntexturize_patch_preview :
+  -repeat $! -l[$>] w={w} h={h}
+    -syntexturize_patch 75%,75%,${3--1}
+    -to_rgba -r $w,$h,1,4,0,0,0.5,0.5
+  -endl -done
 
 #@gimp Rorschach : gimp_rorschach, gimp_rorschach
 #@gimp : Scale = float(3,0,10)
