@@ -8271,9 +8271,9 @@ syntexturize : -check "${1=100%}>0 && ${2=$1}>0"
 #@gmic syntexturize_patch : _width[%]>0,_height[%]>0,_nb_scales>=0,_patch_size>0,_blending_size>=0,_precision>=0
 #@gmic : Resynthetize 'width'x'height' versions of selected micro-textures using a patch-matching algorithm.
 #@gmic : If 'nbscales==0', the number of scales used is estimated from the image size.
-#@gmic : Default values: 'width=height=100%', 'nb_scales=0', 'patch_size=11', 'blending_size=5' and 'precision=1'.
+#@gmic : Default values: 'width=height=100%', 'nb_scales=0', 'patch_size=11', 'blending_size=5' and 'precision=3'.
 #@gmic : $ image.jpg -crop 2,282,50,328 --syntexturize_patch 320,320
-syntexturize_patch : -check "${1=100%}>0 && ${2=100%}>0 && isint(${3=0}) && $3>=0 && isint(${4=11}) && $4>0 && ${5=5}>=0 && ${6=1}>=0"
+syntexturize_patch : -check "${1=100%}>0 && ${2=100%}>0 && isint(${3=0}) && $3>=0 && isint(${4=11}) && $4>0 && ${5=5}>=0 && ${6=3}>=0"
   -e[^-1] "Resynthetize $1x$2 version(s) of texture$? using a patch-matching algorithm with "${"-if $3 -u \"$3 \" -else -u auto- -endif"}"scales, $4x$4 patches, blending size $5 and precision $6."
   -v - -repeat $! -l[$>]
     nb_scales={round(log2(min(w,h)/16),1,1)}
@@ -8287,7 +8287,7 @@ syntexturize_patch : -check "${1=100%}>0 && ${2=100%}>0 && isint(${3=0}) && $3>=
       -if {!$>}
 
         # Initialization.
-        {round(w*$width/{0,w},1,1)},{round(w*$height/{0,h},1,1)},1,1
+        {round(w*$width/{0,w},1,1)},{round(h*$height/{0,h},1,1)},1,1
 
         -noise. 0.2,2 --distance. 1 -*. -1
         -label_fg.. 0 -watershed.. [-1],1 -rm.
