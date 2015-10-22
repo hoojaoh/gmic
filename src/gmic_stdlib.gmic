@@ -614,6 +614,7 @@ _help_usage :
 \n       . '"${c}"d"$n"': depth of the associated image, if any (0 otherwise).
 \n       . '"${c}"s"$n"': spectrum of the associated image, if any (0 otherwise).
 \n       . '"${c}"r"$n"': shared state of the associated image, if any (0 otherwise).
+\n       . '"${c}"t"$n"': thread id when an expression is evaluated with multiple threads (0 means 'master thread').
 \n       . '"${c}"wh"$n"': shortcut for width*height.
 \n       . '"${c}"whd"$n"': shortcut for width*height*depth.
 \n       . '"${c}"whds"$n"': shortcut for width*height*depth*spectrum (i.e. total number of pixel values).
