@@ -26502,8 +26502,8 @@ gimp_color_ellipses :
   -color_ellipses $1,$2,$3
 
 #@gimp Resynthetize texture [fft] : syntexturize, gimp_syntexturize_preview(1)
-#@gimp : Width = int(1024,32,8192)
-#@gimp : Height = int(1024,32,8192)
+#@gimp : Width = _int(1024,32,8192)
+#@gimp : Height = _int(1024,32,8192)
 #@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
 #@gimp : sep = separator()
 #@gimp : note = note{"<small><b>Note:</b> This filter tries to re-synthetize a <b>micro</b>-texture (given as the input image) onto an output (seamless) image with an arbitrary size.
@@ -26516,8 +26516,8 @@ gimp_syntexturize_preview :
   -gimp_split_preview "-syntexturize 100%",$-1
 
 #@gimp Resynthetize texture [patch-based] : syntexturize_patch, gimp_syntexturize_patch_preview(1)
-#@gimp : Width = int(512,32,8192)
-#@gimp : Height = int(512,32,8192)
+#@gimp : Width = _int(512,32,8192)
+#@gimp : Height = _int(512,32,8192)
 #@gimp : Number of scales = int(0,0,16)
 #@gimp : Patch size = int(7,1,32)
 #@gimp : Blending size = int(5,1,24)
