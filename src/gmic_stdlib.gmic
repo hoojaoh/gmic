@@ -8316,7 +8316,7 @@ syntexturize_patch : -check "${1=100%}>0 && ${2=$1}>0 && isint(${3=0}) && $3>=0 
       -endif
 
       # Synthesis.
-      psize={min(w,$4)}
+      psize={-2,min(w,h,$4)}
       -repeat {1+$6*$<}
         --_syntexturize_patch.. [-1],{int(max(3,$5*$scale%))},1
         -patchmatch. [-3],$psize,$psize,1,4,4,0,[-2] -rm..
