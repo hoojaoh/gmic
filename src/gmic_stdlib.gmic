@@ -3860,6 +3860,7 @@ update_tutorial_html :
   -add_page images/images-have-edges,1200
   -add_page command-guide,5500
 
+  -add_page command-guide/color-manipulation/-autoindex,1000,,,commands-colors-manipulation
   -add_page command-guide/color-manipulation/-compose_channels,1000,,,commands-colors-manipulation
   -add_page command-guide/color-manipulation/-colormap,1000,,,commands-colors-manipulation
   -add_page command-guide/color-manipulation/-direction2rgb,1000,,,commands-colors-manipulation
