@@ -4742,6 +4742,7 @@ compress_rle : -skip ${1=0} -check "isint(${2=0}) && $2>=0"
 #@gmic : Cut values of selected images in specified range.
 #@gmic : (eq. to '-c').
 #@gmic : (no arg) runs interactive mode (uses the instant display window [0] if opened).
+#@gmic : In this case, the chosen cut values are returned in the status.
 #@gmic : $ image.jpg --add 30% -cut. 0,255
 #@gmic : $ image.jpg --cut 25%,75%
 
@@ -5093,6 +5094,7 @@ roundify : -check $1>=0
 #@gmic : Threshold values of selected images.
 #@gmic : 'soft' can be { 0=hard-thresholding | 1=soft-thresholding }.
 #@gmic : (no arg) runs interactive mode (uses the instant display window [0] if opened).
+#@gmic : In this case, the chosen threshold value is returned in the status.
 #@gmic : Default value: 'is_soft=0'.
 #@gmic : $ image.jpg --threshold[0] 50% --threshold[0] 50%,1
 #@gmic : $$
