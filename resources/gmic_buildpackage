@@ -218,6 +218,7 @@ make stdlib CImg.h
 if [ "$1" == "final" ]; then
     git tag v.$SVERSION
     gmic_commit "Final release "${VERSION}
+    git push --tags
 else
     gmic_commit "Auto-commit for release "${VERSION}${SUFFIX}
 fi
