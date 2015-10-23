@@ -3669,6 +3669,7 @@ update_server : -skip ${1=$_version},${2=1}
     -_update_server_upload[] /tmp/update$1.gmic,update.gmic
 
     -if {$1==1652} (1650,1651)
+    -elif {$1==168} (167)
     -else 0
     -endif
     -repeat {w}
