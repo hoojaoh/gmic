@@ -496,7 +496,7 @@ _help_usage :
 \n       . '"$c"$_pid"$n"': The current "${g}"process identifier"$n", as an integer.
 \n       . '"$c"$_prerelease"$n"': For pre-releases only, the "${g}"date of the pre-release"$n" as "${g}"mmddyy"$n".
 \n          For stable releases, this variable is not defined.
-\n       . '"$c"$_version"$n"': A 4-digits number telling about the current "${g}"version"$n" of the "${-GMIC}" interpreter.
+\n       . '"$c"$_version"$n"': A 3-digits number telling about the current "${g}"version"$n" of the "${-GMIC}" interpreter.
 \n          (currently '"$g$_version$n"').
 \n       . '"$c"$_vt100"$n"': Set to "${g}"1"$n" (default value) if "${g}"colored text output"$n" is allowed on the console.
 \n       . '"$c"$_path_rc"$n"': The path to the G'MIC folder used to store resources and configuration files
@@ -15117,7 +15117,7 @@ struncase :
 #@gmic : Return the specified version number of the G'MIC interpreter, as a string.
 #@gmic : Default value: 'version=$_version'.
 strver : -check ${1=$_version}>0
-  -v - ({'$1'}) -r. 7 -f. 'if(x%2,{'.'},i)' -u {t} -rm. -v +
+  -v - ({'$1'}) -r. {2*w-1} -f. 'if(x%2,{'.'},i)' -u {t} -rm. -v +
 
 #@gmic tic
 #@gmic : Initialize tic-toc timer.

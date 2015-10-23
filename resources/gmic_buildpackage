@@ -58,8 +58,7 @@ if [ "$OSTYPE" == "msys" ]; then
     RELEASE1=`echo $RELEASE0 | head -c1` &&
     RELEASE2=`echo $RELEASE0 | head -c2 | tail -c1` &&
     RELEASE3=`echo $RELEASE0 | head -c3 | tail -c1` &&
-    RELEASE4=`echo $RELEASE0 | head -c4 | tail -c1` &&
-    VERSION=$RELEASE1.$RELEASE2.$RELEASE3.$RELEASE4 &&
+    VERSION=$RELEASE1.$RELEASE2.$RELEASE3 &&
 
     if [ "$1" == "final" ]; then
         SUFFIX="";
@@ -149,8 +148,7 @@ if [ "$DIST" != "Ubuntu 14.04.3 LTS" ] || [ "$BITS" != "x86_64" ] ; then
     RELEASE1=`echo $RELEASE0 | head -c1`
     RELEASE2=`echo $RELEASE0 | head -c2 | tail -c1`
     RELEASE3=`echo $RELEASE0 | head -c3 | tail -c1`
-    RELEASE4=`echo $RELEASE0 | head -c4 | tail -c1`
-    VERSION=$RELEASE1.$RELEASE2.$RELEASE3.$RELEASE4
+    VERSION=$RELEASE1.$RELEASE2.$RELEASE3
 
     CODENAME=`lsb_release -i | xargs | tail -c+16 | xargs`_`lsb_release -c | xargs | tail -c+10 | xargs`
     CODENAME="$(echo $CODENAME | tr '[A-Z]' '[a-z]')"
@@ -195,9 +193,8 @@ RELEASE0=`grep "#define gmic_version" gmic/src/gmic.h | tail -c5`
 RELEASE1=`echo $RELEASE0 | head -c1`
 RELEASE2=`echo $RELEASE0 | head -c2 | tail -c1`
 RELEASE3=`echo $RELEASE0 | head -c3 | tail -c1`
-RELEASE4=`echo $RELEASE0 | head -c4 | tail -c1`
-VERSION=$RELEASE1.$RELEASE2.$RELEASE3.$RELEASE4
-SVERSION=$RELEASE1$RELEASE2$RELEASE3$RELEASE4
+VERSION=$RELEASE1.$RELEASE2.$RELEASE3
+SVERSION=$RELEASE1$RELEASE2$RELEASE3
 if [ "$1" == "final" ]; then SUFFIX=""; else SUFFIX=_pre; fi
 DIR=/tmp/gmic-${VERSION}${SUFFIX}
 rm -f gmic_${VERSION}${SUFFIX}_*.deb gmic_${VERSION}${SUFFIX}.tar.gz deb_gmic_${VERSION}${SUFFIX}.tar.gz \
@@ -215,11 +212,11 @@ echo " - Release number : $VERSION$SUFFIX"
 echo " - Create 'gmic_stdlib.h' file"
 cd gmic/src/
 cp -f gmic_stdlib.gmic ../html/
-cp -f gmic_stdlib.gmic ../html/gmic_stdlib.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
+cp -f gmic_stdlib.gmic ../html/gmic_stdlib.$SVERSION
 make stdlib CImg.h
 
 if [ "$1" == "final" ]; then
-    git tag v.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
+    git tag v.$SVERSION
     gmic_commit "Final release "${VERSION}
 else
     gmic_commit "Auto-commit for release "${VERSION}${SUFFIX}
@@ -279,7 +276,7 @@ cd ..
 echo " - Upload G'MIC web page."
 cd html
 lftp ftp://$GMIC_LOGIN:$GMIC_PASSWD@ftp.gmic.eu -e "mirror -RL . /www/gmic/ ; quit"
-rm -f gmic_stdlib.gmic gmic_stdlib.$RELEASE1$RELEASE2$RELEASE3$RELEASE4
+rm -f gmic_stdlib.gmic gmic_stdlib.$SVERSION
 cd ..
 
 # Construct a clean version of G'MIC directory.
@@ -299,8 +296,8 @@ cp -Lrf gmic.1.gz $DIR/man
 cd ..
 mkdir $DIR/resources
 cd resources
-\gmic cimgz:http://gmic.eu/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/resources/gimp_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
-\gmic cimgz:http://gmic.eu/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic -o raw:$DIR/resources/cli_update$RELEASE1$RELEASE2$RELEASE3$RELEASE4.gmic,uchar
+\gmic cimgz:http://gmic.eu/gimp_update$SVERSION.gmic -o raw:$DIR/resources/gimp_update$SVERSION.gmic,uchar
+\gmic cimgz:http://gmic.eu/cli_update$SVERSION.gmic -o raw:$DIR/resources/cli_update$SVERSION.gmic,uchar
 cp -Lrf gmic_bashcompletion.sh $DIR/resources
 cp -Lrf debian $DIR
 cd ..
@@ -324,7 +321,7 @@ if [ "$1" == "final" ]; then
     sed "s/PRERELEASE_CFLAGS = /NO_PRERELEASE_CFLAGS = /" Makefile > /tmp/Makefile
     mv /tmp/Makefile Makefile
 fi
-sed s\/_gmic_versio3\/$RELEASE1.$RELEASE2.$RELEASE3\/g Makefile > /tmp/Makefile
+sed s\/_gmic_versio3\/$VERSION\/g Makefile > /tmp/Makefile
 mv /tmp/Makefile Makefile
 sed s\/_gmic_versio1\/$RELEASE1\/g Makefile > /tmp/Makefile
 mv /tmp/Makefile Makefile
