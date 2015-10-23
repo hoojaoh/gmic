@@ -125,7 +125,7 @@ if [ "$OSTYPE" == "msys" ]; then
     cp -f ${OUTZIP2} /e/work/src/ &&
 
     # Construct Inno Setup installer.
-    sed s\/XXXX\/${VERSION}${SUFFIX}\/g gmic_gimp.iss > tmp.iss &&
+    sed s\/XXX\/${VERSION}${SUFFIX}\/g gmic_gimp.iss > tmp.iss &&
     /c/Program\ Files\ \(x86\)/Inno\ Setup\ 5/ISCC.exe tmp.iss
     touch ${OUTINST} &&
     sleep 3 &&

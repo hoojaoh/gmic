@@ -16,7 +16,7 @@
 
 [Setup]
 AppName={#AppName}
-AppVersion=XXXX
+AppVersion=XXX
 AppPublisherURL=http://gmic.sourceforge.net/
 DefaultDirName={%USERPROFILE|{userdesktop}\..}\.gimp-2.8\plug-ins\
 DefaultGroupName={#AppName}
@@ -28,7 +28,7 @@ UninstallFilesDir={app}\uninst
 AppendDefaultDirName=false
 UsePreviousAppDir=true
 DirExistsWarning=no
-OutputBaseFilename=gmic_gimp_XXXX_win64
+OutputBaseFilename=gmic_gimp_XXX_win64
 
 [Files]
 Source: gmic-gimp-build\gmic_gimp.exe; DestDir: {app}
