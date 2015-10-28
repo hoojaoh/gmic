@@ -383,7 +383,7 @@ echo ELARA_DONE
 echo " - Waiting for all packages.".
 
 cd ${HOME}/work/src/
-#gmic -_update_server_binaries ${VERSION}${SUFFIX}
+gmic -_update_server_binaries ${VERSION}${SUFFIX}
 
 #
 # End of file.
