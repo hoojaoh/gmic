@@ -3755,7 +3755,7 @@ _update_server_upload : -skip "${2=""}"
   -l[] GMIC_LOGIN=${-gmic_ftp\ 0} -onfail GMIC_LOGIN="" -endl
   -l[] GMIC_PASSWD=${-gmic_ftp\ 1} -onfail GMIC_PASSWD="" -endl
   -if {narg($GMIC_LOGIN)}
-    -x "lftp ftp://"$GMIC_LOGIN":"$GMIC_PASSWD"@ftp.gmic.eu -e "\""put -O /www/gmic/ \"\""$1\"\"" -o \"\"""$out"\"\""; quit"\"" >/dev/null"
+    -x "lftp ftp://"$GMIC_LOGIN":"$GMIC_PASSWD"@ftp.gmic.eu -e \"put -O /www/gmic/ \\\"$1\\\" -o \\\""$out"\\\"; quit\" >/dev/null"
   -endif
 
 # Upload released binaries on the G'MIC web server.
