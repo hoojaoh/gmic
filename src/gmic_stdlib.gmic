@@ -701,11 +701,16 @@ _help_usage :
 \n       . '"${c}"debug(expression)"$n" prints detailed debug information about the sequence of operations
 \n          done by the math parser to evaluate the expression (and returns its value).
 \n
-\n    - If the specified expression starts with '"$c">"$n"' or '"$c"<"$n"', the pixel access operators
-\n       '"${c}"i(), i[], j()"$n"' and '"${c}"j[]"$n"' return values of the image being currently modified,
-\n       in forward ('"$c">"$n"') or backward ('"$c"<"$n"') order.
-\n    - Starting an expression with '"$c"*"$n"' forces the multiple evaluations that required for an image
-\n       to be run in parallel.
+\n    - Multi-threaded and in-place evaluation:
+\n       . If your image data are large enough and you have several CPUs available, it is likely that
+\n         the math expression passed to a '"$c"-fill"$n"' or '"$c"-input"$n"' command is evaluated in parallel, using
+\n         multiple computation threads.
+\n       . Starting an expression with '"$c"*"$n"' forces the several evaluations required for an image to be
+\n         run in parallel, even if the amount of data to process is small.
+\n       . If the specified expression starts with '"$c">"$n"' or '"$c"<"$n"', the pixel access operators
+\n         '"${c}"i(), i[], j()"$n"' and '"${c}"j[]"$n"' return values of the image being currently modified,
+\n         in forward ('"$c">"$n"') or backward ('"$c"<"$n"') order. The multi-threading evaluation of the expression is
+\n         also disabled in this case.
 \n
 \n    _ Expressions '"${c}"i(_#ind,x,_y,_z,_c)=value"$n"', '"${c}"j(_#ind,x,_y,_z,_c)=value"$n"', '"${c}"i[_#ind,offset]=value"$n"' and
 \n       '"${c}"j[_#ind,offset]=value"$n"' set a pixel value at a different location than the running one in the
