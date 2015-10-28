@@ -2943,7 +2943,7 @@ update_film_emulation_html :
       -repeat $nb_samples -l[{2*$>},{2*$>+1},-1]
         basename={0,b}
         -if $category/$basename/$preset.jpg -else
-          -if $category/$basename -else -x "mkdir \""$category/$basename"\"" -endif
+          -if $category/$basename -else -x "mkdir "\"$category/$basename\" -endif
           --map_clut[^-1] [-1]
           -text_outline.. ${-_title\ $preset},4,{-2,h-28},20,2 -frame.. 1,1,0
           -o.. $category/$basename/$preset.jpg,$jpeg_quality
@@ -3755,7 +3755,7 @@ _update_server_upload : -skip "${2=""}"
   -l[] GMIC_LOGIN=${-gmic_ftp\ 0} -onfail GMIC_LOGIN="" -endl
   -l[] GMIC_PASSWD=${-gmic_ftp\ 1} -onfail GMIC_PASSWD="" -endl
   -if {narg($GMIC_LOGIN)}
-    -x "lftp ftp://"$GMIC_LOGIN":"$GMIC_PASSWD"@ftp.gmic.eu -e \"put -O /www/gmic/ \\\"$1\\\" -o \\\""$out"\\\"; quit\" >/dev/null"
+    -x "lftp ftp://"$GMIC_LOGIN":"$GMIC_PASSWD"@ftp.gmic.eu -e "\""put -O /www/gmic/ \"\""$1\"\"" -o \"\"""$out"\"\""; quit"\"" >/dev/null"
   -endif
 
 # Upload released binaries on the G'MIC web server.
@@ -14638,7 +14638,7 @@ file_rm :
     -if {narg($ext)} com=${com}"del \""$base.$ext"\"" -else com=${com}"del \""$base"\"" -endif
     -x $com
   -else
-    -x "rm -f \"$1\""
+    -x "rm -f "\""$1"\"
   -endif
   -v +
 
@@ -19922,7 +19922,7 @@ survey :
   -l[] GMIC_LOGIN=${-gmic_ftp\ 0} -onfail GMIC_LOGIN="" -endl
   -l[] GMIC_PASSWD=${-gmic_ftp\ 1} -onfail GMIC_PASSWD="" -endl
   -if {narg($GMIC_LOGIN)}
-    -x "lftp ftp://"$GMIC_LOGIN":"$GMIC_PASSWD"@ftp.gmic.eu -e \"put -O /www/gmic/ \\\""$out"\\\"; quit\" >/dev/null"
+    -x "lftp ftp://"$GMIC_LOGIN":"$GMIC_PASSWD"@ftp.gmic.eu -e "\""put -O /www/gmic/ \"\""$out\"\""; quit"\"" >/dev/null"
   -endif
   -endl -v +
 
