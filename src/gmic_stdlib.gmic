@@ -14116,21 +14116,24 @@ _wrbytepnk :
 
 _xpink :
   filename=${-file_rand}
+  -_u $filename x_filename=${}
   prefix=pink.
   -if {!${-is_windows}}
     -x "which "${prefix}${1}" >/dev/null 2>&1"
-    -if {${}!=0} prefix="" -x "which "$1" >/dev/null 2>&1"
-	  -if {${}!=0} -error "Executable (pink.)"$1" not found in PATH, status = "${}"!! Returning!!\n" -return -endif
-	-endif
+    -if {${}!=0} prefix=""
+      -x "which "$1" >/dev/null 2>&1"
+      -if {${}!=0} -error "Executable (pink.)"$1" not found in PATH, status = "${}"!! Returning!!\n" -return -endif
+    -endif
     -output_pink3d ${filename}.pnk -x ${prefix}${1}" "${filename}".pnk $2 "${filename}"_o.pnk >/dev/null 2>&1"
   -else
-    -output_pink3d ${filename}.pnk -x $1" "${filename}".pnk $2 "${filename}"_o.pnk"
+    -output_pink3d ${filename}.pnk -x $1" "${x_filename}".pnk $2 "${x_filename}"_o.pnk"
   -endif
   status=${}
-  -file_rm ${filename}.pnk
+  -file_rm ${x_filename}.pnk
   -if {$status!=0\ &&\ {$1'!='seuilauto}} -error "Exec status is "${status}"." -return
-  -elif ${filename}_o.pnk -i ${filename}_o.pnk -file_rm ${filename}_o.pnk -k.
-  -else -error "Exec error!!" -endif
+  -elif ${filename}_o.pnk -i ${filename}_o.pnk -file_rm ${x_filename}_o.pnk -k.
+  -else -error "Exec error!!"
+  -endif
 
 _xpinks :
   s={s} -if {$s>1} -s. c -endif
