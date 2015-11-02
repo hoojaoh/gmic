@@ -5177,7 +5177,7 @@ ac :
 #@gmic apply_channels : "command",channels,_value_action={ 0=none | 1=cut | 2=normalize }
 #@gmic : Apply specified command on the chosen color channel(s) of each selected images.
 #@gmic : (eq. to '-ac').
-#@gmic : Argument 'channels' refers to a colorspace, and can be basically one of { all | rgba | rgb | lrgb | ycbcr | lab | lch | hsv | hsi | hsl | cmy | cmyk }.
+#@gmic : Argument 'channels' refers to a colorspace, and can be basically one of { all | rgba | rgb | lrgb | ycbcr | lab | lch | hsv | hsi | hsl | cmy | cmyk | yiq }.
 #@gmic : You can also focus the processing on one particular channel of this colorspace, by setting 'channels' as 'colorspace_channel' (e.g. 'hsv_h' for the hue).
 #@gmic : All channel values are considered to be in the [0,255] range.
 #@gmic : Default value: 'value_action=0'.
@@ -5195,7 +5195,8 @@ _apply_channels : -check "isint(${3=0}) && $3>=0 && $3<=2"
                       lab_l,lab_ab,lab_a,lab_b,\
                       lch_ch,lch_c,lch_h,\
                       hsv_h,hsv_s,hsv_v,hsi_i,hsl_l,\
-                      cmyk_c,cmyk_m,cmyk_y,cmyk_k}
+                      cmyk_c,cmyk_m,cmyk_y,cmyk_k,\
+                      yiq_y,yiq_iq,yiq_i,yiq_q}
   -else mode="$2" -endif -else mode="$2" -endif
   -v + -e[^-1] "Apply command '$1' on channel '"$mode"' of image"$_gmic_s"." -v -
   -_ac_$mode -m "_ac_precond : "$_p -m "_ac_forward : "$_f -m "_ac_backward : "$_b
@@ -5277,6 +5278,12 @@ _ac_cmyk_c : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=0
 _ac_cmyk_m : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=1
 _ac_cmyk_y : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=2
 _ac_cmyk_k : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=3
+
+_ac_yiq : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=0,2
+_ac_yiq_y : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=0
+_ac_yiq_iq : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=1,2
+_ac_yiq_i : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=1
+_ac_yiq_q : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=2
 
 #@gmic autoindex : nb_colors>0,0<=_dithering<=1,_method={ 0=median-cut | 1=k-means }
 #@gmic : Index selected vector-valued images by adapted colormaps.
@@ -5792,6 +5799,13 @@ rgb2xyz8 :
     -sh[$>] 2 -*. 231.8182 -rm.
   -done -v +
 
+#@gmic rgb2yiq
+#@gmic : Convert selected images from RGB to YIQ colorbases.
+#@gmic : $ image.jpg -rgb2ycbcr -split c
+rgb2yiq :
+  -e[^-1] "Convert image$? from RGB to YIQ color bases."
+  -v - -mix_rgb 0.299,0.587,0.114,0.595716,-0.274453,-0.321263,0.211456,-0.522591,0.311135 -v +
+
 #@gmic rgb2ycbcr
 #@gmic : Convert selected images from RGB to YCbCr colorbases.
 #@gmic : $ image.jpg -rgb2ycbcr -split c
@@ -6177,6 +6191,12 @@ ycbcr2rgb :
   -v - -repeat $! -l[$>] -sh 0 --. 16 -rm. -sh 1,2 --. 128 -rm. -endl -done
   -mix_rgb 298,0,409,298,-100,-208,298,516,0 -+ 128 -/ 256 -c 0,255
   -v +
+
+#@gmic yiq2rgb
+#@gmic : Convert selected images from YIQ to RGB colorbases.
+yiq2rgb :
+  -e[^-1] "Convert image$? from YIQ to RGB color bases."
+  -v - -mix_rgb 1,0.9563,0.6210,1,-0.2721,-0.6474,1,-1.1070,1.7046 -v +
 
 #@gmic yuv2rgb
 #@gmic : Convert selected images from YUV to RGB colorbases.
