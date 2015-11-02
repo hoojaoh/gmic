@@ -2033,9 +2033,7 @@ void _gimp_preview_invalidate() {
     if (preview_image_ratio_id) gimp_image_delete(preview_image_ratio_id);
     preview_image_id = preview_image_ratio_id = 0; preview_image_factor = 1;
 
-    // Pre-compute image thumbnail for preview if image is too small.
-
-   // Pre-compute image thumbnail for preview if image has bad dimensions
+    // Pre-compute image thumbnail for preview if image has bad dimensions
     // (too small/big or wrong aspect ratio).
     const int
       mwh = cimg::min(w,h),
@@ -2043,7 +2041,7 @@ void _gimp_preview_invalidate() {
       max_preview_size = 200 + 120*(2 + get_preview_size(true)),
       min_preview_size = max_preview_size/2;
 
-    if (Mwh<min_preview_size || mwh>max_preview_size || Mwh>2*mwh) {
+    if (Mwh<min_preview_size) { // || mwh>max_preview_size || Mwh>2*mwh) {
       int pw = 0, ph = 0, preview_size = min_preview_size;
       GimpInterpolationType interpolation = GIMP_INTERPOLATION_NONE;
       if (Mwh<min_preview_size) {
