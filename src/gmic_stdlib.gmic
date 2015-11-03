@@ -5279,11 +5279,11 @@ _ac_cmyk_m : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=1
 _ac_cmyk_y : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=2
 _ac_cmyk_k : _p="-to_color" _f="-rgb2cmyk" _b="-cmyk2rgb" _s=3
 
-_ac_yiq : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=0,2
-_ac_yiq_y : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=0
-_ac_yiq_iq : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=1,2
-_ac_yiq_i : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=1
-_ac_yiq_q : _p="-to_color" _f="-rgb2yiq" _b="-yiq2rgb" _s=2
+_ac_yiq : _p="-to_color" _f="-rgb2yiq8" _b="-yiq82rgb" _s=0,2
+_ac_yiq_y : _p="-to_color" _f="-rgb2yiq8" _b="-yiq82rgb" _s=0
+_ac_yiq_iq : _p="-to_color" _f="-rgb2yiq8" _b="-yiq82rgb" _s=1,2
+_ac_yiq_i : _p="-to_color" _f="-rgb2yiq8" _b="-yiq82rgb" _s=1
+_ac_yiq_q : _p="-to_color" _f="-rgb2yiq8" _b="-yiq82rgb" _s=2
 
 #@gmic autoindex : nb_colors>0,0<=_dithering<=1,_method={ 0=median-cut | 1=k-means }
 #@gmic : Index selected vector-valued images by adapted colormaps.
@@ -5801,10 +5801,21 @@ rgb2xyz8 :
 
 #@gmic rgb2yiq
 #@gmic : Convert selected images from RGB to YIQ colorbases.
-#@gmic : $ image.jpg -rgb2ycbcr -split c
+#@gmic : $ image.jpg -rgb2yiq -split c
 rgb2yiq :
   -e[^-1] "Convert image$? from RGB to YIQ color bases."
   -v - -mix_rgb 0.299,0.587,0.114,0.595716,-0.274453,-0.321263,0.211456,-0.522591,0.311135 -v +
+
+#@gmic rgb2yiq8
+#@gmic : Convert selected images from RGB to YIQ8 colorbases.
+#@gmic : $ image.jpg -rgb2yiq8 -split c
+rgb2yiq8 :
+  -e[^-1] "Convert image$? from RGB to YIQ color bases."
+  -v - -mix_rgb 0.299,0.587,0.114,0.595716,-0.274453,-0.321263,0.211456,-0.522591,0.311135
+  -repeat $!
+    -sh[$>] 1 -+. 151.908 -*. 0.8393238012481239 -rm.
+    -sh[$>] 2 -+. 133.261 -*. 0.9567690472081104 -rm.
+  -done -v +
 
 #@gmic rgb2ycbcr
 #@gmic : Convert selected images from RGB to YCbCr colorbases.
@@ -5812,8 +5823,10 @@ rgb2yiq :
 rgb2ycbcr :
   -e[^-1] "Convert image$? from RGB to YCbCr color bases."
   -v - -mix_rgb 66,129,25,-38,-74,112,112,-94,-18 -+ 128 -/ 256
-  -repeat $! -l[$>] -sh 0 -+. 16 -rm. -sh 1,2 -+. 128 -rm. -endl -done
-  -v +
+  -repeat $!
+    -sh[$>] 0 -+. 16 -rm.
+    -sh[$>] 1,2 -+. 128 -rm.
+  -done -v +
 
 #@gmic rgb2yuv
 #@gmic : Convert selected images from RGB to YUV colorbases.
@@ -6197,6 +6210,16 @@ ycbcr2rgb :
 yiq2rgb :
   -e[^-1] "Convert image$? from YIQ to RGB color bases."
   -v - -mix_rgb 1,0.9563,0.6210,1,-0.2721,-0.6474,1,-1.1070,1.7046 -v +
+
+#@gmic yiq82rgb
+#@gmic : Convert selected images from YIQ8 to RGB colorbases.
+yiq82rgb :
+  -e[^-1] "Convert image$? from YIQ8 to RGB color bases."
+  -v - -repeat $!
+    -sh[$>] 1 -/. 0.8393238012481239 --. 151.908 -rm.
+    -sh[$>] 2 -/. 0.9567690472081104 --. 133.261 -rm.
+  -done
+  -mix_rgb 1,0.9563,0.6210,1,-0.2721,-0.6474,1,-1.1070,1.7046 -c 0,255 -v +
 
 #@gmic yuv2rgb
 #@gmic : Convert selected images from YUV to RGB colorbases.
@@ -22678,7 +22701,7 @@ _gimp_decompose_channels7 : -rgb2lab8
 _gimp_decompose_channels8 : -rgb2lch8
 _gimp_decompose_channels9 : -rgb2cmy
 _gimp_decompose_channels10 : -rgb2cmyk
-_gimp_decompose_channels11 : -rgb2yiq -c 0,255
+_gimp_decompose_channels11 : -rgb2yiq8
 
 _gimp_recompose_channels0 :
 _gimp_recompose_channels1 : -hsv82rgb
@@ -22691,7 +22714,7 @@ _gimp_recompose_channels7 : -lab82rgb
 _gimp_recompose_channels8 : -lch82rgb
 _gimp_recompose_channels9 : -cmy2rgb
 _gimp_recompose_channels10 : -cmyk2rgb
-_gimp_recompose_channels11 : -yiq2rgb -c 0,255
+_gimp_recompose_channels11 : -yiq82rgb
 
 #@gimp Detect skin : gimp_detect_skin, gimp_detect_skin_preview(1)
 #@gimp : Skin estimation = choice(1,"Manual","Automatic")
