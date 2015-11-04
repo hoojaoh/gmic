@@ -6872,7 +6872,7 @@ if (!(x%2 && y%2),i,
       weight2 = w2/(w1 + w2);
       DownRightPixel = (-j(-3,-3,0,0,0,1) + 9*j(-1,-1,0,0,0,1) + 9*j(1,1,0,0,0,1) - j(3,3,0,0,0,1))/16;
       UpRightPixel = (-j(3,-3,0,0,0,1) + 9*j(1,-1,0,0,0,1) + 9*j(-1,1,0,0,0,1) - j(-3,3,0,0,0,1))/16;
-      DownRightPixel*weight1 + UpRightPixel*weight2
+      UpRightPixel*weight1 + DownRightPixel*weight2
     )
   ))
 )
