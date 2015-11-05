@@ -15,9 +15,9 @@
       <font size="-2"><i><b>Gmicky</b>, the G'MIC mascot<br/>
           (by <a href="http://www.mahvin.com/">Mahvin</a>)</i></font><br/>
 
-      <!-- <a href='https://pledgie.com/campaigns/29756'><img alt='Click here to lend your support to: G&#x27;MIC' src='img/donate.png' border='0' ></a> -->
-      <!-- <br/><font size="-2">to help develop the project !</font> -->
-      <!-- <br/><br/><font size="-2">You can also donate <b>Bitcoins</b> at: <a href="bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation">1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</a></font> -->
+      <a href='https://pledgie.com/campaigns/29756'><img alt='Click here to lend your support to: G&#x27;MIC' src='img/donate.png' border='0' ></a>
+      <br/><font size="-2">to help develop the project !</font>
+      <br/><br/><font size="-2">You can also donate <b>Bitcoins</b> at: <a href="bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation">1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</a></font>
       <hr noshade="noshade" size="1" width="90%"></hr>
 
       <div id="pub_left" style="display:none">
@@ -60,7 +60,7 @@
     function hop() {
       var delay = 6; // In seconds
       var ad = document.querySelector("ins.adsbygoogle");
-      if ( Math.random() < 10.65 || (ad && ad.innerHTML.replace(/\s/g, "").length == 0) ) {
+      if ( Math.random() < 0.60 || (ad && ad.innerHTML.replace(/\s/g, "").length == 0) ) {
         document.getElementById('nopub').style.display='';
 //        document.getElementById('pub_left').style.display='';
       } else {
