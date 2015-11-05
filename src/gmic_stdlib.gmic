@@ -148,7 +148,7 @@ cli_start :
 #@gmic : Activate debug mode.
 #@gmic : When activated, the G'MIC interpreter becomes very verbose and outputs additionnal log
 #@gmic : messages about its internal state on the standard output (stdout).
-#@gmic : This option can be useful when debugging the execution of a custom command.
+#@gmic : This option is useful for developers or to report possible bugs of the interpreter.
 
 #@gmic h : eq. to '-help'.
 h :
@@ -717,7 +717,7 @@ _help_usage :
 \n       . '"${c}"whiledo(condition,expression)"$n"' is exactly the same as '"${c}"for(init,condition,expression)"$n"'
 \n          without the specification of an initializing expression.
 \n       . '"${c}"date(attr,path)"$n"' returns the date attribute for the given 'path' (file or directory),
-\n          with 'attr' being "$g"{ 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }"$n".
+\n          with '"${g}"attr"$n"' being "$g"{ 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }"$n".
 \n       . '"${c}"date(_attr)"$n" returns the specified attribute for the current (locale) date.
 \n       . '"${c}"print(expression)"$n" prints the value of the specified expression on the console
 \n          (and returns its value).
@@ -1184,7 +1184,7 @@ v : # Allow 'gmic --v' to get the version number.
 #-------------------------------
 
 #@gmic camera : _camera_index>=0,_nb_frames>0,_skip_frames>=0,_capture_width>=0,_capture_height>=0 : (+)
-#@gmic : Insert one or several frames from specified camera, with custom delay between frames (in ms).
+#@gmic : Insert one or several frames from specified camera.
 #@gmic : When 'nb_frames==0', the camera stream is released instead of capturing new images.
 #@gmic : Default values: 'camera_index=0' (default camera), 'nb_frames=1', 'skip_frames=0' and 'capture_width=capture_height=0' (default size).
 
