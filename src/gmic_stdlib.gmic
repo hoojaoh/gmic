@@ -248,12 +248,12 @@ _help_usage :
 
   -_help_paragraph "    "$c${b}"gmic [-command1 [arg1_1,arg1_2,..]] .. [-commandN [argN_1,argN_2,..]]"$n"
 \n
-\n '"${g}"gmic"$n"' is the open-source interpreter of the "${-GMIC}" language, a script-based programming
-\n  language dedicated to the design of "${g}"image processing pipelines"$n". It can be used to convert,
-\n  manipulate, filter and visualize image datasets made of one or several 1d/2d or 3d multi-
-\n  spectral images.
+\n    '"${g}"gmic"$n"' is the open-source interpreter of the "${-GMIC}" language, a script-based programming
+\n    language dedicated to the design of possibly complex "${g}"image processing pipelines"$n".
+\n    It can be used to convert, manipulate, filter and visualize image datasets made of one
+\n    or several 1d/2d or 3d multi-spectral images.
 \n
-\n This documentation proposes a technical description of the "${-GMIC}" language basics and rules."
+\n    This documentation describes the basics, rules and technical aspects of the "${-GMIC}" language."
 
   -_help_section "Overall context"
 
@@ -264,13 +264,13 @@ _help_usage :
 \n  - Negative indices are treated in a periodic way: '"$c"[-1]"$n"' refers to the last image of the
 \n     list, '"$c"[-2]"$n"' to the penultimate one, etc. Thus, if the list has 4 images, '"$c"[1]"$n"' and '"$c"[-3]"$n"'
 \n     both designate the second image of the list.
-\n  - A named image may be indicated by '"$c"[name]"$n"', if '"${g}"name"$n"' uses the characters set [a-zA-Z0-9_]
+\n  - A named image may be indicated by '"$c"[name]"$n"', if '"${g}"name"$n"' uses the character set "$g"[a-zA-Z0-9_]"$n"
 \n     and does not start with a number. Image names can be set or reassigned at any moment
 \n     during the processing pipeline (see commands '"$c"-name"$n"' and '"$c"-input"$n"' for this purpose).
 \n  - "${-GMIC}" defines a set of various commands and substitution mechanisms to allow the design
 \n     of complex pipelines managing this list of images, in a very flexible way:
 \n     You can insert or remove images in the list, rearrange image indices, process images
-\n     (individually or grouped), merge image data together, display and output image files...
+\n     (individually or grouped), merge image data together, display and output image files, etc.
 \n  - Such a pipeline can be written itself as a custom "${-GMIC}" command storable in a user
 \n     command file, and can be re-used afterwards in another bigger pipeline if necessary."
 
@@ -279,6 +279,7 @@ _help_usage :
   -_help_paragraph "  - In "${-GMIC}", each image is modeled as a 1d, 2d, 3d or 4d array of scalar values, uniformly
 \n     discretized on a rectangular/parallelepipedic domain.
 \n  - The four dimensions of this array are respectively denoted by:
+\n
 \n    . '"${g}"width"$n"', the number of image columns (size along the "$g"'x'-axis"$n").
 \n    . '"${g}"height"$n"', the number of image rows (size along the "$g"'y'-axis"$n").
 \n    . '"${g}"depth"$n"', the number of image slices (size along the "$g"'z'-axis"$n").
@@ -293,8 +294,10 @@ _help_usage :
 \n     regarded as a 3d dataset of multi-spectral voxels. Most of the "${-GMIC}" commands will stick
 \n     with this idea (e.g. command '"$c"-blur"$n"' blurs images only along the '"${g}"xyz"$n"'-axes).
 \n  - "${-GMIC}" stores all the image data as buffers of '"${g}"float"$n"' values (32 bits,
-\n    value range "$g"[-3.4E38,+3.4E38]"$n"). It performs all its image processing operations with
-\n    floating point numbers. Each image pixel takes then 32bits/channel.
+\n     value range "$g"[-3.4E38,+3.4E38]"$n"). It performs all its image processing operations with
+\n     floating point numbers. Each image pixel takes then 32bits/channel (except if double-
+\n     precision buffers have been enabled during the compilation of the software, in which case
+\n     64bits/channel is the default).
 \n  - Considering '"${g}"float"$n"'-valued pixels ensure to keep the numerical precision when executing
 \n     image processing pipelines. For image input/output operations, you may want to prescribe
 \n     the image datatype to be different than '"${g}"float"$n"' (like '"${g}"bool"$n"', '"${g}"char"$n"', '"${g}"int"$n"', etc...).
@@ -307,8 +310,8 @@ _help_usage :
 \n     right. For instance, the expression:
 \n\n       "${c}"filename.jpg -blur 3,0 -sharpen 10 -resize 200%,200% -output output.jpg"$n"\n
 \n     defines a valid pipeline composed of nine "${-GMIC}" items.
-\n  - Each "${-GMIC}" item is a string which represents either a command, a list of
-\n     command arguments, a filename, or a special input string.
+\n  - Each "${-GMIC}" item is a string that is either a command, a list of command arguments,
+\n     a filename, or a special input string.
 \n  - Escape characters '"$g"\\"$n"' and double quotes '"$g"\""$n"' can be used to define items containing
 \n     spaces or other special characters. For instance, the two strings
 \n     '"${c}"single\\ item"$n"' and '"${c}"\"single item\""$n"' define the same single item, with a space in it."
@@ -321,33 +324,35 @@ _help_usage :
 \n     forced to be in a specific '"${g}"ext"$n"' file format (e.g. '"$c"-.jpg"$n"' or '"$c"-.png"$n"').
 \n  - The following "${g}"special input strings"$n" may be used as "${-GMIC}" items to create and insert new
 \n     images with prescribed values, at the end of the image list:
-\n    . '"$g"[selection]"$n"' or '"$g"[selection]xN"$n"': Insert 1 or N copies of already existing images.
+\n
+\n    . '"$c"[selection]"$n"' or '"$c"[selection]xN"$n"': Insert 1 or N copies of already existing images.
 \n       '"${g}"selection"$n"' may represent one or several images
 \n       (see section '"${c}"Command items and selection"$n"' to learn more about selections).
-\n    . '"${g}"width[%],_height[%],_depth[%],_spectrum[%],_values"$n"': Insert a new image with
+\n    . '"${c}"width[%],_height[%],_depth[%],_spectrum[%],_values"$n"': Insert a new image with
 \n       specified size and values (adding '"$g"%"$n"' to a dimension means 'percentage of the size
 \n       along the same axis, taken from the last image '"$g"[-1]"$n"''). Any specified dimension
-\n       can be also written as '"$g"[image]"$n"', and is then set to the size (along the same axis)
+\n       can be also written as '"$c"[image]"$n"', and is then set to the size (along the same axis)
 \n       of the existing specified image "$g"[image]"$n". '"${g}"values"$n"' can be either a sequence of numbers
 \n       separated by commas '"$g","$n"', or a mathematical expression, as e.g. in input item
 \n       '"${c}"256,256,1,3,if(c==0,x,if(c==1,y,0))"$n"' which creates a 256x256 RGB color image with a
 \n       spatial shading on the red and green channels.
-\n    . '"$g"(v1,v2,..)"$n"': Insert a new image from specified prescribed values.
+\n       (see section '"${c}"Mathematical expressions"$n"' to learn more about mathematical expressions).
+\n    . '"$c"(v1,v2,..)"$n"': Insert a new image from specified prescribed values.
 \n       Value separator inside parentheses can be '"$g","$n"' (column separator), '"$g";"$n"' (row separator),
 \n       '"$g"/"$n"' (slice separator) or '"$g"^"$n"' (channel separator). For instance, expression
 \n       '"$c"(1,2,3;4,5,6;7,8,9)"$n"' creates a 3x3 matrix (scalar image), with values running from 1 to 9.
-\n    . '"${g}"0"$n"': Insert a new '"${g}"empty"$n"' image, containing no pixel data. Empty images are used only
+\n    . '"${c}"0"$n"': Insert a new '"${g}"empty"$n"' image, containing no pixel data. Empty images are used only
 \n       in rare occasions.
 \n
-\n  - Input item '"${g}"name=value"$n"' declares a new local or global variable '"${g}"name"$n"', or assign a new
-\n     value to an existing variable. Variable names use characters set [a-zA-Z0-9_] and cannot
+\n  - Input item '"${c}"name=value"$n"' declares a new local or global variable '"${g}"name"$n"', or assign a new
+\n     value to an existing variable. Variable names use character set "$g"[a-zA-Z0-9_]"$n" and cannot
 \n     start with a number.
 \n  - A variable definition is always local to the current command except when it starts by the
 \n     underscore character '"${g}"_"$n"'. In that case, it becomes also accessible
 \n     by any command invoked outside the current command scope (global variable).
 \n  - If a variable name starts with two underscores '"${g}"__"$n"', the global variable is also shared
 \n     among different threads and can be read/set by commands running in parallel (see command
-\n     '"${c}"-parallel"$n"'). Otherwise, it remains local to the thread that defined it.
+\n     '"${c}"-parallel"$n"' for this purpose). Otherwise, it remains local to the thread that defined it.
 \n  - Numerical variables can be updated with the use of these special operators:
 \n    '"${g}"+="$n"' (addition), '"${g}"-="$n"' (subtraction), '"${g}"*="$n"' (multiplication), '"${g}"/="$n"' (division), '"${g}"%="$n"' (modulo),
 \n    '"${g}"&="$n"' (bitwise and), '"${g}"|="$n"' (bitwise or), '"${g}"^="$n"' (power), '"${g}"<<="$n"' and '"${g}">>="$n"' (bitwise left
@@ -365,6 +370,8 @@ _help_usage :
 \n     arguments of a single command, when required.
 \n  - The execution of a "${-GMIC}" command may be restricted only to a "${g}"subset"$n" of the image list, by
 \n     appending '"$c"[selection]"$n"' to the command name. Examples of valid syntaxes for '"${g}"selection"$n"' are:
+\n
+\n    . '"$c"-command[-2]"$n"': Apply command only on the penultimate image "$g"[-2]"$n" of the list.
 \n    . '"$c"-command[0,1,3]"$n"': Apply command only on images "$g"[0],[1]"$n" and "$g"[3]"$n".
 \n    . '"$c"-command[3-6]"$n"': Apply command only on images "$g"[3]"$n" to "$g"[6]"$n" (i.e, "$g"[3],[4],[5]"$n" and "$g"[6]"$n").
 \n    . '"$c"-command[50%-100%]"$n"': Apply command only on the second half of the image list.
@@ -374,15 +381,15 @@ _help_usage :
 \n    . '"$c"-command[0--1:2]"$n"': Apply command only on images of the list with even indices.
 \n    . '"$c"-command[0,2-4,50%--1]"$n"': Apply command on images "$g"[0],[2],[3],[4]"$n" and on the second half
 \n                             of the image list.
-\n    . '"$c"-command[^0,1]"$n"': Apply command on all images except the two firsts.
+\n    . '"$c"-command[^0,1]"$n"': Apply command on all images except the two first.
 \n    . '"$c"-command[name1,name2]"$n"': Apply command on named images '"${g}"name1"$n"' and '"${g}"name2"$n"'.
 \n
 \n  - Indices in selections are always sorted in "${g}"increasing order"$n", and duplicate indices are
 \n     discarded. For instance, selections '"$c"[3-1,1-3]"$n"' and '"$c"[1,1,1,3,2]"$n"' are both equivalent to
 \n     '"$c"[1-3]"$n"'. If you want to repeat a single command multiple times on an image, use a
-\n     '"$c"-repeat..-done"$n"' loop. Inverting the order of images for a command is achieved by
+\n     '"$c"-repeat..-done"$n"' loop instead. Inverting the order of images for a command is achieved by
 \n     explicitely inverting  the order of the images in the list, with command '"$c"-reverse[selection]"$n"'.
-\n  - Command selections '"$c"[-1]"$n"','"$c"[-2]"$n"' and '"$c"[-3]"$n"' are so often used that they have shortcuts,
+\n  - Command selections '"$c"[-1]"$n"','"$c"[-2]"$n"' and '"$c"[-3]"$n"' are so often used that they have their own shortcuts,
 \n    respectively '"$c"."$n"', '"$c".."$n"' and '"$c"..."$n"'. For instance, command '"$c"-blur.."$n"' is equivalent to '"$c"-blur[-2]"$n"'.
 \n    These shortcuts work only for command selections, not for command arguments.
 \n  - "${-GMIC}" commands invoked without '"$c"[selection]"$n"' are applied on "${g}"all images"$n" of the list, i.e. the
@@ -390,6 +397,7 @@ _help_usage :
 \n  - A "${-GMIC}" command starting with a double hyphen '"$g"--"$n"' (instead of a single hyphen '"$g"-"$n"') does not act
 \n     'in-place' but inserts its result as one or several new images at the end of the image list.
 \n  - There are two different types of commands that can be run by the "${-GMIC}" interpreter:
+\n
 \n    . "${g}"Native commands"$n", are the hard-coded functionalities in the interpreter core.
 \n       They are thus compiled as binary code and "${g}"run fast"$n", most of the time.
 \n       Omitting an argument when invoking a native command is not permitted, except if all
@@ -397,22 +405,23 @@ _help_usage :
 \n       but '"$c"-plasma 10"$n"' is correct.
 \n    . "${g}"Custom commands"$n", are defined as "${-GMIC}" pipelines of native or custom commands.
 \n       They are "${g}"interpreted"$n" by the "${-GMIC}" interpreter, and thus "${g}"run a bit slower"$n" than native commands.
-\n       But omitting arguments when invoking a custom command is permitted. For instance,
+\n       Omitting arguments when invoking a custom command is permitted. For instance,
 \n       expressions '"$c"-flower ,,,100,,2"$n"' or '"$c"-flower ,"$n"' are correct.
 \n
-\n  - Most of the existing commands in "${-GMIC}" are actually "${g}"custom commands"$n".
-\n  - A user may easily add its own custom commands to the "${-GMIC}" interpreter (see section
+\n  - Most of the existing commands in "${-GMIC}" are actually defined as "${g}"custom commands"$n".
+\n  - A user can easily add its own custom commands to the "${-GMIC}" interpreter (see section
 \n     "${c}"'Adding custom commands"$n"' for more details). New native commands cannot be added
-\n     (unless you modify the "${-GMIC}" interpreter source code)."
+\n     (unless you modify the "${-GMIC}" interpreter source code and recompile it, of course!)."
 
   -_help_section "Input/output properties"
 
   -_help_paragraph "  - "${-GMIC}" is able to read/write most of the classical image file formats, including:
-\n    . 2d grayscale/color files: "$g".png, .jpeg, .gif, .pnm, .tif, .bmp, .."$n"
-\n    . 3d volumetric files: "$g".dcm, .hdr, .nii, .pan, .inr, .pnk, .."$n"
-\n    . video files: "$g".mpeg, .avi, .mov, .ogg, .flv, .."$n"
-\n    . Generic ascii or binary data files: "$g".gmz, .cimg, .cimgz, .dlm, .asc, .pfm, .raw, .txt, .h."$n"
-\n    . 3d object files: "$g".off."$n"
+\n
+\n    . 2d grayscale/color files: "$c".png, .jpeg, .gif, .pnm, .tif, .bmp, .."$n"
+\n    . 3d volumetric files: "$c".dcm, .hdr, .nii, .pan, .inr, .pnk, .."$n"
+\n    . video files: "$c".mpeg, .avi, .mov, .ogg, .flv, .."$n"
+\n    . Generic ascii or binary data files: "$c".gmz, .cimg, .cimgz, .dlm, .asc, .pfm, .raw, .txt, .h."$n"
+\n    . 3d object files: "$c".off."$n"
 \n
 \n  - When dealing with color images, "${-GMIC}" generally reads, writes and displays data using the
 \n     usual sRGB color space.
@@ -422,15 +431,16 @@ _help_usage :
 \n     These 3d representations can be processed as regular images.
 \n     (see command '"$c"-split3d"$n"' for accessing each of these 3d object data separately).
 \n  - Be aware that usual file formats may be sometimes not adapted to store all the available
-\n     image data, since "${-GMIC}" uses float-valued image representations. For instance, saving
-\n     an image that was initially loaded as a 16bits/channel image, as a "$g".jpg"$n" file will result
-\n     in a loss of information. Use the "$g".cimgz"$n" or "$g".gmz"$n" file extensions to ensure that all data
-\n     precision are preserved when saving images.
-\n  - File options can/must be set for these specific file formats:
+\n     image data, since "${-GMIC}" uses float-valued image buffers. For instance, saving an image
+\n     that was initially loaded as a 16bits/channel image, as a "$c".jpg"$n" file will result in a
+\n     loss of information. Use the "${-GMIC}"-specific file extensions "$c".cimgz"$n" or "$c".gmz"$n" to ensure
+\n     that all data precision are preserved when saving images.
+\n  - File options may be set for these specific file formats:
+\n
 \n    . "${g}"Video files:"$n" Only sub-frames of an image sequence may be loaded, using the input
 \n       expression '"${c}"filename.ext,[first_frame[,last_frame[,step]]]"$n"'.
-\n       Set 'last_frame==-1' to tell it must be the last frame of the video.
-\n       Set 'step' to 0 to force an opened video file to be opened/closed.
+\n       Set '"${g}"last_frame==-1"$n"' to tell it must be the last frame of the video.
+\n       Set '"${g}"step"$n"' to 0 to force an opened video file to be opened/closed.
 \n       Output framerate and codec can be also set by using the output expression
 \n       '"${c}"filename.avi,_fps,_codec,_keep_open={ 0 | 1 }"$n"'.
 \n       'codec' is a 4-char string (see http://www.fourcc.org/codecs.php) or '0' for the default codec.
@@ -441,13 +451,13 @@ _help_usage :
 \n      '"${c}"filename.cimg,N0,N1,x0,y0,z0,c0,x1,y1,z1,c1"$n"'.
 \n      Specifying '"${g}"-1"$n"' for one coordinates stands for the maximum possible value.
 \n      Output expression '"${c}"filename.cimg[z][,datatype]"$n"' can be used to force the output pixel type.
-\n      '"${c}"datatype"$n"' can be "$c"{ uchar | char | ushort | short | uint | int | ulong | long | float | double }"$n".
+\n      '"${g}"datatype"$n"' can be "$g"{ uchar | char | ushort | short | uint | int | ulong | long | float | double }"$n".
 \n    . "$g".raw binary files:"$n" Image dimensions and input pixel type may be specified when loading
 \n       "$g".raw"$n" files with input expresssion '"${c}"filename.raw[,datatype][,width][,height[,depth[,dim]]]]"$n"'.
 \n       If no dimensions are specified, the resulting image is a one-column vector with
 \n       maximum possible height. Pixel type can also be specified with the output
 \n       expression '"${c}"filename.raw[,datatype]"$n"'.
-\n       '"${c}"datatype"$n"' can be "$c"{ uchar | char | ushort | short | uint | int | ulong | long | float | double }"$n".
+\n       '"${g}"datatype"$n"' can be "$g"{ uchar | char | ushort | short | uint | int | ulong | long | float | double }"$n".
 \n    . "$g".yuv files:"$n" Image dimensions must be specified, and only sub-frames of an image
 \n       sequence may be loaded, using the input expression
 \n      '"${c}"filename.yuv,width,height[,first_frame[,last_frame[,step]]]"$n"'.
@@ -455,18 +465,18 @@ _help_usage :
 \n       expression '"${c}"filename.tif,[first_frame,[last_frame,[step]]]"$n"'.
 \n       Output expression '"${c}"filename.tiff,[datatype[,compression[,force_multipage]]"$n"' can be used to
 \n       specify the output pixel type, as well as the compression method.
-\n       '"${c}"datatype"$n"' can be "$c"{ uchar | char | ushort | short | uint | int | ulong | long | float | double }"$n".
-\n       '"${c}"compression"$n"' can be "$c"{ none | lzw | jpeg }"$n" and '"${c}"force_multipage"$n" can be "$c"{ 0=no | 1=yes }"$n".
+\n       '"${g}"datatype"$n"' can be "$g"{ uchar | char | ushort | short | uint | int | ulong | long | float | double }"$n".
+\n       '"${g}"compression"$n"' can be "$g"{ none | lzw | jpeg }"$n" and '"${g}"force_multipage"$n" can be "$g"{ 0=no | 1=yes }"$n".
 \n    . "$g".gif files:"$n" Animated gif files can be saved, using the input expression
 \n      '"${c}"filename.gif,fps,nb_loops"$n"'.
-\n       Specify '"${c}"nb_loops=0"$n"' to get an infinite number of animation loops.
+\n       Specify '"${g}"nb_loops=0"$n"' to get an infinite number of animation loops.
 \n    . "$g".jpeg files:"$n" The output quality may be specified (in %), using the output expression
 \n       '"${c}"filename.jpg,30"$n"' (here, to get a 30% quality output).
 \n    . "$g".mnc files:"$n" The output header can set from another file, using the output expression
 \n       '"${c}"filename.mnc,header_template.mnc"$n"'.
 \n    . "$g".pan, .cpp, .hpp, .c and .h files:"$n" The output datatype can be selected with output expression
 \n       '"${c}"filename[,datatype]"$n"'.
-\n      '"${c}"datatype"$n"' can be "$c"{ uchar | char | ushort | short | uint | int | ulong | long | float | double }"$n".
+\n      '"${g}"datatype"$n"' can be "$g"{ uchar | char | ushort | short | uint | int | ulong | long | float | double }"$n".
 \n    . "$g".gmic files:"$n" These filenames are assumed to be "${-GMIC}" custom commands files. Loading
 \n       such a file will add the commands it defines to the interpreter. Debug information can be
 \n       enabled/disabled by the input expression '"${c}"filename.gmic,add_debug_info={ 0 | 1 }"$n"'.
@@ -486,6 +496,7 @@ _help_usage :
 \n     If no image has this name, the expression is substituted by the value of the
 \n     "${g}"OS environment variable"$n" with same name (it may be an empty string).
 \n     The following variables are predefined by the "${-GMIC}" interpreter:
+\n
 \n       . '"$c"$!"$n"': The current "${g}"number of images"$n" in the list.
 \n       . '"$c"$>"$n"' and '"$c"$<"$n"': The "${g}"increasing/decreasing indice"$n" of the latest (currently running)
 \n          '"${c}"repeat..done"$n"' loop.
@@ -521,49 +532,51 @@ _help_usage :
 \n     '"${g}"image"$n"' can be either an image number or an image name. It can be also eluded.
 \n     In which case, the last image '"$c"[-1]"$n"' of the list is considered for the requested feature.
 \n     Specified '"${g}"feature"$n"' can be one of:
-\n       . '"${g}"b"$n"': The image basename (i.e. filename without the folder path nor extension).
-\n       . '"${g}"c"$n"': The (x,y,z,c) coordinates of the minimum value, separated by commas ','.
-\n       . '"${g}"C"$n"': The (x,y,z,c) coordinates of the maximum value, separated by commas ','.
-\n       . '"${g}"f"$n"': The image folder name.
-\n       . '"${g}"n"$n"': The image name or filename (if the image has been read from a file).
-\n       . '"${g}"t"$n"': The text string from the image values regarded as ascii codes.
-\n       . '"${g}"x"$n"': The image extension (i.e last characters after the last '.' in the image name).
-\n       . '"${g}"^"$n" : The sequence of all image values, separated by commas ','.
-\n       . '"${g}"[subset]"$n"': The sequence of image values corresponding to the specified subset,
+\n
+\n       . '"${c}"b"$n"': The image basename (i.e. filename without the folder path nor extension).
+\n       . '"${c}"c"$n"': The (x,y,z,c) coordinates of the minimum value, separated by commas ','.
+\n       . '"${c}"C"$n"': The (x,y,z,c) coordinates of the maximum value, separated by commas ','.
+\n       . '"${c}"f"$n"': The image folder name.
+\n       . '"${c}"n"$n"': The image name or filename (if the image has been read from a file).
+\n       . '"${c}"t"$n"': The text string from the image values regarded as ascii codes.
+\n       . '"${c}"x"$n"': The image extension (i.e last characters after the last '.' in the image name).
+\n       . '"${c}"^"$n" : The sequence of all image values, separated by commas ','.
+\n       . '"${c}"[subset]"$n"': The sequence of image values corresponding to the specified subset,
 \n          and separated by commas ','.
-\n       . Any other '"${g}"feature"$n"' is considered as a "${g}"mathematical expression"$n" associated to
+\n       . Any other '"${c}"feature"$n"' is considered as a "${g}"mathematical expression"$n" associated to
 \n          the image "$c"[image]"$n" and is substituted by the result of its evaluation (float value).
 \n          For instance, expression '"$c"{0,w+h}"$n"' is substituted by the sum of the width and height
 \n          of the first image (see section '"${c}"Mathematical expressions"$n"' for more details).
 \n          If a mathematical expression starts with an underscore '"${g}"_"$n"', the resulting value is
-\n          truncated to a readable format. For instance, item '"$c"{_pi}"$n"' is substituted by '"${c}"3.14159"$n"'
-\n          (while '"$c"{pi}"$n"' is '"${c}"3.141592653589793"$n"').
+\n          truncated to a readable format. For instance, item '"$c"{_pi}"$n"' is substituted by '"${g}"3.14159"$n"'
+\n          (while '"$c"{pi}"$n"' is '"${g}"3.141592653589793"$n"').
 \n
 \n  - '"$c"{*}"$n"' is substituted by the "${g}"visibility state"$n" of the instant display window "$c"[0]"$n"
-\n     (can be "$c"{ 0=closed | 1=visible }"$n").
+\n     (can be "$g"{ 0=closed | 1=visible }"$n").
 \n  - '"$c"{*,feature}"$n"' or '"$c"{*indice,feature}"$n"' is substituted by a "${g}"specific feature"$n" of the
 \n     instant display window "$c"#0"$n" (or "$c"#indice"$n", if specified). Requested '"${g}"feature"$n"' can be:
-\n       . '"${g}"w"$n"': display width (i.e. width of the display area managed by the window).
-\n       . '"${g}"h"$n"': display height (i.e. height of the display area managed by the window).
-\n       . '"${g}"wh"$n"': display width x display height.
-\n       . '"${g}"d"$n"': window width (i.e. width of the window widget).
-\n       . '"${g}"e"$n"': window height (i.e. height of the window widget).
-\n       . '"${g}"de"$n"': window width x window height.
-\n       . '"${g}"u"$n"': screen width (actually independent on the window size).
-\n       .' "${g}"v"$n"': screen height (actually independent on the window size).
-\n       . '"${g}"uv"$n"': screen width x screen height.
-\n       . '"${g}"n"$n"': current normalization type of the instant display.
-\n       . '"${g}"t"$n"': window title of the instant display.
-\n       . '"${g}"x"$n"': X-coordinate of the mouse position (or -1, if outside the display area).
-\n       . '"${g}"y"$n"': Y-coordinate of the mouse position (or -1, if outside the display area).
-\n       . '"${g}"b"$n"': state of the mouse buttons { 1=left-but. | 2=right-but. | 4=middle-but. }.
-\n       . '"${g}"o"$n"': state of the mouse wheel.
-\n       . '"${g}"k"$n"': decimal code of the pressed key if any, 0 otherwise.
-\n       . '"${g}"c"$n"': boolean (0 or 1) telling if the instant display has been closed recently.
-\n       . '"${g}"r"$n"': boolean telling if the instant display has been resized recently.
-\n       . '"${g}"m"$n"': boolean telling if the instant display has been moved recently.
-\n       . Any other '"${g}"feature"$n"' stands for a "${g}"keycode name"$n" (in capital letters), and is substituted
-\n          by a boolean describing the current key state "$c"{ 0=pressed | 1=released }"$n".
+\n
+\n       . '"${c}"w"$n"': display width (i.e. width of the display area managed by the window).
+\n       . '"${c}"h"$n"': display height (i.e. height of the display area managed by the window).
+\n       . '"${c}"wh"$n"': display width x display height.
+\n       . '"${c}"d"$n"': window width (i.e. width of the window widget).
+\n       . '"${c}"e"$n"': window height (i.e. height of the window widget).
+\n       . '"${c}"de"$n"': window width x window height.
+\n       . '"${c}"u"$n"': screen width (actually independent on the window size).
+\n       .' "${c}"v"$n"': screen height (actually independent on the window size).
+\n       . '"${c}"uv"$n"': screen width x screen height.
+\n       . '"${c}"n"$n"': current normalization type of the instant display.
+\n       . '"${c}"t"$n"': window title of the instant display.
+\n       . '"${c}"x"$n"': X-coordinate of the mouse position (or -1, if outside the display area).
+\n       . '"${c}"y"$n"': Y-coordinate of the mouse position (or -1, if outside the display area).
+\n       . '"${c}"b"$n"': state of the mouse buttons { 1=left-but. | 2=right-but. | 4=middle-but. }.
+\n       . '"${c}"o"$n"': state of the mouse wheel.
+\n       . '"${c}"k"$n"': decimal code of the pressed key if any, 0 otherwise.
+\n       . '"${c}"c"$n"': boolean (0 or 1) telling if the instant display has been closed recently.
+\n       . '"${c}"r"$n"': boolean telling if the instant display has been resized recently.
+\n       . '"${c}"m"$n"': boolean telling if the instant display has been moved recently.
+\n       . Any other '"${c}"feature"$n"' stands for a "${g}"keycode name"$n" (in capital letters), and is substituted
+\n          by a boolean describing the current key state "$g"{ 0=pressed | 1=released }"$n".
 \n       . You can also prepend a hyphen '"$c"-"$n"' to a '"${g}"feature"$n"' (that supports it) to flush the
 \n          corresponding event immediately after reading its state (works for keys, mouse
 \n          and window events).
@@ -591,6 +604,7 @@ _help_usage :
 \n       narg(), arg(), isval(), isnan(), isinf(), isint(), isbool(), isfile(), isdir(), isin(),
 \n       rol()"$n" (left bit rotation), "${c}"ror()"$n" (right bit rotation), "${c}"min(), max(), argmin(), argmax(),
 \n       med(), kth(), round(), int()"$n".
+\n
 \n       . '"${c}"atan2(x,y)"$n"' is the version of '"${c}"atan()"$n"' with two arguments 'y' and 'x' (as in C/C++).
 \n       . '"${c}"hypoth(x,y)"$n"' computes the square root of the sum of the squares of x and y.
 \n       . '"${c}"gauss(x,_sigma)"$n"' returns 'exp(-x^2/(2*s^2))/sqrt(2*pi*sigma^2)'.
@@ -606,27 +620,18 @@ _help_usage :
 \n       . '"${c}"min()"$n"', '"${c}"max()"$n"', '"${c}"argmin()"$n"', '"${c}"argmax()"$n"', '"${c}"med()"$n"' and '"${c}"kth()"$n"' can be called with
 \n          an arbitrary number of arguments.
 \n       . '"${c}"round(value,rounding_value,direction)"$n"' returns a rounded value.
-\n          'direction' can be "${g}"{ -1=to-lowest | 0=to-nearest | 1=to-highest }"$n".
+\n          '"${g}"direction"$n"' can be "${g}"{ -1=to-lowest | 0=to-nearest | 1=to-highest }"$n".
 \n
 \n    _ "${g}"Variable names"$n" below are pre-defined. They can be overloaded.
+\n
 \n       . '"${c}"w"$n"': width of the associated image, if any (0 otherwise).
 \n       . '"${c}"h"$n"': height of the associated image, if any (0 otherwise).
 \n       . '"${c}"d"$n"': depth of the associated image, if any (0 otherwise).
 \n       . '"${c}"s"$n"': spectrum of the associated image, if any (0 otherwise).
 \n       . '"${c}"r"$n"': shared state of the associated image, if any (0 otherwise).
-\n       . '"${c}"t"$n"': thread id when an expression is evaluated with multiple threads (0 means 'master thread').
 \n       . '"${c}"wh"$n"': shortcut for width*height.
 \n       . '"${c}"whd"$n"': shortcut for width*height*depth.
 \n       . '"${c}"whds"$n"': shortcut for width*height*depth*spectrum (i.e. total number of pixel values).
-\n       . '"${c}"x"$n"': current processed column of the associated image, if any (0 otherwise).
-\n       . '"${c}"y"$n"': current processed row of the associated image, if any (0 otherwise).
-\n       . '"${c}"z"$n"': current processed slice of the associated image, if any (0 otherwise).
-\n       . '"${c}"c"$n"': current processed channel of the associated image, if any (0 otherwise).
-\n       . '"${c}"e"$n"': value of e, i.e. 2.71828..
-\n       . '"${c}"pi"$n"': value of pi, i.e. 3.1415926..
-\n       . '"${c}"u"$n"': a random value between [0,1], following a uniform distribution.
-\n       . '"${c}"g"$n"': a random value, following a gaussian distribution of variance 1
-\n          (roughly in [-5,5]).
 \n       . '"${c}"i"$n"': current processed pixel value (i.e. value located at "$g"(x,y,z,c)"$n") in the
 \n          associated image, if any (0 otherwise).
 \n       . '"${c}"iN"$n"': Nth channel value of current processed pixel (i.e. value located at "$g"(x,y,z,N)"$n") in
@@ -636,13 +641,30 @@ _help_usage :
 \n          variance, sum, product and median value of the associated image, if any (0 otherwise).
 \n       . '"${c}"xm"$n"','"${c}"ym"$n"','"${c}"zm"$n"','"${c}"cm"$n"': The pixel coordinates of the minimum value in the associated
 \n          image, if any (0 otherwise).
-\n       . '"${c}"xM"$n"','"${c}"yM"$n"','"${c}"zM"$n"','"${c}"cM"$n"': The pixel coordinates of the maximum value in the
-\n          associated image, if any (0 otherwise).
-\n       . You may add '"${c}"#ind"$n"' to a variable name to retrieve the information for any numbered image
-\n          "${g}"[ind]"$n" of the list (when this makes sense). For instance '"${c}"ia#0"$n"' denotes the average
-\n          value of the first image).
+\n       . '"${c}"xM"$n"','"${c}"yM"$n"','"${c}"zM"$n"','"${c}"cM"$n"': The pixel coordinates of the maximum value in the associated
+\n          image, if any (0 otherwise).
+\n       . You may add '"${c}"#ind"$n"' to any of the variable name above to retrieve the information for any
+\n          numbered image "${g}"[ind]"$n" of the list (when this makes sense). For instance '"${c}"ia#0"$n"' denotes the
+\n          average value of the first image).
+\n       . '"${c}"x"$n"': current processed column of the associated image, if any (0 otherwise).
+\n       . '"${c}"y"$n"': current processed row of the associated image, if any (0 otherwise).
+\n       . '"${c}"z"$n"': current processed slice of the associated image, if any (0 otherwise).
+\n       . '"${c}"c"$n"': current processed channel of the associated image, if any (0 otherwise).
+\n       . '"${c}"t"$n"': thread id when an expression is evaluated with multiple threads ("${g}"0"$n" means 'master thread').
+\n       . '"${c}"e"$n"': value of e, i.e. 2.71828..
+\n       . '"${c}"pi"$n"': value of pi, i.e. 3.1415926..
+\n       . '"${c}"u"$n"': a random value between [0,1], following a uniform distribution.
+\n       . '"${c}"g"$n"': a random value, following a gaussian distribution of variance 1
+\n          (roughly in [-5,5]).
+\n       . '"${c}"interpolation"$n"': value of the default interpolation mode used when reading pixel values with
+\n           the pixel access operators (i.e. when the interpolation argument is not explicitly specified,
+\n           see below for more details).
+\n       . '"${c}"boundary"$n"': value of the default boundary conditions used when reading pixel values with
+\n           the pixel access operators (i.e. when the boundary condition argument is not explicitly specified,
+\n           see below for more details).
 \n
 \n    _ "${g}"Special operators"$n" can be used:
+\n
 \n       . '"$c";"$n"': expression separator. The returned value is always the last encountered
 \n          expression. For instance expression '"${c}"1;2;pi"$n"' is evaluated as '"${c}"pi"$n"'.
 \n       . '"$c"="$n"': variable assignment. Variables in mathematical parser can only refer to.
@@ -653,14 +675,15 @@ _help_usage :
 \n          outside the evaluated expression.
 \n
 \n    _ The following "${g}"specific functions"$n" are also defined:
+\n
 \n       . '"${c}"normP(u1,...,un)"$n"' computes the LP-norm of the specified vector
 \n         (P being an "${g}"unsigned integer"$n" or '"${g}"inf"$n"').
 \n       . '"$c"u(max)"$n"' or '"$c"u(min,max)"$n"': return a random value between "$g"[0,max]"$n" or "$g"[min,max]"$n",
 \n          following a uniform distribution.
 \n       . '"${c}"i(_a,_b,_c,_d,_interpolation,_boundary)"$n"': return the value of the pixel located
 \n          at position "$g"(a,b,c,d)"$n" in the associated image, if any (0 otherwise).
-\n          Interpolation parameter can be "$c"{ 0=nearest neighbor | other=linear }"$n".
-\n          Boundary conditions can be "$c"{ 0=dirichlet | 1=neumann | 2=periodic }"$n".
+\n          Interpolation parameter can be "$g"{ 0=nearest neighbor | other=linear }"$n".
+\n          Boundary conditions can be "$g"{ 0=dirichlet | 1=neumann | 2=periodic }"$n".
 \n          Omitted coordinates are replaced by their default values which are respectively
 \n          "${c}"x, y, z, c, 0"$n" and "${c}"0"$n".
 \n          For instance command '"${c}"-fill 0.5*(i(x+1)-i(x-1))"$n"' will estimate the X-derivative
@@ -694,14 +717,15 @@ _help_usage :
 \n       . '"${c}"whiledo(condition,expression)"$n"' is exactly the same as '"${c}"for(init,condition,expression)"$n"'
 \n          without the specification of an initializing expression.
 \n       . '"${c}"date(attr,path)"$n"' returns the date attribute for the given 'path' (file or directory),
-\n          with 'attr' being { 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }.
+\n          with 'attr' being "$g"{ 0=year | 1=month | 2=day | 3=day of week | 4=hour | 5=minute | 6=second }"$n".
 \n       . '"${c}"date(_attr)"$n" returns the specified attribute for the current (locale) date.
 \n       . '"${c}"print(expression)"$n" prints the value of the specified expression on the console
 \n          (and returns its value).
 \n       . '"${c}"debug(expression)"$n" prints detailed debug information about the sequence of operations
 \n          done by the math parser to evaluate the expression (and returns its value).
 \n
-\n    - Multi-threaded and in-place evaluation:
+\n    - "${g}"Multi-threaded"$n" and "${g}"in-place"$n" evaluation:
+\n
 \n       . If your image data are large enough and you have several CPUs available, it is likely that
 \n         the math expression passed to a '"$c"-fill"$n"' or '"$c"-input"$n"' command is evaluated in parallel, using
 \n         multiple computation threads.
@@ -727,6 +751,7 @@ _help_usage :
 \n     (command '"$c"-plot"$n"'), 1d/2d/3d images (command '"$c"-display"$n"') and 3d objects
 \n     (command '"$c"-display3d"$n"'). It enables an interactive view of the selected image data.
 \n  - The following keyboard shortcuts are available in the interactive viewers:
+\n
 \n    . "${g}"(mousewheel)"$n": Zoom in/out.
 \n    . "${g}"CTRL+D"$n": Increase window size.
 \n    . "${g}"CTRL+C"$n": Decrease window size.
@@ -737,6 +762,7 @@ _help_usage :
 \n    . "${g}"CTRL+O"$n": Save current instance of the viewed data, as numbered file 'gmic_xxxx.cimgz'.
 \n
 \n  - Shortcuts specific to the 1d/2d/3d image viewer (command '"$c"-display"$n"') are:
+\n
 \n    . "${g}"CTRL+A"$n": Switch cursor mode.
 \n    . "${g}"CTRL+P"$n": Play z-stack of frames as a movie (for volumetric 3d images).
 \n    . "${g}"CTRL+V"$n": Show/hide 3D view (for volumetric 3d images).
@@ -746,6 +772,7 @@ _help_usage :
 \n    . "${g}"BACKSPACE"$n": Reset zoom scale.
 \n
 \n  - Shortcuts specific to the 3d object viewer (command '"$c"-display3d"$n"') are:
+\n
 \n    . "$g"(mouse)+(left mouse button)"$n": Rotate 3d object.
 \n    . "$g"(mouse)+(right mouse button)"$n": Zoom 3d object.
 \n    . "$g"(mouse)+(middle mouse button)"$n": Shift 3d object.
@@ -766,6 +793,7 @@ _help_usage :
 \n  - Any '"$c" ""# comment"$n"' expression found in a custom commands file is "${g}"discarded"$n" by the "${-GMIC}"
 \n     parser, wherever it is located in a line.
 \n  - In a custom command, the following "$g"$-expressions"$n" are substituted:
+\n
 \n    . '"$c"$""\*"$n"' is substituted by a copy of the specified string of arguments.
 \n    . '"$c"$\"*\""$n"' is substituted by a copy of the specified string of arguments, each being double-quoted.
 \n    . '"$c"$""#"$n"' is substituted by the maximum indice of known arguments (either specified by the
