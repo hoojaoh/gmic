@@ -1098,6 +1098,7 @@ _help_footer_html :
 _help_header_latex :
   strver=${-strver}
   -if {narg($_prerelease)} strprerelease=" (pre-release \\#"$_prerelease")" -else strprerelease="" -endif
+  _gmic_n="§\\aftergroup\\Ccn§" _gmic_b="§\\aftergroup\\Ccb§" _gmic_r="§\\aftergroup\\Ccr§" _gmic_g="§\\aftergroup\\Ccg§" _gmic_c="§\\aftergroup\\Ccb§" _gmic_m=""
   -v + -e[] "\\documentclass[a4paper,11pt,twoside]{book}
 \n\\usepackage{hyperref,fancyhdr,graphicx,amssymb,amsmath,times,makeidx,listings,color}
 \n\\graphicspath{{img/}}
@@ -1107,13 +1108,19 @@ _help_header_latex :
 \n\\cfoot{}
 \n\\setlength{\\textwidth}{6in}
 \n\\setlength{\\parindent}{0pc}
-\n\\setlength{\\hoffset}{-1.2cm}
+\n\\setlength{\\oddsidemargin}{15.5pt}
+\n\\setlength{\\evensidemargin}{15.5pt}
 \n\\setcounter{tocdepth}{1}
 \n\\sloppy{}
 \n\\definecolor{ca}{rgb}{0.8,0,0}
 \n\\definecolor{cb}{rgb}{0,0.2,0.6}
 \n\\definecolor{cc}{rgb}{0,0.5,0}
 \n\\definecolor{cd}{rgb}{0.6,0.6,0.6}
+\n\\def\\Ccr{\\color{ca}}
+\n\\def\\Ccb{\\color{cb}}
+\n\\def\\Ccg{\\color{cc}}
+\n\\def\\Ccc{\\color{cd}}
+\n\\def\\Ccn{\\color{black}}
 \n\\newcommand{\\Ca}[1]{\\textcolor{ca}{#1}}
 \n\\newcommand{\\Cb}[1]{\\textcolor{cb}{#1}}
 \n\\newcommand{\\Cc}[1]{\\textcolor{cc}{#1}}
@@ -1129,8 +1136,8 @@ _help_header_latex :
 \n\\chapter*{Preamble}
 \n\\section*{License}
 \nThis document is distributed under the \\textbf{GNU Free Documentation License}, version 1.3.\\\\
-\nRead the full license terms at \\texttt{http://www.gnu.org/licenses/fdl-1.3.txt}.\\\\~\\\\
-\nAn online version of this documentation is available at:\\\\\\texttt{http://gmic.eu/reference.shtml}.
+\nRead the full license terms at \\url{http://www.gnu.org/licenses/fdl-1.3.txt}.\\\\~\\\\
+\nAn online version of this documentation is available at:\\\\\\url{http://gmic.eu/reference.shtml}.
 \n\\section*{Motivations}
 \nG\47MIC is a full-featured open-source framework for image processing, providing several different user interfaces to
 \nconvert/manipulate/filter/visualize generic image datasets, from 1d scalar signales to 3d+t sequences of multi-spectral volumetric images.
@@ -1157,20 +1164,20 @@ _help_header_latex :
 \n \\Ca{\\textbf{gmic:} GREYC's Magic for Image Computing.}\\\\
 \n
 \n        \\Cb{Version \\textbf{"$strver$strprerelease"}, Copyright (c) 2008-2015, David Tschumperl\\'e}\\\\
-\n        \\Cb{(http://gmic.eu)}
+\n        \\Cb{(\\url{http://gmic.eu})}
 \n\\chapter{Usage}
 "
   -v -
 
 _help_section_latex : -skip "$1"
   -v +
-  -e[] "\\section{$1}"
+  -e[] "~\\\\\\section{$1}"
   -v -
 
 _help_paragraph_latex : -skip "$1"
   -v +
   -e[] "\\small"
-  -e[] "\\begin{lstlisting}"
+  -e[] "\\begin{lstlisting}[escapechar=§]"
   -e[] "$1"
   -e[] "\\end{lstlisting}"
   -e[] "\\normalsize"
@@ -2159,7 +2166,8 @@ _document_gmic_header_latex :
 \n\\cfoot{}
 \n\\setlength{\\textwidth}{5.875in}
 \n\\setlength{\\parindent}{0pc}
-\n\\setlength{\\hoffset}{-0.8cm}
+\n\\setlength{\\oddsidemargin}{15.5pt}
+\n\\setlength{\\evensidemargin}{15.5pt}
 \n\\setcounter{tocdepth}{1}
 \n\\sloppy{}
 \n\\definecolor{ca}{rgb}{0.8,0,0}
