@@ -1139,26 +1139,26 @@ _help_header_latex :
 \nRead the full license terms at \\url{http://www.gnu.org/licenses/fdl-1.3.txt}.\\\\~\\\\
 \nAn online version of this documentation is available at:\\\\\\url{http://gmic.eu/reference.shtml}.
 \n\\section*{Motivations}
-\nG\47MIC is a full-featured open-source framework for image processing, providing several different user interfaces to
+\n\\Cc{G\47MIC} is a full-featured open-source framework for image processing, providing several different user interfaces to
 \nconvert/manipulate/filter/visualize generic image datasets, from 1d scalar signales to 3d+t sequences of multi-spectral volumetric images.
 \nTechnically speaking, what it does is:
 \n\\begin{itemize}
-\n\\item Define a lightweight but powerful script language (the G\47MIC language) dedicated to the design of image processing pipelines.
+\n\\item Define a lightweight but powerful script language (the \\Cc{G\47MIC} language) dedicated to the design of image processing pipelines.
 \n\\item Provide several user interfaces embedding the corresponding interpreter:
 \n\\begin{itemize}
-\n\\item A command-line executable 'gmic', to use the G\47MIC framework from a shell.
-\nIn this setting, G\47MIC may be seen as a direct (and friendly) competitor of the ImageMagick or GraphicsMagick software suites.
-\n\\item A plug-in 'gmic\\_gimp', to bring G\47MIC capabilities to the GIMP image retouching software.
-\n\\item A web-service 'G\47MIC Online', to allow users applying image processing algorithms directly in a web brower.
-\n\\item A Qt-based interface 'ZArt', for real-time manipulation of webcam images.
-\n\\item A C++ library 'libgmic', to be linked with third-party applications.
+\n\\item A command-line executable '\\texttt{gmic}', to use the \\Cc{G\47MIC} framework from a shell.
+\nIn this setting, \\Cc{G\47MIC} may be seen as a direct (and friendly) competitor of the ImageMagick or GraphicsMagick software suites.
+\n\\item A plug-in '\\texttt{gmic\\_gimp}', to bring \\Cc{G\47MIC} capabilities to the GIMP image retouching software.
+\n\\item A web-service '\\texttt{\\Cc{G\47MIC} Online}', to allow users applying image processing algorithms directly in a web brower.
+\n\\item A Qt-based interface '\\texttt{ZArt}', for real-time manipulation of webcam images.
+\n\\item A C++ library '\\texttt{libgmic}', to be linked with third-party applications.
 \n\\end{itemize}
 \n\\end{itemize}
-\nG\47MIC is focused on the design of possibly complex pipelines for converting, manipulating, filtering and visualizing generic 1d/2d/3d multi-spectral image datasets. This includes of course color images, but also more complex data as image sequences or 3d(+t) volumetric float-valued datasets.\\\\
+\n\\Cc{G\47MIC} is focused on the design of possibly complex pipelines for converting, manipulating, filtering and visualizing generic 1d/2d/3d multi-spectral image datasets. This includes of course color images, but also more complex data as image sequences or 3d(+t) volumetric float-valued datasets.\\\\
 \n
-\nG\47MIC is an open framework: the default language can be extended with custom G\47MIC-written commands, defining thus new available image filters or effects. By the way, G\47MIC already contains a substantial set of pre-defined image processing algorithms and pipelines (more than 1000).\\\\
+\n\\Cc{G\47MIC} is an open framework: the default language can be extended with custom \\Cc{G\47MIC}-written commands, defining thus new available image filters or effects. By the way, \\Cc{G\47MIC} already contains a substantial set of pre-defined image processing algorithms and pipelines (more than 1000).\\\\
 \n
-\nG\47MIC has been designed with portability in mind and runs on different platforms (Windows, Unix, MacOSX). It is distributed under the CeCILL license (GPL-compatible). Since 2008, it is developed in the Image Team of the GREYC laboratory, in Caen/France, by permanent researchers working in the field of image processing on a daily basis.
+\n\\Cc{G\47MIC} has been designed with portability in mind and runs on different platforms (Windows, Unix, MacOSX). It is distributed under the CeCILL license (GPL-compatible). Since 2008, it is developed in the Image Team of the GREYC laboratory, in Caen/France, by permanent researchers working in the field of image processing on a daily basis.
 \n\\section*{Version}
 \n
 \n \\Ca{\\textbf{gmic:} GREYC's Magic for Image Computing.}\\\\
