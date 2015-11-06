@@ -2857,7 +2857,7 @@ shape_diamond : -check "${1=512}>=0"
 #@gmic shape_polygon : _size>=0,_nb_vertices>=3,_angle
 #@gmic : Input a 2d polygonal binary shape with specified geometry.
 #@gmic : Default value: 'size=512', 'nb_vertices=5' and 'angle=0'.
-#@gmic : $ -repeat 5 -shape_polygon 256,{3+$>} -done
+#@gmic : $ -repeat 6 -shape_polygon 256,{3+$>} -done
 shape_polygon : -check "${1=512}>=0 && isint(${2=5}) && $2>=3" -skip ${3=0}
   -e[^-1] "Input a $1x$1 polygon binary shape, with $2 vertices and angle $3 deg."
   -v -
