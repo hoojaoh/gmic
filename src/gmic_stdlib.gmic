@@ -1099,7 +1099,7 @@ _help_header_latex :
   strver=${-strver}
   -if {narg($_prerelease)} strprerelease=" (pre-release \\#"$_prerelease")" -else strprerelease="" -endif
   _gmic_n="§\\aftergroup\\Ccn§" _gmic_b="§\\aftergroup\\Ccb§" _gmic_r="§\\aftergroup\\Ccr§" _gmic_g="§\\aftergroup\\Ccg§" _gmic_c="§\\aftergroup\\Ccb§" _gmic_m=""
-  -v + -e[] "\\documentclass[a4paper,11pt,twoside]{book}
+  -v + -e[] "\\documentclass[a4paper,10.5pt,twoside]{book}
 \n\\usepackage{hyperref,fancyhdr,graphicx,amssymb,amsmath,times,makeidx,listings,color}
 \n\\graphicspath{{img/}}
 \n\\pagestyle{fancyplain}
@@ -1121,6 +1121,7 @@ _help_header_latex :
 \n\\def\\Ccg{\\color{cc}}
 \n\\def\\Ccc{\\color{cd}}
 \n\\def\\Ccn{\\color{black}}
+\n\\def\\comma{\\discretionary{,}{}{,}}
 \n\\newcommand{\\Ca}[1]{\\textcolor{ca}{#1}}
 \n\\newcommand{\\Cb}[1]{\\textcolor{cb}{#1}}
 \n\\newcommand{\\Cc}[1]{\\textcolor{cc}{#1}}
@@ -2157,7 +2158,7 @@ _document_gmic_footer_images : -skip $1
 # Define document_gmic commands for LateX output.
 _document_gmic_header_latex :
   -if $1 -v +
-    -e[] "\\documentclass[a4paper,10pt,twoside]{book}
+    -e[] "\\documentclass[a4paper,10.5pt,twoside]{book}
 \n\\usepackage{hyperref,fancyhdr,graphicx,amssymb,amsmath,times,makeidx,color}
 \n\\graphicspath{{"$_path"}}
 \n\\pagestyle{fancyplain}
@@ -2174,6 +2175,12 @@ _document_gmic_header_latex :
 \n\\definecolor{cb}{rgb}{0,0.2,0.6}
 \n\\definecolor{cc}{rgb}{0,0.5,0}
 \n\\definecolor{cd}{rgb}{0.6,0.6,0.6}
+\n\\def\\Ccr{\\color{ca}}
+\n\\def\\Ccb{\\color{cb}}
+\n\\def\\Ccg{\\color{cc}}
+\n\\def\\Ccc{\\color{cd}}
+\n\\def\\Ccn{\\color{black}}
+\n\\def\\comma{\\discretionary{,}{}{,}}
 \n\\newcommand{\\Ca}[1]{\\textcolor{ca}{#1}}
 \n\\newcommand{\\Cb}[1]{\\textcolor{cb}{#1}}
 \n\\newcommand{\\Cc}[1]{\\textcolor{cc}{#1}}
@@ -2218,8 +2225,7 @@ _document_gmic_subsection_latex :
 _document_gmic_declaration_latex :
   _is_desc=0
   -if {{t}'=='"(+)"} qualifier={t} -rm. -else qualifier="" -endif
-  e1="\\\\~\\\\" e0="~~~$|$\\\\"
-  s1="\\hspace*{2.2cm}" s0=""
+  e1="\\end{flushleft}" e0="~~~\\\\"
   -if {$!>1" && "{${-head\ 7}'=='{'"eq. to "'}}}  # Declaration of a shortcut command.
     -_document_gmic_replace_latex
     -rows. 7,100% -autocrop. {'.'} -autocrop. {'" "'} -autocrop. 39
@@ -2230,13 +2236,13 @@ _document_gmic_declaration_latex :
   -else                                         # Declaration of a regular command.
     -_document_gmic_replace_latex[0]
     _command_name={0,t}
-    -v + -e[] ${-eoff}"\n\n\\subsection{\\emph{-"{0,t}"\\index{-"{0,t}"}} "$qualifier"}\\vspace*{-0.5em}"
+    -v + -e[] ${-eoff}"\n\n\\subsection{\\emph{-"{0,t}"\\index{-"{0,t}"}} "$qualifier"}\\vspace*{-0.7em}"
     -if {$!>1}
-      -e[] "~\\\\\\textbf{\\Cb{Arguments: }} "
+      -e[] "~\\\\\\textbf{\\Cb{Arguments: }}\\begin{flushleft}"
       -repeat {$!-1} -l[{1+$>}]
         -v - -s y,-60 -if {$!>1} -i[1--2] ({'\\-'}) -endif -y -a y
         -_document_gmic_replace_latex -v +
-        -e[] ${s{$>!=0}}"{\\small \\Cb{\\texttt{"{0,t}"}}}"${e{$<==0}}
+        -e[] "{\\small \\Cb{\\hspace*{0.5cm}$\\bullet$~~\\texttt{"{0,t}"}}}"${e{$<==0}}
       -endl -done
     -endif
     -v -
@@ -2249,7 +2255,7 @@ _document_gmic_description_latex :
     -s +,{':'} -l[^0] -a y -endl -autocrop {':'} -autocrop {'" "'}
     -if {$!>1}
       -replace_str[1] " and ","} and \\\\texttt{"
-      -v + -e[] ${-eoff}$s"~\\\\\\Cc{\\textbf{"{0,t}"}: {\\small \\texttt{"{t}"}}}" -v -
+      -v + -e[] ${-eoff}"\\begin{flushleft}\\Cc{\\textbf{"{0,t}"}:\\\\~\\\\\\hspace*{0.5cm}{\\small $\\bullet$~~\\texttt{"{t}"}}}\\end{flushleft}" -v -
     -else -v + -e[] ${-eoff}$s"~\\\\"{0,t} -v -
     -endif
   -elif {${-head\ 8}'=='{'"(eq. to "'}}      # Reached line as '#@gmic : (eq. to '-shortcut').'.
@@ -2273,7 +2279,7 @@ _document_gmic_example_latex :
     -v +
     -e[] ${-eoff}
     -if {!$_is_ex} -e[] "~\\\\" -endif
-    -e[] "~\\textbf{Tutorial page: }\\\\\\texttt{"$tuturl"}"
+    -e[] "~\\textbf{Tutorial page: }\\\\\\url{"$tuturl"}"
     -v -
   -else # Regular example.
     _is_desc=0
@@ -2284,7 +2290,7 @@ _document_gmic_example_latex :
     -endif
     -_document_gmic_replace_latex
     -v +
-    -e[] ${-eon}"\\includegraphics[keepaspectratio=true,height=7cm,width=\\textwidth]{"$_filename"}\\\\"
+    -e[] ${-eon}"\\includegraphics[keepaspectratio=true,height=6cm,width=\\textwidth]{"$_filename"}\\\\"
     -e[] "{\\footnotesize \\textbf{Example "$_example"~:} \\texttt{"{t}"}}"
     -v -
   -endif
@@ -2320,6 +2326,7 @@ _document_gmic_replace_latex :
   -replace_str "<","$\<$"                 # Replace '<'
   -replace_str ">","$\>$"                 # Replace '>'
   -replace_str "\\\\textbackslash -","\\\\-"  # Keep word cut.
+  -replace_str ",","{\\\\\\comma}"        # Replace ','
 
 # Define document_gmic commands for man page output.
 _document_gmic_header_man : -skip $1
