@@ -1105,9 +1105,9 @@ _help_header_latex :
 \n\\lhead[\\fancyplain{}{\\textbf\\thepage}]{\\fancyplain{}{\\rightmark}}
 \n\\rhead[\\fancyplain{}{\\leftmark}]{\\fancyplain{}{\\textbf\\thepage}}
 \n\\cfoot{}
-\n\\setlength{\\textwidth}{5.875in}
+\n\\setlength{\\textwidth}{6in}
 \n\\setlength{\\parindent}{0pc}
-\n\\setlength{\\hoffset}{-0.8cm}
+\n\\setlength{\\hoffset}{-1.2cm}
 \n\\setcounter{tocdepth}{1}
 \n\\sloppy{}
 \n\\definecolor{ca}{rgb}{0.8,0,0}
@@ -2265,7 +2265,7 @@ _document_gmic_example_latex :
     -v +
     -e[] ${-eoff}
     -if {!$_is_ex} -e[] "~\\\\" -endif
-    -e[] "~\\textbf{Tutorial page: }\\\\\\tt{"$tuturl"}"
+    -e[] "~\\textbf{Tutorial page: }\\\\\\texttt{"$tuturl"}"
     -v -
   -else # Regular example.
     _is_desc=0
