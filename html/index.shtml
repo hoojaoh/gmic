@@ -175,8 +175,8 @@
           image processing library on top of <b><font color="#000066">G'MIC</font></b>.<br/><br/>
         </li>
         <li>It proposes commands to handle custom <b>interactive windows</b> where events can be managed  by the user.<br/><br/></li>
-        <li>It is based on the latest development versions of the <a href="http://cimg.eu"><b>CImg Library</b></a>,
-          a well established C++ template image processing toolkit, developed by the same team of developers since 1999.</li>
+        <li>It is based on the latest development version of the <a href="http://cimg.eu"><b>CImg Library</b></a>,
+          a well established C++ template image processing toolkit, created and maintained by the same team of developers since 1999.</li>
       </ul>
     </div>
   </div>
