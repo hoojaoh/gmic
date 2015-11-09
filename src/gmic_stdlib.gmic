@@ -6962,7 +6962,8 @@ scale3x :
 #@gmic : $ image.jpg --scale_dcci2x ,
 ###### Original code by Garagecoder (Andy Kelday).
 scale_dcci2x : -check "${1=1.15}>=0 && ${2=5}>=0" -skip ${3=0}
-  -repeat $! -l[$>]
+  -e[^-1] "Double xy-dimensions of image$?, using DCCI2x algorithm."
+  -v - -repeat $! -l[$>]
     a={-1/16} b={9/16} whd={w},{h},{d} s={s}
     # d1, d2 (sum of diagonal absolute gradients)
     (0,-1;1,0) --convolve[0] [1] -mirror[1] x --convolve[0] [1] -rm[1] -abs[^0]
@@ -6998,7 +6999,7 @@ scale_dcci2x : -check "${1=1.15}>=0 && ${2=5}>=0" -skip ${3=0}
     # resize and distribute pixels
     -r2dx 200%,4 -shift[1] 1,1 -shift[2] 0,1 -shift[3] 1 -+
     -if {!$3} -r {w-1},{h-1},100%,100%,0 -endif
-  -endl -done
+  -endl -done -v +
 
 _scale_dcci2x_smooth : -skip ${3=5}
   # calculate interpolated output for smooth areas
