@@ -6955,68 +6955,60 @@ scale3x :
        "(dy==2)*(c0*if(H==D&&H!=F&&D!=B,D,i) + c1*if((F==H&&F!=B&&H!=D&&i!=G)||(H==D&&H!=F&&D!=B&&i!=I),H,i) + c2*if(F==H&&F!=B&&H!=D,F,i))"
   -endl -done -v +
 
-#@gmic scale_dcci2x : _edge_threshold>=0
+#@gmic scale_dcci2x : _edge_threshold>=0,_exponent>0,_extend_1px={ 0=false | 1=true }
 #@gmic : Double image size using directional cubic convolution interpolation,
 #@gmic : as described in https://en.wikipedia.org/wiki/Directional_Cubic_Convolution_Interpolation.
-#@gmic : Default value: 'edge_threshold=1.15'.
+#@gmic : Default values: 'edge_threshold=1.15', 'exponent=5' and 'extend_1px=0'.
 #@gmic : $ image.jpg --scale_dcci2x ,
-scale_dcci2x : -check "${1=1.15}>=0"
-  -e[^-1] "Double image size using directional cubic convolution interpolation."
-  -v - -repeat $! -l[$>]
-    -r 200%,200%,1,100%,4 -r {w-1},{h-1},1,100%,0
-    -f "*
-if (!(x%2 && y%2),i,
-  d1 = abs(j(-1,-3) - j(-3,-1)) + abs(j(1,-3) - j(-1,-1)) + abs(j(3,-3) - j(1,-1)) +
-       abs(j(-1,-1) - j(-3,1)) + abs(j(1,-1) - j(-1,1)) + abs(j(3,-1) - j(1,1)) +
-       abs(j(-1,1) - j(-3,3)) + abs(j(1,1) - j(-1,3)) + abs(j(3,1) - j(1,3));
-  d2 = abs(j(-3,-3) - j(-1,-1)) + abs(j(-1,-3) - j(1,-1)) + abs(j(1,-3) - j(3,-1)) +
-       abs(j(-3,-1) - j(-1,1)) + abs(j(-1,-1) - j(1,1)) + abs(j(1,-1) - j(3,1)) +
-       abs(j(-3,1) - j(-1,3)) + abs(j(-1,1) - j(1,3)) + abs(j(1,1) - j(3,3));
-  if ((1 + d1)/(1 + d2)>$1,
-    (-j(-3,-3) + 9*j(-1,-1) + 9*j(1,1) - j(3,3))/16,
-  if ((1 + d2)/(1 + d1)>$1,
-    (-j(3,-3) + 9*j(1,-1) + 9*j(-1,1) - j(-3,3))/16,
-    (
-      w1 = 1/(1 + d1^5);
-      w2 = 1/(1 + d2^5);
-      weight1 = w1/(w1 + w2);
-      weight2 = w2/(w1 + w2);
-      DownRightPixel = (-j(-3,-3) + 9*j(-1,-1) + 9*j(1,1) - j(3,3))/16;
-      UpRightPixel = (-j(3,-3) + 9*j(1,-1) + 9*j(-1,1) - j(-3,3))/16;
-      UpRightPixel*weight1 + DownRightPixel*weight2
-    )
-  ))
-)
-"
-    -f "*
-if ((!(x%2) && !(y%2)) || ((x%2) && (y%2)),i,
-  d1 = abs(j(1,-2) - j(-1,-2)) +
-       abs(j(2,-1) - j(0,-1)) + abs(j(0,-1) - j(-2,-1)) +
-       abs(j(3,0) - j(1,0)) + abs(j(1,0) - j(-1,0)) + abs(j(-1,0) - j(-3,0)) +
-       abs(j(2,1) - j(0,1)) + abs(j(0,1) - j(-2,1)) +
-       abs(j(1,2) - j(-1,2));
-  d2 = abs(j(-2,1) - j(-2,-1)) +
-       abs(j(-1,2) - j(-1,0)) + abs(j(-1,0) - j(-1,-2)) +
-       abs(j(0,3) - j(0,1)) + abs(j(0,1) - j(0,-1)) + abs(j(0,-1) - j(0,-3)) +
-       abs(j(1,2) - j(1,0)) + abs(j(1,0) - j(1,-2)) +
-       abs(j(2,1) - j(2,-1));
-  if ((1 + d1)/(1 + d2)>$1,
-    (-j(0,-3) + 9*j(0,-1) + 9*j(0,1) - j(0,3))/16,
-  if ((1 + d2)/(1 + d1)>$1,
-    (-j(-3,0) + 9*j(-1,0) + 9*j(1,0) - j(3,0))/16,
-    (
-      w1 = 1/(1 + d1^5);
-      w2 = 1/(1 + d2^5);
-      weight1 = w1/(w1 + w2);
-      weight2 = w2/(w1 + w2);
-      HorizontalPixel = (-j(-3,0) + 9*j(-1,0) + 9*j(1,0) - j(3,0))/16;
-      VerticalPixel = (-j(0,-3) + 9*j(0,-1) + 9*j(0,1) - j(0,3))/16;
-      VerticalPixel*weight1 + HorizontalPixel*weight2
-    )
-  ))
-)
-"
-  -endl -done -v +
+###### Original code by Garagecoder (Andy Kelday).
+scale_dcci2x : -check "${1=1.15}>=0 && ${2=5}>=0" -skip ${3=0}
+  -repeat $! -l[$>]
+    a={-1/16} b={9/16} whd={w},{h},{d} s={s}
+    # d1, d2 (sum of diagonal absolute gradients)
+    (0,-1;1,0) --convolve[0] [1] -mirror[1] x --convolve[0] [1] -rm[1] -abs[^0]
+    3,3,1,1,1 -convolve[-3,-2] [-1] -rm. -r[-2,-1] $whd,1,2 -r[-2,-1] $whd,$s
+
+    # calc all possible interpolated output [diagonal]
+    ($a,$b,$b,$a) -diagonal. --convolve[0] [-1] -mirror[-2] x --convolve[0] [-2] -rm[-3]
+    --+[1,2] 1 -/[-2,-1] # edge comparison mask (1 + d1) / (1 + d2)
+    -_scale_dcci2x_smooth[-5,-4] [-3],[-2],$2 -_scale_dcci2x_mask[-4--1] $1
+
+    # d1, d2 (sum of h/v absolute gradients)
+    --g[0] x,-1 --g[0] y,1 --g[1] xy,-1 -abs[-4--1]
+    (1,1;1,1) -convolve[-5] [-1] -rm. (1,1,1) -convolve[-4] [-1] -rm.
+    (1;1;1) -convolve[-3] [-1] -rm. (0,1,1;0,1,1) -convolve[-2] [-1] -rm.
+    -+[-3,-1] -+[-3,-1] -r[-2,-1] $whd,1,2 -r[-2,-1] $whd,$s
+
+    # calc all possible interpolated output [h/v]
+    ($a;$b;$b;$a) --convolve[0] [-1] -rm[-2] (0,$a,$b,$b,$a) --convolve[1] [-1] -rm[-2]
+    --+[2,3] 1 -/[-2,-1] # edge comparison mask (1 + d1) / (1 + d2)
+    -_scale_dcci2x_smooth[-5,-4] [-3],[-2],$2 -_scale_dcci2x_mask[-4--1] $1
+
+    # d1, d2 (sum of h/v absolute gradients)
+    --g[0] x,1 --g[0] y,-1 --g[1] xy,-1 -abs[-4--1]
+    (1;1;1) -convolve[-5] [-1] -rm. (1,1;1,1) -convolve[-4] [-1] -rm.
+    (0,0;1,1;1,1) -convolve[-3] [-1] -rm. (1,1,1) -convolve[-2] [-1] -rm.
+    -+[-3,-1] -+[-3,-1] -r[-2,-1] $whd,1,2 -r[-2,-1] $whd,$s
+
+    # calc all possible interpolated output [h/v]
+    (0;$a;$b;$b;$a) --convolve[1] [-1] -rm[-2] ($a,$b,$b,$a) --convolve[0] [-1] -rm[-2]
+    --+[3,4] 1 -/[-2,-1] # edge comparison mask (1 + d1) / (1 + d2)
+    -_scale_dcci2x_smooth[-5,-4] [-3],[-2],$2 -_scale_dcci2x_mask[-4--1] $1
+
+    # resize and distribute pixels
+    -r2dx 200%,4 -shift[1] 1,1 -shift[2] 0,1 -shift[3] 1 -+
+    -if {!$3} -r {w-1},{h-1},100%,100%,0 -endif
+  -endl -done
+
+_scale_dcci2x_smooth : -skip ${3=5}
+  # calculate interpolated output for smooth areas
+  -^[0,1] $3 -+[0,1] 1 --+[0,1] -/[0,1] [-1] -rm. # weights
+  -pass$1 -pass$2 -*[0,-2] -*[1,-1] -+[0,1] # smooth
+
+_scale_dcci2x_mask : -skip ${1=1.15}
+  # combine edge mask with interp outputs
+  --lt[-1] {1/$1} -gt[-2] $1 -*[-4] [-2] -*[-3] [-1]
+  -or[-2,-1] -not[-1] -*[-4,-1] -+[-3--1]
 
 #@gmic seamcarve : _width[%]>=0,_height[%]>=0,_is_priority_channel={ 0 | 1 },_is_antialiasing={ 0 | 1 },_maximum_seams[%]>=0
 #@gmic : Resize selected images with specified 2d geometry, using the seam-carving algorithm.
@@ -27437,6 +27429,28 @@ gimp_scalenx_preview :
   -z 40%,40%,60%,60%
   -gimp_scalenx $1,$2
 
+#@gimp Upscale [dcci2x]: gimp_scale_dcci2x, gimp_scale_dcci2x_preview(0)
+#@gimp : note = note("<i>Directional Cubic Convolution Interpolation</i>"), sep = separator()
+#@gimp : Threshold = float(1.15,1,2)
+#@gimp : Exponent = int(5,1,6)
+#@gimp : Extend 1px = _bool(0)
+#@gimp : sep = separator(), note = note("<small>Author : <i>Garagecoder</i>.      Latest update : <i>2015/11/07</i>.</small>")
+#@gimp : note = note{"\n<small><b>Note: </b>
+#@gimp : This filter re-implements the scaling algorithm described at :
+#@gimp : </small>"}
+#@gimp : note = link("wikipedia.org","https://en.wikipedia.org/wiki/Directional_Cubic_Convolution_Interpolation")
+#@gimp : note = note("<small>The algorithm is intended for enlarging images while avoiding</small>")
+#@gimp : note = note("<small>artifacts, e.g. staircase artifacts.</small>")
+#@gimp : note = note("\n<small>Threshold controls edge[lower] to texture[higher] balance.</small>")
+#@gimp : note = note("<small>Exponent controls texture edge sharpness[higher].</small>")
+#@gimp : note = note("<small>Warning: highly experimental...</small>")
+gimp_scale_dcci2x : -skip ${1=1.15},${2=5},${3=0}
+  -repeat $! -l[$>]
+    -split_opacity -scale_dcci2x ${1-3} -a c -c 0,255
+  -endl -done
+
+gimp_scale_dcci2x_preview :
+  -z 25%,25%,75%,75% -gimp_scale_dcci2x $*
 
 #@gimp _<b>Rendering</b>
 #-----------------------
