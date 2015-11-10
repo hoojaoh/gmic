@@ -19166,7 +19166,7 @@ gimp_filter_sources :
        "\#@gimp : sep = separator(), note = note(\"<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/10/2015</i>.</small>\")"\n\
     '})
     -o. raw:$file_hotchocolate,uchar -rm.
-    ({'${"-_u "$file_hotchocolate'})
+    ({'${"-_u "$file_hotchocolate}'})
   -endif
 
   # Include own users external sources.
