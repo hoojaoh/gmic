@@ -19162,6 +19162,7 @@ gimp_filter_sources :
        "\#@gimp : Then, just click on the link below, and <b>on the ad</b> that will display there. It\47s as simple as that !"\n\
        "\#@gimp : We\47ll drink it to you :)\"}"\n\
        "\#@gimp : link = link{\"Send one drop of hot chocolate to the G\47MIC developers\",\"http://gmic.eu/chocolate.shtml\"}"\n\
+       "\#@gimp : link = link{\"http://gmic.eu/chocolate.shtml\"}"\n\
        "\#@gimp : note = note{\"<small><b>Note:</b>This filter won\47t appear anymore after you re-run the plug-in. So, you won\47t have other occasions!</small>\"}"\n\
        "\#@gimp : sep = separator(), note = note(\"<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/10/2015</i>.</small>\")"\n\
     '})
