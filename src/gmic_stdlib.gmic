@@ -19156,7 +19156,7 @@ gimp_filter_sources :
 
   # Include 'hot chocolate' filter.
   file_hotchocolate=$_path_rc/hotchocolate.gmic
-  -if {!isfile($file_hotchocolate)" || "date(1,$file_hotchocolate)<date(1)}
+  -if {!isfile($file_hotchocolate)" || "date(1,$file_hotchocolate)+1<date(1)}
     ({'"\#@gimp <span color=\"red\">&#x2764; <b>One-click chocolate !</b></span> : _none_, gimp_friends"\n\
        "\#@gimp : note = note{\"Want to offer a <b>free hot chocolate</b> to the <b>hard-working</b> developpers who provide G\47MIC <b>for free</b> ?\\n"\n\
        "\#@gimp : Then, just click on the link below, and <b>on the ad</b> that will display there. It\47s as simple as that !"\n\
