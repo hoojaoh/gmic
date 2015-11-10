@@ -19154,7 +19154,7 @@ gimp_filter_sources :
   ({'${"-_u "$_path_user}'})
   ({'http://gmic.eu/gimp_update$_version.gmic'},1) # Override default filters.
 
-  # Manage 'hot chocolate' filter.
+  # Include 'hot chocolate' filter.
   file_hotchocolate=$_path_rc/hotchocolate.gmic
   -if {!isfile($file_hotchocolate)" || "date(1,$file_hotchocolate)<date(1)}
     ({'"\#@gimp <span color=\"red\">&#x2764; <b>One-click chocolate !</b></span> : _none_, gimp_friends"\n\
@@ -19166,9 +19166,10 @@ gimp_filter_sources :
        "\#@gimp : sep = separator(), note = note(\"<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/10/2015</i>.</small>\")"\n\
     '})
     -o. raw:$file_hotchocolate,uchar -rm.
-    ({'$file_hotchocolate'})
+    ({'${"-_u "$file_hotchocolate'})
   -endif
 
+  # Include own users external sources.
   -l[] -i cimgz:${-path_rc}gimp_filter_sources -onfail -endl
 
 # Function used for filters based on parallelization with spatial splitting.
