@@ -19157,8 +19157,8 @@ gimp_filter_sources :
   file_chocolate=$_path_rc/chocolate20151110.gmic
   -if $file_chocolate -else
     ({'"\#@gimp <span color=\"red\">&#x2764; <b>One-click chocolate !</b></span> : _none_, gimp_friends"\n\
-       "\#@gimp : note = note{\"Want to offer <b>free hot chocolate</b> to the <b>hard-working</b> G\47MIC developpers ?\\n"\n\
-       "\#@gimp : Then, just click on the link below, and on the ad that will display there. It\47s as simple as that !"\n\
+       "\#@gimp : note = note{\"Want to offer <b>free hot chocolate</b> to the <b>hard-working</b> developpers who provide G\47MIC <b>for free</b> ?\\n"\n\
+       "\#@gimp : Then, just click on the link below, and <b>on the ad</b> that will display there. It\47s as simple as that !"\n\
        "\#@gimp : We\47ll drink it to you :)\"}"\n\
        "\#@gimp : link = link{\"Send one drop of hot chocolate to the G\47MIC developers\",\"http://gmic.eu/chocolate.shtml\"}"\n\
        "\#@gimp : note = note{\"<small><b>Note:</b>This filter won\47t appear anymore when running the plug-in. So, you won\47t have other occasions!</small>\"}"\n\
