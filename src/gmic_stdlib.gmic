@@ -29914,6 +29914,7 @@ gmicol_rgb_distribution_preview :
 #@gmicol clone("Smooth [wavelets]")
 #@gmicol clone("Unstrip")
 #@gmicol clone("Upscale [diffusion]")
+#@gmicol clone("Upscale [dcci2x]")
 #@gmicol clone("Upscale [scale2x]")
 
 #@gmicol _<b>Sequences</b>
