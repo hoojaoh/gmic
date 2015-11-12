@@ -8495,7 +8495,7 @@ syntexturize : -check "${1=100%}>0 && ${2=$1}>0"
 syntexturize_patch : -check "${1=100%}>0 && ${2=$1}>0 && isint(${3=0}) && $3>=0 && isint(${4=7}) && $4>0 && ${5=5}>=0 && ${6=1}>=0"
   -e[^-1] "Resynthetize $1x$2 version(s) of texture$? using a patch-matching algorithm with "${"-v - -if $3 -u \"$3 \" -else -u auto- -endif -v +"}"scales, $4x$4 patches, blending size $5 and precision $6."
   -v - -repeat $! -l[$>]
-    nb_scales={round(if($3,$3,log2(min(w,h)/16),1,1))}
+    nb_scales={round(if($3,$3,log2(min(w,h)/16)),1,1)}
     width={if(${"-is_percent $1"},round(w*$1,1,1),$1)}
     height={if(${"-is_percent $2"},round(h*$2,1,1),$2)}
 
