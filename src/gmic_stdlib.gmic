@@ -8537,13 +8537,13 @@ syntexturize_patch : -check "${1=100%}>0 && ${2=$1}>0 && isint(${3=0}) && $3>=0 
       # Synthesis.
       psize={-2,min(w,h,$4)}
       -repeat {1+$6*$<}
-        --_syntexturize_patch.. [-1],{int(max(3,$5*$scale%))},1
+        --_syntexturize_patch.. [-1],{int(max(3,$5*$scale%))}
         -patchmatch. [-3],$psize,$psize,1,4,4,0,[-2] -rm..
       -done
       -rm..
 
     -done
-    -_syntexturize_patch.. [-1],$5,1
+    -_syntexturize_patch.. [-1],$5
     -rm. -r $width,$height,1,100%,0,0,0.5,0.5
   -endl -done -v +
 
