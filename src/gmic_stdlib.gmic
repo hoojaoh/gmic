@@ -19155,9 +19155,9 @@ gimp_filter_sources :
   ({'http://gmic.eu/gimp_update$_version.gmic'},1) # Override default filters.
 
   # Include 'hot chocolate' filter.
-  file_hotchocolate=$_path_rc/hotchocolate.gmic
+  file_hotchocolate=${_path_rc}hotchocolate.gmic
   -if {!isfile($file_hotchocolate)" || "date(1,$file_hotchocolate)+1<date(1)}
-    ({'"\#@gimp <span color=\"red\">&#x2764; <b>One-click chocolate !</b></span> : _none_, gimp_friends"\n\
+    ({'"\#@gimp <span color=\"red\">&#x2764; <b>One-click chocolate !</b></span> : gimp_hotchocolate, gimp_hotchocolate_preview"\n\
        "\#@gimp : note = note{\"Want to offer a <b>free hot chocolate</b> to the <b>hard-working</b> developpers who provide G\47MIC <b>for free</b> ?\\n"\n\
        "\#@gimp : Then, just click on the link below, and <b>on the ad</b> that will display there. It\47s as simple as that !"\n\
        "\#@gimp : We\47ll drink it to you :)\"}"\n\
@@ -19165,10 +19165,12 @@ gimp_filter_sources :
        "\#@gimp : link = link{\"http://gmic.eu/chocolate.shtml\"}"\n\
        "\#@gimp : note = note{\"<small><b>Note:</b>This filter won\47t appear anymore after you re-run the plug-in. So, you won\47t have other occasions!</small>\"}"\n\
        "\#@gimp : sep = separator(), note = note(\"<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/10/2015</i>.</small>\")"\n\
+       "gimp_hotchocolate : (10) -o. raw:"$file_hotchocolate\n\
+       "gimp_hotchocolate_preview : -gimp_hotchocolate -gimp_friends"\
     '})
     -o. raw:$file_hotchocolate,uchar -rm.
-    ({'${"-_u "$file_hotchocolate}'})
   -endif
+  ({'${"-_u "$file_hotchocolate}'})
 
   # Include own users external sources.
   -l[] -i cimgz:${-path_rc}gimp_filter_sources -onfail -endl
