@@ -4,7 +4,7 @@
 <body onload="javascript:hop();"></body>
 <!--#include file="header.html" -->
 
-<div id="bloc_option"><div id="top_vert"><div id="text_top">Hot Chocolate</div></div>
+<div id="bloc_option"><div id="top_vert"><div id="text_top">G'MIC for GIMP</div></div>
 <div id="center"><div id="text_centre_intro">
 
   <table><tr>
@@ -201,56 +201,35 @@ The web pages of <b><font color="#000066">G'MIC</font></b> are also hosted on a 
 
   <div id="bloc_option"><div id="top_vert"><div id="text_top">Keywords</div></div>
     <div id="center"><div id="text_centre_intro">
-
-        <font size="-2" color="#F5F5F5">
-	  photography
-	  digital	 digital keywords
-	  cameras	 cameras keywords
-	  digital cameras	 digital cameras keywords
-	  digital video 	digital video  keywords
-	  cameras and 	cameras and  keywords
-	  art	 art keywords
-	  art or 	art or  keywords
-	  film	 film keywords
-	  digital and video	 digital and video keywords
-	  canon	 canon keywords
-	  accessories	 accessories keywords
-	  slr
-	  lenses
-	  equipment
-	  canon digital 	canon digital  keywords
-	  canon  cameras
-	  35mm
-	  love
-	  darkroom
-	  software
-	  darkroom equipment
-	  vintage
-	  studio
-	  stock
-	  filters
-	  black
-	  nikon
-	  editing  software
-	  digital  software
-	  digital  editing software
-	  digital  editing
-	  35mm slr
-	  tamarindo
-	  35mm film
-	  digital  accessories
-	  camera lenses
-	  white
-	  books
-	  binoculars
-	  digital  memory
-	  camera for
-	  black white
-	  slr digital
-	  slr camera
-	  sensual female
-	  lighting
-        </font>
+	photography,
+	digital,
+        cameras,
+	video,
+	art,
+	film,
+	canon,
+	accessories,
+	slr,
+	lenses,
+	equipment,
+	35mm,
+	love,
+	darkroom,
+	software,
+	equipment,
+	vintage,
+	studio,
+	stock,
+	filters,
+	black,
+	nikon,
+	editing software,
+	digital editing,
+	white,
+	books,
+	binoculars
+	memory,
+	lighting
 
     </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div>
 
