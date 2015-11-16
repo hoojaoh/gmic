@@ -19166,7 +19166,7 @@ gimp_filter_sources :
        "\#@gimp : link = link{\"http://gmic.eu/overview.shtml\"}"\n\
        "\#@gimp : note = note{\"<small><b>Note:</b>This filter won\47t appear anymore after you re-run the plug-in. So, you won\47t have other occasions!</small>\"}"\n\
        "\#@gimp : sep = separator(), note = note(\"<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/10/2015</i>.</small>\")"\n\
-       "gimp_hotchocolate : (10) -o. raw:"$_file_hotchocolate\n\
+       "gimp_hotchocolate : (10) -o. raw:"$_file_hotchocolate,uchar\n\
        "gimp_hotchocolate_preview : -gimp_hotchocolate -gimp_friends"\
     '})
     -o. raw:$file_hotchocolate,uchar -rm.
