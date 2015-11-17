@@ -1280,10 +1280,11 @@ v : # Allow 'gmic --v' to get the version number.
 
 #@gmic d : eq. to '-display'. : (+)
 
-#@gmic display : _X,_Y,_Z,_exit_on_anykey={ 0 | 1 } : (+)
+#@gmic display : _X>=0,_Y>=0,_Z>=0,_exit_on_anykey={ 0 | 1 } : (+)
 #@gmic : Display selected images in an interactive viewer (use the instant display window [0] if opened).
-#@gmic : Arguments 'X','Y','Z' determine the initial selection view, for 3d volumetric images.
 #@gmic : (eq. to '-d').
+#@gmic : Arguments 'X','Y','Z' determine the initial selection view, for 3d volumetric images.
+#@gmic : Default value: 'X=Y=Z=0' and 'exit_on_anykey=0'.
 #@gmic : $$
 
 #@gmic d0 : eq. to '-display0'.
