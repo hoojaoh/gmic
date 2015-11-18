@@ -19789,7 +19789,7 @@ _gimp_manage_filter_sources :
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
 #@gimp : link = link(0,"[55] Dr. Helmut Jarausch","")
-#@gimp : link = link(0,"[54] Michael Beck","https://plus.google.com/u/0/b/117441237982283011318/+MichaelBeckFTW")
+#@gimp : link = link(0,"[54] Michael Beck","http://www.michaeljamesbeck.com")
 #@gimp : link = link(0,"[53] Riccardo Leone","http://rickleone.tumblr.com/")
 #@gimp : link = link(0,"[52] Gisela Looram","")
 #@gimp : link = link(0,"[51] Frank Tegtmeyer","https://plus.google.com/u/0/+FrankTegtmeyer/posts")
