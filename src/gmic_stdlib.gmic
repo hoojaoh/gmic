@@ -9880,6 +9880,55 @@ spline : -skip ${9=256},${10=1},${11=0}
     -rm[1]
   -endl -done -v +
 
+#@gmic tetraedron_shade : x0,y0,z0,x1,y1,z1,x2,y2,z2,x3,y3,z3,R0,G0,B0,...,R1,G1,B1,...,R2,G2,B2,...,R3,G3,B3,...
+#@gmic : Draw tetraedron with interpolated colors on selected (volumetric) images.
+tetraedron_shade :
+  -e[^-1] "Draw tetraderon ($1,$2,$3)-($4,$5,$6)-($7,$8,$9)-($10,$11,$12) with interpolated colors in image$?."
+  -v -
+
+  # Find bounding box.
+  xm={round(min($1,$4,$7,$10),1,-1)} xM={round(max($1,$4,$7,$10),1,1)}
+  ym={round(min($2,$5,$8,$11),1,-1)} yM={round(max($2,$5,$8,$11),1,1)}
+  zm={round(min($3,$6,$9,$12),1,-1)} zM={round(max($3,$6,$9,$12),1,1)}
+
+  # Find color mapping coefficients for each vertex.
+  -l[] (${1-3},1;${4-6},1;${7-9},1;${10-12},1) (${13--1}) -r. {w/4},4,1,1,-1 -s. x -solve[^0] [0] -rm[0] -a c -endl
+
+  # Draw tetraedron on selected images.
+  -f[^-1] "*
+  init(
+    x0 = $1; y0 = $2; z0 = $3;
+    x1 = $4; y1 = $5; z1 = $6;
+    x2 = $7; y2 = $8; z2 = $9;
+    x3 = $10; y3 = $11; z3 = $12;
+    u01 = x1 - x0; v01 = y1 - y0; w01 = z1 - z0;
+    u02 = x2 - x0; v02 = y2 - y0; w02 = z2 - z0;
+    u03 = x3 - x0; v03 = y3 - y0; w03 = z3 - z0;
+    u12 = x2 - x1; v12 = y2 - y1; w12 = z2 - z1;
+    u13 = x3 - x1; v13 = y3 - y1; w13 = z3 - z1;
+    u23 = x3 - x2; v23 = y3 - y2; w23 = z3 - z2;
+    nx012 = v01*w02 - w01*v02; ny012 = w01*u02 - u01*w02; nz012 = u01*v02 - v01*u02;
+    if (nx012*u03 + ny012*v03 + nz012*w03<0, nx012*=-1; ny012*=-1; nz012*=-1);
+    nx013 = v01*w03 - w01*v03; ny013 = w01*u03 - u01*w03; nz013 = u01*v03 - v01*u03;
+    if (nx013*u02 + ny013*v02 + nz013*w02<0, nx013*=-1; ny013*=-1; nz013*=-1);
+    nx023 = v02*w03 - w02*v03; ny023 = w02*u03 - u02*w03; nz023 = u02*v03 - v02*u03;
+    if (nx023*u01 + ny023*v01 + nz023*w01<0, nx023*=-1; ny023*=-1; nz023*=-1);
+    nx123 = v12*w13 - w12*v13; ny123 = w12*u13 - u12*w13; nz123 = u12*v13 - v12*u13;
+    if (-nx123*u01 - ny123*v01 - nz123*w01<0, nx123*=-1; ny123*=-1; nz123*=-1);
+  );
+  if (x<"$xm" || x>"$xM" || y<"$ym" || y>"$yM" || z<"$zm" || z>"$zM",i,
+    dx0 = x - x0; dy0 = y - y0; dz0 = z - z0;
+    dx1 = x - x1; dy1 = y - y1; dz1 = z - z1;
+    is_in = dx0*nx012 + dy0*ny012 + dz0*nz012>=0 &&
+    dx0*nx013 + dy0*ny013 + dz0*nz013>=0 &&
+    dx0*nx023 + dy0*ny023 + dz0*nz023>=0 &&
+    dx1*nx123 + dy1*ny123 + dz1*nz123>=0;
+    is_in? i(#-1,0,0,0)*x + i(#-1,0,1,0)*y + i(#-1,0,2,0)*z + i(#-1,0,3,0) :i
+  )
+"
+  -rm.
+  -v +
+
 #@gmic t : eq. to '-text'. : (+)
 
 #@gmic text : text,_x[%],_y[%],_font_height[%]>=0,_opacity,_color1,.. : (+)
