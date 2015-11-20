@@ -5137,7 +5137,7 @@ quantize : -check "isint($1) && $1>=1" -skip ${2=1},${3=0}
     -endif
   -endl -done -v +
 
-#@gmic rand : { value0[%] | [image0] },{ value1[%] | [image1] } : [image] : (+)
+#@gmic rand : { value0[%] | [image0] },_{ value1[%] | [image1] } : [image] : (+)
 #@gmic : Fill selected images with random values uniformly distributed in the specified range.
 #@gmic : $ 400,400,1,3 -rand -10,10 --blur 10 -sign.
 
