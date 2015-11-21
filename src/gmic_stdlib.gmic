@@ -14380,6 +14380,7 @@ _wrbytepnk :
   -output_pink3d ${1}.pnk
 
 _xpink :
+  na={-1,n}
   filename=${-file_rand}
   -_u $filename x_filename=${}
   prefix=pink.
@@ -14396,7 +14397,7 @@ _xpink :
   status=${}
   -file_rm ${x_filename}.pnk
   -if {$status!=0\ &&\ {$1'!='seuilauto}} -error "Exec status is "${status}"." -return
-  -elif ${filename}_o.pnk -i ${filename}_o.pnk -file_rm ${x_filename}_o.pnk -k.
+  -elif ${filename}_o.pnk -i ${filename}_o.pnk -file_rm ${x_filename}_o.pnk -k. -nm. $na
   -else -error "Exec error!!"
   -endif
 
