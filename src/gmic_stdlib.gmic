@@ -508,7 +508,7 @@ _help_usage :
 \n       '"${g}"compression"$n"' can be "$g"{ none | lzw | jpeg }"$n" and '"${g}"force_multipage"$n" can be "$g"{ 0=no | 1=yes }"$n".
 \n
 \n    . "$g".gif files:"$n" Animated gif files can be saved, using the input expression
-\n      '"${c}"filename.gif,fps,nb_loops"$n"'.
+\n      '"${c}"filename.gif,fps>0,nb_loops"$n"'.
 \n       Specify '"${g}"nb_loops=0"$n"' to get an infinite number of animation loops (default).
 \n
 \n    . "$g".jpeg files:"$n" The output quality may be specified (in %), using the output expression
@@ -19853,8 +19853,8 @@ _gimp_manage_filter_sources :
 
 #@gimp Friends Hall of Fame : _none_, gimp_friends
 #@gimp : note = note{"\n<span foreground="purple" underline="single">Donators :</span>"}
-#@gimp : note = note{" <b>-</b> We've already received <b>56</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
-#@gimp :               You could be the <b>57th</b> donator :)"}
+#@gimp : note = note{" <b>-</b> We've already received <b>57</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
+#@gimp :               You could be the <b>58th</b> donator :)"}
 #@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help us making <b>G'MIC</b> more visible
 #@gimp :              (cover expenses for web hosting and open-source events, for instance). Also, it will motivate
 #@gimp :              us to design more new image filters and effects. Feel free to donate
@@ -19865,6 +19865,7 @@ _gimp_manage_filter_sources :
 #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
+#@gimp : link = link(0,"[57] Christian Stocco","")
 #@gimp : link = link(0,"[56] Richard Benedict","https://www.flickr.com/photos/136307651@N04/")
 #@gimp : link = link(0,"[55] Dr. Helmut Jarausch","")
 #@gimp : link = link(0,"[54] Michael Beck","http://www.michaeljamesbeck.com")
