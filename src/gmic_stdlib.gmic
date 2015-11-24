@@ -10132,7 +10132,7 @@ animate3d : -skip ${1=640},${2=480},${3=0},${4=1},${5=0},"${7=""}" -check ${6=1}
   -e[^-1] "Animate 3d object$?, in a $1x$2 window with angle velocities ($3,$4,$5)."
   -v - is_multi={$!>1} -repeat $! --l[$>]
     -n3d -*3d {$6*min($1,$2)/1.5} -c3d
-    ax=0 ay=0 az=0 frame=0
+    ax=0 ay=0 az=0 frame=0 vfact=1
     -do
        --r3d 1,0,0,$ax -r3d. 0,1,0,$ay -r3d. 0,0,1,$az
        ax+=$3 ay+=$4 az+=$5
@@ -10144,7 +10144,10 @@ animate3d : -skip ${1=640},${2=480},${3=0},${4=1},${5=0},"${7=""}" -check ${6=1}
        -else
          -replace. -1,64
        -endif
-       -w. {w},{h},0,0,-1,-1,{0,n} -wait 20 -k[0]
+       -w. {$vfact*w},{$vfact*h},0,0,-1,-1,{0,n} -wait 20 -k[0]
+       -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,-D}} vfact=1.5 -endif # Increase window size.
+       -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,-C}} vfact={1/1.5} -endif # Decrease window size.
+       -if {({*,CTRLLEFT}" || "{*,CTRLRIGHT})" && "{*,-R}} vfact=1 -endif # Decrease window size.
     -while {{*}" && "!{*,ESC}" && "!{*,Q}} -rm -w 0
   -endl -done -v +
 
