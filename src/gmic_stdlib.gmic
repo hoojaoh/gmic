@@ -7294,8 +7294,8 @@ blur_radial : -skip ${2=50%},${3=50%}
 blur_selective : -check "${1=5}>=0 && ${2=0.5}>=0 && isint(${3=5}) && $3>0"
   -e[^-1] "Blur image$? using $3 selective gaussian scales, with sigma $1 and edges $2."
   -v - -repeat $! -l[$>] nm={0,n}
-    --gradient_norm -+. 1 -^. {-max(0.01,$2)} -quantize. {$3+1},0,1 -min. {$3-1} -r. [-2] -/. 100
-    -repeat $3 --==. {$>/100} -*. [-3] -+[-2,-1] -b.. {$1/($3+1)} -done
+    --gradient_norm -+. 1 -^. {-max(0.01,$2)} -quantize. {$3+1},0,1 -min. {$3-1} -r. [-2]
+    -repeat $3 --==. $> -*. [-3] -+[-2,-1] -b.. {$1/($3+1)} -done
   -rm.. -nm $nm -endl -done -v +
 
 #@gmic blur_x : amplitude[%]>=0,_boundary={ 0=dirichlet | 1=neumann }
