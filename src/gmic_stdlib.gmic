@@ -7997,7 +7997,7 @@ inpaint_flow : -check ${-is_image_arg\ $1}" && ${2=10}>=0 && ${3=100}>=0 && ${4=
 #@gmic : $ image.jpg 100%,100% -ellipse. 30%,30%,40,30,0,1,255 -inpaint_gaussian[0] [1],0.2%
 inpaint_gaussian : -check ${-is_image_arg\ $1}" && ${2=3}>0 && ${3=3}>0 && ${4=1.25}>0 && ${5=16}>=0"
   -e[^-1] "Inpaint image$? by mask $1, using gaussian interpolation, smoothness $2, iteration length $3, iteration smoothness power $4 and feathering $5."
-  -v - -repeat $! -pass$1 0 -channels. 0 -eq. 0 -l[$>,-1]
+  -v - -repeat $! -pass$1 0 -channels. 0 -eq. 0 -l[$>,-1] nm={0,n}
     -*.. [1]
     sigma={max(2,if(${"-is_percent $2"},max(w,h)*$2,$2))}
     -do
@@ -8009,7 +8009,7 @@ inpaint_gaussian : -check ${-is_image_arg\ $1}" && ${2=3}>0 && ${3=3}>0 && ${4=1
       -rm[0,1] -==. 0
       sigma={max(2,$sigma^$4)}
     -while {!im}
-  -endl -rm. -done -v +
+  -nm[0] $nm -endl -rm. -done -v +
 
 #@gmic inpaint_holes : maximal_area[%]>=0,_tolerance>=0,_is_high_connectivity={ 0 | 1 }
 #@gmic : Inpaint all connected regions having an area less than specified value.
