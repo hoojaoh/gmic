@@ -8073,10 +8073,9 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
       --r[img,mask] $scale%,$scale%,1,100%,2 -nms[-2,-1] scaled_img,scaled_mask
       -!=[scaled_mask] 0
       --f[scaled_img] -4096 --j[scaled_img] [-1],0,0,0,0,1,[scaled_mask] -rm.. -nm. scaled_reference
-      patch_size={round(max(5,$3*(0.5^$<)))}
+      patch_size={round(max(3,$3*(0.5^$<)))}
       patch_size={min(w,h,$patch_size)}
       blend_size={round(max(3,$4*(0.5^$<)))}
-
       -==[scaled_mask] 0 -erode[scaled_mask] $patch_size
 
       -if {!$>} # First iteration.
@@ -27233,7 +27232,7 @@ gimp_inpaint_patchmatch :
       visu_size=${-fitscreen[]" "{0,w},{0,h},1,25%,50%}
       -w.. $visu_size,0,"[Preview] G'MIC: Inpaint [multi-scale]"
     -endif
-    -inpaint_patchmatch.. [1],${1-4}
+    -srand 0 -inpaint_patchmatch.. [1],${1-4}
     -rm.
   -endl -done
 
