@@ -8128,7 +8128,7 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
 # _inpaint_patchmatch : [correspondence_map],[mask],blend_size>0
 _inpaint_patchmatch :
   p1={int($3/2)} p2={$3-$p1-1}
-  -pass$1 1 -pass$2 0 -erode. $3
+  -pass$1 1 -pass$2 0 #-erode. $3
   -f[0] "*init(boundary=1);
           if (i#2,i,
             avg = norm = 0;
@@ -20244,8 +20244,8 @@ gimp_survey_preview :
         -gmic_survey_check
         1 -o. raw:$lockname,char -rm.
         -gimp_print_preview "Your answers have been sent.",20,"Thank you!",16
-      -onfail
-        -gimp_print_preview "Sending error:",32,"Sorry, but something went wrong! Your answers have not been sent. Maybe a problem with the Internet connection?",15,40
+#      -onfail
+#        -gimp_print_preview "Sending error:",32,"Sorry, but something went wrong! Your answers have not been sent. Maybe a problem with the Internet connection?",15,40
       -endl
     -endif
   -endif
