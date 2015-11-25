@@ -7988,13 +7988,17 @@ inpaint_flow : -check ${-is_image_arg\ $1}" && ${2=10}>=0 && ${3=100}>=0 && ${4=
   -e[^-1] "Apply $2x$3 iterations of the inpainting flow on image$?, with mask $1, time step $4, alpha $5 and sigma $6."
   -v - -repeat $! -pass$1 0 -l[$>,-1]
     -r. [0],[0],[0],1,0 -inpaint.. [1]
-    -repeat $2 --diffusiontensors.. 0,1,$5,$6,0 -*. [-2] -smooth... [-1],$3,$4,0 -rm. -done
+    -repeat $2
+      -progress {100*$>/($2-1)}
+      --diffusiontensors.. 0,1,$5,$6,0 -*. [-2] -smooth... [-1],$3,$4,0 -rm.
+    -done
+    -progress 100
   -endl -rm. -done -v +
 
 #@gmic inpaint_gaussian : [mask],_smoothness[%]>=0,_iter_length>0,_iter_smoothness_power>0,_feathering>=0
 #@gmic : Replace transparent regions of a RGBA image by linearly interpolated color.
 #@gmic : Default values: 'smoothness=3', 'iter_length=3', 'iter_smoothness_power=1.25' and 'feathering=8'.
-#@gmic : $ image.jpg 100%,100% -ellipse. 30%,30%,40,30,0,1,255 -inpaint_gaussian[0] [1],0.2%
+#@gmic : $ image.jpg 100%,100% -ellipse. 30%,30%,40,30,0,1,255 --inpaint_gaussian[0] [1],0.2%
 inpaint_gaussian : -check ${-is_image_arg\ $1}" && ${2=3}>=0 && ${3=3}>0 && ${4=1.25}>0 && ${5=16}>=0"
   -e[^-1] "Inpaint image$? by mask $1, using gaussian interpolation, smoothness $2, iteration length $3, iteration smoothness power $4 and feathering $5."
   -v - -repeat $! -pass$1 0 -channels. 0 -eq. 0 -l[$>,-1] nm={0,n}
@@ -8025,6 +8029,26 @@ inpaint_holes : -check "${1=4}>=0 && ${2=0}>=0" -skip ${3=0}
     -else -inpaint[0] [1],0,{2*!$2+!!$3} -k[0] -endif
   -endl -done -v +
 
+#@gmic inpaint_morpho : [mask]
+#@gmic : Inpaint selected images by specified mask using morphological operators.
+#@gmic : $ image.jpg 100%,100% -ellipse. 30%,30%,40,30,0,1,255 --inpaint_morpho[0] [1]
+inpaint_morpho : -check ${-is_image_arg\ $1}
+  -e[^-1] "Inpaint image$? by mask $1, using morphological operators."
+  -v - -repeat $! -pass$1 0 -l[$>,-1]
+    nm={0,n} im={0,im} iM={0,iM} im1={$im-1} iM1={$iM+1}
+    -channels. 0 -==. 0
+    --f[0] $im1 -j. [0],0,0,0,0,1,[-2]
+    -do
+      --dilate. 3
+      -replace.. $im1,$iM1
+      -erode.. 3
+      -replace.. $iM1,$im1
+      -+[-2,-1] -/. 2
+      -j. [-3],0,0,0,0,1,[-2]
+    -while {im==$im1}
+    -k. -nm $nm
+  -endl -done -v +
+
 #@gmic inpaint_patchmatch : [mask],_nb_scales={ 0=auto | >0 },_patch_size>0,_blend_size>=0,_precision>0
 #@gmic : Inpaint selected images by specified binary mask, using a multi-scale patchmatch algorithm.
 #@gmic : Default values: 'nb_scales=0', 'patch_size=5', 'blend_size=17' and precision='10'.
@@ -8043,6 +8067,7 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
     -repeat $nb_scales
       scale={100*(0.5^$<)}
       -v + -e[] "> Process scale "{1+$>}"/"$nb_scales" -> "$scale% -v -
+      -progress {100*$>/max(1,$nb_scales-1)}
 
       # Compute image and mask at current scales.
       --r[img,mask] $scale%,$scale%,1,100%,2 -nms[-2,-1] scaled_img,scaled_mask
@@ -8091,6 +8116,7 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
       -endif
 
     -done
+    -progress 100
 
     # Generate final result.
     -==[mask] 0 -erode[mask] $patch_size -_inpaint_patchmatch[img] [correspondence],[mask],$4
@@ -8459,62 +8485,6 @@ remove_pixels : -check "$1>=0"
 split_freq :
   -e[^-1] "Split image$? into low and high frequency parts, with smoothness $1."
   -v - -repeat $! -l[$>] --b $1 --[0] [1] -rv -endl -done -v +
-
-#@gmic solidify
-#@gmic : Replace transparent regions of a RGBA image by morphologically interpolated color.
-#@gmic : $ image.jpg --luminance -ge. 120 -*. 255 -append c --solidify -display_rgba
-solidify :
-  -e[^-1] "Replace transparent regions of RGBA image$? by morphologically interpolated colors."
-  -v - -repeat $! -l[$>] nm={0,n} -to_a
-    [-1] -split_opacity.. ->=.. 50% -*. [-2]
-    -replace_color. 0,0,0,0,0,0,-1,-1,-1,-1 -to_rgb.
-    -do
-      --dilate. 3
-      -replace_color.. 0,0,-1,-1,-1,1000,1000,1000
-      -erode.. 3
-      -replace_color.. 0,0,1000,1000,1000,-1,-1,-1
-      -+[-2,-1] -/. 2
-      -j. [-3],0,0,0,0,1,[-2]
-    -while {im<0}
-    -k.
-  -nm $nm -endl -done -v +
-
-#@gmic solidify_linear : _sigma>=1,_dsigma>=1,0<=_precision<=1
-#@gmic : Replace transparent regions of a RGBA image by linearly interpolated color.
-#@gmic : Default values: 'sigma=1.5', 'dsigma=1' and 'precision=0.5'.
-#@gmic : $ image.jpg --luminance -ge. 120 -*. 255 -append c --solidify_linear , -display_rgba
-solidify_linear : -check "${1=1.5}>=1 && ${2=1}>=1 && ${3=0.5}>=0 && $3<=1"
-  -e[^-1] "Replace transparent regions of RGBA image$? by linearly interpolated colors, with sigma $1, dsigma $2 and precision $3."
-  -v - -repeat $! -l[$>]
-    -split_opacity
-    -if {$!>1}
-      ->=. 50% -*.. [-1]
-      sigma=$1 -do
-        N={v=round(3*$sigma);min(33,max(3,v+1-(v%2)))}
-        $N,$N -=. 1,50%,50% -distance. 1 -*. {-1/$sigma^2} -exp. -normalize_sum.
-        --convolve[-3,-2] [-1] -rm...
-        -max. 1e-5 -/[-2,-1]
-        --dilate.. {v=round((1/3-$N/6)*$3+$N/2);max(3,v+1-(v%2))}
-        --... [-1] -*.. [-3] -rm...
-        --[-3,-2]
-        sigma*=2
-      -while {!im}
-     -rm.
-   -endif
- -endl -done -v +
-
-#@gmic solidify_watershed
-#@gmic : Replace transparent regions of RGBA image by color propagation.
-#@gmic : $ image.jpg --luminance -ge. 120 -*. 255 -append c --solidify_watershed -display_rgba
-solidify_watershed :
-  -e[^-1] "Replace transparent regions of RGBA image$? by color propagation."
-  -v - -repeat $! -l[$>]
-    -split_opacity
-    -if {$!>1}
-      -+[0] 1 ->=[1] 50% -*[0] [1] -distance[1] 1 -*[1] -1
-      -watershed[0] [1] -rm[1]
-    -endif
-  -endl -done -v +
 
 #@gmic solve_poisson : "laplacian_command",_nb_iterations>=0,_time_step>0,_nb_scales>=0
 #@gmic : Solve Poisson equation so that applying '-laplacian[n]' is close to the result of '-laplacian_command[n]'.
@@ -27193,19 +27163,33 @@ gimp_deinterlace_preview :
   -gimp_split_preview "-gimp_deinterlace $*",$-1
 
 #@gimp Inpaint [diffusion] : gimp_inpaint_diffusion, gimp_no_preview
-#@gimp : Smooth inpaint = bool(true)
-#@gimp : Global iterations = int(10,1,30)
-#@gimp : Local iterations = int(10,1,30)
-#@gimp : Time step = float(20,5,50)
-#@gimp : Gradient smoothness = float(0.7,0,5)
-#@gimp : Tensor smoothness = float(1.2,0,5)
+#@gimp : Global iterations = int(20,1,100)
+#@gimp : Local iterations = int(100,1,300)
+#@gimp : Time step = float(15,5,50)
+#@gimp : Gradient smoothness = float(1,0,10)
+#@gimp : Tensor smoothness = float(2,0,10)
 #@gimp : Mask color = color(255,0,0,255)
-#@gimp : note = note{"<small><b>Note:</b> Preview is likely to be inaccurate."}
+#@gimp : sep = separator(), note = note{"<small><b>Note:</b> It is strongly suggested to apply this filter only on a selection around the region to inpaint, to save computation time!</small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_diffusion :
   -repeat $! -l[$>]
-    --select_color 0,${7-10}
-    -if $1 -inpaint_flow.. [1],$2,$3,$4,$5,$6 -c 0,255 -else -inpaint.. [1],0 -endif
+    --select_color 0,${6-9}
+    -inpaint_flow.. [1],${1-5} -c 0,255
+    -rm.
+  -endl -done
+
+#@gimp Inpaint [gaussian] : gimp_inpaint_gaussian, gimp_no_preview
+#@gimp : Smoothness = float(0,0,10)
+#@gimp : Iteration length = float(3,0,10)
+#@gimp : Iteration smoothness power = float(1.25,1,5)
+#@gimp : Feathering = int(8,0,64)
+#@gimp : Mask color = color(255,0,0,255)
+#@gimp : sep = separator(), note = note{"<small><b>Note:</b> It is strongly suggested to apply this filter only on a selection around the region to inpaint, to save computation time!</small>"}
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
+gimp_inpaint_gaussian :
+  -repeat $! -l[$>]
+    --select_color 0,${5-8}
+    -inpaint_gaussian.. [1],${1-4}
     -rm.
   -endl -done
 
@@ -27216,6 +27200,41 @@ gimp_inpaint_diffusion :
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>05/27/2014</i>.</small>")
 gimp_inpaint_holes :
   -inpaint_holes {$1^1.5},$2,$3
+
+#@gimp Inpaint [morphological] : gimp_inpaint_morpho, gimp_no_preview
+#@gimp : Mask color = color(255,0,0,255)
+#@gimp : sep = separator(), note = note{"<small><b>Note:</b> It is strongly suggested to apply this filter only on a selection around the region to inpaint, to save computation time!</small>"}
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
+gimp_inpaint_morpho :
+  -repeat $! -l[$>]
+    --select_color 0,${1-4}
+    -inpaint_morpho.. [1]
+    -rm.
+  -endl -done
+
+#@gimp Inpaint [multi-scale] : gimp_inpaint_patchmatch, gimp_inpaint_patchmatch_preview
+#@gimp : Number of scales = _int(0,0,16)
+#@gimp : note = note{"<small>(Set <i>Number of scales</i> to <i>0</i> for automatic scale detection)</small>"}
+#@gimp : Patch size = _int(5,1,32)
+#@gimp : Blend size = _int(17,1,32)
+#@gimp : Precision = _int(20,1,100)
+#@gimp : Mask color = _color(255,0,0,255)
+#@gimp : sep = separator()
+#@gimp : Preview progression = bool(0)
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
+gimp_inpaint_patchmatch :
+  -repeat $! -l[$>]
+    --select_color 0,${5-8}
+    -if $9
+      visu_size=${-fitscreen[]" "{0,w},{0,h},1,25%,50%}
+      -w.. $visu_size,0,"[Preview] G'MIC: Inpaint [multi-scale]"
+    -endif
+    -inpaint_patchmatch.. [1],${1-4}
+    -rm.
+  -endl -done
+
+gimp_inpaint_patchmatch_preview : -skip $*
+  -if ${"-gimp_check_version 168"} -gimp_no_preview 0 -endif
 
 #@gimp Inpaint [patch-based] : gimp_inpaint_patch, gimp_no_preview
 #@gimp : Patch size = int(7,1,64)
@@ -27236,25 +27255,6 @@ gimp_inpaint_patch :
     -inpaint.. [1],$1,{$1*$2},$3,1,{$4*$1},${5-8}
     -rm.
   -endl -done
-
-#@gimp Inpaint [solidify] : gimp_solidify, gimp_solidify_preview(0)
-#@gimp : Interpolation type = choice("Linear","Morphological")
-#@gimp : sep = separator(), note = note("<small><b>For linear method only :</b></small>")
-#@gimp : Smoothness = float(1.5,1,5)
-#@gimp : Smoothness factor = float(1,1,1.2)
-#@gimp : Precision = float(0.5,0,1)
-#@gimp : sep = separator(), Preview type = choice("Full","Forward horizontal","Forward vertical","Backward horizontal","Backward vertical","Duplicate horizontal","Duplicate vertical")
-#@gimp : sep = separator(), note = note("<small><b>Note:</b>
-#@gimp : This filter replaces transparent regions by interpolated colors. It may take long to render!
-#@gimp : </small>")
-#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/01/2011</i>.</small>")
-gimp_solidify :
-  -if $1 -solidify
-  -else -solidify_linear $2,$3,$4
-  -endif
-
-gimp_solidify_preview :
-  -gimp_split_preview "-gimp_solidify $*",$-1
 
 #@gimp Red-eye attenuation : red_eye, red_eye
 #@gimp : Threshold = float(75,0,100)
@@ -30055,10 +30055,11 @@ gmicol_rgb_distribution_preview :
 #@gmicol clone("Bayer reconstruction")
 #@gmicol clone("Deinterlace")
 #@gmicol clone("Inpaint [diffusion]")
+#@gmicol clone("Inpaint [gaussian]")
 #@gmicol clone("Inpaint [holes]")
+#@gmicol clone("Inpaint [morphological]")
+#@gmicol clone("Inpaint [multi-scale]")
 #@gmicol clone("Inpaint [patch-based]")
-#@gmicol clone("Smooth [perona-malik]")
-#@gmicol clone("Inpaint [solidify]")
 #@gmicol clone("Red-eye attenuation")
 #@gmicol clone("Remove hot pixels")
 #@gmicol clone("Smooth [anisotropic]")
@@ -30069,6 +30070,7 @@ gmicol_rgb_distribution_preview :
 #@gmicol clone("Smooth [median]")
 #@gmicol clone("Smooth [nlmeans]")
 #@gmicol clone("Smooth [patch-based]")
+#@gmicol clone("Smooth [perona-malik]")
 #@gmicol clone("Smooth [selective gaussian]")
 #@gmicol clone("Smooth [skin]")
 #@gmicol clone("Smooth [thin brush]")
