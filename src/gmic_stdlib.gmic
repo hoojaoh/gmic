@@ -8052,7 +8052,8 @@ inpaint_morpho : -check ${-is_image_arg\ $1}
 #@gmic inpaint_patchmatch : [mask],_nb_scales={ 0=auto | >0 },_patch_size>0,_blend_size>=0,_precision>0
 #@gmic : Inpaint selected images by specified binary mask, using a multi-scale patchmatch algorithm.
 #@gmic : Default values: 'nb_scales=0', 'patch_size=5', 'blend_size=17' and precision='3'.
-inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) && $3>0 && isint(${4=17}) && $4>0 && isint(${5=3}) && $5>0"
+#@gmic : $ image.jpg 100%,100% -ellipse. 30%,30%,40,30,0,1,255 --inpaint_patchmatch[0] [1]
+inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) && $3>0 && isint(${4=17}) && $4>=0 && isint(${5=3}) && $5>0"
   -e[^-1] "Inpaint image$? with mask $1, using a multiscale patchmatch algorithm with "${"-v - -if $2 -u \"$2 \" -else -u auto- -endif -v +"}"scales, $3x$3 patches, blending size $4 and precision $5."
   -v - -repeat $! -pass$1 0 -l[$>,-1]
 
@@ -8075,7 +8076,7 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
       --f[scaled_img] -4096 --j[scaled_img] [-1],0,0,0,0,1,[scaled_mask] -rm.. -nm. scaled_reference
       patch_size={round(max(3,$3*(0.5^$<)))}
       patch_size={min(w,h,$patch_size)}
-      blend_size={round(max(3,$4*(0.5^$<)))}
+      blend_size={if($4,round(max(3,$4*(0.5^$<))))}
       -==[scaled_mask] 0 -erode[scaled_mask] $patch_size
 
       -if {!$>} # First iteration.
@@ -8128,25 +8129,30 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
 # _inpaint_patchmatch : [correspondence_map],[mask],blend_size>0
 _inpaint_patchmatch :
   p1={int($3/2)} p2={$3-$p1-1}
-  -pass$1 1 -pass$2 0 #-erode. $3
-  -f[0] "*init(boundary=1);
-          if (i#2,i,
-            avg = norm = 0;
-            for (q = -"$p1", q<="$p2", ++q,
-              for (p = -"$p1", p<="$p2", ++p,
-                X = x + p;
-                Y = y + q;
-                u = i(#1,X,Y,0,0);
-                v = i(#1,X,Y,0,1);
-                X = u - p;
-                Y = v - q;
-                if (X>=0 && X<w && Y>=0 && Y<h,
-                  avg+=i(X,Y,0,c);
-                  ++norm;
+  -pass$1 1 -pass$2 0
+  -if {!$3}
+    -warp[0] [1],0,0,1
+  -else
+    -erode. $3
+    -f[0] "*init(boundary=1);
+            if (i#2,i,
+              avg = norm = 0;
+              for (q = -"$p1", q<="$p2", ++q,
+                for (p = -"$p1", p<="$p2", ++p,
+                  X = x + p;
+                  Y = y + q;
+                  u = i(#1,X,Y,0,0);
+                  v = i(#1,X,Y,0,1);
+                  X = u - p;
+                  Y = v - q;
+                  if (X>=0 && X<w && Y>=0 && Y<h,
+                    avg+=i(X,Y,0,c);
+                    ++norm;
+                  )
                 )
-              )
-            );
-            avg/norm)"
+              );
+              avg/norm)"
+  -endif
   -k[0]
 
 #@gmic kuwahara : size>0
@@ -27217,7 +27223,7 @@ gimp_inpaint_morpho :
 #@gimp : Number of scales = _int(0,0,16)
 #@gimp : note = note{"<small>(Set <i>Number of scales</i> to <i>0</i> for automatic scale detection)</small>"}
 #@gimp : Patch size = _int(9,1,32)
-#@gimp : Blend size = _int(11,1,32)
+#@gimp : Blend size = _int(11,0,32)
 #@gimp : Iterations = _int(3,1,100)
 #@gimp : Mask color = _color(255,0,0,255)
 #@gimp : sep = separator()
