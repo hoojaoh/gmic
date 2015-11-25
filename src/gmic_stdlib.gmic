@@ -8074,7 +8074,8 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
       -!=[scaled_mask] 0
       --f[scaled_img] -4096 --j[scaled_img] [-1],0,0,0,0,1,[scaled_mask] -rm.. -nm. scaled_reference
       patch_size={min(w,h,$3)}
-      blend_size={max(1,$4*(0.5^$<))}
+      blend_size={max(3,$4*(0.5^$<))}
+
       -==[scaled_mask] 0 -erode[scaled_mask] $patch_size
 
       -if {!$>} # First iteration.
@@ -27215,12 +27216,14 @@ gimp_inpaint_morpho :
 #@gimp Inpaint [multi-scale] : gimp_inpaint_patchmatch, gimp_inpaint_patchmatch_preview
 #@gimp : Number of scales = _int(0,0,16)
 #@gimp : note = note{"<small>(Set <i>Number of scales</i> to <i>0</i> for automatic scale detection)</small>"}
-#@gimp : Patch size = _int(5,1,32)
-#@gimp : Blend size = _int(17,1,32)
-#@gimp : Precision = _int(20,1,100)
+#@gimp : Patch size = _int(9,1,32)
+#@gimp : Blend size = _int(11,1,32)
+#@gimp : Precision = _int(40,1,100)
 #@gimp : Mask color = _color(255,0,0,255)
 #@gimp : sep = separator()
 #@gimp : Preview progression = bool(0)
+#@gimp : note = note{"<small><b><span color="red">Important note:</span></b> This filter is still in a <b>beta</b> state. The code will be improved in the future.
+#@gimp : Don't rely too much on the current results you may get! </small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_patchmatch :
   -repeat $! -l[$>]
