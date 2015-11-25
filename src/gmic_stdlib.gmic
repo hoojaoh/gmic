@@ -8001,7 +8001,7 @@ inpaint_gaussian : -check ${-is_image_arg\ $1}" && ${2=3}>=0 && ${3=3}>0 && ${4=
     -*.. [1]
     sigma={max(2,if(${"-is_percent $2"},max(w,h)*$2,$2))}
     -do
-      --b[0,1] $sigma -/.. [-1]
+      --b[0,1] $sigma -max. {10^-$3} -/.. [-1]
       -le. {10^-$3}
       -if $5 -distance... 0 -c... 0,$5 -/... $5 -endif
       -j.. [0],0,0,0,0,1,[1]
@@ -8024,6 +8024,103 @@ inpaint_holes : -check "${1=4}>=0 && ${2=0}>=0" -skip ${3=0}
     -if {im} -k[0] whd={w},{h},{d} -r 1,1,1,100%,2 -r $whd,100%
     -else -inpaint[0] [1],0,{2*!$2+!!$3} -k[0] -endif
   -endl -done -v +
+
+#@gmic inpaint_patchmatch : [mask],_nb_scales={ 0=auto | >0 },_patch_size>0,_blend_size>=0,_precision>0
+#@gmic : Inpaint selected images by specified binary mask, using a multi-scale patchmatch algorithm.
+#@gmic : Default values: 'nb_scales=0', 'patch_size=5', 'blend_size=17' and precision='10'.
+inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) && $3>0 && isint(${4=17}) && $4>0 && isint(${5=10}) && $5>0"
+  -e[^-1] "Inpaint image$? with mask $1, using a multiscale patchmatch algorithm with "${"-v - -if $2 -u \"$2 \" -else -u auto- -endif -v +"}"scales, $3x$3 patches, blending size $4 and precision $5."
+  -v - -repeat $! -pass$1 0 -l[$>,-1]
+
+    # Init variables and images.
+    nm={0,n} -nms img,mask
+    mM={img,im},{img,iM} -n[img] 0,255
+    nb_scales={max(1,round(if($2,$2,log2(min(w,h)/16)),1,1))}
+    visu_size=${-fitscreen[]" "{0,w},{0,h},1,25%,50%}
+    -slices[img] 0 -r[mask] [img],[img],1,1,0 -!=[mask] 0
+    -inpaint_gaussian[img] [mask],0,6,2  # Quick first estimate.
+
+    -repeat $nb_scales
+      scale={100*(0.5^$<)}
+      -v + -e[] "> Process scale "{1+$>}"/"$nb_scales" -> "$scale% -v -
+
+      # Compute image and mask at current scales.
+      --r[img,mask] $scale%,$scale%,1,100%,2 -nms[-2,-1] scaled_img,scaled_mask
+      -!=[scaled_mask] 0
+      --f[scaled_img] -4096 --j[scaled_img] [-1],0,0,0,0,1,[scaled_mask] -rm.. -nm. scaled_reference
+      patch_size={min(w,h,$3)}
+      blend_size={max(1,$4*(0.5^$<))}
+      -==[scaled_mask] 0 -erode[scaled_mask] $patch_size
+
+      -if {!$>} # First iteration.
+
+        # Estimate initial correspondence map.
+        100%,100%,1,1,x --f. y -mv[scaled_mask] $! -a[-3--1] c
+        -patchmatch[scaled_img] [scaled_reference],$patch_size,$patch_size,1,4,4,0,[-1]
+        -rm[scaled_reference,-1]
+        -nm. correspondence
+
+      -else # Standard iteration.
+
+        # Upscale correspondence map from previous scale.
+        -*[correspondence] 2 -r[correspondence] 200%,200%,1,2 -r[correspondence] [scaled_img],[scaled_img],1,2,0,1
+        100%,100%,1,1,x --f. y -a[-2,-1] c
+        -f[scaled_mask] "*if(i,1,
+                            upc = i(#"$correspondence",x-1,y,0,0); vpc = i(#"$correspondence",x-1,y,0,1);
+                            ucp = i(#"$correspondence",x,y-1,0,0); vcp = i(#"$correspondence",x,y-1,0,1);
+                            ucc = i(#"$correspondence",x,y,0,0); vcc = i(#"$correspondence",x,y,0,1);
+                            i(#-1,x,y,0,0) = (ucc==upc && vcc==vpc)?upc + 1:ucc;
+                            i(#-1,x,y,0,1) = (ucc==ucp && vcc==vcp)?vcp + 1:vcc;
+                            0)"
+        -rm[correspondence] -nm. correspondence
+        -a[correspondence] [scaled_mask],c
+
+        # Refine correspondence map iteratively with patchmatch.
+        nbs1={max(1,$nb_scales-1)}
+        nb_iter={round(max(1,$5*(($<+1)/$nbs1)^2))}
+
+        -repeat $nb_iter
+          -_inpaint_patchmatch[scaled_img] [correspondence],[scaled_mask],$blend_size
+          --patchmatch[scaled_img] [scaled_reference],$patch_size,$patch_size,1,4,4,0,[correspondence]
+          -j[correspondence] [-1] -rm.
+          -if {*} -w[scaled_img] $visu_size,0 -endif
+          -if {*2} -w2[correspondence] $visu_size,1 -endif
+        -done
+        -rm[scaled_img,scaled_mask,scaled_reference] -channels[correspondence] 0,1
+
+      -endif
+
+    -done
+
+    # Generate final result.
+    -==[mask] 0 -erode[mask] $patch_size -_inpaint_patchmatch[img] [correspondence],[mask],$4
+    -rm[correspondence]
+    -n[img] $mM
+  -endl -rm[mask] -done -v +
+
+# _inpaint_patchmatch : [correspondence_map],[mask],blend_size>0
+_inpaint_patchmatch :
+  p1={int($3/2)} p2={$3-$p1-1}
+  -pass$1 1 -pass$2 0 -erode. $3
+  -f[0] "*init(boundary=1);
+          if (i#2,i,
+            avg = norm = 0;
+            for (q = -"$p1", q<="$p2", ++q,
+              for (p = -"$p1", p<="$p2", ++p,
+                X = x + p;
+                Y = y + q;
+                u = i(#1,X,Y,0,0);
+                v = i(#1,X,Y,0,1);
+                X = u - p;
+                Y = v - q;
+                if (X>=0 && X<w && Y>=0 && Y<h,
+                  avg+=i(X,Y,0,c);
+                  ++norm;
+                )
+              )
+            );
+            avg/norm)"
+  -k[0]
 
 #@gmic kuwahara : size>0
 #@gmic : Apply Kuwahara filter of specified size on selected images.
@@ -27095,39 +27192,22 @@ gimp_deinterlace :
 gimp_deinterlace_preview :
   -gimp_split_preview "-gimp_deinterlace $*",$-1
 
-#@gimp Inpaint [diffusion] : gimp_inpaint_diffusion, gimp_inpaint_diffusion_preview(0)
+#@gimp Inpaint [diffusion] : gimp_inpaint_diffusion, gimp_no_preview
 #@gimp : Smooth inpaint = bool(true)
 #@gimp : Global iterations = int(10,1,30)
 #@gimp : Local iterations = int(10,1,30)
 #@gimp : Time step = float(20,5,50)
 #@gimp : Gradient smoothness = float(0.7,0,5)
 #@gimp : Tensor smoothness = float(1.2,0,5)
-#@gimp : sep = separator()
-#@gimp : Mask type = choice(1,"Opaque regions in top layer","Mask by color")
-#@gimp : note = note("<small>If <i>Mask by color</i> has been selected :</small>")
 #@gimp : Mask color = color(255,0,0,255)
-#@gimp : sep = separator()
-#@gimp : note = note("<small><b>Note:</b>
-#@gimp : When <i>'Mask by color'</i> mode is selected, preview is likely to be inaccurate.
-#@gimp : </small>")
-#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/29/2010</i>.</small>")
+#@gimp : note = note{"<small><b>Note:</b> Preview is likely to be inaccurate."}
+#@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_diffusion :
-  -if $7 # Mask by color.
-    -repeat $! -l[$>]
-      --select_color 0,${8-11} -rv
-      -if $1 -inpaint_flow $2,$3,$4,$5%,$6% -c 0,255 -else -inpaint[1] [0] -endif
-      -rm[0]
-    -endl -done
-  -else # Mask by top layer.
-    -if {$!==1} -return -endif
-    -to_a[0] -channels[0] 100% ->=[0] 50%
-    -if $1 -inpaint_flow $2,$3,$4,$5%,$6% -c 0,255 -else -inpaint[^0] [0] -endif
-    -to_a[0] -f[0] 0
-  -endif
-
-gimp_inpaint_diffusion_preview :
-  -gimp_inpaint_diffusion ${^0}
-  -if {!$7" && "$!>1} -rm[0] -endif
+  -repeat $! -l[$>]
+    --select_color 0,${7-10}
+    -if $1 -inpaint_flow.. [1],$2,$3,$4,$5,$6 -c 0,255 -else -inpaint.. [1],0 -endif
+    -rm.
+  -endl -done
 
 #@gimp Inpaint [holes] : gimp_inpaint_holes, gimp_inpaint_holes(0)
 #@gimp : Maximal area = float(4,1,512)
@@ -27146,26 +27226,16 @@ gimp_inpaint_holes :
 #@gimp : Blend decay = float(0.05,0,0.5)
 #@gimp : Blend scales = int(10,1,20)
 #@gimp : Allow outer blending = bool(1)
-#@gimp : sep = separator()
-#@gimp : Mask type = choice(1,"Opaque regions in top layer","Mask by color")
-#@gimp : note = note("<small>If <i>Mask by color</i> has been selected :</small>")
 #@gimp : Mask color = color(255,0,0,255)
 #@gimp : sep = separator(), note = note("<small>A quick tutorial on how to use this filter can be found here:</small>")
 #@gimp : link = link("G'MIC Inpainting tutorial on Patrick David's blog.","http://blog.patdavid.net/2014/02/getting-around-in-gimp-gmic-inpainting.html")
-#@gimp : sep = separator(), note = note("<small>Authors: <i>David Tschumperl&#233;</i> and <i>Maxime Daisy</i>.      Latest update: <i>03/25/2013</i>.</small>")
+#@gimp : sep = separator(), note = note("<small>Authors: <i>David Tschumperl&#233;</i> and <i>Maxime Daisy</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_patch :
-  -if $9 # Mask by color.
-    -repeat $! -l[$>]
-      --select_color 0,${10-13}
-      -inpaint[0] [1],$1,{$1*$2},$3,1,{$4*$1},${5-8}
-      -rm[1]
-    -endl -done
-  -else # Mask by top layer.
-    -if {$!==1} -return -endif
-    -to_a[0] -channels[0] 100% ->=[0] 50%
-    -inpaint[^0] [0],$1,{$1*$2},$3,1,{$4*$1},${5-8}
-    -to_a[0] -f[0] 0
-  -endif
+  -repeat $! -l[$>]
+    --select_color 0,${9-12}
+    -inpaint.. [1],$1,{$1*$2},$3,1,{$4*$1},${5-8}
+    -rm.
+  -endl -done
 
 #@gimp Inpaint [solidify] : gimp_solidify, gimp_solidify_preview(0)
 #@gimp : Interpolation type = choice("Linear","Morphological")
