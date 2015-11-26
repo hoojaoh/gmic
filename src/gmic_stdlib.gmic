@@ -8127,9 +8127,11 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
     -progress 100
 
     # Generate final result.
-    -==[mask] 0
-    -_inpaint_patchmatch[img] [correspondence],[mask],$5,$6
-    -rm[correspondence]
+    -if $correspondence
+      -==[mask] 0
+      -_inpaint_patchmatch[img] [correspondence],[mask],$5,$6
+      -rm[correspondence]
+    -endif
     -n[img] $mM
   -endl -rm[mask] -done -v +
 
@@ -27233,8 +27235,9 @@ gimp_inpaint_morpho :
 #@gimp : Patch size = _int(9,1,64)
 #@gimp : Number of iterations per scale = _int(3,1,100)
 #@gimp : Blend size = _int(7,0,32)
-#@gimp : Allow outer blending = bool(1)
+#@gimp : Allow outer blending = _bool(1)
 #@gimp : Mask color = _color(255,0,0,255)
+#@gimp : Mask dilation = _int(0,0,32)
 #@gimp : sep = separator()
 #@gimp : Preview progression while running = _bool(0)
 #@gimp : note = note{"<small><b><span color="red">Important note:</span></b> This filter is still in a <b>beta</b> state. The code will be improved in the future.
@@ -27243,7 +27246,8 @@ gimp_inpaint_morpho :
 gimp_inpaint_patchmatch :
   -repeat $! -l[$>]
     --select_color 0,${6-9}
-    -if $10
+    -if $10 -dilate. {1+2*$10} -endif
+    -if $11
       visu_size=${-fitscreen[]" "{0,w},{0,h},1,25%,50%}
       -w.. $visu_size,0,"[Preview] G'MIC: Inpaint [multi-scale]"
     -endif
