@@ -27230,7 +27230,7 @@ gimp_inpaint_morpho :
 #@gimp Inpaint [multi-scale] : gimp_inpaint_patchmatch, gimp_inpaint_patchmatch_preview
 #@gimp : Number of scales = _int(0,0,16)
 #@gimp : note = note{"<small>(Set <i>Number of scales</i> to <i>0</i> for automatic scale detection)</small>"}
-#@gimp : Patch size = _int(9,1,32)
+#@gimp : Patch size = _int(9,1,64)
 #@gimp : Number of iterations per scale = _int(3,1,100)
 #@gimp : Blend size = _int(7,0,32)
 #@gimp : Allow outer blending = bool(1)
