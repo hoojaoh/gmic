@@ -8065,6 +8065,7 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
     -slices[img] 0 -r[mask] [img],[img],1,1,0 -!=[mask] 0
     -inpaint_gaussian[img] [mask],0,6,2  # Quick first estimate.
 
+    first_iter=1
     -repeat $nb_scales
       scale={100*(0.5^$<)}
       -v + -e[] "> Process scale "{1+$>}"/"$nb_scales" -> "$scale% -v -
@@ -8072,20 +8073,23 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
 
       # Compute image and mask at current scales.
       --r[img,mask] $scale%,$scale%,1,100%,2 -nms[-2,-1] scaled_img,scaled_mask
-      -!=[scaled_mask] 0
+      -ge[scaled_mask] 0.95
+      -if {scaled_mask,!iM} -rm[scaled_img,scaled_mask] -continue -endif # Skip scale (if too low).
+
       --f[scaled_img] -4096 --j[scaled_img] [-1],0,0,0,0,1,[scaled_mask] -rm.. -nm. scaled_reference
       patch_size={round(max(3,$3*(0.5^$<)))}
       patch_size={min(w,h,$patch_size)}
       blend_size={if($4,round(max(3,$4*(0.5^$<))))}
       -==[scaled_mask] 0 -erode[scaled_mask] $patch_size
 
-      -if {!$>} # First iteration.
+      -if $first_iter # First iteration.
 
         # Estimate initial correspondence map.
         100%,100%,1,1,x --f. y -mv[scaled_mask] $! -a[-3--1] c
         -patchmatch[scaled_img] [scaled_reference],$patch_size,$patch_size,1,4,4,0,[-1]
         -rm[scaled_reference,-1]
         -nm. correspondence
+        first_iter=0
 
       -else # Standard iteration.
 
