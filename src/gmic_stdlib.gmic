@@ -7999,11 +7999,11 @@ inpaint_flow : -check ${-is_image_arg\ $1}" && ${2=10}>=0 && ${3=100}>=0 && ${4=
 #@gmic : Replace transparent regions of a RGBA image by linearly interpolated color.
 #@gmic : Default values: 'smoothness=3', 'iter_length=3', 'iter_smoothness_power=1.25' and 'feathering=10'.
 #@gmic : $ image.jpg 100%,100% -ellipse. 30%,30%,40,30,0,1,255 --inpaint_gaussian[0] [1],0.2%
-inpaint_gaussian : -check ${-is_image_arg\ $1}" && ${2=3}>=0 && ${3=3}>0 && ${4=1.25}>0 && ${5=10}>=0"
+inpaint_gaussian : -check ${-is_image_arg\ $1}" && ${2=0.5}>=0 && ${3=2}>0 && ${4=1.1}>0 && ${5=16}>=0"
   -e[^-1] "Inpaint image$? by mask $1, using gaussian interpolation, smoothness $2, iteration length $3, iteration smoothness power $4 and feathering $5."
   -v - -repeat $! -pass$1 0 -channels. 0 -eq. 0 -l[$>,-1] nm={0,n}
     -*.. [1]
-    sigma={max(2,if(${"-is_percent $2"},max(w,h)*$2,$2))}
+    sigma={max(0.1,if(${"-is_percent $2"},max(w,h)*$2,$2))}
     is_first_iter=1
     -do
       --b[0,1] $sigma -max. {10^-$3} -/.. [-1]
