@@ -8050,12 +8050,13 @@ inpaint_morpho : -check ${-is_image_arg\ $1}
     -k. -nm $nm
   -endl -done -v +
 
-#@gmic inpaint_patchmatch : [mask],_nb_scales={ 0=auto | >0 },_patch_size>0,_blend_size>=0,_precision>0
+#@gmic inpaint_patchmatch : [mask],_nb_scales={ 0=auto | >0 },_patch_size>0,_nb_iterations_per_scale>0,_blend_size>=0,_allow_outer_blending={ 0 | 1 }
 #@gmic : Inpaint selected images by specified binary mask, using a multi-scale patchmatch algorithm.
-#@gmic : Default values: 'nb_scales=0', 'patch_size=5', 'blend_size=17' and precision='3'.
+#@gmic : Default values: 'nb_scales=0', 'patch_size=5', 'nb_iterations_per_scale=3', 'blend_size=17' and 'allow_outer_blending=1'.
 #@gmic : $ image.jpg 100%,100% -ellipse. 30%,30%,40,30,0,1,255 --inpaint_patchmatch[0] [1]
-inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) && $3>0 && isint(${4=17}) && $4>=0 && isint(${5=3}) && $5>0"
-  -e[^-1] "Inpaint image$? with mask $1, using a multiscale patchmatch algorithm with "${"-v - -if $2 -u \"$2 \" -else -u auto- -endif -v +"}"scales, $3x$3 patches, blending size $4 and precision $5."
+inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) && $3>0 && isint(${4=3}) && $4>0 && isint(${5=17}) && $5>=0" -skip ${6=1}
+  -e[^-1] "Inpaint image$? with mask $1, using a multiscale patchmatch algorithm with "${"-v - -if $2 -u \"$2 \" -else -u auto- -endif -v +"}\
+          "scales, $3x$3 patches, $4 iterations per scale and blending size $5."
   -v - -repeat $! -pass$1 0 -l[$>,-1]
 
     # Init variables and images.
@@ -8080,8 +8081,8 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
       --f[scaled_img] -4096 --j[scaled_img] [-1],0,0,0,0,1,[scaled_mask] -rm.. -nm. scaled_reference
       patch_size={round(max(3,$3*(0.5^$<)))}
       patch_size={min(w,h,$patch_size)}
-      blend_size={if($4,round(max(3,$4*(0.5^$<))))}
-      -==[scaled_mask] 0 -erode[scaled_mask] $patch_size
+      blend_size={if($5,round(max(3,$5*(0.5^$<))))}
+      -==[scaled_mask] 0
 
       -if $first_iter # First iteration.
 
@@ -8109,10 +8110,10 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
 
         # Refine correspondence map iteratively with patchmatch.
         nbs1={max(1,$nb_scales-1)}
-        nb_iter={round(max(1,$5*(($<+1)/$nbs1)^2))}
+        nb_iter={round(max(1,$4*(($<+1)/$nbs1)^2))}
 
         -repeat $nb_iter
-          -_inpaint_patchmatch[scaled_img] [correspondence],[scaled_mask],$blend_size
+          -_inpaint_patchmatch[scaled_img] [correspondence],[scaled_mask],$blend_size,$6
           --patchmatch[scaled_img] [scaled_reference],$patch_size,$patch_size,1,4,4,0,[correspondence]
           -j[correspondence] [-1] -rm.
           -if {*} -w[scaled_img] $visu_size,0 -endif
@@ -8126,20 +8127,20 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) &
     -progress 100
 
     # Generate final result.
-    -==[mask] 0 -erode[mask] $patch_size
-    -_inpaint_patchmatch[img] [correspondence],[mask],$4
+    -==[mask] 0
+    -_inpaint_patchmatch[img] [correspondence],[mask],$5,$6
     -rm[correspondence]
     -n[img] $mM
   -endl -rm[mask] -done -v +
 
-# _inpaint_patchmatch : [correspondence_map],[mask],blend_size>0
+# _inpaint_patchmatch : [correspondence_map],[mask],blend_size>0,_allow_outer_blending={ 0 | 1 }
 _inpaint_patchmatch :
   p1={int($3/2)} p2={$3-$p1-1}
-  -pass$1 1 -pass$2 0
+  -pass$1 1 -pass$2 {!$3" || "!$4}
   -if {!$3}
     -warp[0] [1],0,0,1
   -else
-    -erode. $3
+    -if $4 -erode. $3 -endif
     -f[0] "*init(boundary=1);
             if (i#2,i,
               avg = norm = 0;
@@ -27230,22 +27231,23 @@ gimp_inpaint_morpho :
 #@gimp : Number of scales = _int(0,0,16)
 #@gimp : note = note{"<small>(Set <i>Number of scales</i> to <i>0</i> for automatic scale detection)</small>"}
 #@gimp : Patch size = _int(9,1,32)
-#@gimp : Blend size = _int(11,0,32)
-#@gimp : Iterations = _int(3,1,100)
+#@gimp : Number of iterations per scale = _int(3,1,100)
+#@gimp : Blend size = _int(7,0,32)
+#@gimp : Allow outer blending = bool(1)
 #@gimp : Mask color = _color(255,0,0,255)
 #@gimp : sep = separator()
-#@gimp : Preview progression = _bool(1)
+#@gimp : Preview progression while running = _bool(0)
 #@gimp : note = note{"<small><b><span color="red">Important note:</span></b> This filter is still in a <b>beta</b> state. The code will be improved in the future.
 #@gimp : Don't rely too much on the current results you may get! </small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_patchmatch :
   -repeat $! -l[$>]
-    --select_color 0,${5-8}
-    -if $9
+    --select_color 0,${6-9}
+    -if $10
       visu_size=${-fitscreen[]" "{0,w},{0,h},1,25%,50%}
       -w.. $visu_size,0,"[Preview] G'MIC: Inpaint [multi-scale]"
     -endif
-    -srand 0 -inpaint_patchmatch.. [1],${1-4}
+    -srand 0 -inpaint_patchmatch.. [1],${1-5}
     -rm.
   -endl -done
 
