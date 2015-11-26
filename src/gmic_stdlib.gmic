@@ -27227,7 +27227,7 @@ gimp_inpaint_morpho :
 #@gimp : Iterations = _int(3,1,100)
 #@gimp : Mask color = _color(255,0,0,255)
 #@gimp : sep = separator()
-#@gimp : Preview progression = bool(1)
+#@gimp : Preview progression = _bool(1)
 #@gimp : note = note{"<small><b><span color="red">Important note:</span></b> This filter is still in a <b>beta</b> state. The code will be improved in the future.
 #@gimp : Don't rely too much on the current results you may get! </small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
