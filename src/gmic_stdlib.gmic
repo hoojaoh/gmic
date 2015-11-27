@@ -27192,7 +27192,9 @@ gimp_deinterlace_preview :
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_diffusion :
   -repeat $! -l[$>]
-    --select_color 0,${6-9}
+    R=$6 G=$7 B=$8 A=$9
+    -if {!$A" && "(s==2" || "s==4)} -split_opacity --!=. 0 -*[0,-1] -a c R=0 G=0 B=0 -endif # Purely transparent color.
+    --select_color 0,$R,$G,$B,$A
     -inpaint_flow.. [1],${1-5} -c 0,255
     -rm.
   -endl -done
@@ -27207,7 +27209,9 @@ gimp_inpaint_diffusion :
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_gaussian :
   -repeat $! -l[$>]
-    --select_color 0,${5-8}
+    R=$5 G=$6 B=$7 A=$8
+    -if {!$A" && "(s==2" || "s==4)} -split_opacity --!=. 0 -*[0,-1] -a c R=0 G=0 B=0 -endif # Purely transparent color.
+    --select_color 0,$R,$G,$B,$A
     -inpaint_gaussian.. [1],${1-4}
     -rm.
   -endl -done
@@ -27226,7 +27230,9 @@ gimp_inpaint_holes :
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_morpho :
   -repeat $! -l[$>]
-    --select_color 0,${1-4}
+    R=$1 G=$2 B=$3 A=$4
+    -if {!$A" && "(s==2" || "s==4)} -split_opacity --!=. 0 -*[0,-1] -a c R=0 G=0 B=0 -endif # Purely transparent color.
+    --select_color 0,$R,$G,$B,$A
     -inpaint_morpho.. [1]
     -rm.
   -endl -done
@@ -27247,7 +27253,9 @@ gimp_inpaint_morpho :
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_patchmatch :
   -repeat $! -l[$>]
-    --select_color 0,${6-9}
+    R=$6 G=$7 B=$8 A=$9
+    -if {!$A" && "(s==2" || "s==4)} -split_opacity --!=. 0 -*[0,-1] -a c R=0 G=0 B=0 -endif # Purely transparent color.
+    --select_color 0,$R,$G,$B,$A
     -if $10 -dilate. {1+2*$10} -endif
     -if $11
       visu_size=${-fitscreen[]" "{0,w},{0,h},1,25%,50%}
