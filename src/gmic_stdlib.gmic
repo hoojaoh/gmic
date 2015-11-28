@@ -21729,7 +21729,7 @@ gimp_colorize_comics_preview :
 #@gimp : link = link("David Revoy's G'MIC Colorization Page","http://www.davidrevoy.com/article240/gmic-line-art-colorization")
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>12/09/2014</i>.</small>")
 gimp_colorize_interactive :
-  N=$!
+  N=$! nm={n}
   resolution={arg(1+$3,512,1024,2048,0)}
   -nm "[G"{`39`}"MIC] Colorize"
   -if {$8==-1" || "$7!=w" || "$8!=h} _gimp_control_points= -else _gimp_control_points=${9--1} -endif
@@ -21752,6 +21752,7 @@ gimp_colorize_interactive :
     -endl -done
     -if {$2>=3} -split_colors[1] 0,256,8 -endif # Split colors into layers.
   -endif
+  -nm $nm
   -u \{$1\}\{$2\}\{$3\}\{"$4"\}\{"$5"\}\{0\}\{{w},{h}\}\{$status\}
 
 gimp_colorize_interactive_preview :
