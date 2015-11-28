@@ -21752,7 +21752,7 @@ gimp_colorize_interactive :
     -endl -done
     -if {$2>=3} -split_colors[1] 0,256,8 -endif # Split colors into layers.
   -endif
-  -nm $nm
+#  -nm $nm
   -u \{$1\}\{$2\}\{$3\}\{"$4"\}\{"$5"\}\{0\}\{{w},{h}\}\{$status\}
 
 gimp_colorize_interactive_preview :
