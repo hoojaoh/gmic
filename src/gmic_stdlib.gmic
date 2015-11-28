@@ -19324,7 +19324,7 @@ gimp_filter_sources :
     -if $is_too_old
       ({'"\#@gimp <span color=\"red\">&#x2764; <b>One-click chocolate !</b></span> : gimp_hotchocolate, gimp_hotchocolate_preview"\n\
          "\#@gimp : note = note{\"Want to offer a <b>free hot chocolate</b> to the <b>hard-working</b> developpers who provide G\47MIC <b>for free</b> ?\\n"\n\
-         "\#@gimp : Then, just click on the link below (or copy/paste it in your browser), and <b>on the ad</b> that will display there. It\47s as simple as that !"\n\
+         "\#@gimp : Then, just click on the link below (or copy/paste it in your browser), and <b>on the sponsored link</b> that will display there. It\47s as simple as that !"\n\
          "\#@gimp : We\47ll drink it to you :)\"}"\n\
          "\#@gimp : link = link{\"Offer hot chocolate to the G\47MIC developers\",\"http://gmic.eu/overview.shtml\"}"\n\
          "\#@gimp : link = link{\"http://gmic.eu/overview.shtml\"}"\n\
