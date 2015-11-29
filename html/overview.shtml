@@ -74,33 +74,33 @@
 </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div>
 
 
-<div id="bloc_option"><div id="top_vert"><div id="text_top">One step further</div></div>
-  <div id="center"><div id="text_centre_intro">
+<!-- <div id="bloc_option"><div id="top_vert"><div id="text_top">One step further</div></div> -->
+<!--   <div id="center"><div id="text_centre_intro"> -->
 
-<h4>Why consider helping the project ?</h4>
-<p><b><font color="#000066">G'MIC</font></b> has been primarily developed in the <a href="https://www.greyc.fr/node/1903">IMAGE Team</a> of the <a href="https://www.greyc.fr">GREYC</a> Laboratory (public research lab in France) by myself
-  (<a href="https://tschumperle.users.greyc.fr/">David Tschumperl&eacute;</a>), mainly as a tool for image analysis and algorithm prototyping.
-  It helps me, in my everyday job, to design new image processing algorithms and explore image data for a wide variety of image modalities (medical imaging, materials, videos, etc.). My colleagues use it too.</p>
+<!-- <h4>Why consider helping the project ?</h4> -->
+<!-- <p><b><font color="#000066">G'MIC</font></b> has been primarily developed in the <a href="https://www.greyc.fr/node/1903">IMAGE Team</a> of the <a href="https://www.greyc.fr">GREYC</a> Laboratory (public research lab in France) by myself -->
+<!--   (<a href="https://tschumperle.users.greyc.fr/">David Tschumperl&eacute;</a>), mainly as a tool for image analysis and algorithm prototyping. -->
+<!--   It helps me, in my everyday job, to design new image processing algorithms and explore image data for a wide variety of image modalities (medical imaging, materials, videos, etc.). My colleagues use it too.</p> -->
 
-<p>But, as you can imagine, most of the artistic and/or photography filters and effects I develop for the plug-in <b>do not really fit in my professional duties</b>.
-Therefore, I'm working hard on the <b><font color="#000066">G'MIC</font></b> project during most of my evenings and week-ends, to be able to :</p>
+<!-- <p>But, as you can imagine, most of the artistic and/or photography filters and effects I develop for the plug-in <b>do not really fit in my professional duties</b>. -->
+<!-- Therefore, I'm working hard on the <b><font color="#000066">G'MIC</font></b> project during most of my evenings and week-ends, to be able to :</p> -->
 
-<ul>
-<li><b>Implement and distribute new filters</b> for the <b><font color="#000066">G'MIC</font></b> users in a regular basis, for artistic purpose or photography.
-  Often, following a request from someone posted on a forum. I've already developed more than <b>420 filters</b> by myself for the <b><font color="#000066">G'MIC</font></b> plug-in for <a href="http://www.gimp.org">GIMP</a>.</li>
+<!-- <ul> -->
+<!-- <li><b>Implement and distribute new filters</b> for the <b><font color="#000066">G'MIC</font></b> users in a regular basis, for artistic purpose or photography. -->
+<!--   Often, following a request from someone posted on a forum. I've already developed more than <b>420 filters</b> by myself for the <b><font color="#000066">G'MIC</font></b> plug-in for <a href="http://www.gimp.org">GIMP</a>.</li> -->
 
-<li>Take time to test the software on other architectures, and with different compilers (for Windows especially).</li>
+<!-- <li>Take time to test the software on other architectures, and with different compilers (for Windows especially).</li> -->
 
-<li>Give feedback as much as I can when users have questions or issues (for instance, to help integrating <b><font color="#000066">G'MIC</font></b> in other interfaces, as <a href="https://krita.org/">Krita</a> or <a href="http://photoflowblog.blogspot.fr/">Photoflow</a>).</li>
+<!-- <li>Give feedback as much as I can when users have questions or issues (for instance, to help integrating <b><font color="#000066">G'MIC</font></b> in other interfaces, as <a href="https://krita.org/">Krita</a> or <a href="http://photoflowblog.blogspot.fr/">Photoflow</a>).</li> -->
 
-<li>Write documentation, promote the software, manage the updates and releases, do video tutorials, etc.</li>
-</ul>
-<p>This is not time I can spend easily during my working hours!
-The web pages of <b><font color="#000066">G'MIC</font></b> are also hosted on a paid service (approx. <b>60eur / year</b> all included).</p>
+<!-- <li>Write documentation, promote the software, manage the updates and releases, do video tutorials, etc.</li> -->
+<!-- </ul> -->
+<!-- <p>This is not time I can spend easily during my working hours! -->
+<!-- The web pages of <b><font color="#000066">G'MIC</font></b> are also hosted on a paid service (approx. <b>60eur / year</b> all included).</p> -->
 
-<p>So, <a href="https://pledgie.com/campaigns/29756"><b>donations</b></a> would be appreciated to get financial and moral support for the project. For the hosting costs of course, but mostly to give me a reward for the time I spend on it. Let show me you still want more!</p>
+<!-- <p>So, <a href="https://pledgie.com/campaigns/29756"><b>donations</b></a> would be appreciated to get financial and moral support for the project. For the hosting costs of course, but mostly to give me a reward for the time I spend on it. Let show me you still want more!</p> -->
 
-  </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div>
+<!--   </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div> -->
 
 <div id="bloc_option"><div id="top_vert"><div id="text_top">In a nustshell</div></div>
   <div id="center"><div id="text_centre_intro">
