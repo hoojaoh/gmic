@@ -8065,7 +8065,7 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=9}) &
     visu_size=${-fitscreen[]" "{0,w},{0,h},1,25%,50%}
     -slices[img] 0 -r[mask] [img],[img],1,1,0 -!=[mask] 0
     -inpaint_gaussian[img] [mask],0,6,2  # Quick first estimate.
-    mM={img,im},{img,iM} -n[img] 0,255
+    im={img,im} --[img] $im
 
     first_iter=1
     -repeat $nb_scales
@@ -8132,7 +8132,7 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=9}) &
       -_inpaint_patchmatch[img] [correspondence],[mask],$5,$6
       -rm[correspondence]
     -endif
-    -n[img] $mM
+    -+[img] $im
   -endl -rm[mask] -done -v +
 
 # _inpaint_patchmatch : [correspondence_map],[mask],blend_size>0,_allow_outer_blending={ 0 | 1 }
