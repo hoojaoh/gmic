@@ -19944,16 +19944,20 @@ _gimp_manage_filter_sources :
 
 #@gimp Friends Hall of Fame : _none_, gimp_friends
 #@gimp : note = note{"\n<span foreground="purple" underline="single">Donators :</span>"}
-#@gimp : note = note{" <b>-</b> We've already received <b>61</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
-#@gimp :               You could be the <b>62nd</b> donator :)"}
-#@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help us making <b>G'MIC</b> more visible
-#@gimp :              (cover expenses for web hosting and open-source events, for instance). Also, it will motivate
-#@gimp :              us to design more new image filters and effects. Feel free to donate
-#@gimp :              if you appreciate <b>G'MIC</b>, by clicking on:"}
-#@gimp : link = link{"Make a donation via Paypal","https://pledgie.com/campaigns/29756"}
-#@gimp : link = link{"Make a donation via Flattr","http://flattr.com/thing/41097/GMIC-GREYCs-Magic-for-Image-Computing"}
-#@gimp : link = link{"Make a donation via Bitcoin","bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation"}
-#@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
+# #@gimp : note = note{" <b>-</b> We've already received <b>61</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
+# #@gimp :               You could be the <b>62nd</b> donator :)"}
+# #@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help us making <b>G'MIC</b> more visible
+# #@gimp :              (cover expenses for web hosting and open-source events, for instance). Also, it will motivate
+# #@gimp :              us to design more new image filters and effects. Feel free to donate
+# #@gimp :              if you appreciate <b>G'MIC</b>, by clicking on:"}
+# #@gimp : link = link{"Make a donation via Paypal","https://pledgie.com/campaigns/29756"}
+# #@gimp : link = link{"Make a donation via Flattr","http://flattr.com/thing/41097/GMIC-GREYCs-Magic-for-Image-Computing"}
+# #@gimp : link = link{"Make a donation via Bitcoin","bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation"}
+# #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
+# #@gimp : sep = separator()
+#@gimp : note = note{"<b><small>Note:</small></b> Donations helped us mainly in renewing the hosting service for the <b>G'MIC</b> web pages.
+#@gimp : So far, we got enough funds to be sure the web site will be up for the next couple of years.
+#@gimp : Consequently, we don't need donations anymore (we still accept postcards though :) see below!). Thanks to all donators who made this possible!"}
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
 #@gimp : link = link(0,"[61] Renato Salles","https://www.flickr.com/photos/sallesrenato/")
