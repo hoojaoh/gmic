@@ -8052,9 +8052,9 @@ inpaint_morpho : -check ${-is_image_arg\ $1}
 
 #@gmic inpaint_patchmatch : [mask],_nb_scales={ 0=auto | >0 },_patch_size>0,_nb_iterations_per_scale>0,_blend_size>=0,_allow_outer_blending={ 0 | 1 }
 #@gmic : Inpaint selected images by specified binary mask, using a multi-scale patchmatch algorithm.
-#@gmic : Default values: 'nb_scales=0', 'patch_size=5', 'nb_iterations_per_scale=10', 'blend_size=17' and 'allow_outer_blending=1'.
+#@gmic : Default values: 'nb_scales=0', 'patch_size=9', 'nb_iterations_per_scale=10', 'blend_size=5' and 'allow_outer_blending=1'.
 #@gmic : $ image.jpg 100%,100% -ellipse. 30%,30%,40,30,0,1,255 --inpaint_patchmatch[0] [1]
-inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=5}) && $3>0 && isint(${4=10}) && $4>0 && isint(${5=17}) && $5>=0" -skip ${6=1}
+inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=9}) && $3>0 && isint(${4=10}) && $4>0 && isint(${5=5}) && $5>=0" -skip ${6=1}
   -e[^-1] "Inpaint image$? with mask $1, using a multiscale patchmatch algorithm with "${"-v - -if $2 -u \"$2 \" -else -u auto- -endif -v +"}\
           "scales, $3x$3 patches, $4 iterations per scale and blending size $5."
   -v - -repeat $! -pass$1 0 -l[$>,-1]
@@ -19944,8 +19944,8 @@ _gimp_manage_filter_sources :
 
 #@gimp Friends Hall of Fame : _none_, gimp_friends
 #@gimp : note = note{"\n<span foreground="purple" underline="single">Donators :</span>"}
-#@gimp : note = note{" <b>-</b> We've already received <b>60</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
-#@gimp :               You could be the <b>61st</b> donator :)"}
+#@gimp : note = note{" <b>-</b> We've already received <b>61</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
+#@gimp :               You could be the <b>62nd</b> donator :)"}
 #@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help us making <b>G'MIC</b> more visible
 #@gimp :              (cover expenses for web hosting and open-source events, for instance). Also, it will motivate
 #@gimp :              us to design more new image filters and effects. Feel free to donate
@@ -19956,6 +19956,7 @@ _gimp_manage_filter_sources :
 #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
 #@gimp : sep = separator()
 #@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
+#@gimp : link = link(0,"[61] Renato Salles","")
 #@gimp : link = link(0,"[60] Petr Zagalak","")
 #@gimp : link = link(0,"[59] Antonio Vici&#233;n Faure","http://www.antonio.cat")
 #@gimp : link = link(0,"[58] Vincent Bermel","")
@@ -27245,7 +27246,7 @@ gimp_inpaint_morpho :
 #@gimp : note = note{"<small>(Set <i>Number of scales</i> to <i>0</i> for automatic scale detection)</small>"}
 #@gimp : Patch size = _int(9,1,64)
 #@gimp : Number of iterations per scale = _int(10,1,100)
-#@gimp : Blend size = _int(7,0,32)
+#@gimp : Blend size = _int(5,0,32)
 #@gimp : Allow outer blending = _bool(1)
 #@gimp : Mask color = _color(255,0,0,255)
 #@gimp : Mask dilation = _int(0,0,32)
