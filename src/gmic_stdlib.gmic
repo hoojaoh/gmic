@@ -19330,7 +19330,7 @@ gimp_filter_sources :
          "\#@gimp : link = link{\"http://gmic.eu/freechocolate.shtml\"}"\n\
          "\#@gimp : sep = separator()"\n\
          "\#@gimp : note = note{\"If you\47d like to send <b>more</b> than a single hot chocolate for our efforts, please visit the following page where you can contribute"\n\
-         "\#@gimp : extra to help keep us motivated (via Paypal):\"}"\n\
+         "\#@gimp : extra to help keep us motivated (via <b>Paypal</b>):\"}"\n\
          "\#@gimp : link = link{\"Offer even more hot chocolate to the G\47MIC developers\",\"http://gmic.eu/morechocolate.shtml\"}"\n\
          "\#@gimp : link = link{\"http://gmic.eu/morechocolate.shtml\"}"\n\
          "\#@gimp : sep = separator()"\n\
