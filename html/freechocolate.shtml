@@ -2,14 +2,14 @@
 <html lang="en-US">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="refresh" content="1;url=http://gmic.eu/overview.shtml">
+        <meta http-equiv="refresh" content="1;url=http://gmic.eu/_index.shtml">
         <script type="text/javascript">
-            window.location.href = "http://gmic.eu/overview.shtml"
+            window.location.href = "http://gmic.eu/_index.shtml"
         </script>
         <title>Page Redirection</title>
     </head>
     <body>
         <!-- Note: don't tell people to `click` the link, just tell them that it is a link. -->
-        If you are not redirected automatically, follow the <a href='http://gmic.eu/overview.shtml'>link to G'MIC</a>
+        If you are not redirected automatically, follow the <a href='http://gmic.eu/_index.shtml'>link to G'MIC</a>
     </body>
 </html>
