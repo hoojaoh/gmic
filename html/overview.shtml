@@ -33,6 +33,7 @@
 
     <div id="pub_chocolate">
     <table align="center" border="1" cellpadding="2" cellspacing="0" width="100%">
+      <tr><td><center><b>Sponsored link</b></center></td></tr>
       <tr><td>
           <center>
 
@@ -48,7 +49,6 @@
 
           </center>
       </td></tr>
-    <tr><td><center><b>Sponsored link</b></center></td></tr>
     </table>
   </div>
 
