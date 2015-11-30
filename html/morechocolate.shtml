@@ -4,7 +4,7 @@
 <body onload="javascript:hop();"></body>
 <!--#include file="header.html" -->
 
-<div id="bloc_option"><div id="top_vert"><div id="text_top">Hot chocolate</div></div>
+<div id="bloc_option"><div id="top_vert"><div id="text_top">More chocolate</div></div>
 <div id="center"><div id="text_centre_intro">
 
   <table><tr>

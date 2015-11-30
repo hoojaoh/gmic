@@ -19323,17 +19323,18 @@ gimp_filter_sources :
     -endif
     -if $is_too_old
       ({'"\#@gimp <span color=\"red\">&#x2764; <b>One-click chocolate !</b></span> : gimp_hotchocolate, gimp_hotchocolate_preview"\n\
-         "\#@gimp : note = note{\"Want to send a <b>free hot chocolate</b> to the <b>hard-working</b> developpers who provide G\47MIC <b>for free</b> ?\\n"\n\
-         "\#@gimp : Then, just click on the link below (or copy/paste it in your browser), and <b>on the sponsored link</b> that will display there. It\47s as simple as that !"\n\
-         "\#@gimp : We\47ll drink it to you :)\"}"\n\
-         "\#@gimp : link = link{\"Send hot chocolate to the G\47MIC developers\",\"http://gmic.eu/_chocolate.shtml\"}"\n\
-         "\#@gimp : link = link{\"http://gmic.eu/_chocolate.shtml\"}"\n\
+         "\#@gimp : note = note{\"Want to send a <b>free hot chocolate</b> to the <b>hard-working</b> developers who provide G\47MIC <b>for free</b> ?\\n"\n\
+         "\#@gimp : Just follow the link below (or copy/paste into your browser) and click <b>on the sponsored link</b> that is shown. It\47s as simple as that and"\n\
+         "\#@gimp : we\47ll drink to you :)\"}"\n\
+         "\#@gimp : link = link{\"Send a free hot chocolate to the G\47MIC developers\",\"http://gmic.eu/freechocolate.shtml\"}"\n\
+         "\#@gimp : link = link{\"http://gmic.eu/freechocolate.shtml\"}"\n\
          "\#@gimp : sep = separator()"\n\
-         "\#@gimp : note = note{\"You may also want to give us more than one hot chocolate for our efforts. If so, please visit this page where you can get us some bucks via Paypal:\"}"\n\
-         "\#@gimp : link = link{\"Offer even more hot chocolate to the G\47MIC developers\",\"http://gmic.eu/chocolate.shtml\"}"\n\
-         "\#@gimp : link = link{\"http://gmic.eu/chocolate.shtml\"}"\n\
+         "\#@gimp : note = note{\"If you\47d like to send <b>more</b> than a single hot chocolate for our efforts, please visit the following page where you can contribute"\n\
+         "\#@gimp : extra to help keep us motivated (via Paypal):\"}"\n\
+         "\#@gimp : link = link{\"Offer even more hot chocolate to the G\47MIC developers\",\"http://gmic.eu/morechocolate.shtml\"}"\n\
+         "\#@gimp : link = link{\"http://gmic.eu/morechocolate.shtml\"}"\n\
          "\#@gimp : sep = separator()"\n\
-         "\#@gimp : note = note{\"<small><b>Note:</b>This filter won\47t appear anymore after you re-run the plug-in. So, don\47t miss the occasion!</small>\"}"\n\
+         "\#@gimp : note = note{\"<small><b>Note:</b> This filter won\47t appear anymore after you re-run the plug-in. So, don\47t miss the occasion!</small>\"}"\n\
          "\#@gimp : sep = separator(), note = note(\"<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/30/2015</i>.</small>\")"\n\
          "gimp_hotchocolate : (10) -o. raw:"$_file_hotchocolate",uchar -rm. "\n\
          "gimp_hotchocolate_preview : -gimp_hotchocolate -gimp_friends"\
