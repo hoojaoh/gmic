@@ -19953,13 +19953,13 @@ _gimp_manage_filter_sources :
 #@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help making <b>G'MIC</b> more visible
 #@gimp :              (cover expenses for web hosting and open-source events, for instance). Also, it will motivate
 #@gimp :              the team to design more new image filters/effects and buy the hot chocolate for the coding time!
-#@gimp :              Feel free to donate if you appreciate <b>G'MIC</b>, by clicking on:"}
-#@gimp : link = link{"Make a donation via Paypal","http://gmic.eu/chocolate.shtml"}
+#@gimp :              Feel free to give a little if you appreciate <b>G'MIC</b>, by clicking on:"}
+#@gimp : link = link{"Make a donation via Paypal","http://gmic.eu/morechocolate.shtml"}
 #@gimp : link = link{"Make a donation via Flattr","http://flattr.com/thing/41097/GMIC-GREYCs-Magic-for-Image-Computing"}
 #@gimp : link = link{"Make a donation via Bitcoin","bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation"}
 #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
 #@gimp : sep = separator()
-#@gimp : note = note{" <b>-</b> A big hug goes to these friends who offered us hot chocolates (recently received first) :"}
+#@gimp : note = note{" <b>-</b> A big hug goes to these friends who offered us liters of hot chocolate (recently received first) :"}
 #@gimp : link = link(0,"[61] Renato Salles","https://www.flickr.com/photos/sallesrenato/")
 #@gimp : link = link(0,"[60] Petr Zagalak","")
 #@gimp : link = link(0,"[59] Antonio Vici&#233;n Faure","http://www.antonio.cat")
@@ -20080,7 +20080,7 @@ _heart80x73 :
 #@gimp : <b><i>Gmicky</i></b> is a tiger, i.e. fast, agile and elegant, just as the <b>G'MIC</b> code is :).
 #@gimp : As many magicians, <b><i>Gmicky</i></b> knows lot of <b>gimmicks</b>, and he is a direct and friendly competitor of
 #@gimp : the ImageMagick's wizard, or the GraphicMagick's frog."}
-#@gimp : note = note{"<b><i>Roddy</i></b> is another mascot designed specifically for the <i>Artistic / Rodilius</i> filter of <b>G'MIC</b>."}
+#@gimp : note = note{"<b><i>Roddy</i></b> is another mascot designed specifically for the <i>Artistic / Rodilius</i> filter of <b>G'MIC</b>.\n"}
 #@gimp : note = note{"<b><i>Gmicky</i></b> and <b><i>Roddy</i></b> have been both created and drawn by "}
 #@gimp : link = link("Mahvelous Mahvin","http://www.mahvin.com/")
 gimp_gmicky :
@@ -20143,6 +20143,7 @@ gimp_gmicky_preview :
 #@gimp : - <b>09/04/2015</b> : version <i>1.6.5.2</i>.\n
 #@gimp : - <b>09/25/2015</b> : version <i>1.6.6.1</i>.\n
 #@gimp : - <span foreground="purple"><b>10/23/2015</b> : version <i>1.6.7</i> (Current stable).</span>\n
+#@gimp : - <b>11/30/2015</b> : version <i>1.6.8</i> (Current pre-release).\n
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : link = link("View latest changelog","https://discuss.pixls.us/t/release-of-gmic-1-6-7")
