@@ -2,9 +2,9 @@
 <html lang="en-US">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="refresh" content="1;url=http://gmic.eu/overview.shtml">
+        <meta http-equiv="refresh" content="1;url=http://gmic.eu/bounty.shtml">
         <script type="text/javascript">
-            window.location.href = "http://gmic.eu/overview.shtml"
+            window.location.href = "http://gmic.eu/bounty.shtml"
         </script>
         <title>Page Redirection</title>
     </head>
