@@ -1,8 +1,8 @@
 /** -*- mode: c++ ; c-basic-offset: 2 -*-
- * @file   FilterThread.h
+ * @file   FullScreenWidget.h
  * @author Sebastien Fourey
- * @date   July 2010
- * @brief  Declaration of the class ImageFilter
+ * @date   Nov 2015
+ * @brief  Declaration of the class FullScreenWidget
  *
  * This file is part of the ZArt software's source code.
  *
@@ -42,82 +42,38 @@
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
- *
  */
-#ifndef _FILTERTHREAD_H_
-#define _FILTERTHREAD_H_
+#ifndef _OUTPUTWINDOW_H_
+#define _OUTPUTWINDOW_H_
 
-#include <QThread>
-#include "Common.h"
-#include "gmic.h"
-#include "CImg.h"
-#include "CriticalRef.h"
-class ImageSource;
-class QMutex;
-class QImage;
-class QSemaphore;
+#include "ui_OutputWindow.h"
 
-class FilterThread : public QThread {
+class ImageView;
+class MainWindow;
+class QShowEvent;
+class QFrame;
+class QTreeWidget;
+
+class OutputWindow: public QWidget, public Ui::OutputWindow {
   Q_OBJECT
 public:
-
-  enum PreviewMode { Full, TopHalf, LeftHalf, BottomHalf, RightHalf, DuplicateVertical, DuplicateHorizontal, Original };
-
-  FilterThread( ImageSource & webcam,
-                const QString & command,
-                QImage * outputImageA,
-                QMutex * imageMutexA,
-                QImage * outputImageB,
-                QMutex * imageMutexB,
-                PreviewMode previewMode,
-                int frameSkip,
-                int fps,
-                QSemaphore * blockingSemaphore );
-
-  virtual ~FilterThread();
-
-  void run();
-  void setMousePosition( int x, int y, int buttons );
-
-  void setArguments(const QString & );
+  OutputWindow(MainWindow * );
+  ~OutputWindow();
+  ImageView * imageView();
+protected:
+  void showEvent(QShowEvent * event);
+  void keyPressEvent( QKeyEvent * );
+  void closeEvent(QCloseEvent * event);
 
 public slots:
-
-  void setFrameSkip( int );
-  void setFPS( int );
-  void setPreviewMode( PreviewMode );
-  void stop();
-
+  void onCloseClicked();
+  void onShowFullscreen(bool );
 signals:
-
-  void imageAvailable();
-  void endOfCapture();
-
+  void escapePressed();
+  void spaceBarPressed();
+  void aboutToClose();
 private:
-
-  void setCommand( const QString & command );
-
-  ImageSource & _imageSource;
-  QString _command;
-  CriticalRef<QString> _arguments;
-  bool _commandUpdated;
-  QImage * _outputImageA;
-  QMutex * _imageMutexA;
-  QImage * _outputImageB;
-  QMutex * _imageMutexB;
-  QSemaphore * _blockingSemaphore;
-  PreviewMode _previewMode;
-  int _frameSkip;
-  unsigned long _frameInterval;
-  int _fps;
-  bool _continue;
-  int _xMouse;
-  int _yMouse;
-  int _buttonsMouse;
-  // G'MIC related members
-  cimg_library::CImgList<float> _gmic_images;
-  cimg_library::CImgList<char> _gmic_images_names;
-  gmic * _gmic;
+  MainWindow * _mainWindow;
 };
 
-#endif // _FILTERTHREAD_H_
+#endif
