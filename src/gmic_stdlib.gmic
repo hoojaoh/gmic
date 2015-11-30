@@ -8077,8 +8077,8 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=9}) &
       --r[img,mask] $scale%,$scale%,1,100%,2 -nms[-2,-1] scaled_img,scaled_mask
       -ge[scaled_mask] 0.95
       -if {scaled_mask,!iM} -rm[scaled_img,scaled_mask] -continue -endif # Skip scale (if too low).
-
       --f[scaled_img] -4096 --j[scaled_img] [-1],0,0,0,0,1,[scaled_mask] -rm.. -nm. scaled_reference
+
       patch_size={v=round(max(min($3,5),$3*(0.5^$<)));v+(1-(v%2))}
       patch_size={min(w,h,$patch_size)}
       blend_size={v=if($5,round(max(3,$5*(0.5^$<))));v+(1-(v%2))}
