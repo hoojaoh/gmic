@@ -19312,33 +19312,33 @@ gimp_filter_sources :
   ({'http://gmic.eu/gimp_update$_version.gmic'},1) # Override default filters.
 
   # Include 'hot chocolate' filter.
-  # file_hotchocolate=${_path_rc}hotchocolate.gmic
-  # -_u $file_hotchocolate _file_hotchocolate=${}
-  # -if $file_hotchocolate
-  #   is_too_old={date(1)>=date(1,$file_hotchocolate)+1}
-  #   -if {!$is_too_old}
-  #     -i raw:$file_hotchocolate,uchar
-  #     is_too_old={i==32" && "date(3)<date(3,$file_hotchocolate)}
-  #     -rm.
-  #   -endif
-  #   -if $is_too_old
-  #     ({'"\#@gimp <span color=\"red\">&#x2764; <b>One-click chocolate !</b></span> : gimp_hotchocolate, gimp_hotchocolate_preview"\n\
-  #        "\#@gimp : note = note{\"Want to offer a <b>free hot chocolate</b> to the <b>hard-working</b> developpers who provide G\47MIC <b>for free</b> ?\\n"\n\
-  #        "\#@gimp : Then, just click on the link below (or copy/paste it in your browser), and <b>on the sponsored link</b> that will display there. It\47s as simple as that !"\n\
-  #        "\#@gimp : We\47ll drink it to you :)\"}"\n\
-  #        "\#@gimp : link = link{\"Offer hot chocolate to the G\47MIC developers\",\"http://gmic.eu/overview.shtml\"}"\n\
-  #        "\#@gimp : link = link{\"http://gmic.eu/overview.shtml\"}"\n\
-  #        "\#@gimp : note = note{\"<small><b>Note:</b>This filter won\47t appear anymore after you re-run the plug-in. So, you won\47t have other occasions!</small>\"}"\n\
-  #        "\#@gimp : sep = separator(), note = note(\"<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/17/2015</i>.</small>\")"\n\
-  #        "gimp_hotchocolate : (10) -o. raw:"$_file_hotchocolate",uchar -rm. "\n\
-  #        "gimp_hotchocolate_preview : -gimp_hotchocolate -gimp_friends"\
-  #     '})
-  #     -o. raw:$file_hotchocolate,uchar -rm
-  #   -endif
-  # -else
-  #   (32) -o. raw:$file_hotchocolate,uchar -rm.
-  # -endif
-  # ({'$_file_hotchocolate'})
+  file_hotchocolate=${_path_rc}hotchocolate.gmic
+  -_u $file_hotchocolate _file_hotchocolate=${}
+  -if $file_hotchocolate
+    is_too_old={date(1)>=date(1,$file_hotchocolate)+1}
+    -if {!$is_too_old}
+      -i raw:$file_hotchocolate,uchar
+      is_too_old={i==32" && "date(3)<date(3,$file_hotchocolate)}
+      -rm.
+    -endif
+    -if $is_too_old
+      ({'"\#@gimp <span color=\"red\">&#x2764; <b>Offer us hot chocolate!</b></span> : gimp_hotchocolate, gimp_hotchocolate_preview"\n\
+         "\#@gimp : note = note{\"Want to offer a <b>hot chocolate</b> to the <b>hard-working</b> developpers who provide the G\47MIC plug-in <b>for free</b> ?\\n"\n\
+         "\#@gimp : If so, please click on the link below (or copy/paste it in your browser) and <b>leave us a tip</b> (via Paypal)."\n\
+         "\#@gimp : Thanks a lot for your support. Cheers!\"}"\n\
+         "\#@gimp : link = link{\"Send money for buying hot chocolate\",\"http://gmic.eu/chocolate.shtml\"}"\n\
+         "\#@gimp : link = link{\"http://gmic.eu/chocolate.shtml\"}"\n\
+         "\#@gimp : note = note{\"<small><b>Note:</b>This filter won\47t appear anymore after you re-run the plug-in. Don\47t miss the occasion!</small>\"}"\n\
+         "\#@gimp : sep = separator(), note = note(\"<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/30/2015</i>.</small>\")"\n\
+         "gimp_hotchocolate : (10) -o. raw:"$_file_hotchocolate",uchar -rm. "\n\
+         "gimp_hotchocolate_preview : -gimp_hotchocolate -gimp_friends"\
+      '})
+      -o. raw:$file_hotchocolate,uchar -rm.
+    -endif
+  -else
+    (32) -o. raw:$file_hotchocolate,uchar -rm.
+  -endif
+  ({'$_file_hotchocolate'})
 
   # Include own users external sources.
   -l[] -i cimgz:${-path_rc}gimp_filter_sources -onfail -endl
@@ -19944,22 +19944,16 @@ _gimp_manage_filter_sources :
 
 #@gimp Friends Hall of Fame : _none_, gimp_friends
 #@gimp : note = note{"\n<span foreground="purple" underline="single">Donators :</span>"}
-# #@gimp : note = note{" <b>-</b> We've already received <b>61</b> donations from <b>G'MIC</b> mega-enthusiasts so far.
-# #@gimp :               You could be the <b>62nd</b> donator :)"}
-# #@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help us making <b>G'MIC</b> more visible
-# #@gimp :              (cover expenses for web hosting and open-source events, for instance). Also, it will motivate
-# #@gimp :              us to design more new image filters and effects. Feel free to donate
-# #@gimp :              if you appreciate <b>G'MIC</b>, by clicking on:"}
-# #@gimp : link = link{"Make a donation via Paypal","https://pledgie.com/campaigns/29756"}
-# #@gimp : link = link{"Make a donation via Flattr","http://flattr.com/thing/41097/GMIC-GREYCs-Magic-for-Image-Computing"}
-# #@gimp : link = link{"Make a donation via Bitcoin","bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation"}
-# #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
-# #@gimp : sep = separator()
-#@gimp : note = note{"<b><small>Note:</small></b> Donations helped us mainly in renewing the hosting service for the <b>G'MIC</b> web pages.
-#@gimp : So far, we got enough funds to be sure the web site will be up for the next couple of years.
-#@gimp : Consequently, we don't need donations anymore (we still accept postcards though :) see below!). Thanks to all donators who made this possible!"}
+#@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help making <b>G'MIC</b> more visible
+#@gimp :              (cover expenses for web hosting and open-source events, for instance). Also, it will motivate
+#@gimp :              the team to design more new image filters/effects and buy the hot chocolate for the coding time!
+#@gimp :              Feel free to donate if you appreciate <b>G'MIC</b>, by clicking on:"}
+#@gimp : link = link{"Make a donation via Paypal","http://gmic.eu/chocolate.shtml"}
+#@gimp : link = link{"Make a donation via Flattr","http://flattr.com/thing/41097/GMIC-GREYCs-Magic-for-Image-Computing"}
+#@gimp : link = link{"Make a donation via Bitcoin","bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation"}
+#@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
 #@gimp : sep = separator()
-#@gimp : note = note{" <b>-</b> A big hug goes to these donators (recently received first) :"}
+#@gimp : note = note{" <b>-</b> A big hug goes to these friends who offered us hot chocolates (recently received first) :"}
 #@gimp : link = link(0,"[61] Renato Salles","https://www.flickr.com/photos/sallesrenato/")
 #@gimp : link = link(0,"[60] Petr Zagalak","")
 #@gimp : link = link(0,"[59] Antonio Vici&#233;n Faure","http://www.antonio.cat")
