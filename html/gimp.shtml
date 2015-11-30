@@ -20,21 +20,21 @@
       <!-- <br/><br/><font size="-2">You can also donate <b>Bitcoins</b> at: <a href="bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation">1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</a></font> -->
       <hr noshade="noshade" size="1" width="90%"></hr>
 
-      <div id="pub_left" style="display:none">
-        <table border="0" cellspacing="0">
-          <tr><td>
-              <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-              <!-- Pub G'MIC 300x250 -->
-              <ins class="adsbygoogle"
-                   style="display:inline-block;width:300px;height:250px"
-                   data-ad-client="ca-pub-1645407967867705"
-                   data-ad-slot="5759946470"></ins>
-              <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-              </script>
-          </td></tr>
-        </table>
-      </div>
+      <!-- <div id="pub_left" style="display:none"> -->
+      <!--   <table border="0" cellspacing="0"> -->
+      <!--     <tr><td> -->
+      <!--         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+      <!--         <\!-- Pub G'MIC 300x250 -\-> -->
+      <!--         <ins class="adsbygoogle" -->
+      <!--              style="display:inline-block;width:300px;height:250px" -->
+      <!--              data-ad-client="ca-pub-1645407967867705" -->
+      <!--              data-ad-slot="5759946470"></ins> -->
+      <!--         <script> -->
+      <!--           (adsbygoogle = window.adsbygoogle || []).push({}); -->
+      <!--         </script> -->
+      <!--     </td></tr> -->
+      <!--   </table> -->
+      <!-- </div> -->
 
     </center>
   </td>
@@ -56,55 +56,38 @@
       <li><b>On Windows</b>, an installer is provided and installs all the required files automatically.<br/></li>
     </ul>
 
-  <script language="javascript">
-    function hop() {
-      var delay = 6; // In seconds
-      var ad = document.querySelector("ins.adsbygoogle");
-      if ( Math.random() < 0.60 || (ad && ad.innerHTML.replace(/\s/g, "").length == 0) ) {
-        document.getElementById('nopub').style.display='';
-//        document.getElementById('pub_left').style.display='';
-      } else {
-        document.getElementById('pub').style.display='';
-        setTimeout(function(){
-          document.getElementById('pub').style.display='none';
-          document.getElementById('nopub').style.display='';
-//          document.getElementById('pub_left').style.display='';
-        }, delay * 1000);
-      }
-    }
-  </script>
-  <div id="pub" style="display:none">
-    <table align="center" border="0" cellpadding="2" cellspacing="0" width="100%">
-      <tr><td>
-          <center>
+<!--   <script language="javascript"> -->
+<!--     function hop() { -->
+<!--       var delay = 6; // In seconds -->
+<!--       var ad = document.querySelector("ins.adsbygoogle"); -->
+<!--       if ( Math.random() < 10.60 || (ad && ad.innerHTML.replace(/\s/g, "").length == 0) ) { -->
+<!--         document.getElementById('nopub').style.display=''; -->
+<!-- //        document.getElementById('pub_left').style.display=''; -->
+<!--       } else { -->
+<!--         document.getElementById('pub').style.display=''; -->
+<!--         setTimeout(function(){ -->
+<!--           document.getElementById('pub').style.display='none'; -->
+<!--           document.getElementById('nopub').style.display=''; -->
+<!-- //          document.getElementById('pub_left').style.display=''; -->
+<!--         }, delay * 1000); -->
+<!--       } -->
+<!--     } -->
+<!--   </script> -->
+<!-- <div id="pub" style="display:none"> -->
+<!--   <table align="center" border="0" cellpadding="2" cellspacing="0" width="100%"> -->
+<!--     <tr><td> -->
+<!--         <center> -->
+<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+<!-- <\!-- Hotchocolate2 -\-> -->
+<!-- <ins class="adsbygoogle" -->
+<!--      style="display:inline-block;width:336px;height:280px" -->
+<!--      data-ad-client="ca-pub-1645407967867705" -->
+<!--      data-ad-slot="8735926072"></ins> -->
+<!-- <script> -->
+<!-- (adsbygoogle = window.adsbygoogle || []).push({}); -->
+<!-- </script> -->
 
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Hotchocolate2 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:336px;height:280px"
-     data-ad-client="ca-pub-1645407967867705"
-     data-ad-slot="8735926072"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-          <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
-          <!-- <\!-- Pub G'MIC 300x250 -\-> -->
-          <!-- <ins class="adsbygoogle" -->
-          <!--      style="display:inline-block;width:300px;height:250px" -->
-          <!--      data-ad-client="ca-pub-1645407967867705" -->
-          <!--      data-ad-slot="5759946470"></ins> -->
-          <!-- <script> -->
-          <!--   (adsbygoogle = window.adsbygoogle || []).push({}); -->
-          <!-- </script> -->
-
-          </center>
-      </td></tr>
-    <tr><td><center><font size="-2">(Please wait a few seconds)</font></center></td></tr>
-    </table>
-  </div>
-  <div id="nopub" style="display:none">
+  <!-- <div id="nopub" style="display:none"> -->
     <table align="center" border="0" cellpadding="2" cellspacing="0" width="80%">
       <tr>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_win64.exe"><img alt="" src="img/download_win64.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
@@ -132,7 +115,7 @@
           dmg file</td>
       </tr>
     </table>
-  </div>
+  <!-- </div> -->
 
   <br/><br/>
   A <a href="gimp_filters.txt">list of all plug-in filters</a> is available in ascii format (built automatically everyday).
