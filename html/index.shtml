@@ -17,9 +17,9 @@
 
               <a href="download.shtml"><img alt="" border="0" src="img/download_icon.png" /></a>
 
-              <a href='https://pledgie.com/campaigns/29756'><img alt='Click here to lend your support to: G&#x27;MIC' src='img/donate.png' border='0' ></a>
-              <br/><font size="-2">to help develop the project !</font>
-              <br/><br/><font size="-2">You can also donate <b>Bitcoin</b> at: <a href="bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation">1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</a></font>
+              <!-- <a href='https://pledgie.com/campaigns/29756'><img alt='Click here to lend your support to: G&#x27;MIC' src='img/donate.png' border='0' ></a> -->
+              <!-- <br/><font size="-2">to help develop the project !</font> -->
+              <!-- <br/><br/><font size="-2">You can also donate <b>Bitcoin</b> at: <a href="bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation">1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</a></font> -->
               <hr noshade="noshade" size="1" width="90%"></hr>
             </center>
           </td>
@@ -206,12 +206,14 @@
                 <li><a href="http://devernay.free.fr/"><b>Frederic Dervernay</b></a> (code).</li>
                 <li><a href="https://www.greyc.fr/user/336"><b>Maxime Daisy</b></a> (code, testing).</li>
                 <li><a href="http://iainfergusson.co.nz/"><b>Iain Fergusson</b></a> (filters).</li>
+                <li><a href="https://plus.google.com/u/0/b/117441237982283011318/+TobiasFleischer/posts"><b>Tobias Fleischer</b></a> (testing, code).</li>
                 <li><a href="http://www.lffl.org/"><b>Roberto Ferramosca</b></a> (packaging).</li>
                 <li><a href="http://zonderr.wordpress.com/"><b>J&eacute;rome Ferrari</b></a> (testing, code, tutorials).</li>
                 <li><a href="http://photoflowblog.blogspot.fr"><b>Andrea Ferrero</b></a> (testing, code).</li>
                 <li><a href="https://plus.google.com/u/0/117150607704159021783/posts"><b>Chris Fiedler</b></a> (gfx).</li>
                 <li><a href="http://www.greyc.ensicaen.fr/~seb/"><b>S&eacute;bastien Fourey</b></a> (ZArt code, G'MIC online).</li>
                 <li><a href="http://www.flickr.com/photos/53229621@N02/"><b>Gentlemanbeggar</b></a> (filters).</li>
+                <li><a href="https://github.com/0ion9"><b>David Gowers</b></a> (testing).</li>
                 <li><a href="http://claes-particle.blogspot.com/"><b>Claes Holmerson</b></a> (tutorials).</li>
                 <li><a href="http://www.flickr.com/photos/naggobot/"><b>Arto Huotari</b></a> (filters).</li>
                 <li>Dan Leinir Turthra Jensen (debugging).</li>

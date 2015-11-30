@@ -1648,10 +1648,11 @@ void calibrate_image(CImg<T>& img, const unsigned int spectrum, const bool is_pr
       img.channel(0);
       break;
     case 3 : // from RGB
-      img.RGBtoYCbCr().channel(0);
+      (img.get_shared_channel(0)+=img.get_shared_channel(1)+=img.get_shared_channel(2))/=3;
+      img.channel(0);
       break;
     case 4 : // from RGBA
-      img.get_shared_channels(0,2).RGBtoYCbCr();
+      (img.get_shared_channel(0)+=img.get_shared_channel(1)+=img.get_shared_channel(2))/=3;
       if (is_preview) {
         T *ptr_r = img.data(0,0,0,0), *ptr_a = img.data(0,0,0,3);
         cimg_forXY(img,x,y) {
@@ -1674,10 +1675,11 @@ void calibrate_image(CImg<T>& img, const unsigned int spectrum, const bool is_pr
     case 2: // from GRAYA
       break;
     case 3: // from RGB
-      img.RGBtoYCbCr().channels(0,1).get_shared_channel(1).fill(255);
+      (img.get_shared_channel(0)+=img.get_shared_channel(1)+=img.get_shared_channel(2))/=3;
+      img.channels(0,1).get_shared_channel(1).fill(255);
       break;
     case 4: // from RGBA
-      img.get_shared_channels(0,2).RGBtoYCbCr();
+      (img.get_shared_channel(0)+=img.get_shared_channel(1)+=img.get_shared_channel(2))/=3;
       img.get_shared_channel(1) = img.get_shared_channel(3);
       img.channels(0,1);
       break;
@@ -3956,17 +3958,17 @@ bool create_dialog_gui() {
   // Create main dialog window with buttons.
   CImg<char> dialog_title(64);
 #ifdef gmic_prerelease
-  cimg_snprintf(dialog_title,dialog_title.width(),"%s %d.%d.%d [pre-release #%s] - %s %u bits",
+  cimg_snprintf(dialog_title,dialog_title.width(),"%s %d.%d - %s %u bits - %d.%d.%dpre #%s",
                 t("G'MIC for GIMP"),
-                gmic_version/100,(gmic_version/10)%10,gmic_version%10,
-                gmic_prerelease, cimg::stros(),
-                sizeof(void*)==8?64:32);
+                GIMP_MAJOR_VERSION,GIMP_MINOR_VERSION,
+                cimg::stros(),sizeof(void*)==8?64:32,
+                gmic_version/100,(gmic_version/10)%10,gmic_version%10,gmic_prerelease);
 #else
-  cimg_snprintf(dialog_title,dialog_title.width(),"%s %d.%d.%d - %s %u bits",
+  cimg_snprintf(dialog_title,dialog_title.width(),"%s %d.%d - %s %u bits - %d.%d.%d",
                 t("G'MIC for GIMP"),
-                gmic_version/100,(gmic_version/10)%10,gmic_version%10,
-                cimg::stros(),
-                sizeof(void*)==8?64:32);
+                GIMP_MAJOR_VERSION,GIMP_MINOR_VERSION,
+                cimg::stros(),sizeof(void*)==8?64:32,
+                gmic_version/100,(gmic_version/10)%10,gmic_version%10);
 #endif
 
   dialog_window = gimp_dialog_new(dialog_title,"gmic",0,(GtkDialogFlags)0,0,0,NULL);
