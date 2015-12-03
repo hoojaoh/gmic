@@ -27192,12 +27192,13 @@ gimp_deinterlace_preview :
   -gimp_split_preview "-gimp_deinterlace $*",$-1
 
 #@gimp Inpaint [diffusion] : gimp_inpaint_diffusion, gimp_no_preview
-#@gimp : Global iterations = int(20,1,100)
-#@gimp : Local iterations = int(100,1,300)
-#@gimp : Time step = float(15,5,50)
-#@gimp : Gradient smoothness = float(1,0,10)
-#@gimp : Tensor smoothness = float(2,0,10)
-#@gimp : Mask color = color(255,0,0,255)
+#@gimp : Global iterations = _int(20,1,100)
+#@gimp : Local iterations = _int(100,1,300)
+#@gimp : Time step = _float(15,5,50)
+#@gimp : Gradient smoothness = _float(1,0,10)
+#@gimp : Tensor smoothness = _float(2,0,10)
+#@gimp : Mask color = _color(255,0,0,255)
+#@gimp : Mask dilation = _int(0,0,32)
 #@gimp : sep = separator(), note = note{"<small><b>Note:</b> It is strongly suggested to apply this filter only on a selection around the region to inpaint, to save computation time!</small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_diffusion :
@@ -27205,16 +27206,18 @@ gimp_inpaint_diffusion :
     R=$6 G=$7 B=$8 A=$9
     -if {!$A" && "(s==2" || "s==4)} -split_opacity --!=. 0 -*[0,-1] -a c R=0 G=0 B=0 -endif # Purely transparent color.
     --select_color 0,$R,$G,$B,$A
+    -if $10 -dilate. {1+2*$10} -endif
     -inpaint_flow.. [1],${1-5} -c 0,255
     -rm.
   -endl -done
 
 #@gimp Inpaint [gaussian] : gimp_inpaint_gaussian, gimp_no_preview
-#@gimp : Smoothness = float(0,0,10)
-#@gimp : Iteration length = float(3,0,10)
-#@gimp : Iteration smoothness power = float(1.25,1,5)
-#@gimp : Feathering = int(8,0,64)
-#@gimp : Mask color = color(255,0,0,255)
+#@gimp : Smoothness = _float(0,0,10)
+#@gimp : Iteration length = _float(3,0,10)
+#@gimp : Iteration smoothness power = _float(1.25,1,5)
+#@gimp : Feathering = _int(8,0,64)
+#@gimp : Mask color = _color(255,0,0,255)
+#@gimp : Mask dilation = _int(0,0,32)
 #@gimp : sep = separator(), note = note{"<small><b>Note:</b> It is strongly suggested to apply this filter only on a selection around the region to inpaint, to save computation time!</small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_gaussian :
@@ -27222,6 +27225,7 @@ gimp_inpaint_gaussian :
     R=$5 G=$6 B=$7 A=$8
     -if {!$A" && "(s==2" || "s==4)} -split_opacity --!=. 0 -*[0,-1] -a c R=0 G=0 B=0 -endif # Purely transparent color.
     --select_color 0,$R,$G,$B,$A
+    -if $9 -dilate. {1+2*$9} -endif
     -inpaint_gaussian.. [1],${1-4}
     -rm.
   -endl -done
@@ -27235,7 +27239,8 @@ gimp_inpaint_holes :
   -inpaint_holes {$1^1.5},$2,$3
 
 #@gimp Inpaint [morphological] : gimp_inpaint_morpho, gimp_no_preview
-#@gimp : Mask color = color(255,0,0,255)
+#@gimp : Mask color = _color(255,0,0,255)
+#@gimp : Mask dilation = _int(0,0,32)
 #@gimp : sep = separator(), note = note{"<small><b>Note:</b> It is strongly suggested to apply this filter only on a selection around the region to inpaint, to save computation time!</small>"}
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_morpho :
@@ -27243,6 +27248,7 @@ gimp_inpaint_morpho :
     R=$1 G=$2 B=$3 A=$4
     -if {!$A" && "(s==2" || "s==4)} -split_opacity --!=. 0 -*[0,-1] -a c R=0 G=0 B=0 -endif # Purely transparent color.
     --select_color 0,$R,$G,$B,$A
+    -if $5 -dilate. {1+2*$5} -endif
     -inpaint_morpho.. [1]
     -rm.
   -endl -done
@@ -27256,10 +27262,7 @@ gimp_inpaint_morpho :
 #@gimp : Allow outer blending = _bool(1)
 #@gimp : Mask color = _color(255,0,0,255)
 #@gimp : Mask dilation = _int(0,0,32)
-#@gimp : sep = separator()
-#@gimp : Preview progression while running = _bool(0)
-#@gimp : note = note{"<small><b><span color="red">Important note:</span></b> This filter is still in a <b>beta</b> state. The code will be improved in the future.
-#@gimp : Don't rely too much on the current results you may get! </small>"}
+#@gimp : sep = separator(), Preview progression while running = _bool(0)
 #@gimp : sep = separator(), note = note("<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_patchmatch :
   -repeat $! -l[$>]
@@ -27279,21 +27282,23 @@ gimp_inpaint_patchmatch_preview : -skip $*
   -if ${"-gimp_check_version 168"} -gimp_no_preview 0 -endif
 
 #@gimp Inpaint [patch-based] : gimp_inpaint_patch, gimp_no_preview
-#@gimp : Patch size = int(7,1,64)
-#@gimp : Lookup size = float(16,1,32)
-#@gimp : Lookup factor = float(0.1,0,1)
-#@gimp : Blend size = float(1.2,0,5)
-#@gimp : Blend threshold = float(0,0,1)
-#@gimp : Blend decay = float(0.05,0,0.5)
-#@gimp : Blend scales = int(10,1,20)
-#@gimp : Allow outer blending = bool(1)
-#@gimp : Mask color = color(255,0,0,255)
+#@gimp : Patch size = _int(7,1,64)
+#@gimp : Lookup size = _float(16,1,32)
+#@gimp : Lookup factor = _float(0.1,0,1)
+#@gimp : Blend size = _float(1.2,0,5)
+#@gimp : Blend threshold = _float(0,0,1)
+#@gimp : Blend decay = _float(0.05,0,0.5)
+#@gimp : Blend scales = _int(10,1,20)
+#@gimp : Allow outer blending = _bool(1)
+#@gimp : Mask color = _color(255,0,0,255)
+#@gimp : Mask dilation = _int(0,0,32)
 #@gimp : sep = separator(), note = note("<small>A quick tutorial on how to use this filter can be found here:</small>")
 #@gimp : link = link("G'MIC Inpainting tutorial on Patrick David's blog.","http://blog.patdavid.net/2014/02/getting-around-in-gimp-gmic-inpainting.html")
 #@gimp : sep = separator(), note = note("<small>Authors: <i>David Tschumperl&#233;</i> and <i>Maxime Daisy</i>.      Latest update: <i>11/25/2015</i>.</small>")
 gimp_inpaint_patch :
   -repeat $! -l[$>]
     --select_color 0,${9-12}
+    -if $13 -dilate. {1+2*$13} -endif
     -inpaint.. [1],$1,{$1*$2},$3,1,{$4*$1},${5-8}
     -rm.
   -endl -done
