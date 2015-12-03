@@ -19315,10 +19315,10 @@ gimp_filter_sources :
   file_hotchocolate=${_path_rc}hotchocolate.gmic
   -_u $file_hotchocolate _file_hotchocolate=${}
   -if $file_hotchocolate
-    is_too_old={date(1)>=date(1,$file_hotchocolate)+1}
+    is_too_old={(date(1)-date(1,$file_hotchocolate))%12>1}
     -if {!$is_too_old}
       -i raw:$file_hotchocolate,uchar
-      is_too_old={i==32" && "date(3)<date(3,$file_hotchocolate)}
+      is_too_old={i==32" && "(date(2)-date(2,$file_hotchocolate))%31>7}
       -rm.
     -endif
     -if $is_too_old
