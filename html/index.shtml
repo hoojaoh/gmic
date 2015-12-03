@@ -4,7 +4,7 @@
 <!-- <body onload="javascript:hop();"></body> -->
 <!--#include file="header.html" -->
 
-<div id="bloc_option"><div id="top_vert"><div id="text_top">In a nustshell</div></div>
+<div id="bloc_option"><div id="top_vert"><div id="text_top">In a nutshell</div></div>
   <div id="center"><div id="text_centre_intro">
 
       <table><tr>
@@ -134,7 +134,7 @@
       <br/>
   </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div>
 
-<div id="bloc_option"><div id="top_bleu"><div id="text_top">How it works?</div></div>
+<div id="bloc_option"><div id="top_bleu"><div id="text_top">Philosophy</div></div>
   <div id="center"><div id="text_centre_intro">
 
       <b><font color="#000066">G'MIC</font></b> is focused on the design of possibly complex pipelines for converting, manipulating, filtering and visualizing

@@ -20341,7 +20341,7 @@ survey :
   # Add title.
   -i http://gmic.eu/img/logo4.jpg -r2dy. 160 -j.. [-1],60,8 -rm.
   -t. "Results of the survey",200,170,24,1,0
-  -t. "("$N" participants)",540,200,16,1,0,128,0
+  -t. "("$N" participants)",540,180,16,1,0,128,0
   -r2dx 1280 -round
 
   # Save result.

@@ -112,13 +112,14 @@
   A <a href="gimp_filters.txt">list of all plug-in filters</a> is available in ascii format (built automatically everyday).
 
   <br/><br/>
-  <font size="-1"><b><u>Note:</u></b> This plug-in is the logical sequel of our previous
+  <font size="-1"><b>Note:</b> <i>This plug-in is the logical sequel of our previous
   <b>GREYCstoration</b> software,
   dedicated to image denoising and regularization.
   Actually, <b><font color="#000066">G'MIC</font></b> provides all the <b>GREYCstoration</b>
   features (through the filter entries <b>Enhancement/Anisotropic smoothing</b> and <b>Patch-based smoothing</b>), but also much much more.
   As the development of <b>GREYCstoration</b> has been
   discontinued, we highly encourage former users of <b>GREYCstoration</b> to switch to <b><font color="#000066">G'MIC</font></b> indeed.
+  </i>
   </font>
 
     </td>
