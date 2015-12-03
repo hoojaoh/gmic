@@ -18,9 +18,13 @@
               <a id="download_id" href="download.shtml"><img alt="" border="0" src="img/download_icon.png" /></a>
               <script>
                 $("#download_id").mousedown(function(){
-                $(this).addClass("down");
+                $(this).removeClass("over").addClass("down");
                 }).mouseup(function(){
                 $(this).removeClass("down");
+                }).mouseover(function(){
+                $(this).removeClass("down").addClass("over");
+                }).mouseout(function(){
+                $(this).removeClass("over");
                 })
               </script>
 
