@@ -4,7 +4,7 @@
 <!-- <body onload="javascript:hop();"></body> -->
 <!--#include file="header.html" -->
 
-<div id="bloc_option"><div id="top_vert"><div id="text_top">In a nustshell</div></div>
+<div id="bloc_option"><div id="top_vert"><div id="text_top">In a nutshell</div></div>
   <div id="center"><div id="text_centre_intro">
 
       <table><tr>
@@ -15,12 +15,26 @@
               <font size="-2"><i><b>Gmicky</b>, the G'MIC mascot<br/>
                   (by <a href="http://www.mahvin.com/">Mahvin</a>)</i></font><br/>
 
-              <a href="download.shtml"><img alt="" border="0" src="img/download_icon.png" /></a>
+              <a id="download_id" href="download.shtml"><img alt="" border="0" src="img/download_icon.png" /></a>
+              <script>
+                $("#download_id").mousedown(function(){
+                $(this).removeClass("over").addClass("down");
+                }).mouseup(function(){
+                $(this).removeClass("down");
+                }).mouseover(function(){
+                $(this).removeClass("down").addClass("over");
+                }).mouseout(function(){
+                $(this).removeClass("over");
+                })
+              </script>
 
-              <!-- <a href='https://pledgie.com/campaigns/29756'><img alt='Click here to lend your support to: G&#x27;MIC' src='img/donate.png' border='0' ></a> -->
-              <!-- <br/><font size="-2">to help develop the project !</font> -->
-              <!-- <br/><br/><font size="-2">You can also donate <b>Bitcoin</b> at: <a href="bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation">1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</a></font> -->
               <hr noshade="noshade" size="1" width="90%"></hr>
+              <p><table width="90%" border="0" cellspacing="0" cellpadding="0"><tr>
+                    <td><a href="morechocolate.shtml"><img src="img/gift.png" /></a></td>
+                    <td align="center"><a href="morechocolate.shtml"><font size="-1">Want to reward the developers ?</font></a></td>
+                </tr></table></p>
+              <hr noshade="noshade" size="1" width="90%"></hr>
+
             </center>
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -131,7 +145,7 @@
       <br/>
   </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div>
 
-<div id="bloc_option"><div id="top_bleu"><div id="text_top">How it works?</div></div>
+<div id="bloc_option"><div id="top_bleu"><div id="text_top">Philosophy</div></div>
   <div id="center"><div id="text_centre_intro">
 
       <b><font color="#000066">G'MIC</font></b> is focused on the design of possibly complex pipelines for converting, manipulating, filtering and visualizing

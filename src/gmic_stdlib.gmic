@@ -19322,13 +19322,19 @@ gimp_filter_sources :
       -rm.
     -endif
     -if $is_too_old
-      ({'"\#@gimp <span color=\"red\">&#x2764; <b>Offer us hot chocolate!</b></span> : gimp_hotchocolate, gimp_hotchocolate_preview"\n\
-         "\#@gimp : note = note{\"Want to offer a <b>hot chocolate</b> to the <b>hard-working</b> developpers who provide the G\47MIC plug-in <b>for free</b> ?\\n"\n\
-         "\#@gimp : If so, please click on the link below (or copy/paste it in your browser) and <b>leave us a tip</b> (via Paypal)."\n\
-         "\#@gimp : Thanks a lot for your support. Cheers!\"}"\n\
-         "\#@gimp : link = link{\"Send money for buying hot chocolate\",\"http://gmic.eu/chocolate.shtml\"}"\n\
-         "\#@gimp : link = link{\"http://gmic.eu/chocolate.shtml\"}"\n\
-         "\#@gimp : note = note{\"<small><b>Note:</b>This filter won\47t appear anymore after you re-run the plug-in. Don\47t miss the occasion!</small>\"}"\n\
+      ({'"\#@gimp <span color=\"red\">&#x2764; <b>One-click chocolate !</b></span> : gimp_hotchocolate, gimp_hotchocolate_preview"\n\
+         "\#@gimp : note = note{\"Want to send a <b>free hot chocolate</b> to the <b>hard-working</b> developers who provide G\47MIC <b>for free</b> ?\\n"\n\
+         "\#@gimp : Just follow the link below (or copy/paste into your browser) and click <b>on the sponsored link</b> that is shown. It\47s as simple as that and"\n\
+         "\#@gimp : we\47ll drink to you :)\"}"\n\
+         "\#@gimp : link = link{\"Send a free hot chocolate to the G\47MIC developers\",\"http://gmic.eu/freechocolate.shtml\"}"\n\
+         "\#@gimp : link = link{\"http://gmic.eu/freechocolate.shtml\"}"\n\
+         "\#@gimp : sep = separator()"\n\
+         "\#@gimp : note = note{\"If you\47d like to send <b>more</b> than a single hot chocolate for our efforts, please visit the following page where you can contribute"\n\
+         "\#@gimp : extra to help keep us motivated (via <b>Paypal</b>):\"}"\n\
+         "\#@gimp : link = link{\"Offer even more hot chocolate to the G\47MIC developers\",\"http://gmic.eu/morechocolate.shtml\"}"\n\
+         "\#@gimp : link = link{\"http://gmic.eu/morechocolate.shtml\"}"\n\
+         "\#@gimp : sep = separator()"\n\
+         "\#@gimp : note = note{\"<small><b>Note:</b> This filter won\47t appear anymore after you re-run the plug-in. So, don\47t miss the occasion!</small>\"}"\n\
          "\#@gimp : sep = separator(), note = note(\"<small>Author: <i>David Tschumperl&#233;</i>.      Latest update: <i>11/30/2015</i>.</small>\")"\n\
          "gimp_hotchocolate : (10) -o. raw:"$_file_hotchocolate",uchar -rm. "\n\
          "gimp_hotchocolate_preview : -gimp_hotchocolate -gimp_friends"\
@@ -19947,15 +19953,16 @@ _gimp_manage_filter_sources :
 #@gimp : note = note{"<b><small>Note:</small></b> Donations are mainly used to help making <b>G'MIC</b> more visible
 #@gimp :              (cover expenses for web hosting and open-source events, for instance). Also, it will motivate
 #@gimp :              the team to design more new image filters/effects and buy the hot chocolate for the coding time!
-#@gimp :              Feel free to donate if you appreciate <b>G'MIC</b>, by clicking on:"}
-#@gimp : link = link{"Make a donation via Paypal","http://gmic.eu/chocolate.shtml"}
+#@gimp :              Feel free to give a little if you appreciate <b>G'MIC</b>, by clicking on:"}
+#@gimp : link = link{"Make a donation via Paypal","http://gmic.eu/morechocolate.shtml"}
 #@gimp : link = link{"Make a donation via Flattr","http://flattr.com/thing/41097/GMIC-GREYCs-Magic-for-Image-Computing"}
 #@gimp : link = link{"Make a donation via Bitcoin","bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation"}
 #@gimp : note = note("<small><b>Bitcoin address:</b> 1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</small>")
 #@gimp : sep = separator()
-#@gimp : note = note{" <b>-</b> A big hug goes to these friends who offered us hot chocolates (recently received first) :"}
+#@gimp : note = note{" <b>-</b> A big hug goes to these friends who offered us liters of hot chocolate (recently received first) :"}
+#@gimp : link = link(0,"[62] Rui Luis","")
 #@gimp : link = link(0,"[61] Renato Salles","https://www.flickr.com/photos/sallesrenato/")
-#@gimp : link = link(0,"[60] Petr Zagalak","")
+#@gimp : link = link(0,"[60] Petr Zagalak","http://www.viewbug.com/member/alef0")
 #@gimp : link = link(0,"[59] Antonio Vici&#233;n Faure","http://www.antonio.cat")
 #@gimp : link = link(0,"[58] Vincent Bermel","")
 #@gimp : link = link(0,"[57] Christian Stocco","")
@@ -20074,7 +20081,7 @@ _heart80x73 :
 #@gimp : <b><i>Gmicky</i></b> is a tiger, i.e. fast, agile and elegant, just as the <b>G'MIC</b> code is :).
 #@gimp : As many magicians, <b><i>Gmicky</i></b> knows lot of <b>gimmicks</b>, and he is a direct and friendly competitor of
 #@gimp : the ImageMagick's wizard, or the GraphicMagick's frog."}
-#@gimp : note = note{"<b><i>Roddy</i></b> is another mascot designed specifically for the <i>Artistic / Rodilius</i> filter of <b>G'MIC</b>."}
+#@gimp : note = note{"<b><i>Roddy</i></b> is another mascot designed specifically for the <i>Artistic / Rodilius</i> filter of <b>G'MIC</b>.\n"}
 #@gimp : note = note{"<b><i>Gmicky</i></b> and <b><i>Roddy</i></b> have been both created and drawn by "}
 #@gimp : link = link("Mahvelous Mahvin","http://www.mahvin.com/")
 gimp_gmicky :
@@ -20137,6 +20144,7 @@ gimp_gmicky_preview :
 #@gimp : - <b>09/04/2015</b> : version <i>1.6.5.2</i>.\n
 #@gimp : - <b>09/25/2015</b> : version <i>1.6.6.1</i>.\n
 #@gimp : - <span foreground="purple"><b>10/23/2015</b> : version <i>1.6.7</i> (Current stable).</span>\n
+#@gimp : - <b>11/30/2015</b> : version <i>1.6.8</i> (Current pre-release).\n
 #@gimp : "}
 #@gimp : sep = separator()
 #@gimp : link = link("View latest changelog","https://discuss.pixls.us/t/release-of-gmic-1-6-7")
@@ -20333,7 +20341,7 @@ survey :
   # Add title.
   -i http://gmic.eu/img/logo4.jpg -r2dy. 160 -j.. [-1],60,8 -rm.
   -t. "Results of the survey",200,170,24,1,0
-  -t. "("$N" participants)",540,200,16,1,0,128,0
+  -t. "("$N" participants)",540,180,16,1,0,128,0
   -r2dx 1280 -round
 
   # Save result.

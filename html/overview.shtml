@@ -4,7 +4,7 @@
 <body onload="javascript:hop();"></body>
 <!--#include file="header.html" -->
 
-<div id="bloc_option"><div id="top_vert"><div id="text_top">Hot chocolate</div></div>
+<div id="bloc_option"><div id="top_vert"><div id="text_top">G'MIC for GIMP</div></div>
 <div id="center"><div id="text_centre_intro">
 
   <table><tr>
@@ -15,104 +15,48 @@
       <font size="-2"><i><b>Gmicky</b>, the G'MIC mascot<br/>
           (by <a href="http://www.mahvin.com/">Mahvin</a>)</i></font><br/>
 
-      <!-- <a href='https://pledgie.com/campaigns/29756'><img alt='Click here to lend your support to: G&#x27;MIC' src='img/donate.png' border='0' ></a> -->
-      <!-- <br/><font size="-2">to help develop the project !</font> -->
-      <!-- <br/><br/><font size="-2">You can also donate <b>Bitcoins</b> at: <a href="bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation">1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</a></font> -->
       <hr noshade="noshade" size="1" width="90%"></hr>
+      <p><table width="90%" border="0" cellspacing="0" cellpadding="0"><tr>
+            <td><a href="morechocolate.shtml"><img src="img/gift.png" /></a></td>
+            <td align="center"><a href="morechocolate.shtml"><font size="-1">Want to reward the developers ?</font></a></td>
+      </tr></table></p>
+      <hr noshade="noshade" size="1" width="90%"></hr>
+
     </center>
   </td>
   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
   <td valign="top">
-
-    Hi. I'm <a href="http://tschumperle.users.greyc.fr" target="_blank">David Tschumperl&eacute;</a>, the main developer and manager of the <b><font color="#000066">G'MIC</font></b> project.
-    Since 2009, I provide a <a href="http://gmic.eu/gimp.shtml" target="_blank">popular plug-in</a> for <a href="http://www.gimp.org" target="_blank">GIMP</a> with now more than <b>600</b> filters
-    and image effects available <b>for free</b>.
-    Most filters have a lot of controls and a live preview. <b><font color="#000066">G'MIC</font></b> also proposes a <a href="https://gmicol.greyc.fr" target="_blank">web service</a> where users can
-    try some of the filters online, as well as other useful interfaces (<i>command-line interface</i>, <i>ZArt</i>, ...).
-    The plug-in alone has been downloaded more than <i>2.5 million times</i>.
-
-    <h3><font color="red">Please consider a gift!</font></h3>
-    All this is <a href="https://en.wikipedia.org/wiki/Free_software" target="_blank">free software</a> and it represents <b>hundreds of hours</b> thinking, coding and maintaining the whole project.
-    <b>Donations</b> would be appreciated to get financial and moral support for the project. For the web hosting costs of course, but mostly to give me a <b>reward</b> for the time I spend on it.
-    I like to drink <b>hot chocolate</b> while I'm coding :) Why not giving me some fuel?
-    <br/>
-    Thank you in advance,
+    <b><font color="#000066">G'MIC</font></b> has been made available as an easy-to-use plug-in for <a href="http://www.gimp.org">GIMP</a>.
+    It extends this retouching software capabilities by offering a large number of pre-defined image filters and effects.
+    Of course, the plug-in is highly customizable and it is possible to add your own custom <b><font color="#000066">G'MIC</font></b>-written
+    filters in it.<br/><br/>
+    All this is <b>free software</b> and it represents <b>hundreds of hours</b> thinking, coding and maintaining the whole project.
     <br/><br/>
 
-    <script type="text/javascript">
-      var a = new Array("@","Tschumperle","David","com","gmail");
-      var ea =  a[2] + "." + a[1] + a[0] + a[4] + "." + a[3];
-      function makeMyEmail() { document.write(ea); }
-      function putMyEmail() {
-      e = (document.getElementById("email") || document.links["email"]);
-      if (e) { e.href = "mailto:" + ea; }
-      }
-    </script>
+    <div id="pub_chocolate">
+    <table align="center" border="1" cellpadding="2" cellspacing="0" width="100%">
+      <tr><td><center><b>Sponsored link</b></center></td></tr>
+      <tr><td>
+          <center>
 
-    <center>
-    <hr noshade="noshade" size="1" width="90%"></hr>
-    <a href="https://www.paypal.com/myaccount/transfer/send" target="_blank">
-      Send me a few bucks to buy hot chocolate!<br/>
-      <img src="img/donate_paypal.png">
-    </a><br/><br/>
-    (Specify e-mail: <a name="email" href="mailto:nospam" style="text-decoration:none"><script type="text/javascript">makeMyEmail();</script></a><script type="text/javascript">putMyEmail();</script>)
-    <hr noshade="noshade" size="1" width="90%"></hr>
-    </center>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- G'MICw -->
+<ins class="adsbygoogle"
+style="display:inline-block;width:336px;height:280px"
+data-ad-client="ca-pub-3784202720186070"
+data-ad-slot="8297409665"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
-    <br/>
-    <h3><font color="red">Why doing that?</font></h3>
-    <p>
-    <b><font color="#000066">G'MIC</font></b> has been primarily developed in the <a href="http://www.greyc.fr/image" target="_blank">IMAGE Team</a> of the <a href="http://www.greyc.fr" target="_blank">GREYC</a> Laboratory
-    (public research lab in France) by myself (<a href="http://tschumperle.users.greyc.fr" target="_blank">David Tschumperl&eacute;</a>), mainly as a tool for image analysis and algorithm prototyping.
-    It helps me, in my everyday job, to design new image processing algorithms and explore image data for a wide variety of image modalities (medical imaging, materials, videos, ...).
-    My colleagues use it too.
-    </p>
+          </center>
+      </td></tr>
+    </table>
+  </div>
 
-    <p>
-      But, as you can imagine, most of the <b>artistic</b> and/or <b>photography</b> filters and effects I develop for the plug-in do not really fit in my professional duties.
-      Therefore, I'm working hard on the <b><font color="#000066">G'MIC</font></b> project during <b>most of my evenings and week-ends</b>, to be able to :
-      <ul>
-        <li>
-          Implement and distribute <b>new filters</b> for the <b><font color="#000066">G'MIC</font></b> users in a regular basis, for artistic purpose or photography.
-          Often, following a request from someone posted on a forum. I've already developed more than <b>420</b> filters by myself for the <b><font color="#000066">G'MIC</font></b>
-          plug-in for <a href="http://www.gimp.org" target="_blank">GIMP</a>.<br/><br/>
-        </li>
-        <li>
-          Take the time to test the software on <b>other architectures</b>, and with <b>different compilers</b> (for Windows especially).<br/><br/>
-        </li>
-        <li>
-          Give <b>feedback</b> as much as I can when users have <b>questions or issues</b> (for instance, to help integrating <b><font color="#000066">G'MIC</font></b> in other interfaces, as
-          <a href="http://www.krita.org" target="_blank">Krita</a> or <a href="http://photoflowblog.blogspot.fr/" target="_blank">Photoflow</a>).<br/><br/>
-        </li>
-        <li>
-          Write <b>documentation</b>, <b>promote</b> the software, manage the <b>updates and releases</b>, record video <b>tutorials</b>...<br/><br/>
-        </li>
-      </ul>
-      This is obviously not time I can spend during my working hours!
-      The web pages of <b><font color="#000066">G'MIC</font></b> are also hosted on a paid service (approx. <b>60eur / year</b> all included).
-    </p>
-
-<!--     <div id="pub_chocolate"> -->
-<!--     <table align="center" border="1" cellpadding="2" cellspacing="0" width="100%"> -->
-<!--       <tr><td> -->
-<!--           <center> -->
-
-<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
-<!-- <\!-- Hotchocolate2 -\-> -->
-<!-- <ins class="adsbygoogle" -->
-<!--      style="display:inline-block;width:336px;height:280px" -->
-<!--      data-ad-client="ca-pub-1645407967867705" -->
-<!--      data-ad-slot="8735926072"></ins> -->
-<!-- <script> -->
-<!-- (adsbygoogle = window.adsbygoogle || []).push({}); -->
-<!-- </script> -->
-
-<!--           </center> -->
-<!--       </td></tr> -->
-<!--     <tr><td><center><b>Sponsored link</b></center></td></tr> -->
-<!--     </table> -->
-<!--   </div> -->
+  <br/><br/>
+  A <a href="gimp_filters.txt">list of all plug-in filters</a> we offer is available in ascii format (built automatically everyday).
 
   <br/><br/>
 
@@ -123,7 +67,7 @@
 </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div>
 
 
-<div id="bloc_option"><div id="top_vert"><div id="text_top">Project overview</div></div>
+<div id="bloc_option"><div id="top_vert"><div id="text_top">In a nutshell</div></div>
   <div id="center"><div id="text_centre_intro">
 
       <table><tr>
@@ -133,13 +77,6 @@
                 <div class="highslide-caption"><i><b>Gmicky</b>, the G'MIC mascot, by <a href="http://www.mahvin.com/">Mahvin</a>.</i></div></div><br/>
               <font size="-2"><i><b>Gmicky</b>, the G'MIC mascot<br/>
                   (by <a href="http://www.mahvin.com/">Mahvin</a>)</i></font><br/>
-
-              <a href="download.shtml"><img alt="" border="0" src="img/download_icon.png" /></a>
-
-              <!-- <a href='https://pledgie.com/campaigns/29756'><img alt='Click here to lend your support to: G&#x27;MIC' src='img/donate.png' border='0' ></a> -->
-              <!-- <br/><font size="-2">to help develop the project !</font> -->
-              <!-- <br/><br/><font size="-2">You can also donate <b>Bitcoin</b> at: <a href="bitcoin:1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD?label=G'MIC%20Donation">1N5BsWvLRGHq42KLdCEtXuGvu9pat93kHD</a></font> -->
-              <hr noshade="noshade" size="1" width="90%"></hr>
             </center>
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -220,39 +157,39 @@
 
     </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div>
 
-  <!-- <div id="bloc_option"><div id="top_vert"><div id="text_top">Keywords</div></div> -->
-  <!--   <div id="center"><div id="text_centre_intro"> -->
-  <!--       photography, -->
-  <!--       digital, -->
-  <!--       cameras, -->
-  <!--       video, -->
-  <!--       art, -->
-  <!--       film, -->
-  <!--       canon, -->
-  <!--       accessories, -->
-  <!--       slr, -->
-  <!--       lenses, -->
-  <!--       equipment, -->
-  <!--       35mm, -->
-  <!--       love, -->
-  <!--       darkroom, -->
-  <!--       software, -->
-  <!--       equipment, -->
-  <!--       vintage, -->
-  <!--       studio, -->
-  <!--       stock, -->
-  <!--       filters, -->
-  <!--       black, -->
-  <!--       nikon, -->
-  <!--       editing software, -->
-  <!--       digital editing, -->
-  <!--       white, -->
-  <!--       books, -->
-  <!--       binoculars -->
-  <!--       memory, -->
-  <!--       lighting -->
+  <div id="bloc_option"><div id="top_vert"><div id="text_top">Keywords</div></div>
+    <div id="center"><div id="text_centre_intro">
+	photography,
+	digital,
+        cameras,
+	video,
+	art,
+	film,
+	canon,
+	accessories,
+	slr,
+	lenses,
+	equipment,
+	35mm,
+	love,
+	darkroom,
+	software,
+	equipment,
+	vintage,
+	studio,
+	stock,
+	filters,
+	black,
+	nikon,
+	editing software,
+	digital editing,
+	white,
+	books,
+	binoculars
+	memory,
+	lighting
 
-  <!--   </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div> -->
+    </div></div><div id="footer"><img alt="" src="images/footer.jpg" /></div></div>
 
 <!--#include file="copyright.html" -->
 <!--#include file="footer.html" -->
