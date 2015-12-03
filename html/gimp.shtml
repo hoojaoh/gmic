@@ -16,7 +16,7 @@
           (by <a href="http://www.mahvin.com/">Mahvin</a>)</i></font><br/>
 
       <hr noshade="noshade" size="1" width="90%"></hr>
-      <p><table border="0" cellspacing="0" cellpadding="0"><tr>
+      <p><table width="90%" border="0" cellspacing="0" cellpadding="0"><tr>
             <td><a href="morechocolate.shtml"><img src="img/gift.png" /></a></td>
             <td align="center"><a href="morechocolate.shtml"><font size="-1">Want to reward the developers ?</font></a></td>
       </tr></table></p>
@@ -33,14 +33,7 @@
     filters in it.<br/><br/>
 
     Here you will find pre-compiled binaries of the plug-in for common architectures. Pick one archive below, and run the installer or unzip the file contents
-    into your <a href="http://www.gimp.org">GIMP</a> plug-in directory.
-    The <b><font color="#000066">G'MIC</font></b> plug-in should be then available from the <b>Filters/G'MIC..</b> menu entry.
-    <ul>
-      <li><b>On Unix</b>, the plug-in directory is usually located at <b>$HOME/.gimp-2.x/plug-ins/</b>.<br/>
-        The plug-in requires these libraries installed on your system: <b>libfftw, libfftw_threads, libpng, zlib</b>.
-        Use your package manager to fit these dependancies.<br/><br/></li>
-      <li><b>On Windows</b>, an installer is provided and installs all the required files automatically.<br/></li>
-    </ul>
+    into your <a href="http://www.gimp.org">GIMP</a> plug-in directory.<br/><br/>
 
   <script language="javascript">
     function hop() {
@@ -61,53 +54,61 @@
     <table align="center" border="0" cellpadding="2" cellspacing="0" width="100%">
       <tr><td>
           <center>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- G'MICw -->
-<ins class="adsbygoogle"
-style="display:inline-block;width:336px;height:280px"
-data-ad-client="ca-pub-3784202720186070"
-data-ad-slot="8297409665"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- G'MICw -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:336px;height:280px"
+                 data-ad-client="ca-pub-3784202720186070"
+                 data-ad-slot="8297409665"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </center>
       </td></tr>
     <tr><td><center><font size="-2">(Please wait a few seconds)</font></center></td></tr>
     </table>
   </div>
+
   <div id="nopub" style="display:none">
+    <hr noshade="noshade" size="1" width="90%"></hr>
     <table align="center" border="0" cellpadding="2" cellspacing="0" width="80%">
       <tr>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_win64.exe"><img alt="" src="img/download_win64.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
-        <td><a href="http://gmic.eu/files/latest/gmic_gimp_win64.exe"><font size="3">Download G'MIC plug-in for GIMP (Windows 64 bits).</font></a><br/>
+        <td><a href="http://gmic.eu/files/latest/gmic_gimp_win64.exe"><font size="3">Plug-in for Windows (64bits)</font></a><br/>
           installer, alternative: <a href="http://gmic.eu/files/latest/gmic_gimp_win64.zip">zip file</a><br/><br/></td>
       </tr>
       <tr>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_win32.exe"><img alt="" src="img/download_win32.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
-        <td><a href="http://gmic.eu/files/latest/gmic_gimp_win32.exe"><font size="3">Download G'MIC plug-in for GIMP (Windows 32 bits).</font></a><br/>
+        <td><a href="http://gmic.eu/files/latest/gmic_gimp_win32.exe"><font size="3">Plug-in for Windows (32bits)</font></a><br/>
           installer, alternative: <a href="http://gmic.eu/files/latest/gmic_gimp_win32.zip">zip file</a><br/><br/></td>
       </tr>
       <tr>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux64.zip"><img alt="" src="img/download_linux64.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
-        <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux64.zip"><font size="3">Download G'MIC plug-in for GIMP (Linux 64 bits).</font></a><br/>
+        <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux64.zip"><font size="3">Plug-in for Linux (64bits)</font></a><br/>
           zip file<br/><br/></td>
       </tr>
       <tr>
         <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux32.zip"><img alt="" src="img/download_linux32.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
-        <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux32.zip"><font size="3">Download G'MIC plug-in for GIMP (Linux 32 bits).</font></a><br/>
+        <td><a href="http://gmic.eu/files/latest/gmic_gimp_linux32.zip"><font size="3">Plug-in for Linux (32bits)</font></a><br/>
           zip file<br/><br/></td>
       </tr>
       <tr>
         <td><a href="http://karo03.bplaced.de/gmic/release/"><img alt="" src="img/download_macosx.png" border="0"></img></a></td><td>&nbsp;&nbsp;</td>
-        <td><a href="http://karo03.bplaced.de/gmic/release/"><font size="3">Download G'MIC plug-in for GIMP (Mac Intel)</font></a><br/>
+        <td><a href="http://karo03.bplaced.de/gmic/release/"><font size="3">Plug-in for Mac Intel</font></a><br/>
           dmg file</td>
       </tr>
     </table>
+    <hr noshade="noshade" size="1" width="90%"></hr>
   </div>
 
-  <br/><br/>
+  <br/>
+  The <b><font color="#000066">G'MIC</font></b> plug-in should be then available from the <b>Filters/G'MIC..</b> menu entry.
+  <ul>
+    <li><b>On Unix</b>, the plug-in directory is usually located at <b>$HOME/.gimp-2.x/plug-ins/</b>.<br/>
+      The plug-in requires these libraries installed on your system: <b>libfftw, libfftw_threads, libpng, zlib</b>.
+      Use your package manager to fit these dependancies.<br/><br/></li>
+    <li><b>On Windows</b>, an installer is provided and installs all the required files automatically.<br/></li>
+  </ul>
   A <a href="gimp_filters.txt">list of all plug-in filters</a> is available in ascii format (built automatically everyday).
 
   <br/><br/>
