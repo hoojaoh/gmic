@@ -8050,11 +8050,11 @@ inpaint_morpho : -check ${-is_image_arg\ $1}
     -k. -nm $nm
   -endl -done -v +
 
-#@gmic inpaint_patchmatch : [mask],_nb_scales={ 0=auto | >0 },_patch_size>0,_nb_iterations_per_scale>0,_blend_size>=0,_allow_outer_blending={ 0 | 1 }
+#@gmic inpaint_patchmatch : [mask],_nb_scales={ 0=auto | >0 },_patch_size>0,_nb_iterations_per_scale>0,_blend_size>=0,_allow_outer_blending={ 0 | 1 },_is_already_initialized={ 0 | 1 }
 #@gmic : Inpaint selected images by specified binary mask, using a multi-scale patchmatch algorithm.
-#@gmic : Default values: 'nb_scales=0', 'patch_size=9', 'nb_iterations_per_scale=10', 'blend_size=5' and 'allow_outer_blending=1'.
+#@gmic : Default values: 'nb_scales=0', 'patch_size=9', 'nb_iterations_per_scale=10', 'blend_size=5', 'allow_outer_blending=1' and 'is_already_initialized=0'.
 #@gmic : $ image.jpg 100%,100% -ellipse. 30%,30%,40,30,0,1,255 --inpaint_patchmatch[0] [1]
-inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=9}) && $3>0 && isint(${4=10}) && $4>0 && isint(${5=5}) && $5>=0" -skip ${6=1}
+inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=9}) && $3>0 && isint(${4=10}) && $4>0 && isint(${5=5}) && $5>=0" -skip ${6=1},${7=0}
   -e[^-1] "Inpaint image$? with mask $1, using a multiscale patchmatch algorithm with "${"-v - -if $2 -u \"$2 \" -else -u auto- -endif -v +"}\
           "scales, $3x$3 patches, $4 iterations per scale and blending size $5."
   -v - -repeat $! -pass$1 0 -l[$>,-1]
@@ -8064,7 +8064,7 @@ inpaint_patchmatch : -check ${-is_image_arg\ $1}"&& ${2=0}>=0 && isint(${3=9}) &
     nb_scales={max(1,round(if($2,$2,log2(min(w,h)/16)),1,1))}
     visu_size=${-fitscreen[]" "{0,w},{0,h},1,25%,50%}
     -slices[img] 0 -r[mask] [img],[img],1,1,0 -!=[mask] 0
-    -inpaint_gaussian[img] [mask],0,6,2  # Quick first estimate.
+    -if {!$7} -inpaint_gaussian[img] [mask],0,6,2 -endif # Quick first estimate.
     im={img,im} --[img] $im
 
     first_iter=1
