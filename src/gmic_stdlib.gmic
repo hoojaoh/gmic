@@ -8155,7 +8155,7 @@ _inpaint_patchmatch :
                   X = u - p;
                   Y = v - q;
                   val = i(X,Y,0,c);
-                  if (X>=0 && X<w && Y>=0 && Y<h && val>=0,
+                  if (X>=0 && X<w && Y>=0 && Y<h,
                     avg+=val;
                     ++norm;
                   )
