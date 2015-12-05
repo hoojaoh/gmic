@@ -172,7 +172,7 @@ code {
 }
 
 #gift_id img {
-    width: 98%;
+    width: 95%;
 }
 
 #gift_id.down img {
@@ -180,5 +180,5 @@ code {
 }
 
 #gift_id.over img {
-    width: 100%;
+    width: 110%;
 }
