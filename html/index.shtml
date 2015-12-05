@@ -30,7 +30,20 @@
 
               <hr noshade="noshade" size="1" width="90%"></hr>
               <p><table width="90%" border="0" cellspacing="0" cellpadding="0"><tr>
-                    <td><a href="morechocolate.shtml"><img src="img/gift.png" /></a></td>
+                    <td>
+                      <a id="gift_id" href="morechocolate.shtml"><img src="img/gift.png" /></a>
+                      <script>
+                        $("#gift_id").mousedown(function(){
+                        $(this).removeClass("over").addClass("down");
+                        }).mouseup(function(){
+                        $(this).removeClass("down");
+                        }).mouseover(function(){
+                        $(this).removeClass("down").addClass("over");
+                        }).mouseout(function(){
+                        $(this).removeClass("over");
+                        })
+                      </script>
+                    </td>
                     <td align="center"><a href="morechocolate.shtml"><font size="-1">Want to reward the developers ?</font></a></td>
                 </tr></table></p>
               <hr noshade="noshade" size="1" width="90%"></hr>
